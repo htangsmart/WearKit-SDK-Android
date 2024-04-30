@@ -19,13 +19,10 @@ dependencyResolutionManagement {
 dependencies{
     ...
     def weakit_version = "3.0.1-SNAPSHOT"
-    implementation("com.topstep.wearkit:sdk-base:$weakit_version")
-    implementation("com.topstep.wearkit:sdk-apis:$weakit_version")
     implementation("com.topstep.wearkit:sdk-core:$weakit_version")
-    implementation("com.topstep.wearkit:sdk-flywear:$weakit_version")
     implementation("com.topstep.wearkit:sdk-flywear-adapter:$weakit_version")
-    implementation("com.topstep.wearkit:sdk-fitcloud:$weakit_version")
     implementation("com.topstep.wearkit:sdk-fitcloud-adapter:$weakit_version")
+    implementation("com.topstep.wearkit:sdk-shenju-adapter:$weakit_version")
     implementation("com.topstep.wearkit:sdk-helper:$weakit_version")
 }
 ```
