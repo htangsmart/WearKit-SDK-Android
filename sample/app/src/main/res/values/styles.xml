@@ -1,0 +1,93 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Camera" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:immersive">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="PromptToastTheme" parent="BasePromptDialogTheme">
+        <item name="prompt_gravity">bottom</item>
+        <item name="prompt_margin_edge">48dp</item>
+        <item name="prompt_layout">@layout/prompt_toast_layout</item>
+        <item name="prompt_background">@drawable/prompt_toast_background</item>
+        <item name="prompt_text_color">@android:color/white</item>
+        <item name="prompt_icon_normal_size">24dp</item>
+        <item name="prompt_icon_tint_color">@android:color/white</item>
+    </style>
+
+    <style name="PromptProgressTheme" parent="BasePromptDialogTheme">
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.32</item>
+        <item name="prompt_layout">@layout/prompt_progress_layout</item>
+        <item name="prompt_background">@drawable/prompt_progress_background</item>
+        <item name="prompt_icon_tint_color">@color/colorPrimary</item>
+        <item name="prompt_text_color">?android:textColorSecondary</item>
+    </style>
+
+    <style name="Widget.Sample.Button.Unelevated" parent="Widget.MaterialComponents.Button.UnelevatedButton"/>
+
+    <style name="Widget.Sample.Button.Unelevated.Round">
+        <item name="cornerRadius">96dp</item>
+    </style>
+
+    <style name="Widget.Sample.Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton"/>
+
+    <style name="Widget.Sample.Button.Outlined.Round">
+        <item name="cornerRadius">96dp</item>
+    </style>
+
+    <style name="Widget.Sample.PreferenceBase" parent="android:Widget">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:minHeight">56dp</item>
+    </style>
+
+    <!--带Indicator图标的设置项-->
+    <style name="Widget.Sample.PreferenceView" parent="Widget.Sample.PreferenceBase">
+        <item name="preferenceIndicator">@drawable/ic_section_arrow_next</item>
+        <item name="showPreferenceIndicator">true</item>
+    </style>
+
+    <!--PreferenceItem:type_none-->
+    <style name="Widget.Sample.PreferenceView.Item">
+        <item name="preferenceTitleAppearance">?textAppearanceSubtitle1</item>
+        <item name="preferenceTitleColor">?android:textColorPrimary</item>
+        <item name="preferenceType">type_none</item>
+        <item name="preferenceTitleDrawablePadding">8dp</item>
+        <item name="showPreferenceSummary">false</item>
+    </style>
+
+    <!--PreferenceItem:type_text-->
+    <style name="Widget.Sample.PreferenceView.Item.Text">
+        <item name="preferenceType">type_text</item>
+        <item name="preferenceTextAppearance">?textAppearanceBody2</item>
+        <item name="preferenceTextColor">?android:textColorSecondary</item>
+    </style>
+
+    <!--PreferenceItem:type_switch-->
+    <style name="Widget.Sample.PreferenceView.Item.Switch">
+        <item name="preferenceType">type_switch</item>
+        <item name="showPreferenceIndicator">false</item>
+    </style>
+
+    <style name="Widget.Sample.PreferenceView.Item.Image">
+        <item name="preferenceType">type_image</item>
+        <item name="showPreferenceIndicator">false</item>
+    </style>
+
+</resources>

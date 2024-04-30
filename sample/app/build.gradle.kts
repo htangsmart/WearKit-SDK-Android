@@ -15,6 +15,7 @@ android {
             keyAlias = "androiddebugkey"
         }
     }
+
     namespace = "com.topstep.wearkit.sample"
     compileSdk = 34
 
@@ -23,13 +24,13 @@ android {
         minSdk = 21
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
         multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("boolean", "isSupportFitCloud", "true")
         buildConfigField("boolean", "isSupportFlyWear", "true")
-        buildConfigField("boolean", "isSupportShenJu", "true")
+        buildConfigField("boolean", "isSupportShenJu", "false")
 
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
