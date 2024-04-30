@@ -1,0 +1,22 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        jcenter() // Warning: this repository is going to shut down soon
+        maven {
+            url = uri("http://120.78.153.20:8081/repository/maven-public/")
+            isAllowInsecureProtocol = true
+        }
+    }
+}
+
+rootProject.name = "sample"
+include(":app")
