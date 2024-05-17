@@ -671,4 +671,14 @@
     <string name="ds_device_shutdown">Device Shutdown</string>
     <string name="ds_device_reset">Device Reset</string>
 
+
+    <string name="ds_device_config">Basic functions</string>
+    <!--contac-->
+    <string name="ds_delete_contact">Please select the data to be deleted</string>
+    <string name="ds_contacts_add_limit">You can add up to 100 frequently used contacts.</string>
+    <string name="ds_contacts_time">time</string>
+    <string name="ds_contacts_language">Set language</string>
+    <string name="ds_contacts_level">Watch battery level</string>
+    <string name="ds_contacts_top">top contacts </string>
+
 </resources>

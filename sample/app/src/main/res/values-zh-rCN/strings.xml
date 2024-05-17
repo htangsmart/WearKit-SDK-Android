@@ -671,4 +671,17 @@
     <string name="ds_device_shutdown">关机</string>
     <string name="ds_device_reset">恢复出厂设置</string>
 
+
+    <string name="ds_device_config">基础功能</string>
+    <!--contac-->
+    <string name="ds_delete_contact">请选择要删除的数据</string>
+
+    <string name="ds_contacts_add_limit">最多可添加100位常用联系人。</string>
+    <string name="ds_contacts_time">时间</string>
+    <string name="ds_contacts_language">设置语言</string>
+    <string name="ds_contacts_level">手表电量</string>
+    <string name="ds_contacts_top">top contacts </string>
+
+
+
 </resources>

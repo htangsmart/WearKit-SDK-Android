@@ -14,6 +14,7 @@ import com.topstep.wearkit.sample.databinding.ActivityDeviceBinding
 import com.topstep.wearkit.sample.model.DeviceInfo
 import com.topstep.wearkit.sample.model.UserInfo
 import com.topstep.wearkit.sample.ui.base.BaseActivity
+import com.topstep.wearkit.sample.ui.config.DeviceConfigActivity
 import com.topstep.wearkit.sample.ui.ota.LocalOtaActivity
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
 import com.topstep.wearkit.sample.utils.permission.PermissionHelper
@@ -59,6 +60,10 @@ class DeviceActivity : BaseActivity() {
 
         //Connect device
         connect(UserManager.flowAuthedUser.value)
+
+        viewBind.itemConfig.clickTrigger {
+            startActivity(Intent(this, DeviceConfigActivity::class.java))
+        }
 
         viewBind.itemVersionInfo.clickTrigger {
             startActivity(Intent(this, LocalOtaActivity::class.java))
