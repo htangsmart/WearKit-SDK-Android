@@ -5,8 +5,6 @@ import android.app.Application
 import android.os.Bundle
 import com.polidea.rxandroidble3.RxBleClient
 import com.topstep.wearkit.apis.WKWearKit
-import com.topstep.wearkit.apis.model.config.WKDeviceInfo
-import com.topstep.wearkit.apis.provider.WKDialCustomProvider
 import com.topstep.wearkit.base.ProcessLifecycleManager
 import com.topstep.wearkit.core.buildWKWearKit
 import com.topstep.wearkit.fitcloud.WKFitCloudKit
@@ -62,11 +60,6 @@ fun wearKitInit(application: Application): WKWearKit {
         builders.add(
             WKShenJuKit.Builder(application, processLifecycleObserver, rxBleClient)
         )
-    }
-    val dialCustomProvider = object : WKDialCustomProvider {
-        override fun getDialCustomResources(deviceInfo: WKDeviceInfo): WKDialCustomProvider.DialCustomResources {
-
-        }
     }
     val wearKit = buildWKWearKit(builders)
 

@@ -71,16 +71,11 @@ dependencies {
     //WearKit Required
     val weakitVersion = "3.0.1-SNAPSHOT"
     val weakitChanging = weakitVersion.contains("SNAPSHOT")
-//    implementation("com.topstep.wearkit:sdk-core:$weakitVersion") { isChanging = weakitChanging }
-//    implementation("com.topstep.wearkit:sdk-flywear-adapter:$weakitVersion") { isChanging = weakitChanging }
-//    implementation("com.topstep.wearkit:sdk-fitcloud-adapter:$weakitVersion") { isChanging = weakitChanging }
-//    implementation("com.topstep.wearkit:sdk-shenju-adapter:$weakitVersion") { isChanging = weakitChanging }
-//    implementation("com.topstep.wearkit:sdk-helper:$weakitVersion") { isChanging = weakitChanging }
-    implementation(project(":sdk-core"))
-    implementation(project(":sdk-flywear-adapter"))
-    implementation(project(":sdk-fitcloud-adapter"))
-    implementation(project(":sdk-shenju-adapter"))
-    implementation(project(":sdk-helper"))
+    implementation("com.topstep.wearkit:sdk-core:$weakitVersion") { isChanging = weakitChanging }
+    implementation("com.topstep.wearkit:sdk-flywear-adapter:$weakitVersion") { isChanging = weakitChanging }
+    implementation("com.topstep.wearkit:sdk-fitcloud-adapter:$weakitVersion") { isChanging = weakitChanging }
+    implementation("com.topstep.wearkit:sdk-shenju-adapter:$weakitVersion") { isChanging = weakitChanging }
+    implementation("com.topstep.wearkit:sdk-helper:$weakitVersion") { isChanging = weakitChanging }
     implementation(libs.timber)
     implementation(libs.rxjava)
     implementation(libs.rxandroid)
