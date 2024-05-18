@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <!--用于网络访问-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!--用于监听短信电话时候根据号码查询联系人名称-->
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
     <application
         android:name=".MyApplication"
@@ -14,17 +19,25 @@
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.discovery.DeviceScanActivity"/>
+        <activity android:name=".ui.discovery.DeviceScanActivity" />
 
-        <activity android:name=".ui.DeviceActivity"/>
+        <activity android:name=".ui.DeviceActivity" />
 
-        <activity android:name=".ui.ota.LocalOtaActivity"/>
+        <activity android:name=".ui.ota.LocalOtaActivity" />
+
+        <activity android:name=".ui.config.DeviceConfigActivity" />
+
+        <activity android:name=".ui.config.ContactActivity" />
+
+        <activity android:name=".ui.language.LanguageActivity" />
+
+        <activity android:name=".ui.battery.BatteryActivity" />
 
         <meta-data
             android:name="persimwear"

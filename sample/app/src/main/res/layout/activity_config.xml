@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_user_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="设置用户数据" />
+
+            <Button
+                android:id="@+id/btn_shutdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ds_device_shutdown" />
+
+            <Button
+                android:id="@+id/btn_reboot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ds_device_reboot" />
+
+            <Button
+                android:id="@+id/btn_reset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ds_device_reset" />
+
+
+            <Button
+                android:id="@+id/btn_set_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ds_contacts_time" />
+
+            <Button
+                android:id="@+id/btn_set_language"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ds_contacts_language" />
+
+            <Button
+                android:id="@+id/btn_battery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ds_contacts_level" />
+
+            <Button
+                android:id="@+id/btn_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ds_contacts_top" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

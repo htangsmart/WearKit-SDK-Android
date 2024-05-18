@@ -115,7 +115,7 @@ object PermissionHelper {
         )
     }
 
-    fun requestContacts(fragment: Fragment, grantResult: ((Boolean) -> Unit)) {
+    fun requestContacts(fragment: FragmentActivity, grantResult: ((Boolean) -> Unit)) {
         requestPermission(
             fragment, arrayListOf(
                 Manifest.permission.READ_CONTACTS,
