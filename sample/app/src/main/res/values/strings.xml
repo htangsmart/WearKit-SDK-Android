@@ -680,5 +680,7 @@
     <string name="ds_contacts_language">Set language</string>
     <string name="ds_contacts_level">Watch battery level</string>
     <string name="ds_contacts_top">top contacts </string>
+    <string name="ds_emergency_contact">emergency contact</string>
+    <string name="ds_emergency_switch">Emergency switch status</string>
 
 </resources>

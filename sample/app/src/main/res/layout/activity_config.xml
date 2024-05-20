@@ -14,12 +14,6 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btn_user_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="设置用户数据" />
-
-            <Button
                 android:id="@+id/btn_shutdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,6 +55,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/ds_contacts_top" />
+
+            <Button
+                android:id="@+id/btn_emergency_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ds_emergency_contact" />
         </LinearLayout>
     </ScrollView>
 

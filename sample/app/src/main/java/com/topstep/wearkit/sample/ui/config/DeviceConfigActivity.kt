@@ -10,6 +10,8 @@ import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityConfigBinding
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.ui.battery.BatteryActivity
+import com.topstep.wearkit.sample.ui.contacts.ContactActivity
+import com.topstep.wearkit.sample.ui.contacts.EmergencyContactActivity
 import com.topstep.wearkit.sample.ui.language.LanguageActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
@@ -31,63 +33,67 @@ class DeviceConfigActivity : BaseActivity() {
     @SuppressLint("CheckResult")
     private fun initEvent() {
         // 关机
-        viewBind.btnShutdown.clickTrigger{
+        viewBind.btnShutdown.clickTrigger {
             wearKit.deviceAbility.shutdown()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     toast(getString(R.string.tip_success))
-            },{
+                }, {
                     toast(getString(R.string.tip_failed))
-            })
+                })
         }
 
         // 重启
-        viewBind.btnReboot.clickTrigger{
+        viewBind.btnReboot.clickTrigger {
             wearKit.deviceAbility.reboot()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     toast(getString(R.string.tip_success))
-                },{
+                }, {
                     toast(getString(R.string.tip_failed))
                 })
         }
 
         // 恢复出厂
-        viewBind.btnReset.clickTrigger{
+        viewBind.btnReset.clickTrigger {
             wearKit.deviceAbility.reset()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     toast(getString(R.string.tip_success))
-                },{
+                }, {
                     toast(getString(R.string.tip_failed))
                 })
         }
 
         // 设置时间
-        viewBind.btnSetTime.clickTrigger{
+        viewBind.btnSetTime.clickTrigger {
             wearKit.timeAbility.setTime(System.currentTimeMillis())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                },{
+                }, {
                     toast(getString(R.string.tip_success))
                     toast(getString(R.string.tip_failed))
                 })
-
         }
         // 设置语言
-        viewBind.btnSetLanguage.clickTrigger{
+        viewBind.btnSetLanguage.clickTrigger {
             startActivity(Intent(this, LanguageActivity::class.java))
         }
 
         // 设备电量
-        viewBind.btnBattery.clickTrigger{
+        viewBind.btnBattery.clickTrigger {
             startActivity(Intent(this, BatteryActivity::class.java))
         }
 
         // 常用联系人
-        viewBind.btnContacts.clickTrigger{
+        viewBind.btnContacts.clickTrigger {
             startActivity(Intent(this, ContactActivity::class.java))
         }
+        // 紧急联系人
+        viewBind.btnEmergencyContact.clickTrigger {
+            startActivity(Intent(this, EmergencyContactActivity::class.java))
+        }
+
     }
 
 
