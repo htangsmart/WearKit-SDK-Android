@@ -680,5 +680,17 @@
     <string name="ds_contacts_language">Set language</string>
     <string name="ds_contacts_level">Watch battery level</string>
     <string name="ds_contacts_top">top contacts </string>
+    <string name="ds_emergency_contact">emergency contact</string>
+    <string name="ds_emergency_switch">Emergency switch status</string>
+
+    <!--alarm-->
+    <string name="remind_repeat_00">一</string>
+    <string name="remind_repeat_01">二</string>
+    <string name="remind_repeat_02">三</string>
+    <string name="remind_repeat_03">四</string>
+    <string name="remind_repeat_04">五</string>
+    <string name="remind_repeat_05">六</string>
+    <string name="remind_repeat_06">日</string>
+    <string name="alarm_week">Reminder date cannot be empty, multiple dates can be selected</string>
 
 </resources>

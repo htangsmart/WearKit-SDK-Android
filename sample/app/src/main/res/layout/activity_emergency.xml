@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/emergency_add"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/action_add" />
+
+
+    <Button
+        android:id="@+id/emergency_delete"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/action_delete" />
+
+    <Switch
+        android:layout_marginTop="20dp"
+        android:id="@+id/emergency_sw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ds_emergency_switch"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/emergency_nama"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/emergency_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black" />
+
+</LinearLayout>

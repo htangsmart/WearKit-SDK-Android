@@ -1,4 +1,4 @@
-package com.topstep.wearkit.sample.ui.config
+package com.topstep.wearkit.sample.ui.contacts
 
 import android.annotation.SuppressLint
 import android.app.Activity

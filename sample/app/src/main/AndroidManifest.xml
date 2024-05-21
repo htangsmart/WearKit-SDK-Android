@@ -33,11 +33,15 @@
 
         <activity android:name=".ui.config.DeviceConfigActivity" />
 
-        <activity android:name=".ui.config.ContactActivity" />
-
         <activity android:name=".ui.language.LanguageActivity" />
 
         <activity android:name=".ui.battery.BatteryActivity" />
+
+        <activity android:name=".ui.contacts.ContactActivity" />
+
+        <activity android:name=".ui.contacts.EmergencyContactActivity" />
+
+        <activity android:name=".ui.alarm.AlarmActivity" />
 
         <meta-data
             android:name="persimwear"

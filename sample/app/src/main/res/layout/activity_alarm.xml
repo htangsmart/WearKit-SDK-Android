@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/alarm_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text=""
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/alarm_week"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/alarm_add"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/action_add" />
+
+
+    <Button
+        android:id="@+id/alarm__delete"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/action_delete" />
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:showDividers="none">
+
+        <TextView
+            android:id="@+id/alarm_monday"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:text="@string/remind_repeat_00"
+            android:textAppearance="?textAppearanceSubtitle1"/>
+
+        <TextView
+            android:id="@+id/alarm_tuesday"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:text="@string/remind_repeat_01"
+            android:textAppearance="?textAppearanceSubtitle1"/>
+
+        <TextView
+            android:id="@+id/alarm_wednesday"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:text="@string/remind_repeat_02"
+            android:textAppearance="?textAppearanceSubtitle1"/>
+
+        <TextView
+            android:id="@+id/alarm_thursday"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:text="@string/remind_repeat_03"
+            android:textAppearance="?textAppearanceSubtitle1"/>
+
+        <TextView
+            android:id="@+id/alarm_friday"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:text="@string/remind_repeat_04"
+            android:textAppearance="?textAppearanceSubtitle1"/>
+
+        <TextView
+            android:id="@+id/alarm_saturday"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:text="@string/remind_repeat_05"
+            android:textAppearance="?textAppearanceSubtitle1"/>
+
+        <TextView
+            android:id="@+id/alarm_sunday"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:text="@string/remind_repeat_06"
+            android:textAppearance="?textAppearanceSubtitle1"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
