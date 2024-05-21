@@ -680,6 +680,7 @@
     <!--Others Feature-->
     <string name="ds_other_features">Other Features</string>
     <string name="ds_find_device">Find Device</string>
+    <string name="ds_find_phone">Find Phone</string>
 
 
     <!--contacts-->
