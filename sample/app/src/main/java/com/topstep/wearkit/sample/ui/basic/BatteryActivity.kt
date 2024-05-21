@@ -15,6 +15,8 @@ class BatteryActivity : BaseActivity() {
 
     private val wearKit = MyApplication.wearKit
     private lateinit var viewBind: ActivityBatteryBinding
+
+    //You need to stop observe on exit
     private var observeBatteryDisposable: Disposable? = null
 
     @SuppressLint("CheckResult")
@@ -31,7 +33,6 @@ class BatteryActivity : BaseActivity() {
                 viewBind.tvBattery.text = "Battery level:${it.percentage}"
             }, {
                 Timber.w(it)
-                toast(R.string.tip_failed)
             })
 
         //Request battery once

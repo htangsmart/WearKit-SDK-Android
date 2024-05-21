@@ -6,7 +6,7 @@ import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.topstep.wearkit.base.utils.LanguageUtil
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
-import com.topstep.wearkit.sample.databinding.ActivityLangBinding
+import com.topstep.wearkit.sample.databinding.ActivityLanguageBinding
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import timber.log.Timber
@@ -16,11 +16,11 @@ import java.util.Locale
 class LanguageActivity : BaseActivity() {
 
     private val wearKit = MyApplication.wearKit
-    private lateinit var viewBind: ActivityLangBinding
+    private lateinit var viewBind: ActivityLanguageBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBind = ActivityLangBinding.inflate(layoutInflater)
+        viewBind = ActivityLanguageBinding.inflate(layoutInflater)
         setContentView(viewBind.root)
         supportActionBar?.setTitle(R.string.ds_language_set)
 
@@ -51,6 +51,7 @@ class LanguageActivity : BaseActivity() {
             .subscribe({
                 toast(getString(R.string.tip_success))
             }, {
+                Timber.w(it)
                 toast(getString(R.string.tip_failed))
             })
     }

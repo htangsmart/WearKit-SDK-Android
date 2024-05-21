@@ -45,7 +45,7 @@
 
         <activity android:name=".ui.alarm.AlarmActivity"/>
 
-        <activity android:name=".ui.find.FindWatchActivity" />
+        <activity android:name=".ui.basic.FindWatchActivity" />
 
         <meta-data
             android:name="persimwear"

@@ -1,91 +1,76 @@
-package com.topstep.wearkit.sample.ui.find
+package com.topstep.wearkit.sample.ui.basic
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Toast
 import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.topstep.wearkit.apis.model.message.WKFinderMessage
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
-import com.topstep.wearkit.sample.databinding.ActivityWatchBinding
+import com.topstep.wearkit.sample.databinding.ActivityFindWatchBinding
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.utils.VibratorUtil
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.Disposable
+import timber.log.Timber
 
 class FindWatchActivity : BaseActivity() {
 
     private val wearKit = MyApplication.wearKit
-    private lateinit var viewBind: ActivityWatchBinding
+    private lateinit var viewBind: ActivityFindWatchBinding
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewBind = ActivityWatchBinding.inflate(layoutInflater)
-        setContentView(viewBind.root)
-        supportActionBar?.title = "find watch phone"
-        initView()
-        initData()
-        initEvent()
-    }
+    //You need to stop observe on exit
+    private var observeFoundWatchDisposable: Disposable? = null
 
     @SuppressLint("CheckResult")
-    private fun initView() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewBind = ActivityFindWatchBinding.inflate(layoutInflater)
+        setContentView(viewBind.root)
+        supportActionBar?.title = "find watch"
+
         // Callback in device operation
-        wearKit.finderAbility.observeFinderMessage()
+        observeFoundWatchDisposable = wearKit.finderAbility.observeFinderMessage()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
                     when (it) {
-                        // watch find phone
-                        WKFinderMessage.FIND_PHONE -> {
-                            VibratorUtil.vibrateAndPlayTone()
-                        }
-
-                        // watch stop find phone
-                        WKFinderMessage.STOP_FIND_PHONE -> {
+                        //The watch replied that it has been found, you can stop searching.
+                        WKFinderMessage.FOUND_WATCH -> {
                             VibratorUtil.stopVibrator()
                         }
-
                     }
                 }, {
-
+                    Timber.w(it)
                 })
 
-    }
-
-    private fun initData() {
-
-
-    }
-
-
-    @SuppressLint("CheckResult", "Range")
-    private fun initEvent() {
         viewBind.findWatch.clickTrigger {
-            // phone find watch
+            // start find watch
             wearKit.finderAbility.findWatch()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    toast(getString(R.string.tip_success))
+                    toast(R.string.tip_success)
                 }, {
-                    toast(getString(R.string.tip_failed))
+                    Timber.w(it)
+                    toast(R.string.tip_failed)
                 })
         }
 
         viewBind.stopFindWatch.clickTrigger {
-            // phone stop find watch
+            // stop find watch
             wearKit.finderAbility.stopFindWatch()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    toast(getString(R.string.tip_success))
+                    toast(R.string.tip_success)
                 }, {
-                    toast(getString(R.string.tip_failed))
+                    Timber.w(it)
+                    toast(R.string.tip_failed)
                 })
         }
     }
 
-
-    private fun toast(text: String) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+    override fun onDestroy() {
+        super.onDestroy()
+        observeFoundWatchDisposable?.dispose()
     }
+
 }
