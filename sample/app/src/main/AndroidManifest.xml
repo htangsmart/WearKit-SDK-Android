@@ -41,6 +41,8 @@
 
         <activity android:name=".ui.contacts.EmergencyContactActivity" />
 
+        <activity android:name=".ui.alarm.AlarmActivity" />
+
         <meta-data
             android:name="persimwear"
             android:value="a1c4qbha2eujv42rl5amgttqunpl4kng"/>

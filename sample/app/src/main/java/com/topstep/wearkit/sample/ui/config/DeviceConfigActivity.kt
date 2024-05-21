@@ -8,6 +8,7 @@ import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityConfigBinding
+import com.topstep.wearkit.sample.ui.alarm.AlarmActivity
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.ui.battery.BatteryActivity
 import com.topstep.wearkit.sample.ui.contacts.ContactActivity
@@ -92,6 +93,11 @@ class DeviceConfigActivity : BaseActivity() {
         // 紧急联系人
         viewBind.btnEmergencyContact.clickTrigger {
             startActivity(Intent(this, EmergencyContactActivity::class.java))
+        }
+
+        // 闹钟
+        viewBind.btnAlarm.clickTrigger {
+            startActivity(Intent(this, AlarmActivity::class.java))
         }
 
     }

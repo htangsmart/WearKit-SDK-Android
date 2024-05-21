@@ -61,6 +61,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/ds_emergency_contact" />
+
+            <Button
+                android:id="@+id/btn_alarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ds_alarm" />
         </LinearLayout>
     </ScrollView>
 

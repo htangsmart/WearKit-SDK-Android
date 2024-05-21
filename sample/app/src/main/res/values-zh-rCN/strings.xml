@@ -684,6 +684,17 @@
     <string name="ds_emergency_contact">紧急联系人</string>
     <string name="ds_emergency_switch">紧急开关状态</string>
 
+    <!--alarm-->
+
+    <string name="remind_repeat_00">一</string>
+    <string name="remind_repeat_01">二</string>
+    <string name="remind_repeat_02">三</string>
+    <string name="remind_repeat_03">四</string>
+    <string name="remind_repeat_04">五</string>
+    <string name="remind_repeat_05">六</string>
+    <string name="remind_repeat_06">日</string>
+    <string name="alarm_week">提醒日期不能为空,日期可多选</string>
+
 
 
 </resources>
