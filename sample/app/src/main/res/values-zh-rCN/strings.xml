@@ -678,12 +678,19 @@
     <!--Others Feature-->
     <string name="ds_other_features">其他功能</string>
     <string name="ds_find_device">查找设备</string>
+    <string name="ds_device_reboot">重启</string>
+    <string name="ds_device_shutdown">关机</string>
+    <string name="ds_device_reset">恢复出厂设置</string>
 
 
+    <string name="ds_device_config">基础功能</string>
     <!--contac-->
     <string name="ds_delete_contact">请选择要删除的数据</string>
 
     <string name="ds_contacts_add_limit">最多可添加100位常用联系人。</string>
+    <string name="ds_contacts_time">时间</string>
+    <string name="ds_contacts_language">设置语言</string>
+    <string name="ds_contacts_level">手表电量</string>
     <string name="ds_contacts_top">常用联系人</string>
     <string name="ds_emergency_contact">紧急联系人</string>
     <string name="ds_emergency_switch">紧急开关状态</string>
@@ -698,5 +705,11 @@
     <string name="remind_repeat_05">六</string>
     <string name="remind_repeat_06">日</string>
     <string name="alarm_week">提醒日期不能为空,日期可多选</string>
+
+    <!--find watch phone-->
+    <string name="ds_find_watch">查找手表</string>
+    <string name="ds_stop_watch">停止查找手表</string>
+
+
 
 </resources>

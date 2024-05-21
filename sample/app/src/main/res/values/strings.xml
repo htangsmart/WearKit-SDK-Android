@@ -698,4 +698,8 @@
     <string name="remind_repeat_06">日</string>
     <string name="alarm_week">Reminder date cannot be empty, multiple dates can be selected</string>
 
+    <!--find watch phone-->
+    <string name="ds_find_watch">find watch</string>
+    <string name="ds_stop_watch">stop find watch</string>
+
 </resources>
