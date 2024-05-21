@@ -695,6 +695,10 @@
     <string name="remind_repeat_06">日</string>
     <string name="alarm_week">提醒日期不能为空,日期可多选</string>
 
+    <!--find watch phone-->
+    <string name="ds_find_watch">查找手表</string>
+    <string name="ds_stop_watch">停止查找手表</string>
+
 
 
 </resources>

@@ -13,6 +13,7 @@ import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.ui.battery.BatteryActivity
 import com.topstep.wearkit.sample.ui.contacts.ContactActivity
 import com.topstep.wearkit.sample.ui.contacts.EmergencyContactActivity
+import com.topstep.wearkit.sample.ui.find.FindWatchActivity
 import com.topstep.wearkit.sample.ui.language.LanguageActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
@@ -33,7 +34,7 @@ class DeviceConfigActivity : BaseActivity() {
 
     @SuppressLint("CheckResult")
     private fun initEvent() {
-        // 关机
+        // 关机  Shutdown
         viewBind.btnShutdown.clickTrigger {
             wearKit.deviceAbility.shutdown()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -44,7 +45,7 @@ class DeviceConfigActivity : BaseActivity() {
                 })
         }
 
-        // 重启
+        // 重启  Reboot
         viewBind.btnReboot.clickTrigger {
             wearKit.deviceAbility.reboot()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -55,7 +56,7 @@ class DeviceConfigActivity : BaseActivity() {
                 })
         }
 
-        // 恢复出厂
+        // 恢复出厂  Reset
         viewBind.btnReset.clickTrigger {
             wearKit.deviceAbility.reset()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -66,7 +67,7 @@ class DeviceConfigActivity : BaseActivity() {
                 })
         }
 
-        // 设置时间
+        // 时间 Time
         viewBind.btnSetTime.clickTrigger {
             wearKit.timeAbility.setTime(System.currentTimeMillis())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -76,28 +77,33 @@ class DeviceConfigActivity : BaseActivity() {
                     toast(getString(R.string.tip_failed))
                 })
         }
-        // 设置语言
+        // 语言 Language
         viewBind.btnSetLanguage.clickTrigger {
             startActivity(Intent(this, LanguageActivity::class.java))
         }
 
-        // 设备电量
+        // 电量 Battery
         viewBind.btnBattery.clickTrigger {
             startActivity(Intent(this, BatteryActivity::class.java))
         }
 
-        // 常用联系人
+        // 常用联系人 Contacts
         viewBind.btnContacts.clickTrigger {
             startActivity(Intent(this, ContactActivity::class.java))
         }
-        // 紧急联系人
+        //紧急联系人 EmergencyContact
         viewBind.btnEmergencyContact.clickTrigger {
             startActivity(Intent(this, EmergencyContactActivity::class.java))
         }
 
-        // 闹钟
+        //闹钟  alArm
         viewBind.btnAlarm.clickTrigger {
             startActivity(Intent(this, AlarmActivity::class.java))
+        }
+
+        // 查找手表 手机 find watch phone
+        viewBind.btnFind.clickTrigger {
+            startActivity(Intent(this, FindWatchActivity::class.java))
         }
 
     }

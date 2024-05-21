@@ -7,6 +7,8 @@
     <!--用于监听短信电话时候根据号码查询联系人名称-->
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -42,6 +44,8 @@
         <activity android:name=".ui.contacts.EmergencyContactActivity" />
 
         <activity android:name=".ui.alarm.AlarmActivity" />
+
+        <activity android:name=".ui.find.FindWatchActivity" />
 
         <meta-data
             android:name="persimwear"
