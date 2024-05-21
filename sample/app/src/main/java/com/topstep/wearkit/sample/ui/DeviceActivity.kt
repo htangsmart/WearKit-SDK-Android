@@ -14,7 +14,7 @@ import com.topstep.wearkit.sample.databinding.ActivityDeviceBinding
 import com.topstep.wearkit.sample.model.DeviceInfo
 import com.topstep.wearkit.sample.model.UserInfo
 import com.topstep.wearkit.sample.ui.base.BaseActivity
-import com.topstep.wearkit.sample.ui.config.DeviceConfigActivity
+import com.topstep.wearkit.sample.ui.basic.DeviceBasicActivity
 import com.topstep.wearkit.sample.ui.ota.LocalOtaActivity
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
 import com.topstep.wearkit.sample.utils.permission.PermissionHelper
@@ -31,7 +31,6 @@ class DeviceActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         viewBind = ActivityDeviceBinding.inflate(layoutInflater)
         setContentView(viewBind.root)
-
         supportActionBar?.setTitle(R.string.device_module)
 
         device = intent.getParcelableExtra(EXTRA_DEVICE)!!
@@ -61,8 +60,8 @@ class DeviceActivity : BaseActivity() {
         //Connect device
         connect(UserManager.flowAuthedUser.value)
 
-        viewBind.itemConfig.clickTrigger {
-            startActivity(Intent(this, DeviceConfigActivity::class.java))
+        viewBind.itemBasic.clickTrigger {
+            startActivity(Intent(this, DeviceBasicActivity::class.java))
         }
 
         viewBind.itemVersionInfo.clickTrigger {
@@ -79,11 +78,11 @@ class DeviceActivity : BaseActivity() {
     }
 
     private fun connect(user: UserInfo?) {
-        //zh:根据当前用户是否登录，调用close或connect
+        //Call close or connect based on whether the current user is logged in or not
         if (user == null) {
             wearKit.connector.close()
         } else {
-            //zh:用户信息改变时，直接调用connect即可
+            //When user information changes, call connect again
             wearKit.connector.connect(
                 type = device.type,
                 address = device.address,

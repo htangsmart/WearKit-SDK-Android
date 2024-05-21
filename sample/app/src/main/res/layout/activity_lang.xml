@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -7,13 +8,32 @@
     <TextView
         android:id="@+id/tv_lang"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="1"/>
+        android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/btn_set_lang"
-        android:layout_width="match_parent"
+        android:id="@+id/btn_follow_system"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="设置语言"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="4dp"
+        android:text="@string/ds_language_follow_system"/>
+
+    <Button
+        android:id="@+id/btn_set_chinese"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="4dp"
+        android:text="简体中文"
+        tools:ignore="HardcodedText"/>
+
+    <Button
+        android:id="@+id/btn_set_english"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="4dp"
+        android:text="English"
+        tools:ignore="HardcodedText"/>
 
 </LinearLayout>

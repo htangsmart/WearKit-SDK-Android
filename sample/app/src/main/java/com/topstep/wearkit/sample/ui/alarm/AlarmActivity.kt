@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.topstep.wearkit.apis.model.WKAlarm
 import com.topstep.wearkit.base.utils.WeekRepeatFlag
@@ -59,7 +58,7 @@ class AlarmActivity : BaseActivity() {
                 if (!it.isNullOrEmpty()) {
                     val alarm = it[0]
                     viewBind.alarmTime.text = "${alarm.hour} : ${alarm.minute}"
-                     viewBind.alarmWeek.text = AppUtils.getWeek(this, alarm.repeat)
+                    viewBind.alarmWeek.text = AppUtils.getWeek(this, alarm.repeat)
                 }
             }, {
 
@@ -153,7 +152,4 @@ class AlarmActivity : BaseActivity() {
         }
     }
 
-    private fun toast(text: String) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-    }
 }

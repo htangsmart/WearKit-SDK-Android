@@ -11,6 +11,17 @@
     <string name="main_device_shenju">ShenJu Device</string>
     <string name="main_to_qrcode">Scan Qr Code to connect</string>
 
+    <!--DeviceBasicActivity-->
+    <string name="ds_device_basic">Basic functions</string>
+    <string name="ds_device_reboot">Device Reboot</string>
+    <string name="ds_device_shutdown">Device Shutdown</string>
+    <string name="ds_device_reset">Device Reset</string>
+    <string name="ds_set_time">Set time</string>
+    <string name="ds_language_set">Set language</string>
+    <string name="ds_language_follow_system">Follow system</string>
+    <string name="ds_battery">Battery</string>
+    <string name="ds_battery_request">Request battery</string>
+
     <!--Account-->
     <string name="account_sign_in">Sign In</string>
     <string name="account_input_username_hint">Input username</string>
@@ -667,20 +678,14 @@
     <!--Others Feature-->
     <string name="ds_other_features">Other Features</string>
     <string name="ds_find_device">Find Device</string>
-    <string name="ds_device_reboot">Device Reboot</string>
-    <string name="ds_device_shutdown">Device Shutdown</string>
-    <string name="ds_device_reset">Device Reset</string>
 
 
-    <string name="ds_device_config">Basic functions</string>
-    <!--contac-->
+    <!--contacts-->
     <string name="ds_delete_contact">Please select the data to be deleted</string>
     <string name="ds_contacts_add_limit">You can add up to 100 frequently used contacts.</string>
-    <string name="ds_contacts_time">time</string>
-    <string name="ds_contacts_language">Set language</string>
-    <string name="ds_contacts_level">Watch battery level</string>
-    <string name="ds_contacts_top">top contacts </string>
-    <string name="ds_emergency_contact">emergency contact</string>
+
+    <string name="ds_contacts_top">Common contacts </string>
+    <string name="ds_emergency_contact">Emergency contacts</string>
     <string name="ds_emergency_switch">Emergency switch status</string>
 
     <!--alarm-->

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.topstep.wearkit.base.download.UriCopyDownloader
@@ -79,7 +78,4 @@ class LocalOtaActivity : BaseActivity() {
         otaDisposable?.dispose()
     }
 
-    private fun toast(text: String) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-    }
 }
