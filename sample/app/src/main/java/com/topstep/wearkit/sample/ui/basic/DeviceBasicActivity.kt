@@ -9,7 +9,7 @@ import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityDeviceBasicBinding
 import com.topstep.wearkit.sample.ui.alarm.AlarmActivity
 import com.topstep.wearkit.sample.ui.base.BaseActivity
-import com.topstep.wearkit.sample.ui.contacts.ContactActivity
+import com.topstep.wearkit.sample.ui.contacts.ContactsActivity
 import com.topstep.wearkit.sample.ui.contacts.EmergencyContactActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import timber.log.Timber
@@ -82,11 +82,19 @@ class DeviceBasicActivity : BaseActivity() {
         }
 
         viewBind.btnContacts.clickTrigger {
-            startActivity(Intent(this, ContactActivity::class.java))
+            if (wearKit.contactsAbility.compat.getContactsCommonMaxNumber() > 0) {
+                startActivity(Intent(this, ContactsActivity::class.java))
+            } else {
+                toast(R.string.tip_un_support)
+            }
         }
 
         viewBind.btnEmergencyContact.clickTrigger {
-            startActivity(Intent(this, EmergencyContactActivity::class.java))
+            if (wearKit.contactsAbility.compat.getContactsEmergencyMaxNumber() > 0) {
+                startActivity(Intent(this, EmergencyContactActivity::class.java))
+            } else {
+                toast(R.string.tip_un_support)
+            }
         }
 
         viewBind.btnAlarm.clickTrigger {

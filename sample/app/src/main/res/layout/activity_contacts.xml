@@ -7,19 +7,18 @@
     <Button
         android:id="@+id/contact_add"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:text="@string/action_add"/>
-
 
     <Button
         android:id="@+id/contact_delete"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:text="@string/action_delete"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/contact_ry"
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

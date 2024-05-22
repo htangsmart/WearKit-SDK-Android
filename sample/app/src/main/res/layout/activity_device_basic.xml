@@ -50,13 +50,13 @@
             android:id="@+id/btn_contacts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ds_contacts_top"/>
+            android:text="@string/ds_contacts_common"/>
 
         <Button
             android:id="@+id/btn_emergency_contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ds_emergency_contact"/>
+            android:text="@string/ds_contacts_emergency"/>
 
         <Button
             android:id="@+id/btn_alarm"

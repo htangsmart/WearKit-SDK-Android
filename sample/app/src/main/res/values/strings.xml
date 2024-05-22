@@ -24,6 +24,13 @@
     <string name="ds_find_watch">find watch</string>
     <string name="ds_stop_watch">stop find watch</string>
 
+    <!--Contacts-->
+    <string name="ds_contacts_common">Common contacts </string>
+    <string name="ds_contacts_emergency">Emergency contacts</string>
+    <string name="ds_contacts_delete">Please select the data to be deleted</string>
+    <string name="ds_contacts_add_limit">You can add up to %d frequently used contacts.</string>
+    <string name="ds_contacts_emergency_switch">Emergency switch status</string>
+
     <!--Account-->
     <string name="account_sign_in">Sign In</string>
     <string name="account_input_username_hint">Input username</string>
@@ -72,6 +79,7 @@
     <string name="tip_save_success">Save success</string>
     <string name="tip_success">Success</string>
     <string name="tip_failed">Failed</string>
+    <string name="tip_un_support">UnSupport this function</string>
     <string name="tip_download_failed">Download failed</string>
     <string name="tip_current_no_data">No data yet</string>
     <string name="tip_load_error">Load failed, click reload</string>
@@ -681,15 +689,6 @@
     <string name="ds_other_features">Other Features</string>
     <string name="ds_find_device">Find Device</string>
     <string name="ds_find_phone">Find Phone</string>
-
-
-    <!--contacts-->
-    <string name="ds_delete_contact">Please select the data to be deleted</string>
-    <string name="ds_contacts_add_limit">You can add up to 100 frequently used contacts.</string>
-
-    <string name="ds_contacts_top">Common contacts </string>
-    <string name="ds_emergency_contact">Emergency contacts</string>
-    <string name="ds_emergency_switch">Emergency switch status</string>
 
     <!--alarm-->
     <string name="remind_repeat_00">一</string>

@@ -24,6 +24,13 @@
     <string name="ds_find_watch">查找手表</string>
     <string name="ds_stop_watch">停止查找手表</string>
 
+    <!--Contacts-->
+    <string name="ds_contacts_common">常用联系人</string>
+    <string name="ds_contacts_emergency">紧急联系人</string>
+    <string name="ds_contacts_delete">请选择要删除的数据</string>
+    <string name="ds_contacts_add_limit">最多可添加%d位常用联系人。</string>
+    <string name="ds_contacts_emergency_switch">紧急开关状态</string>
+
     <!--Account-->
     <string name="account_sign_in">登录</string>
     <string name="account_input_username_hint">输入用户名</string>
@@ -72,6 +79,7 @@
     <string name="tip_save_success">保存成功</string>
     <string name="tip_success">成功</string>
     <string name="tip_failed">失败</string>
+    <string name="tip_un_support">不支持此功能</string>
     <string name="tip_download_failed">下载失败</string>
     <string name="tip_current_no_data">暂无数据</string>
     <string name="tip_load_error">加载失败，点击重试</string>
@@ -682,14 +690,6 @@
     <string name="ds_find_device">查找设备</string>
     <string name="ds_find_phone">查找手机</string>
 
-
-    <!--contac-->
-    <string name="ds_delete_contact">请选择要删除的数据</string>
-
-    <string name="ds_contacts_add_limit">最多可添加100位常用联系人。</string>
-    <string name="ds_contacts_top">常用联系人</string>
-    <string name="ds_emergency_contact">紧急联系人</string>
-    <string name="ds_emergency_switch">紧急开关状态</string>
 
     <!--alarm-->
 

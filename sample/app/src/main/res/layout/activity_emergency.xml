@@ -23,7 +23,7 @@
         android:id="@+id/emergency_sw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ds_emergency_switch"
+        android:text="@string/ds_contacts_emergency_switch"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <TextView
