@@ -26,6 +26,7 @@ import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityCameraBinding
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.Disposable
 import timber.log.Timber
 import java.io.File
 import java.nio.ByteBuffer
@@ -61,12 +62,12 @@ class CameraActivity : BaseActivity() {
     private val displayListener = object : DisplayManager.DisplayListener {
         override fun onDisplayAdded(displayId: Int) = Unit
         override fun onDisplayRemoved(displayId: Int) = Unit
-        override fun onDisplayChanged(displayId: Int) = viewBind.viewFinder?.let { view ->
+        override fun onDisplayChanged(displayId: Int) = viewBind.viewFinder.let { view ->
             if (displayId == this@CameraActivity.displayId) {
                 imageCapture?.targetRotation = view.display.rotation
                 imageAnalyzer?.targetRotation = view.display.rotation
             }
-        } ?: Unit
+        }
     }
 
     private var displayId: Int = -1
@@ -81,6 +82,8 @@ class CameraActivity : BaseActivity() {
         super.onPause()
         viewBind.countDownView.cancelCountDown()
     }
+
+    private var observeCameraDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,7 +109,7 @@ class CameraActivity : BaseActivity() {
             setUpCamera()
         }
 
-        wearKit.cameraAbility.observeCameraMessage()
+        observeCameraDisposable = wearKit.cameraAbility.observeCameraMessage()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 when (it) {
@@ -118,9 +121,8 @@ class CameraActivity : BaseActivity() {
                         viewBind.btnShutter.simulateClick()
                     }
                 }
-
             }, {
-
+                Timber.w(it)
             })
 
         setPhotographMode(true)
@@ -130,9 +132,8 @@ class CameraActivity : BaseActivity() {
         wearKit.cameraAbility.setCameraStatus(mode)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-
             }, {
-
+                Timber.w(it)
             })
     }
 
@@ -158,8 +159,6 @@ class CameraActivity : BaseActivity() {
     private fun setUpCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener({
-
-            if (viewBind.viewFinder == null) return@addListener
             // CameraProvider
             cameraProvider = cameraProviderFuture.get()
 
@@ -238,7 +237,7 @@ class CameraActivity : BaseActivity() {
             .build()
             // The analyzer can then be assigned to the instance
             .also {
-                it.setAnalyzer(cameraExecutor, LuminosityAnalyzer { luma ->
+                it.setAnalyzer(cameraExecutor, LuminosityAnalyzer { _ ->
                     // Values returned from our analyzer are passed to the attached listener
                     // We log image analysis results here - you should do something useful
                     // instead!
@@ -278,7 +277,7 @@ class CameraActivity : BaseActivity() {
     private fun observeCameraState(cameraInfo: CameraInfo) {
         cameraInfo.cameraState.observe(this) { cameraState ->
             Timber.tag(TAG).i("cameraState:%s", cameraState.type)
-            cameraState.error?.let { error ->
+            cameraState.error?.let { _ ->
                 // promptToast.showFailed("Camera error:${error.code}")
             }
         }
@@ -411,14 +410,8 @@ class CameraActivity : BaseActivity() {
             }
 
             override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                if (viewBind.countDownView != null) {
-                    viewBind.countDownView.playBeepShutter()
-//                 We can only change the foreground Drawable using API level 23+ API
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        // Display flash animation to indicate that photo was captured
-                        viewBind.root.displayFlashAnim()
-                    }
-                }
+                viewBind.countDownView.playBeepShutter()
+                viewBind.root.displayFlashAnim()
 
                 val savedUri = output.savedUri
                 Timber.tag(TAG).i("Photo capture succeeded: $savedUri")
@@ -568,6 +561,7 @@ class CameraActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        observeCameraDisposable?.dispose()
         setPhotographMode(false)
         cameraExecutor.shutdown()
         displayManager.unregisterDisplayListener(displayListener)

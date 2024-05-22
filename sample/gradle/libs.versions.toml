@@ -134,9 +134,3 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockito" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
-camera-view = { group = "androidx.camera", name = "camera-view", version = "1.2.1" }
-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version = "1.2.1" }
-camera-core = { group = "androidx.camera", name = "camera-core", version = "1.2.1" }
-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version = "1.2.1" }
-camera-extensions = { group = "androidx.camera", name = "camera-extensions", version = "1.2.1" }
-window = { group = "androidx.window", name = "window", version = "1.0.0" }

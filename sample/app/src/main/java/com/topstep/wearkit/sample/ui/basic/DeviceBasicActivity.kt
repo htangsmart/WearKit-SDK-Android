@@ -10,17 +10,20 @@ import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityDeviceBasicBinding
 import com.topstep.wearkit.sample.ui.alarm.AlarmActivity
 import com.topstep.wearkit.sample.ui.base.BaseActivity
+import com.topstep.wearkit.sample.ui.camera.CameraActivity
 import com.topstep.wearkit.sample.ui.contacts.ContactsActivity
 import com.topstep.wearkit.sample.ui.contacts.EmergencyContactsActivity
-import com.topstep.wearkit.sample.ui.camera.CameraActivity
 import com.topstep.wearkit.sample.utils.permission.PermissionHelper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.Disposable
 import timber.log.Timber
 
 class DeviceBasicActivity : BaseActivity() {
 
     private val wearKit = MyApplication.wearKit
     private lateinit var viewBind: ActivityDeviceBasicBinding
+
+    private var observeCameraDisposable: Disposable? = null
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +32,7 @@ class DeviceBasicActivity : BaseActivity() {
         setContentView(viewBind.root)
         supportActionBar?.setTitle(R.string.ds_device_basic)
 
-        wearKit.cameraAbility.observeCameraMessage()
+        observeCameraDisposable = wearKit.cameraAbility.observeCameraMessage()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 when (it) {
@@ -37,9 +40,8 @@ class DeviceBasicActivity : BaseActivity() {
                         startCamera()
                     }
                 }
-
             }, {
-
+                Timber.w(it)
             })
 
         // Device shutdown
@@ -127,11 +129,15 @@ class DeviceBasicActivity : BaseActivity() {
 
         viewBind.btnCamera.clickTrigger {
             startCamera()
-
         }
     }
 
-    private fun startCamera(){
+    override fun onDestroy() {
+        super.onDestroy()
+        observeCameraDisposable?.dispose()
+    }
+
+    private fun startCamera() {
         PermissionHelper.requestAppCamera(this) { granted ->
             if (granted) {
                 startActivity(Intent(this, CameraActivity::class.java))
