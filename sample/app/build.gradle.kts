@@ -134,4 +134,6 @@ dependencies {
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.extensions)
     implementation(libs.androidx.window)
+
+    implementation(libs.kilnn.wheelview)
 }

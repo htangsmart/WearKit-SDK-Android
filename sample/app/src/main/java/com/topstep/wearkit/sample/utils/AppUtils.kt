@@ -1,9 +1,11 @@
 package com.topstep.wearkit.sample.utils
 
 import android.content.Context
+import android.os.Build
 import android.text.TextUtils
 import android.text.format.DateFormat
 import androidx.annotation.IntRange
+import com.github.kilnn.wheellayout.WheelIntFormatter
 import com.topstep.wearkit.base.utils.WeekRepeatFlag
 import com.topstep.wearkit.sample.R
 import java.text.SimpleDateFormat
@@ -93,6 +95,23 @@ object AppUtils {
             stringBuffer.append(context.getString(R.string.ds_alarm_repeat_06_simple))
         }
         return stringBuffer.toString()
+    }
+
+    fun get02dWheelIntFormatter(context: Context): WheelIntFormatter {
+        return object : WheelIntFormatter {
+            override fun format(index: Int, value: Int): String {
+                return String.format(getSystemLocale(context), "%02d", value)
+            }
+        }
+    }
+
+    fun getSystemLocale(context: Context): Locale {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            context.resources.configuration.locales[0]
+        } else {
+            @Suppress("DEPRECATION")
+            context.resources.configuration.locale
+        }
     }
 
 }
