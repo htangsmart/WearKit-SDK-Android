@@ -23,6 +23,9 @@
     <string name="ds_battery_request">Request battery</string>
     <string name="ds_find_watch">find watch</string>
     <string name="ds_stop_watch">stop find watch</string>
+    <string name="ds_find_phone">Find Phone</string>
+    <string name="ds_find_phone_tips">Please click to find phone features from the device</string>
+    <string name="ds_find_phone_replay">Replay found phone</string>
 
     <!--Contacts-->
     <string name="ds_contacts_common">Common contacts </string>
@@ -687,8 +690,6 @@
 
     <!--Others Feature-->
     <string name="ds_other_features">Other Features</string>
-    <string name="ds_find_device">Find Device</string>
-    <string name="ds_find_phone">Find Phone</string>
 
     <!--alarm-->
     <string name="remind_repeat_00">一</string>

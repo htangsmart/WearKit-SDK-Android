@@ -68,7 +68,7 @@
             android:id="@+id/btn_find_watch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ds_find_device"/>
+            android:text="@string/ds_find_watch"/>
 
         <Button
             android:id="@+id/btn_find_phone"

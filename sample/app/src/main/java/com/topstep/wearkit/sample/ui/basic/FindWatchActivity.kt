@@ -26,7 +26,7 @@ class FindWatchActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         viewBind = ActivityFindWatchBinding.inflate(layoutInflater)
         setContentView(viewBind.root)
-        supportActionBar?.title = "find watch"
+        supportActionBar?.setTitle(R.string.ds_find_watch)
 
         // Callback in device operation
         observeFoundWatchDisposable = wearKit.finderAbility.observeFinderMessage()
