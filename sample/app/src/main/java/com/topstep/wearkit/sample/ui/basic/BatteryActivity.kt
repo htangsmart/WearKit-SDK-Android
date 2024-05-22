@@ -30,7 +30,7 @@ class BatteryActivity : BaseActivity() {
         observeBatteryDisposable = wearKit.batteryAbility.observeBatteryChange()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                viewBind.tvBattery.text = "Battery level:${it.percentage}"
+                viewBind.tvBattery.text = "Battery level:${it.percentage} isCharging:${it.isCharging}"
             }, {
                 Timber.w(it)
             })
@@ -39,7 +39,7 @@ class BatteryActivity : BaseActivity() {
         viewBind.btnGetBattery.clickTrigger {
             wearKit.batteryAbility.requestBattery().observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    viewBind.tvBattery.text = "Battery level:${it.percentage}"
+                    viewBind.tvBattery.text = "Battery level:${it.percentage} isCharging:${it.isCharging}"
                 }, {
                     Timber.w(it)
                     toast(R.string.tip_failed)
