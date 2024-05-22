@@ -1,11 +1,12 @@
 package com.topstep.wearkit.sample.ui.alarm
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kilnn.tool.widget.ktx.clickTrigger
+import com.github.kilnn.wheellayout.WheelIntConfig
 import com.topstep.wearkit.apis.model.WKAlarm
 import com.topstep.wearkit.base.utils.WeekRepeatFlag
 import com.topstep.wearkit.sample.MyApplication
@@ -21,6 +22,10 @@ class AlarmActivity : BaseActivity() {
     private lateinit var viewBind: ActivityAlarmBinding
 
     private var alarmRepeat = 0
+    private val formatter = AppUtils.get02dWheelIntFormatter(this)
+    private lateinit var adapter: AlarmAdapter
+
+    private val alarmCount = ArrayList<WKAlarm>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,68 +46,89 @@ class AlarmActivity : BaseActivity() {
         viewBind.alarmThursday.clickTrigger(block = blockClick)
         viewBind.alarmFriday.clickTrigger(block = blockClick)
         viewBind.alarmSaturday.clickTrigger(block = blockClick)
+        adapter = AlarmAdapter()
 
         // Callback in device operation
-        /*wearKit.alarmAbility.observeAlarmsChange().observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-
-            }, {
-
-            })*/
-
-
-        // request
-        wearKit.alarmAbility.requestAlarms()
+        wearKit.alarmAbility.observeAlarmsChange()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                if (!it.isNullOrEmpty()) {
-                    val alarm = it[0]
-                    viewBind.alarmTime.text = "${alarm.hour} : ${alarm.minute}"
-                    viewBind.alarmWeek.text = AppUtils.getWeek(this, alarm.repeat)
-                }
+                alarmCount.clear()
+                alarmCount.addAll(it)
+                adapter.sources = alarmCount
+                adapter.notifyDataSetChanged()
             }, {
 
             })
 
+        // request alarm
+        wearKit.alarmAbility.requestAlarms()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                if (it.isNotEmpty()) {
+                    alarmCount.addAll(it)
+                    adapter.sources = alarmCount
+                    adapter.notifyDataSetChanged()
+                }
+            }, {
 
+            })
     }
 
     private fun initData() {
-
-
+        viewBind.alarmRy.layoutManager = LinearLayoutManager(this)
+        viewBind.alarmRy.adapter = adapter
+        viewBind.wheelHour.setConfig(WheelIntConfig(0, 23, true, getString(R.string.unit_hour), formatter))
+        viewBind.wheelMinute.setConfig(WheelIntConfig(0, 59, true, getString(R.string.unit_minute), formatter))
     }
 
 
-    @SuppressLint("CheckResult", "Range")
+    @SuppressLint("CheckResult", "Range", "NotifyDataSetChanged")
     private fun initEvent() {
-        // add
+        // add alarm
         viewBind.alarmAdd.clickTrigger {
             if (alarmRepeat == 0) {
                 toast(getString(R.string.alarm_week))
             } else {
-                val alarm = ArrayList<WKAlarm>()
                 val wkAlarm = WKAlarm()
-                wkAlarm.hour = 11
-                wkAlarm.minute = 30
+                wkAlarm.hour = viewBind.wheelHour.getValue()
+                wkAlarm.minute = viewBind.wheelMinute.getValue()
                 wkAlarm.isEnabled = true
                 wkAlarm.repeat = alarmRepeat
-                alarm.add(wkAlarm)
-                setAlarm(alarm)
+                alarmCount.add(wkAlarm)
+                adapter.sources = alarmCount
+                setAlarm(alarmCount)
             }
         }
 
-        //delete
+        //delete alarm
         viewBind.alarmDelete.clickTrigger {
-            setAlarm(ArrayList())
+            if (adapter.mDeleteIndex.size == 0) {
+                toast(getString(R.string.ds_contacts_delete))
+            } else {
+                val sources = adapter.sources
+                if (sources != null) {
+                    for (i in sources.size - 1 downTo 0) {
+                        if (adapter.mDeleteIndex.contains(i)) {
+                            sources.removeAt(i)
+                            adapter.notifyItemRemoved(i)
+                            adapter.notifyItemRangeChanged(0, sources.size)
+                        }
+                    }
+                    adapter.notifyDataSetChanged()
+                    setAlarm(sources)
+                }
+            }
         }
-
     }
 
-    @SuppressLint("CheckResult")
+    @SuppressLint("CheckResult", "NotifyDataSetChanged")
     fun setAlarm(alarm: ArrayList<WKAlarm>) {
         wearKit.alarmAbility.setAlarms(alarm)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                adapter.mDeleteIndex.clear()
+                viewBind.alarmRy.scrollToPosition(adapter.itemCount - 1)
+                adapter.notifyDataSetChanged()
                 toast(getString(R.string.tip_success))
             }, {
                 toast(getString(R.string.tip_failed))
@@ -148,7 +174,7 @@ class AlarmActivity : BaseActivity() {
             remindSunday.background = null
         } else {
             alarmRepeat = WeekRepeatFlag.setRepeatEnabled(alarmRepeat, flag, true)
-            remindSunday.setBackgroundColor(Color.parseColor("#3fcce2"))
+            remindSunday.setBackgroundColor(getColor(R.color.colorPrimary))
         }
     }
 

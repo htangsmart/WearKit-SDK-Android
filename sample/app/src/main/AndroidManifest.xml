@@ -57,6 +57,8 @@
 
         <activity android:name=".ui.basic.FindWatchActivity" />
 
+        <activity android:name=".ui.basic.FindPhoneActivity" />
+
         <activity android:name=".ui.camera.CameraActivity" />
 
         <meta-data

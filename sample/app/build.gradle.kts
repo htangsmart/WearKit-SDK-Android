@@ -134,4 +134,6 @@ dependencies {
     implementation(libs.camera.camera2)
     implementation(libs.camera.extensions)
     implementation(libs.window)
+
+    implementation(libs.kilnn.wheelview)
 }

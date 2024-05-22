@@ -5,40 +5,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/alarm_time"
+    <LinearLayout
+        style="@style/Widget.FitCloudPro.ContentPadding.Vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text=""
-        android:textColor="@color/black" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/alarm_week"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/black" />
+        <com.github.kilnn.wheellayout.OneWheelLayout
+            android:id="@+id/wheel_hour"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
-    <Button
-        android:id="@+id/alarm_add"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/action_add" />
+        <com.github.kilnn.wheellayout.OneWheelLayout
+            android:id="@+id/wheel_minute"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
-
-    <Button
-        android:id="@+id/alarm__delete"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/action_delete" />
+    </LinearLayout>
 
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:showDividers="none">
@@ -108,5 +98,22 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/alarm_add"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/action_add"/>
+
+
+    <Button
+        android:id="@+id/alarm__delete"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/action_delete"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/alarm_ry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
