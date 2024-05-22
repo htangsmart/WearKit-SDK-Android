@@ -9,6 +9,16 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <!--CAMERA-->
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <!--Used to start CameraActivity in the background-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"/>
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -47,7 +57,7 @@
 
         <activity android:name=".ui.basic.FindWatchActivity" />
 
-        <activity android:name=".ui.basic.FindPhoneActivity" />
+        <activity android:name=".ui.camera.CameraActivity" />
 
         <meta-data
             android:name="persimwear"

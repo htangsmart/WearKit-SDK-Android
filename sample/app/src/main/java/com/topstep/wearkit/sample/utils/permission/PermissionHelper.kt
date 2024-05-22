@@ -27,7 +27,7 @@ object PermissionHelper {
         )
     }
 
-    fun requestAppCamera(fragment: Fragment, grantResult: ((Boolean) -> Unit)) {
+    fun requestAppCamera(fragment: FragmentActivity, grantResult: ((Boolean) -> Unit)) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             grantResult.invoke(true)
             return
