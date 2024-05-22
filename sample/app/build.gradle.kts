@@ -126,4 +126,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.espresso.core)
+
+    //JetPack-CameraX
+    implementation(libs.camera.view)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.camera.core)
+    implementation(libs.camera.camera2)
+    implementation(libs.camera.extensions)
+    implementation(libs.window)
 }

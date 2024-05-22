@@ -4,13 +4,16 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import com.github.kilnn.tool.widget.ktx.clickTrigger
+import com.topstep.wearkit.apis.model.message.WKCameraMessage
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityDeviceBasicBinding
 import com.topstep.wearkit.sample.ui.alarm.AlarmActivity
 import com.topstep.wearkit.sample.ui.base.BaseActivity
+import com.topstep.wearkit.sample.ui.camera.CameraActivity
 import com.topstep.wearkit.sample.ui.contacts.ContactActivity
 import com.topstep.wearkit.sample.ui.contacts.EmergencyContactActivity
+import com.topstep.wearkit.sample.utils.permission.PermissionHelper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import timber.log.Timber
 
@@ -25,6 +28,19 @@ class DeviceBasicActivity : BaseActivity() {
         viewBind = ActivityDeviceBasicBinding.inflate(layoutInflater)
         setContentView(viewBind.root)
         supportActionBar?.setTitle(R.string.ds_device_basic)
+
+        wearKit.cameraAbility.observeCameraMessage()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    WKCameraMessage.OPEN -> {
+                        startCamera()
+                    }
+                }
+
+            }, {
+
+            })
 
         // Device shutdown
         viewBind.btnShutdown.clickTrigger {
@@ -99,6 +115,19 @@ class DeviceBasicActivity : BaseActivity() {
 
         viewBind.btnFindPhone.clickTrigger {
             startActivity(Intent(this, FindPhoneActivity::class.java))
+        }
+
+        viewBind.btnCamera.clickTrigger {
+            startCamera()
+
+        }
+    }
+
+    private fun startCamera(){
+        PermissionHelper.requestAppCamera(this) { granted ->
+            if (granted) {
+                startActivity(Intent(this, CameraActivity::class.java))
+            }
         }
     }
 
