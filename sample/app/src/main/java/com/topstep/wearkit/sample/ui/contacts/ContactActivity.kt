@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.ContactsContract
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kilnn.tool.widget.ktx.clickTrigger
@@ -48,7 +47,7 @@ class ContactActivity : BaseActivity() {
                 val items = it.items
                 if (!items.isNullOrEmpty()) {
                     items.forEach { item ->
-                        mList.add(ContactsBean.create(item.name, item.number)!!)
+                        mList.add(ContactsBean(item.name, item.number))
                     }
                 }
                 adapter.sources = mList
@@ -64,7 +63,7 @@ class ContactActivity : BaseActivity() {
     }
 
 
-    @SuppressLint("CheckResult")
+    @SuppressLint("CheckResult", "NotifyDataSetChanged")
     private fun initEvent() {
         // add
         viewBind.contactAdd.clickTrigger {
@@ -84,20 +83,19 @@ class ContactActivity : BaseActivity() {
 
         //delete
         viewBind.contactDelete.clickTrigger {
-            if (!adapter.getClick()) {
+            if (adapter.mDeleteIndex.size == 0) {
                 toast(getString(R.string.ds_delete_contact))
             } else {
                 val sources = adapter.sources
                 if (sources != null) {
                     for (i in sources.size - 1 downTo 0) {
-                        val fwContacts = sources[i]
-                        if (fwContacts.isdelete) {
+                        //val fwContacts = sources[i]
+                        if (adapter.mDeleteIndex.contains(i)) {
                             sources.removeAt(i)
                             adapter.notifyItemRemoved(i)
                             adapter.notifyItemRangeChanged(0, sources.size)
                         }
                     }
-                    adapter.isShow = !adapter.isShow
                     adapter.notifyDataSetChanged()
                     val common = ArrayList<WKContacts>()
                     sources.forEach {
@@ -144,10 +142,10 @@ class ContactActivity : BaseActivity() {
                                         }
                                     }
                                     if (!exist) {
-                                        sources.add(ContactsBean.create(name, number)!!)
+                                        sources.add(ContactsBean(name, number))
                                     }
                                 } else {
-                                    sources.add(ContactsBean.create(name, number)!!)
+                                    sources.add(ContactsBean(name, number))
                                 }
                                 sources.forEach {
                                     val fwContacts = WKContacts(it.name, it.number)
@@ -165,15 +163,14 @@ class ContactActivity : BaseActivity() {
             }
         }
 
-    @SuppressLint("CheckResult")
+    @SuppressLint("CheckResult", "NotifyDataSetChanged")
     fun setContact(con: ArrayList<WKContacts>) {
         //setContact
         wearKit.contactsAbility.setContactsCommon(WKContactsCommon(con))
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged()
-                }
+                adapter.mDeleteIndex.clear()
+                adapter.notifyDataSetChanged()
                 toast(getString(R.string.tip_success))
             }, {
                 toast(getString(R.string.tip_failed))

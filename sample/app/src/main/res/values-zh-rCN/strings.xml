@@ -680,6 +680,7 @@
     <!--Others Feature-->
     <string name="ds_other_features">其他功能</string>
     <string name="ds_find_device">查找设备</string>
+    <string name="ds_find_phone">查找手机</string>
 
 
     <!--contac-->

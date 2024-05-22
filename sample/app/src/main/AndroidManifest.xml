@@ -47,6 +47,8 @@
 
         <activity android:name=".ui.basic.FindWatchActivity" />
 
+        <activity android:name=".ui.basic.FindPhoneActivity" />
+
         <meta-data
             android:name="persimwear"
             android:value="a1c4qbha2eujv42rl5amgttqunpl4kng"/>

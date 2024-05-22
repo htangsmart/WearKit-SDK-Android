@@ -92,6 +92,14 @@ class DeviceBasicActivity : BaseActivity() {
         viewBind.btnAlarm.clickTrigger {
             startActivity(Intent(this, AlarmActivity::class.java))
         }
+
+        viewBind.btnFindWatch.clickTrigger {
+            startActivity(Intent(this, FindWatchActivity::class.java))
+        }
+
+        viewBind.btnFindPhone.clickTrigger {
+            startActivity(Intent(this, FindPhoneActivity::class.java))
+        }
     }
 
 }
