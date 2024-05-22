@@ -10,7 +10,7 @@ import com.topstep.wearkit.sample.databinding.ActivityDeviceBasicBinding
 import com.topstep.wearkit.sample.ui.alarm.AlarmActivity
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.ui.contacts.ContactsActivity
-import com.topstep.wearkit.sample.ui.contacts.EmergencyContactActivity
+import com.topstep.wearkit.sample.ui.contacts.EmergencyContactsActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import timber.log.Timber
 
@@ -91,7 +91,7 @@ class DeviceBasicActivity : BaseActivity() {
 
         viewBind.btnEmergencyContact.clickTrigger {
             if (wearKit.contactsAbility.compat.getContactsEmergencyMaxNumber() > 0) {
-                startActivity(Intent(this, EmergencyContactActivity::class.java))
+                startActivity(Intent(this, EmergencyContactsActivity::class.java))
             } else {
                 toast(R.string.tip_un_support)
             }

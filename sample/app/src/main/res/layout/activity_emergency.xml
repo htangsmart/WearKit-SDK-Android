@@ -9,35 +9,34 @@
         android:id="@+id/emergency_add"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="@string/action_add" />
-
+        android:text="@string/action_add"/>
 
     <Button
         android:id="@+id/emergency_delete"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="@string/action_delete" />
+        android:text="@string/action_delete"/>
 
     <Switch
-        android:layout_marginTop="20dp"
-        android:id="@+id/emergency_sw"
+        android:id="@+id/switch_emergency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/ds_contacts_emergency_switch"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
+        tools:ignore="UseSwitchCompatOrMaterialXml"/>
 
     <TextView
-        android:layout_marginTop="20dp"
         android:id="@+id/emergency_nama"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black" />
+        android:layout_marginTop="20dp"
+        android:textColor="@color/black"/>
 
     <TextView
-        android:layout_marginTop="20dp"
         android:id="@+id/emergency_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black" />
+        android:layout_marginTop="20dp"
+        android:textColor="@color/black"/>
 
 </LinearLayout>

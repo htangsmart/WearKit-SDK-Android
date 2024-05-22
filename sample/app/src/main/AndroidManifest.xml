@@ -41,7 +41,7 @@
 
         <activity android:name=".ui.contacts.ContactsActivity"/>
 
-        <activity android:name=".ui.contacts.EmergencyContactActivity"/>
+        <activity android:name=".ui.contacts.EmergencyContactsActivity"/>
 
         <activity android:name=".ui.alarm.AlarmActivity"/>
 
