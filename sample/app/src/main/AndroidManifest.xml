@@ -61,6 +61,9 @@
 
         <activity android:name=".ui.camera.CameraActivity" />
 
+        <activity android:name=".ui.weather.WeatherActivity" />
+
+
         <meta-data
             android:name="persimwear"
             android:value="a1c4qbha2eujv42rl5amgttqunpl4kng"/>
