@@ -89,7 +89,7 @@ class CameraActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         viewBind = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(viewBind.root)
-        supportActionBar?.setTitle(R.string.action_take_photo)
+        supportActionBar?.setTitle(R.string.ds_camera_control)
 
         // Initialize our background executor
         cameraExecutor = Executors.newSingleThreadExecutor()

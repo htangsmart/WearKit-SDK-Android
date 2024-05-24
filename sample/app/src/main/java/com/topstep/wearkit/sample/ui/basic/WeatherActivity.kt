@@ -1,4 +1,4 @@
-package com.topstep.wearkit.sample.ui.weather
+package com.topstep.wearkit.sample.ui.basic
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -20,19 +20,17 @@ class WeatherActivity : BaseActivity() {
     private val wearKit = MyApplication.wearKit
     private lateinit var viewBind: ActivityWeatherBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBind = ActivityWeatherBinding.inflate(layoutInflater)
         setContentView(viewBind.root)
-        supportActionBar?.title = "Weather"
+        supportActionBar?.setTitle(R.string.ds_display_weather)
 
         viewBind.switchWeather.setOnCheckedChangeListener { buttonView, isChecked ->
             if (buttonView.isPressed) {
                 setWeather(isChecked)
             }
         }
-
     }
 
     @SuppressLint("CheckResult")
@@ -42,41 +40,58 @@ class WeatherActivity : BaseActivity() {
             val config = wearKit.functionAbility.getConfig().toBuilder()
                 .setFlagEnabled(WKFunctionConfig.Flag.WEATHER, true).create()
 
+            //Mock today weather
             val weatherToday = WKWeatherToday(
                 timestampSeconds = System.currentTimeMillis() / 1000,
-                code = WKWeatherCode.CLEAR_DAY, tempMin = 10, tempMax = 20,
-                tempCurrent = 18, pressure = 1, humidity = 20, ultraviolet = 2,
-                windScale = 3, windSpeed = 5.5f, visibility = 6.6f
+                code = WKWeatherCode.CLEAR_DAY,
+                tempMin = 10,
+                tempMax = 20,
+                tempCurrent = 18,
+                pressure = 1013,
+                humidity = 20,
+                ultraviolet = 2,
+                windAngle = 180f,
+                windScale = 3,
+                windSpeed = 5.5f,
+                visibility = 6.6f
             )
 
+            //Mock the weather for the next 6 days
             val dayList = ArrayList<WKWeatherDay>()
-            for (i in 0 until 5) {
+            for (i in 0 until 6) {
                 dayList.add(
                     WKWeatherDay(
-                        timestampSeconds = System.currentTimeMillis() / 1000,
+                        timestampSeconds = System.currentTimeMillis() / 1000 + (i + 1) * 24 * 60 * 60,
                         code = WKWeatherCode.CLOUDY,
                         tempMin = 15 + i, tempMax = 25 + i
                     )
                 )
             }
 
+            //Mock the weather for the next 24 hours
             val hoursList = ArrayList<WKWeatherHour>()
-            hoursList.add(
-                WKWeatherHour(
-                    timestampSeconds = System.currentTimeMillis() / 1000,
-                    code = WKWeatherCode.LIGHT_RAIN, tempCurrent = 16,
+            for (i in 0 until 24) {
+                hoursList.add(
+                    WKWeatherHour(
+                        timestampSeconds = System.currentTimeMillis() / 1000 + (i + 1) * 60 * 60,//Mock next few hours
+                        code = WKWeatherCode.LIGHT_RAIN,
+                        tempCurrent = 16 + i,
+                    )
                 )
-            )
+            }
 
             wearKit.weatherAbility.setWeather(
-                city = "南山区", today = weatherToday,
-                futureDays = dayList, futureHours = hoursList
+                city = "ShenZhen",
+                today = weatherToday,
+                futureDays = dayList,
+                futureHours = hoursList
             ).andThen(wearKit.functionAbility.setConfig(config))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    toast(R.string.ds_push_success)
+                    toast(R.string.tip_success)
                 }, {
                     Timber.w(it)
+                    toast(R.string.tip_failed)
                 })
 
         } else {
@@ -86,9 +101,10 @@ class WeatherActivity : BaseActivity() {
             wearKit.functionAbility.setConfig(config)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    toast(R.string.ds_push_success)
+                    toast(R.string.tip_success)
                 }, {
                     Timber.w(it)
+                    toast(R.string.tip_failed)
                 })
         }
     }

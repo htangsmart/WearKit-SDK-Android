@@ -21,11 +21,13 @@
     <string name="ds_language_follow_system">Follow system</string>
     <string name="ds_battery">Battery</string>
     <string name="ds_battery_request">Request battery</string>
-    <string name="ds_find_watch">find watch</string>
-    <string name="ds_stop_watch">stop find watch</string>
+    <string name="ds_find_watch">Find watch</string>
+    <string name="ds_stop_watch">Stop find watch</string>
     <string name="ds_find_phone">Find Phone</string>
     <string name="ds_find_phone_tips">Please click to find phone features from the device</string>
     <string name="ds_find_phone_replay">Replay found phone</string>
+    <string name="ds_display_weather">Display Weather</string>
+    <string name="ds_camera_control">Camera Control</string>
 
     <!--Contacts-->
     <string name="ds_contacts_common">Common contacts </string>
@@ -218,7 +220,6 @@
     <string name="ds_time_format_12_hour">Time Format-12 Hour</string>
     <string name="ds_length_unit_imperial">Length Units-Imperial(miles, feet)</string>
     <string name="ds_temperature_unit_fahrenheit">Temperature Units-Fahrenheit(℉)</string>
-    <string name="ds_display_weather">Display Weather</string>
     <string name="ds_disconnect_reminder">Disconnect Reminder</string>
     <string name="ds_display_exercise_goal">Display Exercise Goal</string>
 
@@ -680,13 +681,6 @@
     <string name="ds_notification_email">Email</string>
     <string name="ds_notification_others">Others App</string>
     <string name="ds_capture_notice_msg">Pushing third-party application messages to the watch requires granting system permissions. Whether to open immediately?</string>
-
-    <!--Camera control-->
-    <string name="ds_camera_control">Camera Control</string>
-
-    <!--Device Settings:Find Phone-->
-    <string name="ds_find_phone_found">Found mobile phone</string>
-    <string name="ds_find_phone_stop">Click to stop finding</string>
 
     <!--Others Feature-->
     <string name="ds_other_features">Other Features</string>

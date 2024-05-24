@@ -26,6 +26,8 @@
     <string name="ds_find_phone">查找手机</string>
     <string name="ds_find_phone_tips">在设备上点击查找手机功能</string>
     <string name="ds_find_phone_replay">回复已经找到手机</string>
+    <string name="ds_display_weather">显示天气</string>
+    <string name="ds_camera_control">相机控制</string>
 
     <!--Contacts-->
     <string name="ds_contacts_common">常用联系人</string>
@@ -218,7 +220,6 @@
     <string name="ds_time_format_12_hour">时间格式-12小时制</string>
     <string name="ds_length_unit_imperial">长度单位-英制(英里、英尺)</string>
     <string name="ds_temperature_unit_fahrenheit">温度单位-华氏度(℉)</string>
-    <string name="ds_display_weather">显示天气</string>
     <string name="ds_disconnect_reminder">断开提醒</string>
     <string name="ds_display_exercise_goal">显示锻炼目标</string>
 
@@ -682,11 +683,7 @@
     <string name="ds_capture_notice_msg">第三方应用消息推送到手表设备,需要系统权限,是否立即开启?</string>
 
     <!--Camera control-->
-    <string name="ds_camera_control">相机控制</string>
 
-    <!--Device Settings:Find Phone-->
-    <string name="ds_find_phone_found">找到手机</string>
-    <string name="ds_find_phone_stop">点击停止查找</string>
 
     <!--Others Feature-->
     <string name="ds_other_features">其他功能</string>
