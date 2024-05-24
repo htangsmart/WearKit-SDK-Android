@@ -88,6 +88,12 @@
             android:layout_height="wrap_content"
             android:text="@string/ds_display_weather"/>
 
+        <Button
+            android:id="@+id/btn_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ds_message_push"/>
+
     </LinearLayout>
 
 </ScrollView>

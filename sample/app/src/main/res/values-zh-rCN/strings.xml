@@ -702,5 +702,6 @@
     <string name="remind_repeat_05">六</string>
     <string name="remind_repeat_06">日</string>
     <string name="alarm_week">提醒日期不能为空,日期可多选</string>
+    <string name="ds_message_push">消息推送</string>
 
 </resources>

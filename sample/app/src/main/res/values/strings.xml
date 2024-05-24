@@ -700,6 +700,7 @@
     <string name="remind_repeat_05">六</string>
     <string name="remind_repeat_06">日</string>
     <string name="alarm_week">Reminder date cannot be empty, multiple dates can be selected</string>
+    <string name="ds_message_push">message push</string>
 
 
 </resources>
