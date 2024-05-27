@@ -162,13 +162,13 @@ object PermissionHelper {
         )
     }
 
-    fun requestTelephony(fragment: Fragment, grantResult: ((Boolean) -> Unit)) {
+    fun requestTelephony(fragment: FragmentActivity, grantResult: ((Boolean) -> Unit)) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             grantResult.invoke(true)
             return
         }
         requestPermission(fragment, getTelephony()) {
-            if (hasPermissions(fragment.requireContext(), arrayListOf(Manifest.permission.READ_PHONE_STATE))) {
+            if (hasPermissions(fragment, arrayListOf(Manifest.permission.READ_PHONE_STATE))) {
                 //TODO
 //                MyApplication.instance.myTelephonyControl?.checkInitialize()
             }

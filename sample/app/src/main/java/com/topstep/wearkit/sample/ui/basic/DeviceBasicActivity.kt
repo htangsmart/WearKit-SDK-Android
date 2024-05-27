@@ -13,6 +13,7 @@ import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.ui.camera.CameraActivity
 import com.topstep.wearkit.sample.ui.contacts.ContactsActivity
 import com.topstep.wearkit.sample.ui.contacts.EmergencyContactsActivity
+import com.topstep.wearkit.sample.ui.notification.NotificationActivity
 import com.topstep.wearkit.sample.utils.permission.PermissionHelper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
@@ -133,6 +134,10 @@ class DeviceBasicActivity : BaseActivity() {
 
         viewBind.btnWeather.clickTrigger {
             startActivity(Intent(this, WeatherActivity::class.java))
+        }
+
+        viewBind.btnNotification.clickTrigger {
+            startActivity(Intent(this, NotificationActivity::class.java))
         }
     }
 
