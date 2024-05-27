@@ -96,8 +96,7 @@ class ContactsActivity : BaseActivity() {
         }
     }
 
-    @SuppressLint("CheckResult")
-    fun setContact(con: List<WKContacts>?) {
+    private fun setContact(con: List<WKContacts>?) {
         //setContact
         wearKit.contactsAbility.setContactsCommon(WKContactsCommon(con))
             .observeOn(AndroidSchedulers.mainThread())

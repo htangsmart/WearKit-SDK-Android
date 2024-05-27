@@ -9,8 +9,6 @@ import android.os.Vibrator;
 
 import com.topstep.wearkit.sample.MyApplication;
 
-
-
 public class VibratorUtil {
     protected static AudioManager audioManager;
     private static MediaPlayer mMediaPlayer = null;
@@ -48,7 +46,7 @@ public class VibratorUtil {
     }
 
     /**
-     *  stop play  停止播放
+     * stop play  停止播放
      */
     public static void stopVibrator() {
         if (mMediaPlayer != null) {

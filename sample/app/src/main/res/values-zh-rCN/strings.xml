@@ -28,6 +28,18 @@
     <string name="ds_find_phone_replay">回复已经找到手机</string>
     <string name="ds_display_weather">显示天气</string>
     <string name="ds_camera_control">相机控制</string>
+    <string name="ds_message_push">消息推送</string>
+
+    <!--Alarms-->
+    <string name="ds_alarm">闹钟</string>
+    <string name="remind_repeat_00">一</string>
+    <string name="remind_repeat_01">二</string>
+    <string name="remind_repeat_02">三</string>
+    <string name="remind_repeat_03">四</string>
+    <string name="remind_repeat_04">五</string>
+    <string name="remind_repeat_05">六</string>
+    <string name="remind_repeat_06">日</string>
+    <string name="ds_alarm_add_limit">最多可添加%d个闹钟。</string>
 
     <!--Contacts-->
     <string name="ds_contacts_common">常用联系人</string>
@@ -36,29 +48,7 @@
     <string name="ds_contacts_add_limit">最多可添加%d位常用联系人。</string>
     <string name="ds_contacts_emergency_switch">紧急开关状态</string>
 
-    <!--Account-->
-    <string name="account_sign_in">登录</string>
-    <string name="account_input_username_hint">输入用户名</string>
-    <string name="account_input_password_hint">输入密码</string>
-    <string name="account_no">没有账号?</string>
-    <string name="account_sign_up">注册</string>
-    <string name="account_input_height_hint">输入身高(厘米),如\"175\"</string>
-    <string name="account_input_weight_hint">输入体重(千克),如\"60\"</string>
-    <string name="account_sex_male">男</string>
-    <string name="account_sex_female">女</string>
-    <string name="account_height_error">请输入合理范围的身高</string>
-    <string name="account_weight_error">请输入合理范围的体重</string>
-    <string name="account_input_age_hint">请输入年龄，如\"20\"</string>
-    <string name="account_age_error">请输入合理范围的年龄</string>
-    <string name="account_sign_up_success">注册成功</string>
-    <string name="account_sign_out">退出账号</string>
-    <string name="account_sign_out_ing">退出账号…</string>
-    <string name="account_edit_user_info">编辑个人资料</string>
-
     <!--Error-->
-    <string name="error_user_exist">该用户已存在</string>
-    <string name="error_user_not_exist">该用户不存在</string>
-    <string name="error_password_incorrect">密码不正确</string>
     <string name="error_device_un_support">设备不支持此功能</string>
 
     <!--Action-->
@@ -198,22 +188,6 @@
     <string name="ds_config_end_time">结束时间</string>
     <string name="ds_config_interval_time">间隔时间</string>
 
-    <string name="ds_page_config">页面配置</string>
-    <string-array name="ds_page_names">
-        <item>时间</item>
-        <item>步数</item>
-        <item>距离</item>
-        <item>卡路里</item>
-        <item>睡眠</item>
-        <item>心率</item>
-        <item>血氧</item>
-        <item>血压</item>
-        <item>天气</item>
-        <item>查找手机</item>
-        <item>ID</item>
-        <item>秒表</item>
-    </string-array>
-
     <string name="ds_function_config">功能配置</string>
     <string name="ds_wear_right_hand">右手佩戴</string>
     <string name="ds_enhanced_measurement">增强测量</string>
@@ -271,58 +245,8 @@
     <string name="ds_screen_long_time_bright_duration">持续时间</string>
     <string name="ds_screen_always_bright">保持亮屏</string>
 
-    <!--QR Codes-->
-    <string name="ds_qr_codes">二维码</string>
-    <string name="ds_qr_codes_tips">此功能使用假的的二维码数据，实际应用中，开发者需要自己把二维码解析成字符串。</string>
-    <string name="ds_collection_code">收款码</string>
-    <string name="ds_collection_code_wechat">微信</string>
-    <string name="ds_collection_code_alipay">支付宝</string>
-    <string name="ds_collection_code_paypal">PayPal</string>
-    <string name="ds_business_card">名片</string>
-    <string name="ds_business_card_facebook">Facebook</string>
-    <string name="ds_business_card_whatsapp">WhatsApp</string>
-    <string name="ds_business_card_twitter">Twitter</string>
-    <string name="ds_nucleic_acid_code">核酸码</string>
-    <string name="ds_qr_code_extension_1">自定义二维码</string>
-    <string name="ds_qr_code_cult_sign_in">Cult签到</string>
-    <string name="ds_qr_code_multi_media">多媒体</string>
-
     <!--Power save mode-->
     <string name="ds_power_save_mode">省电模式</string>
-
-    <!--GPS Hot start-->
-    <string name="gps_hot_start_settings">GPS热启动设置</string>
-    <string name="gps_hot_start_auto_update">手表GPS文件自动更新</string>
-    <string name="gps_hot_start_des">用于提升手表GPS位置的准确性</string>
-    <string name="gps_hot_start_test">测试</string>
-    <string name="gps_hot_start_test_immediately">立即更新</string>
-    <string name="gps_hot_start_test_delay_1_minute">延迟1分钟更新</string>
-    <string name="gps_hot_start_test_delay_3_minute">延迟3分钟更新</string>
-    <string name="gps_hot_start_test_delay_10_minute">延迟10分钟更新</string>
-    <string name="gps_hot_start_test_des">延迟时间只是大概时间，并不精准</string>
-    <string name="gps_hot_start_updating">GPS文件更新中</string>
-    <string name="gps_hot_start_device_time">手表EPO有效时间</string>
-    <string name="gps_hot_start_last_time">EPO最后更新时间</string>
-    <string name="gps_hot_start_clear">0->未过期，清除</string>
-    <string name="gps_hot_start_overwrite">1->已过期</string>
-
-    <!--Cricket-->
-    <string name="cricket_match">板球比赛</string>
-    <string name="cricket_match_id">比赛 ID:</string>
-    <string name="cricket_match_name">比赛 名称:</string>
-    <string name="cricket_match_time">比赛 时间:</string>
-    <string name="cricket_team_1_id">队伍 1 ID:</string>
-    <string name="cricket_team_2_id">队伍 2 ID:</string>
-    <string name="cricket_team_1_data">队伍 1 数据(分数,出局,几轮,几球):</string>
-    <string name="cricket_team_2_data">队伍 2 数据(分数,出局,几轮,几球):</string>
-    <string name="cricket_batsman_1_data">投球手 1 数据(分数,球数):</string>
-    <string name="cricket_batsman_2_data">投球手 2 数据(分数,球数):</string>
-    <string name="cricket_name">名字:</string>
-    <string name="cricket_bowler_data">投球手 数据:(分数,出局,几轮,几球)</string>
-    <string name="cricket_first_inning">第一局</string>
-    <string name="cricket_second_inning">第二局</string>
-    <string name="cricket_crr">CRR</string>
-    <string name="cricket_rrr">RRR</string>
 
     <!--Version-->
     <string name="version_upgrade_param">升级(<xliff:g id="param">%1$s</xliff:g>)</string>
@@ -349,14 +273,6 @@
     <string name="ds_dfu_error_low_battery">电量不足</string>
     <string name="ds_dfu_error_device_not_found">未发现设备</string>
     <string name="ds_dfu_tips_location_service">定位服务已禁用, 升级/推送等操作可能会失败</string>
-
-    <!--Modify Logo-->
-    <string name="ds_modify_logo">修改开关机Logo</string>
-    <string name="ds_modify_logo_boot">开机</string>
-    <string name="ds_modify_logo_shutdown">关机</string>
-    <string name="ds_modify_logo_gif_tips1">1.如果开机logo和关机logo一样，设置任意一个即可。请勿重复设置</string>
-    <string name="ds_modify_logo_gif_tips2">2.太大的GIF图片，可能会导致失败</string>
-    <string name="ds_modify_logo_gif_tips3">3.手表屏幕尺寸为<xliff:g id="param">%1$s</xliff:g>。所选的GIF图片尺寸如果不一样，可能会变形</string>
 
     <!--Get Photo-->
     <string name="action_take_photo">拍照</string>
@@ -388,58 +304,6 @@
     <string name="ds_dial_position_left">左</string>
     <string name="ds_dial_position_right">右</string>
     <string name="ds_dial_component_edit">编辑组件</string>
-
-    <!--WomenHealth-->
-    <string name="wh_women_health">女性健康</string>
-    <string name="wh_settings">女性健康设置</string>
-    <string name="wh_mode_menstruation">经期</string>
-    <string name="wh_mode_pregnancy_prepare">备孕期</string>
-    <string name="wh_mode_pregnancy">怀孕期</string>
-    <string name="wh_menstruation_days_info">周期<xliff:g id="params1">%1$d</xliff:g>天，经期<xliff:g id="params2">%2$d</xliff:g>天</string>
-    <string name="wh_menstruation_due_date_info">预产期 <xliff:g id="params1">%1$s</xliff:g></string>
-    <string name="wh_due_date">预产期</string>
-    <string name="wh_menstruation_settings">经期设置</string>
-    <string name="wh_pregnancy_prepare_settings">备孕期设置</string>
-    <string name="wh_pregnancy_settings">怀孕期设置</string>
-    <string name="wh_menstruation_duration_tips">您的月经大概持续几天？</string>
-    <string name="wh_menstruation_duration">经期长度</string>
-    <string name="wh_menstruation_cycle_tips">两次月经开始日大概间隔多久？</string>
-    <string name="wh_menstruation_cycle">周期长度</string>
-    <string name="wh_menstruation_latest">最近一次经期</string>
-    <string name="wh_menstruation_advance">经期开始提醒</string>
-    <string name="wh_device_remind">设备提醒</string>
-    <string name="wh_remind_time">提醒时间</string>
-    <string name="wh_mode_menstruation_name">经期模式</string>
-    <string name="wh_mode_pregnancy_prepare_name">备孕模式</string>
-    <string name="wh_mode_pregnancy_name">怀孕模式</string>
-    <string name="wh_menstruation_advance_param">提前<xliff:g id="params1">%1$d</xliff:g>天</string>
-    <string name="wh_due_date_tips">预产期是哪天呢？</string>
-    <string name="wh_set_due_date">设置预产期</string>
-    <string name="wh_calculate_due_date">计算预产期</string>
-    <string name="wh_pregnancy_remind">怀孕期提醒</string>
-    <string name="wh_pregnancy_remind_select_tips">选择提醒方式</string>
-    <string name="wh_pregnancy_remind_type1">距离预产期天数</string>
-    <string name="wh_pregnancy_remind_type2">已怀孕天数</string>
-    <string name="wh_pregnancy_remind_info1">距离预产期还有<xliff:g id="params1">%1$d</xliff:g>天</string>
-    <string name="wh_pregnancy_remind_info2">已怀孕<xliff:g id="params1">%1$d</xliff:g>周<xliff:g id="params2">%2$d</xliff:g>天</string>
-    <string name="wh_goto_today">回今天</string>
-    <string name="wh_pregnancy_early">孕早期</string>
-    <string name="wh_pregnancy_mid">孕中期</string>
-    <string name="wh_pregnancy_later">孕晚期</string>
-    <string name="wh_menstruation_remind_next">距离月经期还有<xliff:g id="params1">%1$d</xliff:g>天</string>
-    <string name="wh_menstruation_remind_menstruation_days">月经期 第<xliff:g id="params1">%1$d</xliff:g>天</string>
-    <string name="wh_menstruation_remind_menstruation">月经期</string>
-    <string name="wh_menstruation_remind_safe">安全期</string>
-    <string name="wh_menstruation_remind_ovulation">排卵期</string>
-    <string name="wh_menstruation_remind_ovulation_day">排卵日</string>
-    <string name="wh_menstruation_rate">怀孕率<xliff:g id="params1">%1$d</xliff:g>%%</string>
-    <string name="wh_menstruation_start">月经开始</string>
-    <string name="wh_menstruation_end">月经结束</string>
-    <string name="wh_no_operation_past">过去日期，无法操作</string>
-    <string name="wh_no_operation_future">未来日期，无法操作</string>
-    <string name="wh_no_operation_start">经期开始，无法操作</string>
-    <string name="wh_home_page_title">女性健康 (<xliff:g id="params1">%1$s</xliff:g>)</string>
-    <string name="wh_set_calendar_title">选择要跳转的年月</string>
 
     <!--Exercise Goal-->
     <string name="exercise_goal">运动目标</string>
@@ -475,43 +339,6 @@
     <string name="unit_k_calories_param"><xliff:g id="params1">%1$s</xliff:g>千卡</string>
     <string name="unit_fahrenheit_param"><xliff:g id="params1">%1$s</xliff:g> ℉</string>
     <string name="unit_centigrade_param"><xliff:g id="params1">%1$s</xliff:g> ℃</string>
-
-    <!--Alarms-->
-    <string name="ds_alarm">手表闹钟</string>
-    <string name="ds_alarm_no_data">暂无闹钟</string>
-    <string name="ds_alarm_limit_count">最多只能添加5个闹钟</string>
-    <string name="ds_alarm_label">标签</string>
-    <string name="ds_alarm_am">上午</string>
-    <string name="ds_alarm_pm">下午</string>
-    <string name="ds_alarm_add">添加闹钟</string>
-    <string name="ds_alarm_edit">编辑闹钟</string>
-    <string name="ds_alarm_repeat_every_day">每天</string>
-    <string name="ds_alarm_repeat_never">永不</string>
-    <string name="ds_alarm_repeat_workdays">工作日</string>
-    <string name="ds_alarm_repeat_weekends">周末</string>
-    <string name="ds_alarm_repeat_00">周一</string>
-    <string name="ds_alarm_repeat_01">周二</string>
-    <string name="ds_alarm_repeat_02">周三</string>
-    <string name="ds_alarm_repeat_03">周四</string>
-    <string name="ds_alarm_repeat_04">周五</string>
-    <string name="ds_alarm_repeat_05">周六</string>
-    <string name="ds_alarm_repeat_06">周日</string>
-    <string name="ds_alarm_repeat_00_simple">周一</string>
-    <string name="ds_alarm_repeat_01_simple">周二</string>
-    <string name="ds_alarm_repeat_02_simple">周三</string>
-    <string name="ds_alarm_repeat_03_simple">周四</string>
-    <string name="ds_alarm_repeat_04_simple">周五</string>
-    <string name="ds_alarm_repeat_05_simple">周六</string>
-    <string name="ds_alarm_repeat_06_simple">周日</string>
-    <string name="ds_alarm_delete">删除闹钟</string>
-    <string name="ds_alarm_repeat">重复</string>
-    <string name="ds_alarm_label_default">闹钟</string>
-
-    <!--Contacts-->
-    <string name="ds_contacts">常用联系人</string>
-    <string name="ds_contacts_tips1">最多可添加10位常用联系人。</string>
-    <string name="ds_contacts_random">随机联系人</string>
-    <string name="ds_contacts_random_tips">生成随机联系人</string>
 
     <!--Notification-->
     <string name="notification_channel_core_name">核心</string>
@@ -647,23 +474,6 @@
     <string name="sport_ui_type_114">射击</string>
     <string name="sport_ui_type_115">马拉松</string>
 
-    <!--Device Settings:Game push-->
-    <string name="ds_game_push">游戏推送</string>
-    <string name="ds_game_center">游戏中心</string>
-    <string name="ds_game_mine">我的游戏</string>
-    <string name="ds_game_detail">游戏详情</string>
-    <string name="ds_download_count"><xliff:g id="params1">%1$s</xliff:g>次下载</string>
-    <string name="ds_game_style_select">风格选择</string>
-    <string name="ds_game_description">游戏攻略</string>
-    <string name="ds_game_number_limit">*最多只能安装8个游戏</string>
-    <string name="ds_game_skin_used">已使用</string>
-
-    <!--Device Settings:Game-->
-    <string name="ds_sensor_game">体感游戏</string>
-
-    <!--Device Settings:Custom Card-->
-    <string name="ds_custom_card">自定义卡片</string>
-
     <!--Device Settings:Third part app-->
     <string name="ds_notification_config">通知配置</string>
     <string name="ds_notification_telephony">电话</string>
@@ -681,24 +491,5 @@
     <string name="ds_notification_email">邮件</string>
     <string name="ds_notification_others">其他应用</string>
     <string name="ds_capture_notice_msg">第三方应用消息推送到手表设备,需要系统权限,是否立即开启?</string>
-
-    <!--Camera control-->
-
-
-    <!--Others Feature-->
-    <string name="ds_other_features">其他功能</string>
-
-
-    <!--alarm-->
-
-    <string name="remind_repeat_00">一</string>
-    <string name="remind_repeat_01">二</string>
-    <string name="remind_repeat_02">三</string>
-    <string name="remind_repeat_03">四</string>
-    <string name="remind_repeat_04">五</string>
-    <string name="remind_repeat_05">六</string>
-    <string name="remind_repeat_06">日</string>
-    <string name="alarm_week">提醒日期不能为空,日期可多选</string>
-    <string name="ds_message_push">消息推送</string>
 
 </resources>

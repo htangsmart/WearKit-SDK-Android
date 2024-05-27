@@ -7,7 +7,7 @@
     <!--用于监听短信电话时候根据号码查询联系人名称-->
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <!--CAMERA-->
     <uses-feature
@@ -78,13 +78,13 @@
 
         <activity android:name=".ui.alarm.AlarmActivity"/>
 
-        <activity android:name=".ui.basic.FindWatchActivity" />
+        <activity android:name=".ui.basic.FindWatchActivity"/>
 
-        <activity android:name=".ui.basic.FindPhoneActivity" />
+        <activity android:name=".ui.basic.FindPhoneActivity"/>
 
-        <activity android:name=".ui.camera.CameraActivity" />
+        <activity android:name=".ui.camera.CameraActivity"/>
 
-        <activity android:name=".ui.basic.WeatherActivity" />
+        <activity android:name=".ui.basic.WeatherActivity"/>
 
         <activity android:name=".ui.notification.NotificationActivity"/>
 

@@ -28,6 +28,18 @@
     <string name="ds_find_phone_replay">Replay found phone</string>
     <string name="ds_display_weather">Display Weather</string>
     <string name="ds_camera_control">Camera Control</string>
+    <string name="ds_message_push">Message Push</string>
+
+    <!--Alarms-->
+    <string name="ds_alarm">Alarms</string>
+    <string name="remind_repeat_00">一</string>
+    <string name="remind_repeat_01">二</string>
+    <string name="remind_repeat_02">三</string>
+    <string name="remind_repeat_03">四</string>
+    <string name="remind_repeat_04">五</string>
+    <string name="remind_repeat_05">六</string>
+    <string name="remind_repeat_06">日</string>
+    <string name="ds_alarm_add_limit">You can add up to %d alarms.</string>
 
     <!--Contacts-->
     <string name="ds_contacts_common">Common contacts </string>
@@ -36,29 +48,7 @@
     <string name="ds_contacts_add_limit">You can add up to %d frequently used contacts.</string>
     <string name="ds_contacts_emergency_switch">Emergency switch status</string>
 
-    <!--Account-->
-    <string name="account_sign_in">Sign In</string>
-    <string name="account_input_username_hint">Input username</string>
-    <string name="account_input_password_hint">Input password</string>
-    <string name="account_no">No account?</string>
-    <string name="account_sign_up">Sign Up</string>
-    <string name="account_input_height_hint">Input height(cm),such as \"175\"</string>
-    <string name="account_input_weight_hint">Input weight(kg),such as \"60\"</string>
-    <string name="account_sex_male">Male</string>
-    <string name="account_sex_female">Female</string>
-    <string name="account_height_error">Please enter a reasonable height</string>
-    <string name="account_weight_error">Please enter a reasonable weight</string>
-    <string name="account_input_age_hint">Input age,such as \"20\"</string>
-    <string name="account_age_error">Please enter a reasonable age</string>
-    <string name="account_sign_up_success">Sign up success</string>
-    <string name="account_sign_out">Sign out</string>
-    <string name="account_sign_out_ing">Sign out…</string>
-    <string name="account_edit_user_info">Edit User Info</string>
-
     <!--Error-->
-    <string name="error_user_exist">User already exist</string>
-    <string name="error_user_not_exist">User not exist</string>
-    <string name="error_password_incorrect">Password incorrect</string>
     <string name="error_device_un_support">Device UnSupport this feature</string>
 
     <!--Action-->
@@ -198,22 +188,6 @@
     <string name="ds_config_end_time">End Time</string>
     <string name="ds_config_interval_time">Interval Time</string>
 
-    <string name="ds_page_config">Page Config</string>
-    <string-array name="ds_page_names">
-        <item>Time</item>
-        <item>Steps</item>
-        <item>Distance</item>
-        <item>Calories</item>
-        <item>Sleep</item>
-        <item>Heart rate</item>
-        <item>Oxygen</item>
-        <item>Blood pressure</item>
-        <item>Weather</item>
-        <item>Find Phone</item>
-        <item>ID</item>
-        <item>StopWatch</item>
-    </string-array>
-
     <string name="ds_function_config">Function Config</string>
     <string name="ds_wear_right_hand">Right Hand Wearing</string>
     <string name="ds_enhanced_measurement">Enhanced Measurement</string>
@@ -271,58 +245,8 @@
     <string name="ds_screen_long_time_bright_duration">Duration</string>
     <string name="ds_screen_always_bright">Keep the screen on</string>
 
-    <!--QR Codes-->
-    <string name="ds_qr_codes">QR Codes</string>
-    <string name="ds_qr_codes_tips">This function uses a mock QR code data. In practical applications, developers need to parse the QR code into a string themselves.</string>
-    <string name="ds_collection_code">Collection Code</string>
-    <string name="ds_collection_code_wechat">WeChat</string>
-    <string name="ds_collection_code_alipay">AliPay</string>
-    <string name="ds_collection_code_paypal">PayPal</string>
-    <string name="ds_business_card">Business Card</string>
-    <string name="ds_business_card_facebook">Facebook</string>
-    <string name="ds_business_card_whatsapp">WhatsApp</string>
-    <string name="ds_business_card_twitter">Twitter</string>
-    <string name="ds_nucleic_acid_code">Nucleic Acid Code</string>
-    <string name="ds_qr_code_extension_1">Custom Qr Codes</string>
-    <string name="ds_qr_code_cult_sign_in">Cult SignIn</string>
-    <string name="ds_qr_code_multi_media">Multi Media</string>
-
     <!--Power save mode-->
     <string name="ds_power_save_mode">Power Save Mode</string>
-
-    <!--GPS Hot start-->
-    <string name="gps_hot_start_settings">Gps Hot Start Settings</string>
-    <string name="gps_hot_start_auto_update">Auto update device GPS file</string>
-    <string name="gps_hot_start_des">Used to improve the accuracy of watch GPS position</string>
-    <string name="gps_hot_start_test">Test</string>
-    <string name="gps_hot_start_test_immediately">Update immediately</string>
-    <string name="gps_hot_start_test_delay_1_minute">Delay update by 1 minute</string>
-    <string name="gps_hot_start_test_delay_3_minute">Delay update by 3 minute</string>
-    <string name="gps_hot_start_test_delay_10_minute">Delay update by 10 minute</string>
-    <string name="gps_hot_start_test_des">The delay time is only approximate and not precise</string>
-    <string name="gps_hot_start_updating">GPS file update in progress</string>
-    <string name="gps_hot_start_device_time">Watch EPO effective time</string>
-    <string name="gps_hot_start_last_time">Last EPO update time</string>
-    <string name="gps_hot_start_clear">0->Not expired, Clear</string>
-    <string name="gps_hot_start_overwrite">1->Expired</string>
-
-    <!--Cricket-->
-    <string name="cricket_match">Cricket Match</string>
-    <string name="cricket_match_id">Match ID:</string>
-    <string name="cricket_match_name">Match Name:</string>
-    <string name="cricket_match_time">Match Time:</string>
-    <string name="cricket_team_1_id">Team 1 ID:</string>
-    <string name="cricket_team_2_id">Team 2 ID:</string>
-    <string name="cricket_team_1_data">Team 1 Data(runs,wickets,overs,balls):</string>
-    <string name="cricket_team_2_data">Team 2 Data(runs,wickets,overs,balls):</string>
-    <string name="cricket_batsman_1_data">Batsman 1 Data(runs,balls):</string>
-    <string name="cricket_batsman_2_data">Batsman 2 Data(runs,balls):</string>
-    <string name="cricket_name">Name:</string>
-    <string name="cricket_bowler_data">Bowler Data:(runs,wickets,overs,balls)</string>
-    <string name="cricket_first_inning">First inning</string>
-    <string name="cricket_second_inning">Second inning</string>
-    <string name="cricket_crr">CRR</string>
-    <string name="cricket_rrr">RRR</string>
 
     <!--Version-->
     <string name="version_upgrade_param">Upgrade(<xliff:g id="param">%1$s</xliff:g>)</string>
@@ -349,14 +273,6 @@
     <string name="ds_dfu_error_low_battery">Low battery</string>
     <string name="ds_dfu_error_device_not_found">No device found</string>
     <string name="ds_dfu_tips_location_service">Location Services is disabled, and upgrade/push operations may fail</string>
-
-    <!--Modify Logo-->
-    <string name="ds_modify_logo">Modify Boot/Shutdown Logo</string>
-    <string name="ds_modify_logo_boot">Boot</string>
-    <string name="ds_modify_logo_shutdown">Shutdown</string>
-    <string name="ds_modify_logo_gif_tips1">1.If the boot logo is the same as the shutdown logo, just set any one. Do not repeat settings</string>
-    <string name="ds_modify_logo_gif_tips2">2.A GIF image that is too large may cause failure</string>
-    <string name="ds_modify_logo_gif_tips3">3.Watch screen size is <xliff:g id="param">%1$s</xliff:g>. If the selected GIF image\'s size is different, it may be deformed</string>
 
     <!--Get Photo-->
     <string name="action_take_photo">Take Pictures</string>
@@ -388,58 +304,6 @@
     <string name="ds_dial_position_left">Left</string>
     <string name="ds_dial_position_right">Right</string>
     <string name="ds_dial_component_edit">Edit Component</string>
-
-    <!--WomenHealth-->
-    <string name="wh_women_health">Women\'s Health</string>
-    <string name="wh_settings">Women\'s Health Settings</string>
-    <string name="wh_mode_menstruation">Menstrual Period</string>
-    <string name="wh_mode_pregnancy_prepare">Preparation of Pregnancy</string>
-    <string name="wh_mode_pregnancy">Pregnancy Period</string>
-    <string name="wh_menstruation_days_info">Period <xliff:g id="params1">%1$d</xliff:g> days, menstrual period <xliff:g id="params2">%2$d</xliff:g> days</string>
-    <string name="wh_menstruation_due_date_info">Due date <xliff:g id="params1">%1$s</xliff:g></string>
-    <string name="wh_due_date">Due date</string>
-    <string name="wh_menstruation_settings">Period Setting</string>
-    <string name="wh_pregnancy_prepare_settings">Preparation of Pregnancy Setting　</string>
-    <string name="wh_pregnancy_settings">Pregnancy Setting</string>
-    <string name="wh_menstruation_duration_tips">How many days does your menstruation last?</string>
-    <string name="wh_menstruation_duration">Menstrual Length</string>
-    <string name="wh_menstruation_cycle_tips">How many days between the two menstrual start days</string>
-    <string name="wh_menstruation_cycle">Cycle Length</string>
-    <string name="wh_menstruation_latest">Most Recent Menstruation</string>
-    <string name="wh_menstruation_advance">Menstruation Start Reminder</string>
-    <string name="wh_device_remind">Device Reminder</string>
-    <string name="wh_remind_time">Reminder time</string>
-    <string name="wh_mode_menstruation_name">Menstrual Pattern</string>
-    <string name="wh_mode_pregnancy_prepare_name">Pregnancy Mode</string>
-    <string name="wh_mode_pregnancy_name">Pregnancy Pattern</string>
-    <string name="wh_menstruation_advance_param"><xliff:g id="params1">%1$d</xliff:g> days in advance</string>
-    <string name="wh_due_date_tips">What is the expected date of delivery?</string>
-    <string name="wh_set_due_date">Set Due Date</string>
-    <string name="wh_calculate_due_date">Calculate Due Date</string>
-    <string name="wh_pregnancy_remind">Pregnancy Reminder</string>
-    <string name="wh_pregnancy_remind_select_tips">Choose Reminder</string>
-    <string name="wh_pregnancy_remind_type1">Days from due date</string>
-    <string name="wh_pregnancy_remind_type2">Days of pregnancy</string>
-    <string name="wh_pregnancy_remind_info1"><xliff:g id="params1">%1$d</xliff:g> days before the due date</string>
-    <string name="wh_pregnancy_remind_info2">Pregnant <xliff:g id="params1">%1$d</xliff:g> week <xliff:g id="params2">%2$d</xliff:g> days</string>
-    <string name="wh_goto_today">Back to today</string>
-    <string name="wh_pregnancy_early">Early Pregnancy</string>
-    <string name="wh_pregnancy_mid">Second Trimester</string>
-    <string name="wh_pregnancy_later">Third Trimester</string>
-    <string name="wh_menstruation_remind_next"><xliff:g id="params1">%1$d</xliff:g> days before the menstrual period</string>
-    <string name="wh_menstruation_remind_menstruation_days">Menstrual period Day <xliff:g id="params1">%1$d</xliff:g></string>
-    <string name="wh_menstruation_remind_menstruation">Menstrual period</string>
-    <string name="wh_menstruation_remind_safe">Security Period</string>
-    <string name="wh_menstruation_remind_ovulation">Ovulation Period</string>
-    <string name="wh_menstruation_remind_ovulation_day">Ovulation Day</string>
-    <string name="wh_menstruation_rate">Pregnancy rate<xliff:g id="params1">%1$d</xliff:g>%%</string>
-    <string name="wh_menstruation_start">Start of menstruation</string>
-    <string name="wh_menstruation_end">End of menstruation　</string>
-    <string name="wh_no_operation_past">Past date, inoperable</string>
-    <string name="wh_no_operation_future">Future date, unable to operate</string>
-    <string name="wh_no_operation_start">Start of menstruation, unable to operate</string>
-    <string name="wh_home_page_title">Women\'s Health (<xliff:g id="params1">%1$s</xliff:g>)</string>
-    <string name="wh_set_calendar_title">Select the year and month to jump</string>
 
     <!--Exercise Goal-->
     <string name="exercise_goal">Exercise Goal</string>
@@ -475,43 +339,6 @@
     <string name="unit_k_calories_param"><xliff:g id="params1">%1$s</xliff:g> kCal</string>
     <string name="unit_fahrenheit_param"><xliff:g id="params1">%1$s</xliff:g> ℉</string>
     <string name="unit_centigrade_param"><xliff:g id="params1">%1$s</xliff:g> ℃</string>
-
-    <!--Alarms-->
-    <string name="ds_alarm">Alarms</string>
-    <string name="ds_alarm_no_data">No alarm clock</string>
-    <string name="ds_alarm_limit_count">Can only add 5 alarm clocks</string>
-    <string name="ds_alarm_label">Label</string>
-    <string name="ds_alarm_am">A.M</string>
-    <string name="ds_alarm_pm">P.M</string>
-    <string name="ds_alarm_add">Add Alarm Clock</string>
-    <string name="ds_alarm_edit">Edit Alarm Clock</string>
-    <string name="ds_alarm_repeat_every_day">Everyday</string>
-    <string name="ds_alarm_repeat_never">Once</string>
-    <string name="ds_alarm_repeat_workdays">Weekday</string>
-    <string name="ds_alarm_repeat_weekends">Weekend</string>
-    <string name="ds_alarm_repeat_00">Monday</string>
-    <string name="ds_alarm_repeat_01">Tuesday</string>
-    <string name="ds_alarm_repeat_02">Wednesday</string>
-    <string name="ds_alarm_repeat_03">Thursday</string>
-    <string name="ds_alarm_repeat_04">Friday</string>
-    <string name="ds_alarm_repeat_05">Saturday</string>
-    <string name="ds_alarm_repeat_06">Sunday</string>
-    <string name="ds_alarm_repeat_00_simple">Mon</string>
-    <string name="ds_alarm_repeat_01_simple">Tue</string>
-    <string name="ds_alarm_repeat_02_simple">Wed</string>
-    <string name="ds_alarm_repeat_03_simple">Thu</string>
-    <string name="ds_alarm_repeat_04_simple">Fri</string>
-    <string name="ds_alarm_repeat_05_simple">Sat</string>
-    <string name="ds_alarm_repeat_06_simple">Sun</string>
-    <string name="ds_alarm_delete">Delete</string>
-    <string name="ds_alarm_repeat">Repeat</string>
-    <string name="ds_alarm_label_default">Alarm</string>
-
-    <!--Contacts-->
-    <string name="ds_contacts">Frequent Contacts</string>
-    <string name="ds_contacts_tips1">Up to 10 favorite contacts can be added.</string>
-    <string name="ds_contacts_random">Random Contacts</string>
-    <string name="ds_contacts_random_tips">Generate random contacts</string>
 
     <!--Notification-->
     <string name="notification_channel_core_name">Core</string>
@@ -647,23 +474,6 @@
     <string name="sport_ui_type_114">Shooting</string>
     <string name="sport_ui_type_115">Marathon</string>
 
-    <!--Device Settings:Game push-->
-    <string name="ds_game_push">Game Push</string>
-    <string name="ds_game_center">Game centre</string>
-    <string name="ds_game_mine">My Game</string>
-    <string name="ds_game_detail">Game Details</string>
-    <string name="ds_download_count"><xliff:g id="params1">%1$s</xliff:g> downloads</string>
-    <string name="ds_game_style_select">The choice of style</string>
-    <string name="ds_game_description">Gaming strategy</string>
-    <string name="ds_game_number_limit">*Only up to 8 games can be installed</string>
-    <string name="ds_game_skin_used">Used</string>
-
-    <!--Device Settings:Game-->
-    <string name="ds_sensor_game">Motion Sensing Game</string>
-
-    <!--Device Settings:Custom Card-->
-    <string name="ds_custom_card">Custom Card</string>
-
     <!--Device Settings:Third part app-->
     <string name="ds_notification_config">Notification Config</string>
     <string name="ds_notification_telephony">Telephony</string>
@@ -681,20 +491,5 @@
     <string name="ds_notification_email">Email</string>
     <string name="ds_notification_others">Others App</string>
     <string name="ds_capture_notice_msg">Pushing third-party application messages to the watch requires granting system permissions. Whether to open immediately?</string>
-
-    <!--Others Feature-->
-    <string name="ds_other_features">Other Features</string>
-
-    <!--alarm-->
-    <string name="remind_repeat_00">一</string>
-    <string name="remind_repeat_01">二</string>
-    <string name="remind_repeat_02">三</string>
-    <string name="remind_repeat_03">四</string>
-    <string name="remind_repeat_04">五</string>
-    <string name="remind_repeat_05">六</string>
-    <string name="remind_repeat_06">日</string>
-    <string name="alarm_week">Reminder date cannot be empty, multiple dates can be selected</string>
-    <string name="ds_message_push">message push</string>
-
 
 </resources>
