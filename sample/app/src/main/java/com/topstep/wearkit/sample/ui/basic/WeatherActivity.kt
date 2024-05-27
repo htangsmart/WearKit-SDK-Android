@@ -26,6 +26,7 @@ class WeatherActivity : BaseActivity() {
         setContentView(viewBind.root)
         supportActionBar?.setTitle(R.string.ds_display_weather)
 
+        viewBind.switchWeather.isChecked = wearKit.functionAbility.getConfig().isFlagEnabled(WKFunctionConfig.Flag.WEATHER)
         viewBind.switchWeather.setOnCheckedChangeListener { buttonView, isChecked ->
             if (buttonView.isPressed) {
                 setWeather(isChecked)
@@ -35,11 +36,11 @@ class WeatherActivity : BaseActivity() {
 
     @SuppressLint("CheckResult")
     private fun setWeather(checked: Boolean) {
+        val config = wearKit.functionAbility.getConfig().toBuilder()
+            .setFlagEnabled(WKFunctionConfig.Flag.WEATHER, checked).create()
+
         // Please refer to WKWeatherCode for weather conditions
         if (checked) {
-            val config = wearKit.functionAbility.getConfig().toBuilder()
-                .setFlagEnabled(WKFunctionConfig.Flag.WEATHER, true).create()
-
             //Mock today weather
             val weatherToday = WKWeatherToday(
                 timestampSeconds = System.currentTimeMillis() / 1000,
@@ -79,13 +80,16 @@ class WeatherActivity : BaseActivity() {
                     )
                 )
             }
-
-            wearKit.weatherAbility.setWeather(
-                city = "ShenZhen",
-                today = weatherToday,
-                futureDays = dayList,
-                futureHours = hoursList
-            ).andThen(wearKit.functionAbility.setConfig(config))
+            //Ensure the weather config is enabled
+            wearKit.functionAbility.setConfig(config)
+                .andThen(
+                    wearKit.weatherAbility.setWeather(
+                        city = "ShenZhen",
+                        today = weatherToday,
+                        futureDays = dayList,
+                        futureHours = hoursList
+                    )
+                )
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     toast(R.string.tip_success)
@@ -95,9 +99,6 @@ class WeatherActivity : BaseActivity() {
                 })
 
         } else {
-            val config = wearKit.functionAbility.getConfig().toBuilder()
-                .setFlagEnabled(WKFunctionConfig.Flag.WEATHER, false).create()
-
             wearKit.functionAbility.setConfig(config)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
