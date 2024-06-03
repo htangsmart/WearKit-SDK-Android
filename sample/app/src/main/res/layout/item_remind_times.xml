@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.github.kilnn.tool.widget.card.CardRelativeLayout
+        android:id="@+id/remind_time_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        app:cardBackgroundColor="?colorSurface"
+        app:cardCornerRadius="16dp"
+        app:cardSimple="true">
+
+        <ImageView
+            android:id="@+id/remind_time_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:src="@drawable/remind_delete_iv"/>
+
+
+        <TextView
+            android:id="@+id/remind_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:layout_toRightOf="@id/remind_time_delete"
+            android:text=""
+            android:textAppearance="?textAppearanceSubtitle1"/>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="15dp"/>
+    </com.github.kilnn.tool.widget.card.CardRelativeLayout>
+</LinearLayout>

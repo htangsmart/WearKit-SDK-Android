@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ececec">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_commit">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical">
+            <!--自定义标题 Custom Title-->
+            <com.github.kilnn.tool.widget.card.CardLinearLayout
+                android:id="@+id/remind_con_custom_ll"
+                style="@style/Widget.FitCloudPro.PreferenceCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:background="@null"
+                    android:hint="name"
+                    android:minHeight="50dp"/>
+            </com.github.kilnn.tool.widget.card.CardLinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/remind_repetition_period"
+                android:textAppearance="?textAppearanceSubtitle1"/>
+            <!--提醒的星期几 remind week-->
+            <com.github.kilnn.tool.widget.card.CardLinearLayout
+                style="@style/Widget.FitCloudPro.PreferenceCategory"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:showDividers="none">
+
+                <TextView
+                    android:id="@+id/remind_monday"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="@string/remind_repeat_00"
+                    android:textAppearance="?textAppearanceSubtitle1"/>
+
+                <TextView
+                    android:id="@+id/remind_tuesday"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="@string/remind_repeat_01"
+                    android:textAppearance="?textAppearanceSubtitle1"/>
+
+                <TextView
+                    android:id="@+id/remind_wednesday"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="@string/remind_repeat_02"
+                    android:textAppearance="?textAppearanceSubtitle1"/>
+
+                <TextView
+                    android:id="@+id/remind_thursday"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="@string/remind_repeat_03"
+                    android:textAppearance="?textAppearanceSubtitle1"/>
+
+                <TextView
+                    android:id="@+id/remind_friday"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="@string/remind_repeat_04"
+                    android:textAppearance="?textAppearanceSubtitle1"/>
+
+                <TextView
+                    android:id="@+id/remind_saturday"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="@string/remind_repeat_05"
+                    android:textAppearance="?textAppearanceSubtitle1"/>
+
+                <TextView
+                    android:id="@+id/remind_sunday"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="@string/remind_repeat_06"
+                    android:textAppearance="?textAppearanceSubtitle1"/>
+
+
+            </com.github.kilnn.tool.widget.card.CardLinearLayout>
+
+            <TextView
+                android:id="@+id/remind_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/remind_monitor"
+                android:textAppearance="?textAppearanceSubtitle1"/>
+
+            <com.github.kilnn.tool.widget.card.CardLinearLayout
+                android:id="@+id/remind_frequency_ll"
+                style="@style/Widget.FitCloudPro.PreferenceCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/remind_fixed_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/remind_fixed_time"
+                    android:textAppearance="?textAppearanceSubtitle1"/>
+
+                <TextView
+                    android:id="@+id/remind_fixed_interval"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp"
+                    android:text="@string/remind_fixed_interval"
+                    android:textAppearance="?textAppearanceSubtitle1"/>
+
+
+            </com.github.kilnn.tool.widget.card.CardLinearLayout>
+
+            <TextView
+                android:id="@+id/remind_type2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/remind_monitor"
+                android:textAppearance="?textAppearanceSubtitle1"/>
+            <!--固定间隔 Fixed interval-->
+            <com.github.kilnn.tool.widget.card.CardLinearLayout
+                android:id="@+id/remind_interval_ll"
+                style="@style/Widget.FitCloudPro.PreferenceCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="visible">
+
+                <com.github.kilnn.tool.widget.item.PreferenceItem
+                    android:id="@+id/item_start"
+                    style="@style/Widget.FitCloudPro.PreferenceItem.Text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:preferenceTitle="@string/ds_config_start_time"/>
+
+                <com.github.kilnn.tool.widget.item.PreferenceItem
+                    android:id="@+id/item_end"
+                    style="@style/Widget.FitCloudPro.PreferenceItem.Text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:preferenceTitle="@string/ds_config_end_time"/>
+
+            </com.github.kilnn.tool.widget.card.CardLinearLayout>
+
+            <TextView
+                android:id="@+id/remind_type3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/ds_reminder_settings"
+                android:textAppearance="?textAppearanceSubtitle1"/>
+
+            <com.github.kilnn.tool.widget.card.CardRelativeLayout
+                android:id="@+id/remind_number"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/remind_re"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                app:cardBackgroundColor="?colorSurface"
+                app:cardCornerRadius="16dp"
+                app:cardSimple="true">
+
+                <com.github.kilnn.tool.widget.item.PreferenceItem
+                    android:id="@+id/item_number"
+                    style="@style/Widget.FitCloudPro.PreferenceItem.Text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:preferenceTitle="@string/remind_interval_time"/>
+            </com.github.kilnn.tool.widget.card.CardRelativeLayout>
+
+
+            <!--选取时间 Select time-->
+            <RelativeLayout
+                android:id="@+id/remind_times_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/remind_time_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/remind_select_time"
+                    android:textAppearance="?textAppearanceSubtitle1"/>
+
+                <TextView
+                    android:id="@+id/remind_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/action_add"
+                    android:textAppearance="?textAppearanceSubtitle1"
+                    android:textColor="#3FCCE2"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/remind_re"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/remind_time_tv"
+                    android:layout_marginTop="10dp"/>
+
+                <com.github.kilnn.tool.widget.card.CardRelativeLayout
+                    android:id="@+id/remind_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_below="@+id/remind_re"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    app:cardBackgroundColor="?colorSurface"
+                    app:cardCornerRadius="16dp"
+                    app:cardSimple="true">
+
+                    <ImageView
+                        android:id="@+id/remind_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/remind_add_time"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_toRightOf="@id/remind_iv"
+                        android:text="@string/remind_add_time"
+                        android:textColor="#3FCCE2"/>
+
+                </com.github.kilnn.tool.widget.card.CardRelativeLayout>
+            </RelativeLayout>
+            <!--午休免打扰 No disturbance during lunch break-->
+            <com.github.kilnn.tool.widget.card.CardRelativeLayout
+                android:id="@+id/remind_not_disturb"
+                style="@style/Widget.FitCloudPro.PreferenceCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/remind_con_disturb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/ds_sedentary_no_disturb"
+                    android:textAppearance="?textAppearanceSubtitle1"/>
+
+                <TextView
+                    android:id="@+id/remind_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/remind_con_disturb"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/remind_disturb_des"
+                    android:textAppearance="?textAppearanceSubtitle1"
+                    android:textSize="15sp"/>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/remind_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    android:visibility="visible"/>
+
+            </com.github.kilnn.tool.widget.card.CardRelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/remind_remarks"
+                android:textAppearance="?textAppearanceSubtitle1"/>
+
+            <LinearLayout
+                style="@style/Widget.FitCloudPro.ContentPadding"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/shape_round_card_bg"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/edit_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:background="@null"
+                    android:gravity="start|top"
+                    android:hint="@string/remind_input"
+                    android:inputType="text"
+                    android:maxLength="50"
+                    android:scrollbars="vertical"
+                    android:textAppearance="?textAppearanceBodyMedium"
+                    android:textSize="18dp"
+                    android:windowSoftInputMode="adjustResize"
+                    tools:text=""/>
+
+                <TextView
+                    android:id="@+id/tv_content_limit_tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="8dp"
+                    android:text="0/50"
+                    android:textAppearance="?textAppearanceLabelMedium"
+                    android:textSize="12dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_commit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/action_add"/>
+
+</RelativeLayout>

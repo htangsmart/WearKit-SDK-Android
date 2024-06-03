@@ -95,4 +95,52 @@
         <item name="android:paddingBottom">12dp</item>
     </style>
 
+    <style name="Widget.FitCloudPro.PreferenceCategory" parent="android:Widget">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:divider">?dividerVertical</item>
+        <item name="android:showDividers">middle</item>
+        <item name="cardSimple">true</item>
+        <item name="cardBackgroundColor">?colorSurface</item>
+        <item name="cardCornerRadius">16dp</item>
+    </style>
+
+    <style name="Widget.FitCloudPro.ContentPadding.Horizontal" parent="android:Widget">
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingStart">16dp</item>
+    </style>
+
+    <style name="Widget.FitCloudPro.PreferenceBase" parent="Widget.FitCloudPro.ContentPadding.Horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:minHeight">56dp</item>
+    </style>
+
+    <style name="Widget.FitCloudPro.PreferenceItem" parent="Widget.FitCloudPro.PreferenceBase">
+        <item name="preferenceTitleAppearance">?textAppearanceBodyLarge</item>
+        <item name="preferenceTitleColor">?android:textColorPrimary</item>
+        <item name="preferenceType">type_none</item>
+        <item name="preferenceTitleDrawablePadding">8dp</item>
+        <item name="showPreferenceSummary">false</item>
+        <item name="preferenceIndicator">@drawable/ic_section_arrow_next</item>
+        <item name="showPreferenceIndicator">true</item>
+    </style>
+
+    <style name="Widget.FitCloudPro.PreferenceItem.Text">
+        <item name="preferenceType">type_text</item>
+        <item name="preferenceTextAppearance">?textAppearanceBodyMedium</item>
+        <item name="preferenceTextColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="Widget.FitCloudPro.ContentPadding" parent="android:Widget">
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
 </resources>

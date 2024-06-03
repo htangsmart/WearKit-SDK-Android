@@ -94,6 +94,12 @@
             android:layout_height="wrap_content"
             android:text="@string/ds_message_push"/>
 
+        <Button
+            android:id="@+id/btn_remind"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ds_remind"/>
+
     </LinearLayout>
 
 </ScrollView>

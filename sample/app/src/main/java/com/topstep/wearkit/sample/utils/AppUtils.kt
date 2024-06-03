@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import com.github.kilnn.wheellayout.WheelIntFormatter
 import com.topstep.wearkit.base.utils.WeekRepeatFlag
+import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import java.util.Locale
 
@@ -50,6 +51,10 @@ object AppUtils {
             @Suppress("DEPRECATION")
             context.resources.configuration.locale
         }
+    }
+
+    fun minute2Duration(minute: Int): String {
+        return String.format(getSystemLocale(MyApplication.instance), "%02d:%02d", minute / 60, minute % 60)
     }
 
 }

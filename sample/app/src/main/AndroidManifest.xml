@@ -88,6 +88,10 @@
 
         <activity android:name=".ui.notification.NotificationActivity"/>
 
+        <activity android:name=".ui.remind.RemindActivity"/>
+
+        <activity android:name=".ui.remind.RemindContentActivity"/>
+
         <service
             android:name=".ui.notification.MyNotificationListenerService"
             android:exported="true"

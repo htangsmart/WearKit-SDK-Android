@@ -491,5 +491,29 @@
     <string name="ds_notification_email">Email</string>
     <string name="ds_notification_others">Others App</string>
     <string name="ds_capture_notice_msg">Pushing third-party application messages to the watch requires granting system permissions. Whether to open immediately?</string>
+   <!--remind-->
+    <string name="ds_remind">remind</string>
+    <string name="ds_remind_sedentary">sedentary remind</string>
+    <string name="ds_remind_drinkWater">drinkWater remind</string>
+    <string name="ds_remind_take_medicine">take medicine remind</string>
+    <string name="remind_repetition_period">recurrence period</string>
+    <string name="remind_monitor">monitoring time</string>
+    <string name="remind_fixed_time">fixed time</string>
+    <string name="remind_fixed_interval">fixed interval</string>
+    <string name="ds_reminder_settings">Reminder settings</string>
+    <string name="remind_interval_time">Reminder interval time</string>
+    <string name="remind_select_time">Select time</string>
+    <string name="remind_add_time">add time</string>
+    <string name="ds_sedentary_no_disturb">No Interruptions for Lunch</string>
+    <string name="remind_disturb_des">12:00&#8211;14:00 Do not remind</string>
+    <string name="remind_remarks">Reminder remarks</string>
+    <string name="remind_input">Please enter</string>
+    <string name="remind_Sedentary_time">Sedentary duration</string>
+    <string name="sedentary_setting">sedentary setting</string>
+    <string name="remind_way">Reminder method</string>
+    <string name="remind_start">Start reminder time</string>
+    <string name="remind_end">End reminder time</string>
+    <string name="ds_remind_add_limit">You can add up to %d remind.</string>
+    <string name="remind_custom_name">Please add a custom name</string>
 
 </resources>
