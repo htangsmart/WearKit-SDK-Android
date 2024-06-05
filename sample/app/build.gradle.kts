@@ -30,7 +30,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("boolean", "isSupportFitCloud", "true")
         buildConfigField("boolean", "isSupportFlyWear", "true")
-        buildConfigField("boolean", "isSupportShenJu", "false")
+        buildConfigField("boolean", "isSupportShenJu", "true")
 
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
@@ -69,13 +69,23 @@ android {
 
 dependencies {
     //WearKit Required
-    val weakitVersion = "3.0.1-SNAPSHOT"
-    val weakitChanging = weakitVersion.contains("SNAPSHOT")
-    implementation("com.topstep.wearkit:sdk-core:$weakitVersion") { isChanging = weakitChanging }
-    implementation("com.topstep.wearkit:sdk-flywear-adapter:$weakitVersion") { isChanging = weakitChanging }
-    implementation("com.topstep.wearkit:sdk-fitcloud-adapter:$weakitVersion") { isChanging = weakitChanging }
-    implementation("com.topstep.wearkit:sdk-shenju-adapter:$weakitVersion") { isChanging = weakitChanging }
-    implementation("com.topstep.wearkit:sdk-helper:$weakitVersion") { isChanging = weakitChanging }
+    if (isDeveloperEnvironment()) {
+        //For developer environment, use remote dependencies
+        val weakitVersion = "3.0.1-SNAPSHOT"
+        val weakitChanging = weakitVersion.contains("SNAPSHOT")
+        implementation("com.topstep.wearkit:sdk-core:$weakitVersion") { isChanging = weakitChanging }
+        implementation("com.topstep.wearkit:sdk-flywear-adapter:$weakitVersion") { isChanging = weakitChanging }
+        implementation("com.topstep.wearkit:sdk-fitcloud-adapter:$weakitVersion") { isChanging = weakitChanging }
+        implementation("com.topstep.wearkit:sdk-shenju-adapter:$weakitVersion") { isChanging = weakitChanging }
+        implementation("com.topstep.wearkit:sdk-helper:$weakitVersion") { isChanging = weakitChanging }
+    } else {
+        //For author environment, use local project
+        implementation(project(":sdk-core"))
+        implementation(project(":sdk-flywear-adapter"))
+        implementation(project(":sdk-fitcloud-adapter"))
+        implementation(project(":sdk-shenju-adapter"))
+        implementation(project(":sdk-helper"))
+    }
     implementation(libs.timber)
     implementation(libs.rxjava)
     implementation(libs.rxandroid)
@@ -136,4 +146,8 @@ dependencies {
     implementation(libs.androidx.window)
 
     implementation(libs.kilnn.wheelview)
+}
+
+fun isDeveloperEnvironment(): Boolean {
+    return !project.projectDir.path.toString().contains("android-sdk-wearkit")
 }
