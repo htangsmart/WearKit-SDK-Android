@@ -12,7 +12,6 @@ import com.topstep.wearkit.sample.databinding.ActivityMusicBinding
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
@@ -102,14 +101,13 @@ class MusicActivity : BaseActivity() {
 
     private fun scanPhoneMusic() {
         // scan phone music
-        Single.create {
-            it.onSuccess(AudioUtils.getLocalAudioFiles(this))
-        }.subscribeOn(Schedulers.io())
+        AudioUtils.getLocalAudioFiles(this)
             .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
             .subscribe({
                 adapter.addMusic(it)
             }, {
-                Timber.w(it)
+                Timber.i(it)
             })
     }
 
