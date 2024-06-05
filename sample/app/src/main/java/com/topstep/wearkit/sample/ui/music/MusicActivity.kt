@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.blankj.utilcode.util.ThreadUtils
 import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.topstep.wearkit.apis.model.file.toWKFileInfo
 import com.topstep.wearkit.sample.MyApplication
@@ -102,24 +101,14 @@ class MusicActivity : BaseActivity() {
 
     private fun scanPhoneMusic() {
         // scan phone music
-        ThreadUtils.executeByIo<List<MusicBean>>(object : ThreadUtils.Task<List<MusicBean>?>() {
-
-            override fun doInBackground(): ArrayList<MusicBean>? {
-                return AudioUtils.getLocalAudioFiles(this@MusicActivity)
-            }
-
-            override fun onSuccess(result: List<MusicBean>?) {
-                adapter.addMusic(result)
-            }
-
-            override fun onCancel() {
-            }
-
-            override fun onFail(t: Throwable) {
-
-            }
-        })
-
+        AudioUtils.getLocalAudioFiles(this)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                adapter.addMusic(it)
+            }, {
+                Timber.i(it)
+            })
     }
 
     private fun requestWatchMusic() {
