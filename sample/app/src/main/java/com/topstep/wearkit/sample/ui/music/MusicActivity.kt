@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.blankj.utilcode.util.ThreadUtils
 import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.topstep.wearkit.apis.model.file.toWKFileInfo
 import com.topstep.wearkit.sample.MyApplication
@@ -13,6 +12,7 @@ import com.topstep.wearkit.sample.databinding.ActivityMusicBinding
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
@@ -102,24 +102,15 @@ class MusicActivity : BaseActivity() {
 
     private fun scanPhoneMusic() {
         // scan phone music
-        ThreadUtils.executeByIo<List<MusicBean>>(object : ThreadUtils.Task<List<MusicBean>?>() {
-
-            override fun doInBackground(): ArrayList<MusicBean>? {
-                return AudioUtils.getLocalAudioFiles(this@MusicActivity)
-            }
-
-            override fun onSuccess(result: List<MusicBean>?) {
-                adapter.addMusic(result)
-            }
-
-            override fun onCancel() {
-            }
-
-            override fun onFail(t: Throwable) {
-
-            }
-        })
-
+        Single.create {
+            it.onSuccess(AudioUtils.getLocalAudioFiles(this))
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                adapter.addMusic(it)
+            }, {
+                Timber.w(it)
+            })
     }
 
     private fun requestWatchMusic() {

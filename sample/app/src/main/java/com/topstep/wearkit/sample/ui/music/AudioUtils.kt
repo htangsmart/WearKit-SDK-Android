@@ -5,7 +5,7 @@ import android.provider.MediaStore
 import android.text.TextUtils
 
 object AudioUtils {
-    fun getLocalAudioFiles(context: Context): ArrayList<MusicBean>? {
+    fun getLocalAudioFiles(context: Context): ArrayList<MusicBean> {
         val localFileBeans = ArrayList<MusicBean>()
         try {
             val cursor = context.contentResolver.query(
