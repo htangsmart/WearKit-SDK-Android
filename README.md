@@ -56,11 +56,8 @@ import timber.log.Timber
 fun wearKitInit(application: Application): WKWearKit {
     /**
      * ToNote:
-     * en: 1.Configure log. "WearKit-SDK" use the Timber to output log, so you need to configure the Timber.
+     * Configure log. "WearKit-SDK" use the Timber to output log, so you need to configure the Timber.
      * Because [AppLogger] has already init Timber. So it's commented out here.
-     *
-     * zh: 1.配置日志。"WearKit-SDK" 使用Timber输出日志，所以需要配置 Timber
-     * 因为 [AppLogger] 里已经初始化了 Timber，所以这里注释掉了。
      */
     if (BuildConfig.DEBUG) {
         Timber.plant(Timber.DebugTree())
@@ -74,9 +71,7 @@ fun wearKitInit(application: Application): WKWearKit {
 
     /**
      * ToNote:
-     * en: 2.Create wearKit
-     *
-     * zh: 2.创建 wearKit 实例
+     * 2.Create wearKit
      */
     val builders = ArrayList<WKWearKit.Builder>()
     val processLifecycleObserver = MyProcessLifecycleManager().also {
@@ -98,11 +93,8 @@ fun wearKitInit(application: Application): WKWearKit {
 
     /**
      * ToNote:
-     * en: 3.RxJavaPlugins.setErrorHandler
+     * 3.RxJavaPlugins.setErrorHandler
      * Because rxjava is used in the SDK, some known exceptions that cannot be distributed need to be handled to avoid app crash.
-     *
-     * zh: 3.RxJavaPlugins.setErrorHandler
-     * 由于SDK中使用了rxjava，因此需要处理一些已知的无法分发的异常，以避免应用程序崩溃。
      */
     val ignoreExceptions = HashSet<Class<out Throwable>>()
 //    ignoreExceptions.add(YourAppIgnoredException::class.java)//Exceptions need to be ignored in your own app (maybe not according to your own app)
