@@ -65,6 +65,11 @@
                 style="@style/Widget.Sample.PreferenceView.Item.Text"
                 app:preferenceTitle="@string/version_info"/>
 
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_music_push"
+                style="@style/Widget.Sample.PreferenceView.Item.Text"
+                app:preferenceTitle="@string/music_push"/>
+
         </LinearLayout>
 
     </LinearLayout>

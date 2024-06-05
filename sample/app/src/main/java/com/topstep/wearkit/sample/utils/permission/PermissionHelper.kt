@@ -45,6 +45,23 @@ object PermissionHelper {
         requestPermission(fragment, permissions, grantResult)
     }
 
+    fun requestReadAudio(fragment: FragmentActivity, grantResult: ((Boolean) -> Unit)) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            grantResult.invoke(true)
+            return
+        }
+        val permissions = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            arrayListOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        } else {
+            arrayListOf(
+                Manifest.permission.READ_MEDIA_AUDIO
+            )
+        }
+        requestPermission(fragment, permissions, grantResult)
+    }
+
     fun hasCamera(context: Context): Boolean {
         return hasPermissions(context, arrayListOf(Manifest.permission.CAMERA))
     }

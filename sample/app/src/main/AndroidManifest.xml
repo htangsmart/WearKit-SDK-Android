@@ -38,6 +38,12 @@
     <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS"/>
     <uses-permission android:name="android.permission.READ_CALL_LOG"/>
 
+    <!--用于音乐推送功能读取手机中的音频文件-->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
+
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28"/>
@@ -91,6 +97,8 @@
         <activity android:name=".ui.remind.RemindActivity"/>
 
         <activity android:name=".ui.remind.RemindContentActivity"/>
+
+        <activity android:name=".ui.music.MusicActivity"/>
 
         <service
             android:name=".ui.notification.MyNotificationListenerService"

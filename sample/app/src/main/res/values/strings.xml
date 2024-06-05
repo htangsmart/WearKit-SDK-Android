@@ -491,7 +491,7 @@
     <string name="ds_notification_email">Email</string>
     <string name="ds_notification_others">Others App</string>
     <string name="ds_capture_notice_msg">Pushing third-party application messages to the watch requires granting system permissions. Whether to open immediately?</string>
-   <!--remind-->
+    <!--remind-->
     <string name="ds_remind">remind</string>
     <string name="ds_remind_sedentary">sedentary remind</string>
     <string name="ds_remind_drinkWater">drinkWater remind</string>
@@ -515,5 +515,11 @@
     <string name="remind_end">End reminder time</string>
     <string name="ds_remind_add_limit">You can add up to %d remind.</string>
     <string name="remind_custom_name">Please add a custom name</string>
+
+    <!--music-->
+    <string name="music_push">音乐推送</string>
+    <string name="no_music_push_file">Please select the file to be pushed</string>
+    <string name="phone_music_files">Mobile local music files</string>
+    <string name="watch_music_files">Music files found by the watch</string>
 
 </resources>

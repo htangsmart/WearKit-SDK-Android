@@ -517,5 +517,11 @@
     <string name="ds_remind_add_limit">最多可添加%d个提醒</string>
     <string name="remind_custom_name">请添加自定义名称</string>
 
+    <!--music-->
+    <string name="music_push">音乐推送</string>
+    <string name="no_music_push_file">请选择要推送的文件</string>
+    <string name="phone_music_files">手机本地音乐文件</string>
+    <string name="watch_music_files">手表查询到的音乐文件</string>
+
 
 </resources>

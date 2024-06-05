@@ -52,6 +52,7 @@ espresso-core = "3.5.1"
 robolectric = "4.9"
 mockito = "4.9.0"
 mockk = "1.12.5"
+utilcodex = "1.31.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle" }
@@ -134,3 +135,4 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockito" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+utilcodex = { module = "com.blankj:utilcodex", version.ref = "utilcodex" }

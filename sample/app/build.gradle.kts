@@ -136,4 +136,5 @@ dependencies {
     implementation(libs.androidx.window)
 
     implementation(libs.kilnn.wheelview)
+    implementation(libs.utilcodex)
 }

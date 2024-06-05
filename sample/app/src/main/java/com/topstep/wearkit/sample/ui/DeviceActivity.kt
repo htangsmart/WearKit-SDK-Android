@@ -15,6 +15,7 @@ import com.topstep.wearkit.sample.model.DeviceInfo
 import com.topstep.wearkit.sample.model.UserInfo
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.ui.basic.DeviceBasicActivity
+import com.topstep.wearkit.sample.ui.music.MusicActivity
 import com.topstep.wearkit.sample.ui.ota.LocalOtaActivity
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
 import com.topstep.wearkit.sample.utils.permission.PermissionHelper
@@ -66,6 +67,15 @@ class DeviceActivity : BaseActivity() {
 
         viewBind.itemVersionInfo.clickTrigger {
             startActivity(Intent(this, LocalOtaActivity::class.java))
+        }
+
+        viewBind.itemMusicPush.clickTrigger {
+            PermissionHelper.requestReadAudio(this) { granted ->
+                if (granted) {
+                    startActivity(Intent(this, MusicActivity::class.java))
+                }
+            }
+
         }
     }
 
