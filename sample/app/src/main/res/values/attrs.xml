@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Theme">
+        <!--重点提示-->
+        <attr name="colorWarning" format="color"/>
+        <!--比colorSurface稍微深一点的颜色，用于在colorSurface上的某块背景-->
+        <attr name="colorSurfaceSecondary" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="MultiColumnLayout">
+        <attr name="columnCount" format="integer"/>
+        <attr name="columnGap" format="dimension"/>
+        <attr name="rowGap" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="MeasureView">
+        <attr name="primaryColor" format="color"/>
+    </declare-styleable>
+
+</resources>
