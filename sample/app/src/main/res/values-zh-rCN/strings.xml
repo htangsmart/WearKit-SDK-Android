@@ -533,5 +533,6 @@
 
     <!--Media control-->
     <string name="media_control">媒体控制</string>
+    <string name="media_control_tv_info">可在手表上控制音乐音量、播放暂停.</string>
 
 </resources>
