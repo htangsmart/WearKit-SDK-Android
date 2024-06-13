@@ -16,6 +16,7 @@ import com.topstep.wearkit.sample.model.UserInfo
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.ui.basic.DeviceBasicActivity
 import com.topstep.wearkit.sample.ui.measure.MeasureActivity
+import com.topstep.wearkit.sample.ui.music.MediaControlActivity
 import com.topstep.wearkit.sample.ui.music.MusicActivity
 import com.topstep.wearkit.sample.ui.ota.LocalOtaActivity
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
@@ -81,6 +82,10 @@ class DeviceActivity : BaseActivity() {
 
         viewBind.itemHealthMeasurement.clickTrigger {
             startActivity(Intent(this, MeasureActivity::class.java))
+        }
+
+        viewBind.itemMedia.clickTrigger {
+            startActivity(Intent(this, MediaControlActivity::class.java))
         }
     }
 

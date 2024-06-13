@@ -90,6 +90,7 @@ dependencies {
     implementation(libs.rxjava)
     implementation(libs.rxandroid)
     implementation(libs.rxandroidble)
+    implementation(libs.androidx.media)
 
     //Base
     implementation(platform(libs.kotlin.coroutines.bom))

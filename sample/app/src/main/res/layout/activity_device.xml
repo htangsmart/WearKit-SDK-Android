@@ -75,7 +75,10 @@
                 style="@style/Widget.Sample.PreferenceView.Item.Text"
                 app:preferenceTitle="@string/health_realtime"/>
 
-
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_media"
+                style="@style/Widget.Sample.PreferenceView.Item.Text"
+                app:preferenceTitle="@string/media_control"/>
 
         </LinearLayout>
 

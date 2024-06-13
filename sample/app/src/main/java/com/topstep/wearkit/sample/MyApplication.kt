@@ -4,6 +4,7 @@ import androidx.multidex.MultiDexApplication
 import com.github.kilnn.tool.system.SystemUtil
 import com.topstep.wearkit.apis.WKWearKit
 import com.topstep.wearkit.sample.data.PreferencesStorage
+import com.topstep.wearkit.sample.ui.music.MyMediaController
 import com.topstep.wearkit.sample.utils.log.AppLogger
 import com.topstep.wearkit.sample.utils.log.MyCrashHandler
 
@@ -15,6 +16,9 @@ class MyApplication : MultiDexApplication() {
 
         @JvmStatic
         lateinit var wearKit: WKWearKit
+
+        @JvmStatic
+        lateinit var myMediaController: MyMediaController
     }
 
     override fun onCreate() {
@@ -34,6 +38,7 @@ class MyApplication : MultiDexApplication() {
     private fun initMainProcess() {
         wearKit = wearKitInit(this)
         PreferencesStorage.init(this)
+        myMediaController = MyMediaController(this, wearKit)
     }
 
 }

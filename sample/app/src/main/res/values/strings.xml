@@ -531,5 +531,6 @@
     <string name="pres_value">pressure value</string>
     <!--Media control-->
     <string name="media_control">media_control</string>
+    <string name="media_control_tv_info">Music volume and playback pause can be controlled on the watch</string>
 
 </resources>
