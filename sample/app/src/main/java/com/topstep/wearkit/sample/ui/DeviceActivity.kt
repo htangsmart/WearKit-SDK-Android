@@ -43,7 +43,7 @@ class DeviceActivity : BaseActivity() {
 
         lifecycle.launchRepeatOnStarted {
             launch {
-                wearKit.connector.observeConnectorState().asFlow().collect {
+                wearKit.connector.observeConnectorState().startWithItem(wearKit.connector.getConnectorState()).asFlow().collect {
                     viewBind.tvDeviceState.text = when (it) {
                         WKConnectorState.DISCONNECTED -> getString(R.string.device_state_disconnected)
                         WKConnectorState.PRE_CONNECTING,
