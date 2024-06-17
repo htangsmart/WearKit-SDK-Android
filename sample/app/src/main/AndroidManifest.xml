@@ -48,7 +48,8 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28"/>
 
-    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL"
+    <uses-permission
+        android:name="android.permission.MEDIA_CONTENT_CONTROL"
         tools:ignore="ProtectedPermissions"/>
 
     <application
@@ -105,6 +106,14 @@
         <activity android:name=".ui.music.MediaControlActivity"/>
         <activity android:name=".ui.measure.MeasureActivity"/>
         <activity android:name=".ui.measure.HealthMeasureActivity"/>
+        <activity android:name=".ui.sync.SyncDataActivity"/>
+        <activity android:name=".ui.sync.StepActivity"/>
+        <activity android:name=".ui.sync.SportActivity"/>
+        <activity android:name=".ui.sync.HeartRateActivity"/>
+        <activity android:name=".ui.sync.BloodOxygenActivity"/>
+        <activity android:name=".ui.sync.PressureActivity"/>
+        <activity android:name=".ui.sync.SleepActivity"/>
+        <activity android:name=".ui.sync.BloodPressureActivity"/>
 
 
         <service

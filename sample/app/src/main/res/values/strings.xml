@@ -336,7 +336,7 @@
     <string name="unit_km_param"><xliff:g id="params1">%1$s</xliff:g> km</string>
     <string name="unit_mi_param"><xliff:g id="params1">%1$s</xliff:g> mi</string>
     <string name="unit_step_param"><xliff:g id="params1">%1$d</xliff:g> steps</string>
-    <string name="unit_k_calories_param"><xliff:g id="params1">%1$s</xliff:g> kCal</string>
+    <string name="unit_k_calories_param">consume:<xliff:g id="params1">%1$d</xliff:g> kCal</string>
     <string name="unit_fahrenheit_param"><xliff:g id="params1">%1$s</xliff:g> ℉</string>
     <string name="unit_centigrade_param"><xliff:g id="params1">%1$s</xliff:g> ℃</string>
 
@@ -375,14 +375,18 @@
     <string name="sport_ui_type_011">Table Tennis</string>
     <string name="sport_ui_type_012">Jump Rope</string>
     <string name="sport_ui_type_013">Rowing Machine</string>
+    <string name="sport_ui_type_014">Lazy car</string>
+    <string name="sport_ui_type_015">Exercise bike</string>
     <string name="sport_ui_type_016">Free Training</string>
     <string name="sport_ui_type_017">Tennis</string>
     <string name="sport_ui_type_018">Baseball</string>
     <string name="sport_ui_type_019">Rugby</string>
     <string name="sport_ui_type_020">Cricket</string>
+    <string name="sport_ui_type_021">FREE SPORT</string>
     <string name="sport_ui_type_022">Strength Training</string>
     <string name="sport_ui_type_023">Indoor Walk</string>
     <string name="sport_ui_type_024">Indoor Cycle</string>
+    <string name="sport_ui_type_025">DUMBBELL</string>
     <string name="sport_ui_type_026">Dance</string>
     <string name="sport_ui_type_027">Hula Hoop</string>
     <string name="sport_ui_type_028">Golf</string>
@@ -473,6 +477,47 @@
     <string name="sport_ui_type_113">Hunting</string>
     <string name="sport_ui_type_114">Shooting</string>
     <string name="sport_ui_type_115">Marathon</string>
+    <string name="sport_ui_type_116">Dynamic bicycles</string>
+    <string name="sport_ui_type_117">BELLY DANCE</string>
+    <string name="sport_ui_type_118">SQUARE DANCE</string>
+    <string name="sport_ui_type_119">BALLROOM DANCE</string>
+    <string name="sport_ui_type_120">ZUMBA</string>
+    <string name="sport_ui_type_121">JAZZ</string>
+    <string name="sport_ui_type_122">STEPPER</string>
+    <string name="sport_ui_type_123">CLIMBING MACHINE</string>
+    <string name="sport_ui_type_124">CROQUET</string>
+    <string name="sport_ui_type_125">WATER POLO</string>
+    <string name="sport_ui_type_126">WALL BALL</string>
+    <string name="sport_ui_type_127">BILLIARDS</string>
+    <string name="sport_ui_type_128">SEPAKTAKRAW</string>
+    <string name="sport_ui_type_129">STRETCHING</string>
+    <string name="sport_ui_type_130">FLOOR EXERCISE</string>
+    <string name="sport_ui_type_131">BARBELL</string>
+    <string name="sport_ui_type_132">WEIGHTLIFTING</string>
+    <string name="sport_ui_type_133">HARD DRAWN</string>
+    <string name="sport_ui_type_134">BOBBY JUMP</string>
+    <string name="sport_ui_type_135">JUMPING JACK</string>
+    <string name="sport_ui_type_136">UPPER LIMB TRAINING</string>
+    <string name="sport_ui_type_137">LOWER LIMB TRAINING</string>
+    <string name="sport_ui_type_138">BACK TRAINING</string>
+    <string name="sport_ui_type_139">ATV</string>
+    <string name="sport_ui_type_140">PARAGLIDER</string>
+    <string name="sport_ui_type_141">FLYING KITES</string>
+    <string name="sport_ui_type_142">TUG OF WAR</string>
+    <string name="sport_ui_type_143">TRIATHLON</string>
+    <string name="sport_ui_type_144">SNOWMOBILE</string>
+    <string name="sport_ui_type_145">BOBSLEIGH</string>
+    <string name="sport_ui_type_146">SLED</string>
+    <string name="sport_ui_type_147">SKI BOARD</string>
+    <string name="sport_ui_type_148">CROSS COUNTRY_SKIING</string>
+    <string name="sport_ui_type_149">INDOOR SKATING</string>
+    <string name="sport_ui_type_150">KABADDI</string>
+    <string name="sport_ui_type_151">MUAY THAI</string>
+    <string name="sport_ui_type_152">KICKBOXING</string>
+    <string name="sport_ui_type_153">RACING CAR</string>
+    <string name="sport_ui_type_154">INDOOR_FITNESS</string>
+    <string name="sport_ui_type_155">OUTDOOR FOOTBALL</string>
+
 
     <!--Device Settings:Third part app-->
     <string name="ds_notification_config">Notification Config</string>
@@ -530,7 +575,24 @@
     <string name="blood_oxygen_value">blood oxygen level</string>
     <string name="pres_value">pressure value</string>
     <!--Media control-->
-    <string name="media_control">media_control</string>
+    <string name="media_control">media control</string>
     <string name="media_control_tv_info">Music volume and playback pause can be controlled on the watch</string>
+    <!--sport-->
+    <string name="sync_data">synchronize data</string>
+    <string name="sport_total_duration">total duration:<xliff:g id="params1">%1$s</xliff:g></string>
+    <string name="sport_avg_heart_rate">avg heart rate:<xliff:g id="params1">%1$d</xliff:g>Times/minute</string>
+    <string name="heart_rate">heart rate value:<xliff:g id="params1">%1$d</xliff:g></string>
+    <string name="blood_oxygen">blood oxygen value:<xliff:g id="params1">%1$d</xliff:g></string>
+    <string name="pressure">pressure value:<xliff:g id="params1">%1$d</xliff:g></string>
+    <!--sleep-->
+    <string name="sleep_total_duration">sleep total duration:<xliff:g id="params1">%1$s</xliff:g></string>
+    <string name="sleep_deep">deep:<xliff:g id="params1">%1$s</xliff:g></string>
+    <string name="sleep_light">light:<xliff:g id="params1">%1$s</xliff:g></string>
+    <string name="sleep_awake">awake:<xliff:g id="params1">%1$s</xliff:g></string>
+    <string name="sleep_rem">rem:<xliff:g id="params1">%1$s</xliff:g></string>
+    <string name="sleep_nap">nap:<xliff:g id="params1">%1$s</xliff:g></string>
+    <!--blood pressure-->
+    <string name="blood_pressure_sbp">sdp:<xliff:g id="params1">%1$d</xliff:g></string>
+    <string name="blood_pressure_dbp">dbp:<xliff:g id="params1">%1$d</xliff:g></string>
 
 </resources>

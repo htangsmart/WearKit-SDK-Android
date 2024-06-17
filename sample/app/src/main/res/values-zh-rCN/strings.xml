@@ -336,7 +336,7 @@
     <string name="unit_km_param"><xliff:g id="params1">%1$s</xliff:g>千米</string>
     <string name="unit_mi_param"><xliff:g id="params1">%1$s</xliff:g>公里</string>
     <string name="unit_step_param"><xliff:g id="params1">%1$d</xliff:g> 步</string>
-    <string name="unit_k_calories_param"><xliff:g id="params1">%1$s</xliff:g>千卡</string>
+    <string name="unit_k_calories_param">消耗:<xliff:g id="params1">%1$d</xliff:g>千卡</string>
     <string name="unit_fahrenheit_param"><xliff:g id="params1">%1$s</xliff:g> ℉</string>
     <string name="unit_centigrade_param"><xliff:g id="params1">%1$s</xliff:g> ℃</string>
 
@@ -375,14 +375,18 @@
     <string name="sport_ui_type_011">乒乓球</string>
     <string name="sport_ui_type_012">跳绳</string>
     <string name="sport_ui_type_013">划船机</string>
+    <string name="sport_ui_type_014">懒人车</string>
+    <string name="sport_ui_type_015">健身车</string>
     <string name="sport_ui_type_016">自由训练</string>
     <string name="sport_ui_type_017">网球</string>
     <string name="sport_ui_type_018">棒球</string>
     <string name="sport_ui_type_019">橄榄球</string>
     <string name="sport_ui_type_020">板球</string>
+    <string name="sport_ui_type_021">自由运动</string>
     <string name="sport_ui_type_022">力量训练</string>
     <string name="sport_ui_type_023">室内走路</string>
     <string name="sport_ui_type_024">室内骑行</string>
+    <string name="sport_ui_type_025">哑铃</string>
     <string name="sport_ui_type_026">舞蹈</string>
     <string name="sport_ui_type_027">呼啦圈</string>
     <string name="sport_ui_type_028">高尔夫</string>
@@ -473,6 +477,46 @@
     <string name="sport_ui_type_113">打猎</string>
     <string name="sport_ui_type_114">射击</string>
     <string name="sport_ui_type_115">马拉松</string>
+    <string name="sport_ui_type_116">动感单车</string>
+    <string name="sport_ui_type_117">肚皮舞</string>
+    <string name="sport_ui_type_118">广场舞</string>
+    <string name="sport_ui_type_119">交际舞</string>
+    <string name="sport_ui_type_120">尊巴</string>
+    <string name="sport_ui_type_121">爵士舞</string>
+    <string name="sport_ui_type_122">踏步机</string>
+    <string name="sport_ui_type_123">爬楼机</string>
+    <string name="sport_ui_type_124">门球</string>
+    <string name="sport_ui_type_125">水球</string>
+    <string name="sport_ui_type_126">墙球</string>
+    <string name="sport_ui_type_127">台球</string>
+    <string name="sport_ui_type_128">藤球</string>
+    <string name="sport_ui_type_129">拉伸</string>
+    <string name="sport_ui_type_130">自由体操</string>
+    <string name="sport_ui_type_131">杠铃</string>
+    <string name="sport_ui_type_132">举重</string>
+    <string name="sport_ui_type_133">硬拉</string>
+    <string name="sport_ui_type_134">波比跳</string>
+    <string name="sport_ui_type_135">开合跳</string>
+    <string name="sport_ui_type_136">上肢训练</string>
+    <string name="sport_ui_type_137">下肢训练</string>
+    <string name="sport_ui_type_138">背部训练</string>
+    <string name="sport_ui_type_139">沙滩车</string>
+    <string name="sport_ui_type_140">滑翔伞</string>
+    <string name="sport_ui_type_141">放风筝</string>
+    <string name="sport_ui_type_142">拔河</string>
+    <string name="sport_ui_type_143">铁人三项</string>
+    <string name="sport_ui_type_144">雪地摩托</string>
+    <string name="sport_ui_type_145">雪车</string>
+    <string name="sport_ui_type_146">雪橇</string>
+    <string name="sport_ui_type_147">滑雪板</string>
+    <string name="sport_ui_type_148">越野滑雪</string>
+    <string name="sport_ui_type_149">室内滑冰</string>
+    <string name="sport_ui_type_150">卡巴迪</string>
+    <string name="sport_ui_type_151">泰拳</string>
+    <string name="sport_ui_type_152">踢拳</string>
+    <string name="sport_ui_type_153">赛车</string>
+    <string name="sport_ui_type_154">室内健身</string>
+    <string name="sport_ui_type_155">户外足球</string>
 
     <!--Device Settings:Third part app-->
     <string name="ds_notification_config">通知配置</string>
@@ -534,5 +578,23 @@
     <!--Media control-->
     <string name="media_control">媒体控制</string>
     <string name="media_control_tv_info">可在手表上控制音乐音量、播放暂停.</string>
+
+    <string name="sync_data">同步数据</string>
+    <string name="sport_total_duration">总时长:<xliff:g id="params1">%1$s</xliff:g></string>
+    <string name="sport_avg_heart_rate">平均心率:<xliff:g id="params1">%1$d</xliff:g>次/分</string>
+    <string name="heart_rate">心率值:<xliff:g id="params1">%1$d</xliff:g></string>
+    <string name="blood_oxygen">血氧值:<xliff:g id="params1">%1$d</xliff:g></string>
+    <string name="pressure">压力值:<xliff:g id="params1">%1$d</xliff:g></string>
+    <!--sleep-->
+    <string name="sleep_total_duration">睡眠总时长:<xliff:g id="params1">%1$s</xliff:g></string>
+    <string name="sleep_deep">深睡:<xliff:g id="params1">%1$s</xliff:g></string>
+    <string name="sleep_light">浅睡:<xliff:g id="params1">%1$s</xliff:g></string>
+    <string name="sleep_awake">清醒:<xliff:g id="params1">%1$s</xliff:g></string>
+    <string name="sleep_rem">快速眼动:<xliff:g id="params1">%1$s</xliff:g></string>
+    <string name="sleep_nap">零星小睡:<xliff:g id="params1">%1$s</xliff:g></string>
+
+    <!--blood pressure-->
+    <string name="blood_pressure_sbp">收缩压:<xliff:g id="params1">%1$d</xliff:g></string>
+    <string name="blood_pressure_dbp">零星小睡:<xliff:g id="params1">%1$d</xliff:g></string>
 
 </resources>

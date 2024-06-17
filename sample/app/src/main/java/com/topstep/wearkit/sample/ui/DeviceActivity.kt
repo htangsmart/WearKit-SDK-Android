@@ -19,6 +19,7 @@ import com.topstep.wearkit.sample.ui.measure.MeasureActivity
 import com.topstep.wearkit.sample.ui.music.MediaControlActivity
 import com.topstep.wearkit.sample.ui.music.MusicActivity
 import com.topstep.wearkit.sample.ui.ota.LocalOtaActivity
+import com.topstep.wearkit.sample.ui.sync.SyncDataActivity
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
 import com.topstep.wearkit.sample.utils.permission.PermissionHelper
 import kotlinx.coroutines.launch
@@ -86,6 +87,10 @@ class DeviceActivity : BaseActivity() {
 
         viewBind.itemMedia.clickTrigger {
             startActivity(Intent(this, MediaControlActivity::class.java))
+        }
+
+        viewBind.itemSyncData.clickTrigger {
+            startActivity(Intent(this, SyncDataActivity::class.java))
         }
     }
 
