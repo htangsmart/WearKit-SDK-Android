@@ -566,6 +566,7 @@
     <string name="no_music_push_file">Please select the file to be pushed</string>
     <string name="phone_music_files">Mobile local music files</string>
     <string name="watch_music_files">Music files found by the watch</string>
+    <string name="phone_not_music_files">There is currently no music file available locally on your phone. Please download the music locally first</string>
 
     <!--measure-->
     <string name="heartRate_measure">heartRate measure</string>

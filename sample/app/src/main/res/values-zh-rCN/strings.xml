@@ -566,6 +566,7 @@
     <string name="no_music_push_file">请选择要推送的文件</string>
     <string name="phone_music_files">手机本地音乐文件</string>
     <string name="watch_music_files">手表查询到的音乐文件</string>
+    <string name="phone_not_music_files">手机本地暂无音乐文件,请先下载音乐到本地</string>
 
     <!--measure-->
     <string name="heartRate_measure">心率测量</string>

@@ -1,64 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/music_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="@string/phone_music_files"/>
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/music_ry"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        <TextView
+            android:id="@+id/music_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text=""/>
+
+        <ProgressBar
+            android:id="@+id/music_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:progress="0"
+            android:progressDrawable="@drawable/bar_color"/>
+
+        <TextView
+            android:id="@+id/tv_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="0%"/>
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/watch_music_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/music_layout"
         android:layout_marginStart="10dp"
-        android:text="@string/watch_music_files"/>
+        android:text="@string/watch_music_files"
+        android:visibility="invisible"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/watch_music_ry"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="300dp"
+        android:layout_above="@+id/music_add"
+        android:layout_below="@+id/watch_music_tv"/>
 
     <Button
-        android:id="@+id/music_push"
+        android:id="@+id/music_add"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:text="@string/music_push"/>
+        android:text="@string/action_add"/>
 
     <TextView
-        android:id="@+id/music_count"
+        android:id="@+id/not_music"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_marginStart="10dp"
-        android:text=""/>
-
-    <ProgressBar
-        android:id="@+id/music_progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:progress="0"
-        android:progressDrawable="@drawable/bar_color"/>
-
-    <TextView
-        android:id="@+id/tv_progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:gravity="center"
-        android:text=""/>
-</LinearLayout>
+        android:text="@string/tip_current_no_data"/>
+
+
+</RelativeLayout>
