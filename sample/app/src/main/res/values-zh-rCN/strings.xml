@@ -192,6 +192,7 @@
     <string name="ds_wear_right_hand">右手佩戴</string>
     <string name="ds_enhanced_measurement">增强测量</string>
     <string name="ds_time_format_12_hour">时间格式-12小时制</string>
+    <string name="ds_time_format_24_hour">时间格式-24小时制</string>
     <string name="ds_length_unit_imperial">长度单位-英制(英里、英尺)</string>
     <string name="ds_temperature_unit_fahrenheit">温度单位-华氏度(℉)</string>
     <string name="ds_disconnect_reminder">断开提醒</string>
@@ -597,5 +598,7 @@
     <!--blood pressure-->
     <string name="blood_pressure_sbp">收缩压:<xliff:g id="params1">%1$d</xliff:g></string>
     <string name="blood_pressure_dbp">零星小睡:<xliff:g id="params1">%1$d</xliff:g></string>
+
+    <string name="time_format">时间格式</string>
 
 </resources>

@@ -115,6 +115,7 @@
         <activity android:name=".ui.sync.SleepActivity"/>
         <activity android:name=".ui.sync.BloodPressureActivity"/>
         <activity android:name=".ui.music.AddMusicActivity"/>
+        <activity android:name=".ui.basic.TimeFormatActivity"/>
 
 
         <service

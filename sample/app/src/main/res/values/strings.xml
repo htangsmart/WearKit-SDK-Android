@@ -192,6 +192,7 @@
     <string name="ds_wear_right_hand">Right Hand Wearing</string>
     <string name="ds_enhanced_measurement">Enhanced Measurement</string>
     <string name="ds_time_format_12_hour">Time Format-12 Hour</string>
+    <string name="ds_time_format_24_hour">Time Format-24 Hour</string>
     <string name="ds_length_unit_imperial">Length Units-Imperial(miles, feet)</string>
     <string name="ds_temperature_unit_fahrenheit">Temperature Units-Fahrenheit(℉)</string>
     <string name="ds_disconnect_reminder">Disconnect Reminder</string>
@@ -595,5 +596,7 @@
     <!--blood pressure-->
     <string name="blood_pressure_sbp">sdp:<xliff:g id="params1">%1$d</xliff:g></string>
     <string name="blood_pressure_dbp">dbp:<xliff:g id="params1">%1$d</xliff:g></string>
+
+    <string name="time_format">time format</string>
 
 </resources>

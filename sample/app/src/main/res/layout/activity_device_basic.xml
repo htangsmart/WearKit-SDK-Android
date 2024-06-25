@@ -100,6 +100,12 @@
             android:layout_height="wrap_content"
             android:text="@string/ds_remind"/>
 
+        <Button
+            android:id="@+id/btn_time_format"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/time_format"/>
+
     </LinearLayout>
 
 </ScrollView>

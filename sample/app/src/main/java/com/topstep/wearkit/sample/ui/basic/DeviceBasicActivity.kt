@@ -146,6 +146,11 @@ class DeviceBasicActivity : BaseActivity() {
             startActivity(Intent(this, RemindActivity::class.java))
 
         }
+
+        viewBind.btnTimeFormat.clickTrigger {
+            startActivity(Intent(this, TimeFormatActivity::class.java))
+
+        }
     }
 
     override fun onDestroy() {
