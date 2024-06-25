@@ -60,6 +60,10 @@ object AppUtils {
         return String.format(getSystemLocale(MyApplication.instance), "%02d:%02d", minute / 60, minute % 60)
     }
 
+    fun intStr(value: Int): String {
+        return String.format(getSystemLocale(MyApplication.instance), "%d", value)
+    }
+
     fun secondsToHMS(seconds: Int): String {
         val hours = seconds / 3600
         val minutes = (seconds % 3600) / 60

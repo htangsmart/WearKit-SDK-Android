@@ -599,4 +599,10 @@
 
     <string name="time_format">time format</string>
 
+    <!--activity target-->
+    <string name="activity_target">activity target</string>
+    <string name="target_consume">consume</string>
+    <string name="Activity_duration">Activity duration</string>
+
+
 </resources>

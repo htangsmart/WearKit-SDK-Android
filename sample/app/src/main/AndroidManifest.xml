@@ -116,6 +116,7 @@
         <activity android:name=".ui.sync.BloodPressureActivity"/>
         <activity android:name=".ui.music.AddMusicActivity"/>
         <activity android:name=".ui.basic.TimeFormatActivity"/>
+        <activity android:name=".ui.basic.SportTargetActivity"/>
 
 
         <service

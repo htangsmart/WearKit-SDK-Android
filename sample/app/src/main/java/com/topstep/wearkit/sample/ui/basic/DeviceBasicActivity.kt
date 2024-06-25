@@ -151,6 +151,10 @@ class DeviceBasicActivity : BaseActivity() {
             startActivity(Intent(this, TimeFormatActivity::class.java))
 
         }
+
+        viewBind.btnActivityTarget.clickTrigger {
+            startActivity(Intent(this, SportTargetActivity::class.java))
+        }
     }
 
     override fun onDestroy() {

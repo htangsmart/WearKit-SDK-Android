@@ -601,4 +601,9 @@
 
     <string name="time_format">时间格式</string>
 
+    <!--activity target-->
+    <string name="target_consume">消耗</string>
+    <string name="activity_target">活动目标</string>
+    <string name="Activity_duration">活动时长</string>
+
 </resources>
