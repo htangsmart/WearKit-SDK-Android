@@ -1,4 +1,11 @@
-# v3.0.1-beta04 
+# v3.0.1-beta05
+
+2024-06-28
+
+1. ADD: `WKDialStyleAbility` for custom watchface
+
+# v3.0.1-beta04
+
 2024-06-24
 
 1. CHANGE: Move `WKLanguageAbility` static method to `LanguageUtil`
