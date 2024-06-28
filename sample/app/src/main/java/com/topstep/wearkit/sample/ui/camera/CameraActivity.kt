@@ -390,7 +390,7 @@ class CameraActivity : BaseActivity() {
         // Create output options object which contains file + metadata
         val contentValues = makePublicContentValues(this)
         if (contentValues == null) {
-            toast(R.string.photo_take_failed)
+            toast(R.string.take_failed)
             return
         }
 
@@ -405,7 +405,7 @@ class CameraActivity : BaseActivity() {
             override fun onError(exc: ImageCaptureException) {
                 Timber.tag(TAG).e(exc, "Photo capture failed: ${exc.message}")
                 lifecycleScope.launchWhenStarted {
-                    toast(R.string.photo_take_failed)
+                    toast(R.string.take_failed)
                 }
             }
 
@@ -416,7 +416,7 @@ class CameraActivity : BaseActivity() {
                 val savedUri = output.savedUri
                 Timber.tag(TAG).i("Photo capture succeeded: $savedUri")
                 lifecycleScope.launchWhenStarted {
-                    toast(R.string.photo_take_success)
+                    toast(R.string.take_success)
                 }
             }
         })

@@ -85,6 +85,21 @@
                 style="@style/Widget.Sample.PreferenceView.Item.Text"
                 app:preferenceTitle="@string/sync_data"/>
 
+            <!--            <com.github.kilnn.tool.widget.item.PreferenceItem-->
+            <!--                android:id="@+id/item_dial_market"-->
+            <!--                style="@style/Widget.Sample.PreferenceView.Item.Text"-->
+            <!--                app:preferenceTitle="@string/dial_market"/>-->
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_dial_custom_style"
+                style="@style/Widget.Sample.PreferenceView.Item.Text"
+                app:preferenceTitle="@string/dial_custom_style"/>
+
+            <!--            <com.github.kilnn.tool.widget.item.PreferenceItem-->
+            <!--                android:id="@+id/item_dial_custom_widget"-->
+            <!--                style="@style/Widget.Sample.PreferenceView.Item.Text"-->
+            <!--                app:preferenceTitle="@string/dial_custom_widget"/>-->
+
         </LinearLayout>
 
     </LinearLayout>

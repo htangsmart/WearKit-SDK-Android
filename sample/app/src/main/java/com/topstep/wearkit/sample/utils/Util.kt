@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.location.LocationManager
+import android.net.Uri
+import android.widget.ImageView
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.fragment.NavHostFragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.github.kilnn.tool.dialog.prompt.PromptAutoCancel
 import com.github.kilnn.tool.dialog.prompt.PromptDialogHolder
 import com.github.kilnn.tool.system.SystemUtil
@@ -32,6 +37,8 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import timber.log.Timber
+
+const val FILE_PROVIDER_AUTHORITY = "com.topstep.wearkit.sample.fileprovider"
 
 fun CoroutineScope.launchWithLog(block: suspend CoroutineScope.() -> Unit): Job {
     return launch(CoroutineExceptionHandler { _, exception ->
@@ -141,4 +148,25 @@ fun flowLocationServiceState(context: Context) = callbackFlow {
     }
     context.registerReceiver(receiver, IntentFilter(LocationManager.MODE_CHANGED_ACTION))
     awaitClose { context.unregisterReceiver(receiver) }
+}
+
+fun Context.isGif(uri: Uri): Boolean {
+    val mimeType = contentResolver.getType(uri)
+    return mimeType != null && mimeType.startsWith("image/gif")
+}
+
+fun Context.isVideo(uri: Uri): Boolean {
+    val mimeType = contentResolver.getType(uri)
+    return mimeType != null && mimeType.startsWith("video/")
+}
+
+fun glideShowImage(imageView: ImageView, uri: Any?, inRecyclerView: Boolean = true, placeholder: Int = R.drawable.ic_default_image_place_holder) {
+    val builder = Glide.with(imageView.context)
+        .load(uri)
+        .apply(RequestOptions.placeholderOf(placeholder))
+    if (inRecyclerView) {
+        builder.into(DrawableImageViewTarget(imageView).waitForLayout())
+    } else {
+        builder.into(imageView)
+    }
 }
