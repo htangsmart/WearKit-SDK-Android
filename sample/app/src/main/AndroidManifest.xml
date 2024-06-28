@@ -118,6 +118,8 @@
         <activity android:name=".ui.basic.TimeFormatActivity"/>
         <activity android:name=".ui.basic.SportTargetActivity"/>
 
+        <activity android:name=".ui.dial.style.DialStyleCustomActivity"/>
+        <activity android:name=".ui.dial.base.DialBaseActivity"/>
 
         <service
             android:name=".ui.notification.MyNotificationListenerService"
@@ -128,6 +130,16 @@
                 <action android:name="android.service.notification.NotificationListenerService"/>
             </intent-filter>
         </service>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.topstep.wearkit.sample.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths"/>
+        </provider>
 
         <meta-data
             android:name="persimwear"

@@ -276,12 +276,14 @@
     <string name="ds_dfu_tips_location_service">Location Services is disabled, and upgrade/push operations may fail</string>
 
     <!--Get Photo-->
-    <string name="action_take_photo">Take Pictures</string>
-    <string name="action_choose_photo">Select</string>
-    <string name="photo_select_failed">Choose failed</string>
-    <string name="photo_crop_failed">Reduction failed</string>
-    <string name="photo_take_failed">Take photo failed</string>
-    <string name="photo_take_success">Take photo success</string>
+    <string name="action_take_photo">Take a photo</string>
+    <string name="action_take_video">Take a video</string>
+    <string name="action_choose_photo">Select a photo</string>
+    <string name="action_choose_video">Select a video</string>
+    <string name="choose_failed">Select failed</string>
+    <string name="edit_failed">Editing failed</string>
+    <string name="take_failed">Shooting failed</string>
+    <string name="take_success">Shooting success</string>
 
     <!--Dial-->
     <string name="ds_dial">Dial</string>
@@ -604,5 +606,14 @@
     <string name="target_consume">consume</string>
     <string name="Activity_duration">Activity duration</string>
 
+    <!--Dial-->
+    <string name="dial_base">Base Dial</string>
+    <string name="dial_custom_style">Dial Custom Style</string>
+    <string name="dial_custom_widget">Dial Custom Widget</string>
+    <string name="dial_color">Color</string>
+    <string name="dial_installing">Dial installing</string>
+    <string name="dial_get_all">Get all dials</string>
+    <string name="dial_delete_last">Delete last dial</string>
+    <string name="dial_install_one">Install one dial</string>
 
 </resources>

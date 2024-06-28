@@ -15,6 +15,8 @@ import com.topstep.wearkit.sample.model.DeviceInfo
 import com.topstep.wearkit.sample.model.UserInfo
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.ui.basic.DeviceBasicActivity
+import com.topstep.wearkit.sample.ui.dial.base.DialBaseActivity
+import com.topstep.wearkit.sample.ui.dial.style.DialStyleCustomActivity
 import com.topstep.wearkit.sample.ui.measure.MeasureActivity
 import com.topstep.wearkit.sample.ui.music.MediaControlActivity
 import com.topstep.wearkit.sample.ui.music.MusicActivity
@@ -91,6 +93,22 @@ class DeviceActivity : BaseActivity() {
 
         viewBind.itemSyncData.clickTrigger {
             startActivity(Intent(this, SyncDataActivity::class.java))
+        }
+
+        viewBind.itemDialBase.clickTrigger {
+            if (wearKit.connector.getConnectorState() != WKConnectorState.CONNECTED) {
+                toast("Device not connected!")
+            } else {
+                startActivity(Intent(this, DialBaseActivity::class.java))
+            }
+        }
+
+        viewBind.itemDialCustomStyle.clickTrigger {
+            if (wearKit.connector.getConnectorState() != WKConnectorState.CONNECTED) {
+                toast("Device not connected!")
+            } else {
+                startActivity(Intent(this, DialStyleCustomActivity::class.java))
+            }
         }
     }
 

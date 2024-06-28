@@ -19,12 +19,8 @@ object PermissionHelper {
      * If [Manifest.permission.CAMERA] is added in Manifest.xml and targetSdk>=23,
      * you must also request permission to call the system camera
      */
-    fun requestSystemCamera(fragment: Fragment, grantResult: ((Boolean) -> Unit)) {
-        requestPermission(
-            fragment, arrayListOf(
-                Manifest.permission.CAMERA,
-            ), grantResult
-        )
+    fun requestSystemCamera(activity: FragmentActivity, grantResult: ((Boolean) -> Unit)) {
+        requestPermission(activity, arrayListOf(Manifest.permission.CAMERA), grantResult)
     }
 
     fun requestAppCamera(fragment: FragmentActivity, grantResult: ((Boolean) -> Unit)) {

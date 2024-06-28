@@ -277,11 +277,13 @@
 
     <!--Get Photo-->
     <string name="action_take_photo">拍照</string>
-    <string name="action_choose_photo">选取</string>
-    <string name="photo_select_failed">选择失败</string>
-    <string name="photo_crop_failed">裁减失败</string>
-    <string name="photo_take_failed">拍照失败</string>
-    <string name="photo_take_success">拍照成功</string>
+    <string name="action_take_video">拍视频</string>
+    <string name="action_choose_photo">选择照片</string>
+    <string name="action_choose_video">选择视频</string>
+    <string name="choose_failed">选择失败</string>
+    <string name="edit_failed">编辑失败</string>
+    <string name="take_failed">拍摄失败</string>
+    <string name="take_success">拍摄成功</string>
 
     <!--Dial-->
     <string name="ds_dial">表盘</string>
@@ -605,5 +607,15 @@
     <string name="target_consume">消耗</string>
     <string name="activity_target">活动目标</string>
     <string name="Activity_duration">活动时长</string>
+
+    <!--Dial-->
+    <string name="dial_base">基础表盘</string>
+    <string name="dial_custom_style">自定义表盘样式</string>
+    <string name="dial_custom_widget">自定义表盘组件</string>
+    <string name="dial_color">颜色</string>
+    <string name="dial_installing">表盘安装中</string>
+    <string name="dial_get_all">获取所有表盘</string>
+    <string name="dial_delete_last">删除最后一个表盘</string>
+    <string name="dial_install_one">安装一个表盘</string>
 
 </resources>
