@@ -117,6 +117,7 @@
         <activity android:name=".ui.music.AddMusicActivity"/>
 
         <activity android:name=".ui.dial.style.DialStyleCustomActivity"/>
+        <activity android:name=".ui.dial.base.DialBaseActivity"/>
 
         <service
             android:name=".ui.notification.MyNotificationListenerService"

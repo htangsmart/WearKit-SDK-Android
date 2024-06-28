@@ -601,9 +601,12 @@
     <string name="blood_pressure_dbp">零星小睡:<xliff:g id="params1">%1$d</xliff:g></string>
 
     <!--Dial-->
-    <string name="dial_market">表盘市场</string>
+    <string name="dial_base">基础表盘</string>
     <string name="dial_custom_style">自定义表盘样式</string>
     <string name="dial_custom_widget">自定义表盘组件</string>
     <string name="dial_color">颜色</string>
     <string name="dial_installing">表盘安装中</string>
+    <string name="dial_get_all">获取所有表盘</string>
+    <string name="dial_delete_last">删除最后一个表盘</string>
+    <string name="dial_install_one">安装一个表盘</string>
 </resources>
