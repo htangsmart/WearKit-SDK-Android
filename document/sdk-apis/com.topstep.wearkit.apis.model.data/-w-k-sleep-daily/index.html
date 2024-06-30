@@ -1,0 +1,329 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>WKSleepDaily</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            android-sdk-wearkit
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":sdk-apis:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="sdk-apis::com.topstep.wearkit.apis.model.data/WKSleepDaily///PointingToDeclaration//-1218342649">
+  <div class="breadcrumbs"><a href="../../index.html">sdk-apis</a><span class="delimiter">/</span><a href="../index.html">com.topstep.wearkit.apis.model.data</a><span class="delimiter">/</span><span class="current">WKSleepDaily</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>WKSleep</span><wbr><span><span>Daily</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">WKSleepDaily</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>timestampSeconds<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>algorithm<span class="token operator">: </span><a href="../-w-k-sleep-algorithm/index.html">WKSleepAlgorithm</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>items<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-w-k-sleep-item/index.html">WKSleepItem</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>duration<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>deep<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>light<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>awake<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>rem<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>nap<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>awakeCount<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>remCount<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>allSegments<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-w-k-sleep-segment/index.html">WKSleepSegment</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>nightSegments<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-w-k-sleep-segment/index.html">WKSleepSegment</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>napSegments<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-w-k-sleep-segment/index.html">WKSleepSegment</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>mainSegment<span class="token operator">: </span><a href="../-w-k-sleep-segment/index.html">WKSleepSegment</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span> : <a href="../../../sdk-base/com.topstep.wearkit.base.model.data/-i-timestamp-seconds/index.html">ITimestampSeconds</a></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-1667863612%2FConstructors%2F-1218342649" anchor-label="WKSleepDaily" id="-1667863612%2FConstructors%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-sleep-daily.html"><span>WKSleep</span><wbr><span><span>Daily</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1667863612%2FConstructors%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">timestampSeconds<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">algorithm<span class="token operator">: </span><a href="../-w-k-sleep-algorithm/index.html">WKSleepAlgorithm</a><span class="token punctuation">, </span></span><span class="parameter ">items<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-w-k-sleep-item/index.html">WKSleepItem</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">duration<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter ">deep<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter ">light<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter ">awake<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter ">rem<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter ">nap<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter ">awakeCount<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter ">remCount<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter ">allSegments<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-w-k-sleep-segment/index.html">WKSleepSegment</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">nightSegments<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-w-k-sleep-segment/index.html">WKSleepSegment</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">napSegments<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-w-k-sleep-segment/index.html">WKSleepSegment</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">mainSegment<span class="token operator">: </span><a href="../-w-k-sleep-segment/index.html">WKSleepSegment</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="1896853867%2FProperties%2F-1218342649" anchor-label="algorithm" id="1896853867%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="algorithm.html"><span><span>algorithm</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1896853867%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="algorithm.html">algorithm</a><span class="token operator">: </span><a href="../-w-k-sleep-algorithm/index.html">WKSleepAlgorithm</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="445188729%2FProperties%2F-1218342649" anchor-label="allSegments" id="445188729%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="all-segments.html"><span>all</span><wbr><span><span>Segments</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="445188729%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="all-segments.html">allSegments</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-w-k-sleep-segment/index.html">WKSleepSegment</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">All sleep segments of the day</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1253714027%2FProperties%2F-1218342649" anchor-label="awake" id="-1253714027%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="awake.html"><span><span>awake</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1253714027%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="awake.html">awake</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></div><div class="brief "><p class="paragraph">Awake duration, in seconds.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="412373206%2FProperties%2F-1218342649" anchor-label="awakeCount" id="412373206%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="awake-count.html"><span>awake</span><wbr><span><span>Count</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="412373206%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="awake-count.html">awakeCount</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></div><div class="brief "><p class="paragraph">Awake count</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="890846964%2FProperties%2F-1218342649" anchor-label="deep" id="890846964%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="deep.html"><span><span>deep</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="890846964%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="deep.html">deep</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></div><div class="brief "><p class="paragraph">Deep sleep duration, in seconds.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-469077556%2FProperties%2F-1218342649" anchor-label="duration" id="-469077556%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="duration.html"><span><span>duration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-469077556%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="duration.html">duration</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></div><div class="brief "><p class="paragraph">Total sleep duration include <a href="awake.html">awake</a>, in seconds.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1903930950%2FProperties%2F-1218342649" anchor-label="items" id="-1903930950%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="items.html"><span><span>items</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1903930950%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="items.html">items</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-w-k-sleep-item/index.html">WKSleepItem</a><span class="token operator">&gt;</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Raw sleep items of this day</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1895722716%2FProperties%2F-1218342649" anchor-label="light" id="-1895722716%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="light.html"><span><span>light</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1895722716%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="light.html">light</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></div><div class="brief "><p class="paragraph">Light sleep duration, in seconds.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1818736064%2FProperties%2F-1218342649" anchor-label="mainSegment" id="1818736064%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="main-segment.html"><span>main</span><wbr><span><span>Segment</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1818736064%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="main-segment.html">mainSegment</a><span class="token operator">: </span><a href="../-w-k-sleep-segment/index.html">WKSleepSegment</a><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">The most important sleep segment. Usually the longest sleep period in <a href="night-segments.html">nightSegments</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="855977533%2FProperties%2F-1218342649" anchor-label="nap" id="855977533%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="nap.html"><span><span>nap</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="855977533%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="nap.html">nap</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></div><div class="brief "><p class="paragraph">Nap sleep duration, in seconds.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1964131715%2FProperties%2F-1218342649" anchor-label="napSegments" id="-1964131715%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="nap-segments.html"><span>nap</span><wbr><span><span>Segments</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1964131715%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="nap-segments.html">napSegments</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-w-k-sleep-segment/index.html">WKSleepSegment</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">naps sleep segments on the day</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-372408414%2FProperties%2F-1218342649" anchor-label="nightSegments" id="-372408414%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="night-segments.html"><span>night</span><wbr><span><span>Segments</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-372408414%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="night-segments.html">nightSegments</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-w-k-sleep-segment/index.html">WKSleepSegment</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">Night sleep segment of the day</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-704539296%2FProperties%2F-1218342649" anchor-label="rem" id="-704539296%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="rem.html"><span><span>rem</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-704539296%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="rem.html">rem</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></div><div class="brief "><p class="paragraph">REM duration, in seconds.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="319715819%2FProperties%2F-1218342649" anchor-label="remCount" id="319715819%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="rem-count.html"><span>rem</span><wbr><span><span>Count</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="319715819%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="rem-count.html">remCount</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></div><div class="brief "><p class="paragraph">REM count</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="45729143%2FProperties%2F-1218342649" anchor-label="timestampSeconds" id="45729143%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="timestamp-seconds.html"><span>timestamp</span><wbr><span><span>Seconds</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="45729143%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="timestamp-seconds.html">timestampSeconds</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div><div class="brief "><p class="paragraph">Timestamp seconds of a certain day. Such as 2022-01-01 00:00:00</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,209 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>WKNotificationAbility</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            android-sdk-wearkit
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":sdk-apis:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="sdk-apis::com.topstep.wearkit.apis.ability.base/WKNotificationAbility///PointingToDeclaration//-1218342649">
+  <div class="breadcrumbs"><a href="../../index.html">sdk-apis</a><span class="delimiter">/</span><a href="../index.html">com.topstep.wearkit.apis.ability.base</a><span class="delimiter">/</span><span class="current">WKNotificationAbility</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>WKNotification</span><wbr><span><span>Ability</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">WKNotificationAbility</a></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-423600620%2FClasslikes%2F-1218342649" anchor-label="ReplayResult" id="-423600620%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-replay-result/index.html"><span>Replay</span><wbr><span><span>Result</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-423600620%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-replay-result/index.html">ReplayResult</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="-replay-result/index.html">WKNotificationAbility.ReplayResult</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1801996417%2FFunctions%2F-1218342649" anchor-label="getTelephonyConfig" id="-1801996417%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-telephony-config.html"><span>get</span><wbr><span>Telephony</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1801996417%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-telephony-config.html"><span class="token function">getTelephonyConfig</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Is telephony config enabled?</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="737546954%2FFunctions%2F-1218342649" anchor-label="observeTelephonyConfig" id="737546954%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="observe-telephony-config.html"><span>observe</span><wbr><span>Telephony</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="737546954%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="androidx.annotation/CheckResult///PointingToDeclaration/"><span class="token annotation builtin">CheckResult</span></span></div></div><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="observe-telephony-config.html"><span class="token function">observeTelephonyConfig</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">replay<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Observable///PointingToDeclaration/">Observable</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Observe telephony config changed.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="718326618%2FFunctions%2F-1218342649" anchor-label="observeTelephonyHangup" id="718326618%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="observe-telephony-hangup.html"><span>observe</span><wbr><span>Telephony</span><wbr><span><span>Hangup</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="718326618%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="androidx.annotation/CheckResult///PointingToDeclaration/"><span class="token annotation builtin">CheckResult</span></span></div></div><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="observe-telephony-hangup.html"><span class="token function">observeTelephonyHangup</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Observable///PointingToDeclaration/">Observable</span><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.message/-w-k-telephony-hangup/index.html">WKTelephonyHangup</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Observe device hangup or send sms message.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1662755386%2FFunctions%2F-1218342649" anchor-label="replayTelephonyHangup" id="-1662755386%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="replay-telephony-hangup.html"><span>replay</span><wbr><span>Telephony</span><wbr><span><span>Hangup</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1662755386%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="androidx.annotation/CheckResult///PointingToDeclaration/"><span class="token annotation builtin">CheckResult</span></span></div></div><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="replay-telephony-hangup.html"><span class="token function">replayTelephonyHangup</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">endCall<span class="token operator">: </span><a href="-replay-result/index.html">WKNotificationAbility.ReplayResult</a><span class="token punctuation">, </span></span><span class="parameter ">sendSms<span class="token operator">: </span><a href="-replay-result/index.html">WKNotificationAbility.ReplayResult</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Completable///PointingToDeclaration/">Completable</span></div><div class="brief "><p class="paragraph">Replay result of <a href="observe-telephony-hangup.html">observeTelephonyHangup</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-588004467%2FFunctions%2F-1218342649" anchor-label="sendAppNotification" id="-588004467%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="send-app-notification.html"><span>send</span><wbr><span>App</span><wbr><span><span>Notification</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-588004467%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="androidx.annotation/CheckResult///PointingToDeclaration/"><span class="token annotation builtin">CheckResult</span></span></div></div><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="send-app-notification.html"><span class="token function">sendAppNotification</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">packageName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">title<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">content<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">tickerText<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Completable///PointingToDeclaration/">Completable</span></div><div class="brief "><p class="paragraph">Send app notification.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1788423585%2FFunctions%2F-1218342649" anchor-label="sendTelephonyNotification" id="-1788423585%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="send-telephony-notification.html"><span>send</span><wbr><span>Telephony</span><wbr><span><span>Notification</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1788423585%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="androidx.annotation/CheckResult///PointingToDeclaration/"><span class="token annotation builtin">CheckResult</span></span></div></div><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="send-telephony-notification.html"><span class="token function">sendTelephonyNotification</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">phoneNumber<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Completable///PointingToDeclaration/">Completable</span></div><div class="brief "><p class="paragraph">Send telephony notification</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="335642768%2FFunctions%2F-1218342649" anchor-label="setTelephonyConfig" id="335642768%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-telephony-config.html"><span>set</span><wbr><span>Telephony</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="335642768%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="androidx.annotation/CheckResult///PointingToDeclaration/"><span class="token annotation builtin">CheckResult</span></span></div></div><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="set-telephony-config.html"><span class="token function">setTelephonyConfig</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">isEnabled<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Completable///PointingToDeclaration/">Completable</span></div><div class="brief "><p class="paragraph">Set telephony config enabled or disabled?</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

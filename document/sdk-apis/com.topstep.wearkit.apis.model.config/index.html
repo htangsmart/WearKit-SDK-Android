@@ -1,0 +1,373 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>com.topstep.wearkit.apis.model.config</title>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../index.html">
+                            android-sdk-wearkit
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":sdk-apis:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="package" id="content" pageids="sdk-apis::com.topstep.wearkit.apis.model.config////PointingToDeclaration//-1218342649">
+  <div class="breadcrumbs"><a href="../index.html">sdk-apis</a><span class="delimiter">/</span><span class="current">com.topstep.wearkit.apis.model.config</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-1789751051%2FClasslikes%2F-1218342649" anchor-label="WKActivityGoalConfig" id="-1789751051%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-activity-goal-config/index.html"><span>WKActivity</span><wbr><span>Goal</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1789751051%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-w-k-activity-goal-config/index.html">WKActivityGoalConfig</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>timestampSeconds<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>steps<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">8000</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>distance<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html">Double</a><span class="token operator"> = </span><span class="token constant">1000.0</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>calories<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html">Double</a><span class="token operator"> = </span><span class="token constant">40.0</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>duration<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>12 * 60 * 60<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>number<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">1</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>sportDuration<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>30 * 60</span></span><span class="token punctuation">)</span> : <a href="../../sdk-base/com.topstep.wearkit.base.model.data/-i-timestamp-seconds/index.html">ITimestampSeconds</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1003441447%2FClasslikes%2F-1218342649" anchor-label="WKBaseAlarmConfig" id="1003441447%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-base-alarm-config/index.html"><span>WKBase</span><wbr><span>Alarm</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1003441447%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-w-k-base-alarm-config/index.html">WKBaseAlarmConfig</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>isEnabled<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>min<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>max<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="884975328%2FClasslikes%2F-1218342649" anchor-label="WKBloodOxygenAlarmConfig" id="884975328%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-blood-oxygen-alarm-config/index.html"><span>WKBlood</span><wbr><span>Oxygen</span><wbr><span>Alarm</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="884975328%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">typealias </span><a href="-w-k-blood-oxygen-alarm-config/index.html">WKBloodOxygenAlarmConfig</a><span class="token operator"> = </span><a href="-w-k-base-alarm-config/index.html">WKBaseAlarmConfig</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1879489079%2FClasslikes%2F-1218342649" anchor-label="WKBloodOxygenMonitorConfig" id="1879489079%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-blood-oxygen-monitor-config/index.html"><span>WKBlood</span><wbr><span>Oxygen</span><wbr><span>Monitor</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1879489079%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">typealias </span><a href="-w-k-blood-oxygen-monitor-config/index.html">WKBloodOxygenMonitorConfig</a><span class="token operator"> = </span><a href="-w-k-monitor-config/index.html">WKMonitorConfig</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1924691077%2FClasslikes%2F-1218342649" anchor-label="WKBloodPressureAlarmConfig" id="1924691077%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-blood-pressure-alarm-config/index.html"><span>WKBlood</span><wbr><span>Pressure</span><wbr><span>Alarm</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1924691077%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-w-k-blood-pressure-alarm-config/index.html">WKBloodPressureAlarmConfig</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>isEnabled<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>sbpMin<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">50</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>sbpMax<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">70</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>dbpMin<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">50</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>dbpMax<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">70</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="318943900%2FClasslikes%2F-1218342649" anchor-label="WKBloodPressureMonitorConfig" id="318943900%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-blood-pressure-monitor-config/index.html"><span>WKBlood</span><wbr><span>Pressure</span><wbr><span>Monitor</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="318943900%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">typealias </span><a href="-w-k-blood-pressure-monitor-config/index.html">WKBloodPressureMonitorConfig</a><span class="token operator"> = </span><a href="-w-k-monitor-config/index.html">WKMonitorConfig</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1522521739%2FClasslikes%2F-1218342649" anchor-label="WKDeviceInfo" id="-1522521739%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-device-info/index.html"><span>WKDevice</span><wbr><span><span>Info</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1522521739%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-w-k-device-info/index.html">WKDeviceInfo</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1798698189%2FClasslikes%2F-1218342649" anchor-label="WKDndConfig" id="1798698189%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-dnd-config/index.html"><span>WKDnd</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1798698189%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">typealias </span><a href="-w-k-dnd-config/index.html">WKDndConfig</a><span class="token operator"> = </span><a href="-w-k-time-range-config/index.html">WKTimeRangeConfig</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1941075231%2FClasslikes%2F-1218342649" anchor-label="WKFunctionConfig" id="1941075231%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-function-config/index.html"><span>WKFunction</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1941075231%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-w-k-function-config/index.html">WKFunctionConfig</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2103703788%2FClasslikes%2F-1218342649" anchor-label="WKHeartRateAlarmConfig" id="2103703788%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-heart-rate-alarm-config/index.html"><span>WKHeart</span><wbr><span>Rate</span><wbr><span>Alarm</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2103703788%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-w-k-heart-rate-alarm-config/index.html">WKHeartRateAlarmConfig</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>exercise<span class="token operator">: </span><a href="-w-k-base-alarm-config/index.html">WKBaseAlarmConfig</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>resting<span class="token operator">: </span><a href="-w-k-base-alarm-config/index.html">WKBaseAlarmConfig</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="551467331%2FClasslikes%2F-1218342649" anchor-label="WKHeartRateMonitorConfig" id="551467331%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-heart-rate-monitor-config/index.html"><span>WKHeart</span><wbr><span>Rate</span><wbr><span>Monitor</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="551467331%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">typealias </span><a href="-w-k-heart-rate-monitor-config/index.html">WKHeartRateMonitorConfig</a><span class="token operator"> = </span><a href="-w-k-monitor-config/index.html">WKMonitorConfig</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-941627251%2FClasslikes%2F-1218342649" anchor-label="WKMonitorConfig" id="-941627251%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-monitor-config/index.html"><span>WKMonitor</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-941627251%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-w-k-monitor-config/index.html">WKMonitorConfig</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>isEnabled<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>start<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>end<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>interval<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">10</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1355225445%2FClasslikes%2F-1218342649" anchor-label="WKPressureAlarmConfig" id="-1355225445%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-pressure-alarm-config/index.html"><span>WKPressure</span><wbr><span>Alarm</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1355225445%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">typealias </span><a href="-w-k-pressure-alarm-config/index.html">WKPressureAlarmConfig</a><span class="token operator"> = </span><a href="-w-k-base-alarm-config/index.html">WKBaseAlarmConfig</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="825161522%2FClasslikes%2F-1218342649" anchor-label="WKPressureMonitorConfig" id="825161522%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-pressure-monitor-config/index.html"><span>WKPressure</span><wbr><span>Monitor</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="825161522%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">typealias </span><a href="-w-k-pressure-monitor-config/index.html">WKPressureMonitorConfig</a><span class="token operator"> = </span><a href="-w-k-monitor-config/index.html">WKMonitorConfig</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2068529532%2FClasslikes%2F-1218342649" anchor-label="WKRaiseWakeupConfig" id="2068529532%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-raise-wakeup-config/index.html"><span>WKRaise</span><wbr><span>Wakeup</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2068529532%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">typealias </span><a href="-w-k-raise-wakeup-config/index.html">WKRaiseWakeupConfig</a><span class="token operator"> = </span><a href="-w-k-time-range-config/index.html">WKTimeRangeConfig</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-970064440%2FClasslikes%2F-1218342649" anchor-label="WKShape" id="-970064440%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-shape/index.html"><span><span>WKShape</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-970064440%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-w-k-shape/index.html">WKShape</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>shape<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>width<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>height<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">var </span>corners<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="android.os/Parcelable///PointingToDeclaration/">Parcelable</span></div><div class="brief "><p class="paragraph">Shape Info</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="431664823%2FClasslikes%2F-1218342649" anchor-label="WKTimeRangeConfig" id="431664823%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-time-range-config/index.html"><span>WKTime</span><wbr><span>Range</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="431664823%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-w-k-time-range-config/index.html">WKTimeRangeConfig</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>isEnabled<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>start<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>end<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1900868109%2FClasslikes%2F-1218342649" anchor-label="WKUnitConfig" id="-1900868109%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-k-unit-config/index.html"><span>WKUnit</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1900868109%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-w-k-unit-config/index.html">WKUnitConfig</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>isMetric<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>isCentigrade<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="EXTENSION_FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1693226425%2FFunctions%2F-1218342649" anchor-label="toBuilder" id="1693226425%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="to-builder.html"><span>to</span><wbr><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1693226425%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="-w-k-function-config/index.html">WKFunctionConfig</a><span class="token punctuation">.</span><a href="to-builder.html"><span class="token function">toBuilder</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-w-k-function-config/-builder/index.html">WKFunctionConfig.Builder</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

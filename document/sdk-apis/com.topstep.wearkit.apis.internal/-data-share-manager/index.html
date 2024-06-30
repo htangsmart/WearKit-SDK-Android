@@ -1,0 +1,325 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>DataShareManager</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            android-sdk-wearkit
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":sdk-apis:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="sdk-apis::com.topstep.wearkit.apis.internal/DataShareManager///PointingToDeclaration//-1218342649">
+  <div class="breadcrumbs"><a href="../../index.html">sdk-apis</a><span class="delimiter">/</span><a href="../index.html">com.topstep.wearkit.apis.internal</a><span class="delimiter">/</span><span class="current">DataShareManager</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Data</span><wbr><span>Share</span><wbr><span><span>Manager</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="androidx.annotation/RestrictTo///PointingToDeclaration/"><span class="token annotation builtin">RestrictTo</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="token punctuation">[</span><span><span data-unresolved-link="androidx.annotation/RestrictTo.Scope.LIBRARY_GROUP///PointingToDeclaration/">RestrictTo.Scope.LIBRARY_GROUP</span></span><wbr><span class="token punctuation">]</span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">interface </span><a href="index.html">DataShareManager</a></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1572005109%2FFunctions%2F-1218342649" anchor-label="getActivity" id="1572005109%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-activity.html"><span>get</span><wbr><span><span>Activity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1572005109%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-activity.html"><span class="token function">getActivity</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">start<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">end<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Single///PointingToDeclaration/">Single</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-activity-item/index.html">WKActivityItem</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="928582436%2FFunctions%2F-1218342649" anchor-label="getActivityTotal" id="928582436%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-activity-total.html"><span>get</span><wbr><span>Activity</span><wbr><span><span>Total</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="928582436%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-activity-total.html"><span class="token function">getActivityTotal</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">start<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">end<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Single///PointingToDeclaration/">Single</span><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-activity-item/index.html">WKActivityItem</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2145144998%2FFunctions%2F-1218342649" anchor-label="getBloodOxygen" id="2145144998%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-blood-oxygen.html"><span>get</span><wbr><span>Blood</span><wbr><span><span>Oxygen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2145144998%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-blood-oxygen.html"><span class="token function">getBloodOxygen</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">start<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">end<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Single///PointingToDeclaration/">Single</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-blood-oxygen-item/index.html">WKBloodOxygenItem</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-442504565%2FFunctions%2F-1218342649" anchor-label="getBloodPressure" id="-442504565%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-blood-pressure.html"><span>get</span><wbr><span>Blood</span><wbr><span><span>Pressure</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-442504565%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-blood-pressure.html"><span class="token function">getBloodPressure</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">start<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">end<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Single///PointingToDeclaration/">Single</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-blood-pressure-item/index.html">WKBloodPressureItem</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1384104590%2FFunctions%2F-1218342649" anchor-label="getHeartRate" id="-1384104590%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-heart-rate.html"><span>get</span><wbr><span>Heart</span><wbr><span><span>Rate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1384104590%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-heart-rate.html"><span class="token function">getHeartRate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">start<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">end<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Single///PointingToDeclaration/">Single</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-heart-rate-item/index.html">WKHeartRateItem</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1645682901%2FFunctions%2F-1218342649" anchor-label="getPressure" id="-1645682901%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-pressure.html"><span>get</span><wbr><span><span>Pressure</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1645682901%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-pressure.html"><span class="token function">getPressure</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">start<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">end<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Single///PointingToDeclaration/">Single</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-pressure-item/index.html">WKPressureItem</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="758675760%2FFunctions%2F-1218342649" anchor-label="getSleepDaily" id="758675760%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-sleep-daily.html"><span>get</span><wbr><span>Sleep</span><wbr><span><span>Daily</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="758675760%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-sleep-daily.html"><span class="token function">getSleepDaily</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">start<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">end<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">algorithm<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sleep-algorithm/index.html">WKSleepAlgorithm</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Single///PointingToDeclaration/">Single</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sleep-daily/index.html">WKSleepDaily</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1615815904%2FFunctions%2F-1218342649" anchor-label="getSport" id="-1615815904%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-sport.html"><span>get</span><wbr><span><span>Sport</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1615815904%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-sport.html"><span class="token function">getSport</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">start<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">end<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Single///PointingToDeclaration/">Single</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sport-record/index.html">WKSportRecord</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1012543608%2FFunctions%2F-1218342649" anchor-label="getSportSummary" id="1012543608%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-sport-summary.html"><span>get</span><wbr><span>Sport</span><wbr><span><span>Summary</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1012543608%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-sport-summary.html"><span class="token function">getSportSummary</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">start<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">end<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Single///PointingToDeclaration/">Single</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sport-summary/index.html">WKSportSummary</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1039282139%2FFunctions%2F-1218342649" anchor-label="saveActivity" id="1039282139%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="save-activity.html"><span>save</span><wbr><span><span>Activity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1039282139%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="save-activity.html"><span class="token function">saveActivity</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">items<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-activity-item/index.html">WKActivityItem</a><span class="token operator">&gt;</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Completable///PointingToDeclaration/">Completable</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="667703351%2FFunctions%2F-1218342649" anchor-label="saveBloodOxygen" id="667703351%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="save-blood-oxygen.html"><span>save</span><wbr><span>Blood</span><wbr><span><span>Oxygen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="667703351%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="save-blood-oxygen.html"><span class="token function">saveBloodOxygen</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">items<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-blood-oxygen-item/index.html">WKBloodOxygenItem</a><span class="token operator">&gt;</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Completable///PointingToDeclaration/">Completable</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-250034153%2FFunctions%2F-1218342649" anchor-label="saveBloodPressure" id="-250034153%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="save-blood-pressure.html"><span>save</span><wbr><span>Blood</span><wbr><span><span>Pressure</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-250034153%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="save-blood-pressure.html"><span class="token function">saveBloodPressure</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">items<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-blood-pressure-item/index.html">WKBloodPressureItem</a><span class="token operator">&gt;</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Completable///PointingToDeclaration/">Completable</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1669514103%2FFunctions%2F-1218342649" anchor-label="saveHeartRate" id="1669514103%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="save-heart-rate.html"><span>save</span><wbr><span>Heart</span><wbr><span><span>Rate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1669514103%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="save-heart-rate.html"><span class="token function">saveHeartRate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">items<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-heart-rate-item/index.html">WKHeartRateItem</a><span class="token operator">&gt;</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Completable///PointingToDeclaration/">Completable</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-433357045%2FFunctions%2F-1218342649" anchor-label="savePressure" id="-433357045%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="save-pressure.html"><span>save</span><wbr><span><span>Pressure</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-433357045%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="save-pressure.html"><span class="token function">savePressure</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">items<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-pressure-item/index.html">WKPressureItem</a><span class="token operator">&gt;</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Completable///PointingToDeclaration/">Completable</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2034048819%2FFunctions%2F-1218342649" anchor-label="saveSleep" id="2034048819%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="save-sleep.html"><span>save</span><wbr><span><span>Sleep</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2034048819%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="save-sleep.html"><span class="token function">saveSleep</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">items<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sleep-item/index.html">WKSleepItem</a><span class="token operator">&gt;</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Completable///PointingToDeclaration/">Completable</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1426083413%2FFunctions%2F-1218342649" anchor-label="saveSport" id="1426083413%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="save-sport.html"><span>save</span><wbr><span><span>Sport</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1426083413%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="save-sport.html"><span class="token function">saveSport</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sync-source/index.html">WKSyncSource</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">records<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.data/-w-k-sport-record/index.html">WKSportRecord</a><span class="token operator">&gt;</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Completable///PointingToDeclaration/">Completable</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

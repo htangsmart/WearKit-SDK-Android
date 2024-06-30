@@ -1,0 +1,115 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>WKScanner</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            android-sdk-wearkit
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":sdk-apis:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="sdk-apis::com.topstep.wearkit.apis/WKScanner///PointingToDeclaration//-1218342649">
+  <div class="breadcrumbs"><a href="../../index.html">sdk-apis</a><span class="delimiter">/</span><a href="../index.html">com.topstep.wearkit.apis</a><span class="delimiter">/</span><span class="current">WKScanner</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>WKScanner</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">WKScanner</a></div><p class="paragraph">Helper for scan ble devices</p><p class="paragraph">For the <a href="scan.html">scan</a> process, it provides some additional implementations:</p><p class="paragraph"><strong>1.Filter devices.</strong></p><p class="paragraph"><strong>2.Use different scanning modes for different scenes in the foreground and background.</strong></p><p class="paragraph">For the foreground, use ScanSettings.SCAN_MODE_LOW_LATENCY. For the background, use ScanSettings.SCAN_MODE_LOW_POWER.</p><p class="paragraph"><strong>3.Optimize the exception of </strong><strong>BleScanException.UNDOCUMENTED_SCAN_THROTTLE</strong><strong>.</strong></p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="302780127%2FFunctions%2F-1218342649" anchor-label="qrcode" id="302780127%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="qrcode.html"><span><span>qrcode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="302780127%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="qrcode.html"><span class="token function">qrcode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">content<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.core/-w-k-qr-code-result/index.html">WKQrCodeResult</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">TODO Not yet implemented</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="648083441%2FFunctions%2F-1218342649" anchor-label="scan" id="648083441%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="scan.html"><span><span>scan</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="648083441%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="androidx.annotation/CheckResult///PointingToDeclaration/"><span class="token annotation builtin">CheckResult</span></span></div></div><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="scan.html"><span class="token function">scan</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">type<span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.model.core/-w-k-device-type/index.html">WKDeviceType</a><span class="token punctuation">, </span></span><span class="parameter ">durationSeconds<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">checkLocationService<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">acceptEmptyName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.reactivex.rxjava3.core/Observable///PointingToDeclaration/">Observable</span><span class="token operator">&lt;</span><a href="../../com.topstep.wearkit.apis.model.core/-w-k-scan-result/index.html">WKScanResult</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,603 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>WKWearKit</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            android-sdk-wearkit
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":sdk-apis:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="sdk-apis::com.topstep.wearkit.apis/WKWearKit///PointingToDeclaration//-1218342649">
+  <div class="breadcrumbs"><a href="../../index.html">sdk-apis</a><span class="delimiter">/</span><a href="../index.html">com.topstep.wearkit.apis</a><span class="delimiter">/</span><span class="current">WKWearKit</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>WKWear</span><wbr><span><span>Kit</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">WKWearKit</a></div><p class="paragraph">SDK Access Class.</p><p class="paragraph">Use for get <a href="scanner.html">scanner</a> and <a href="connector.html">connector</a>, and all abilities of device</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="658522566%2FClasslikes%2F-1218342649" anchor-label="Builder" id="658522566%2FClasslikes%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-builder/index.html"><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="658522566%2FClasslikes%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-builder/index.html">Builder</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-540325197%2FProperties%2F-1218342649" anchor-label="activityAbility" id="-540325197%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="activity-ability.html"><span>activity</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-540325197%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="activity-ability.html">activityAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.data/-w-k-activity-ability/index.html">WKActivityAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1457892301%2FProperties%2F-1218342649" anchor-label="alarmAbility" id="-1457892301%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="alarm-ability.html"><span>alarm</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1457892301%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="alarm-ability.html">alarmAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.base/-w-k-alarm-ability/index.html">WKAlarmAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="75880094%2FProperties%2F-1218342649" anchor-label="application" id="75880094%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="application.html"><span><span>application</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="75880094%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="application.html">application</a><span class="token operator">: </span><span data-unresolved-link="android.app/Application///PointingToDeclaration/">Application</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="243947567%2FProperties%2F-1218342649" anchor-label="batteryAbility" id="243947567%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="battery-ability.html"><span>battery</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="243947567%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="battery-ability.html">batteryAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.base/-w-k-battery-ability/index.html">WKBatteryAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1065920804%2FProperties%2F-1218342649" anchor-label="bloodOxygenAbility" id="-1065920804%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="blood-oxygen-ability.html"><span>blood</span><wbr><span>Oxygen</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1065920804%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="blood-oxygen-ability.html">bloodOxygenAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.data/-w-k-blood-oxygen-ability/index.html">WKBloodOxygenAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-715064567%2FProperties%2F-1218342649" anchor-label="cameraAbility" id="-715064567%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="camera-ability.html"><span>camera</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-715064567%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="camera-ability.html">cameraAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.base/-w-k-camera-ability/index.html">WKCameraAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1113414015%2FProperties%2F-1218342649" anchor-label="connector" id="-1113414015%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="connector.html"><span><span>connector</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1113414015%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="connector.html">connector</a><span class="token operator">: </span><a href="../-w-k-connector/index.html">WKConnector</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1526290441%2FProperties%2F-1218342649" anchor-label="contactsAbility" id="-1526290441%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="contacts-ability.html"><span>contacts</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1526290441%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="contacts-ability.html">contactsAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.base/-w-k-contacts-ability/index.html">WKContactsAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1720626630%2FProperties%2F-1218342649" anchor-label="deviceAbility" id="-1720626630%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="device-ability.html"><span>device</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1720626630%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="device-ability.html">deviceAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.base/-w-k-device-ability/index.html">WKDeviceAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1915150444%2FProperties%2F-1218342649" anchor-label="dialAbility" id="-1915150444%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="dial-ability.html"><span>dial</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1915150444%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="dial-ability.html">dialAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.dial/-w-k-dial-ability/index.html">WKDialAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="906547843%2FProperties%2F-1218342649" anchor-label="dialStyleAbility" id="906547843%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="dial-style-ability.html"><span>dial</span><wbr><span>Style</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="906547843%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="dial-style-ability.html">dialStyleAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.dial/-w-k-dial-style-ability/index.html">WKDialStyleAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-159110468%2FProperties%2F-1218342649" anchor-label="dndAbility" id="-159110468%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="dnd-ability.html"><span>dnd</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-159110468%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="dnd-ability.html">dndAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.config/-w-k-dnd-ability/index.html">WKDndAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-457937910%2FProperties%2F-1218342649" anchor-label="finderAbility" id="-457937910%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="finder-ability.html"><span>finder</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-457937910%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="finder-ability.html">finderAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.base/-w-k-finder-ability/index.html">WKFinderAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1966172028%2FProperties%2F-1218342649" anchor-label="functionAbility" id="1966172028%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="function-ability.html"><span>function</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1966172028%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="function-ability.html">functionAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.config/-w-k-function-ability/index.html">WKFunctionAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1326820184%2FProperties%2F-1218342649" anchor-label="heartRateAbility" id="-1326820184%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="heart-rate-ability.html"><span>heart</span><wbr><span>Rate</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1326820184%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="heart-rate-ability.html">heartRateAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.data/-w-k-heart-rate-ability/index.html">WKHeartRateAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="39225084%2FProperties%2F-1218342649" anchor-label="languageAbility" id="39225084%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="language-ability.html"><span>language</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="39225084%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="language-ability.html">languageAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.base/-w-k-language-ability/index.html">WKLanguageAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1886569018%2FProperties%2F-1218342649" anchor-label="mediaAbility" id="-1886569018%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="media-ability.html"><span>media</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1886569018%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="media-ability.html">mediaAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.base/-w-k-media-ability/index.html">WKMediaAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-706512889%2FProperties%2F-1218342649" anchor-label="musicAbility" id="-706512889%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="music-ability.html"><span>music</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-706512889%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="music-ability.html">musicAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.file/-w-k-music-ability/index.html">WKMusicAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1748185103%2FProperties%2F-1218342649" anchor-label="notificationAbility" id="1748185103%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="notification-ability.html"><span>notification</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1748185103%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="notification-ability.html">notificationAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.base/-w-k-notification-ability/index.html">WKNotificationAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1460391102%2FProperties%2F-1218342649" anchor-label="otaAbility" id="1460391102%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="ota-ability.html"><span>ota</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1460391102%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="ota-ability.html">otaAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.file/-w-k-ota-ability/index.html">WKOtaAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-123529751%2FProperties%2F-1218342649" anchor-label="pressureAbility" id="-123529751%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="pressure-ability.html"><span>pressure</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-123529751%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="pressure-ability.html">pressureAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.data/-w-k-pressure-ability/index.html">WKPressureAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2014135059%2FProperties%2F-1218342649" anchor-label="raiseWakeupAbility" id="-2014135059%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="raise-wakeup-ability.html"><span>raise</span><wbr><span>Wakeup</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2014135059%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="raise-wakeup-ability.html">raiseWakeupAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.config/-w-k-raise-wakeup-ability/index.html">WKRaiseWakeupAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-129853207%2FProperties%2F-1218342649" anchor-label="remindAbility" id="-129853207%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="remind-ability.html"><span>remind</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-129853207%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="remind-ability.html">remindAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.base/-w-k-remind-ability/index.html">WKRemindAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="591930928%2FProperties%2F-1218342649" anchor-label="scanner" id="591930928%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="scanner.html"><span><span>scanner</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="591930928%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="scanner.html">scanner</a><span class="token operator">: </span><a href="../-w-k-scanner/index.html">WKScanner</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-324749994%2FProperties%2F-1218342649" anchor-label="sportAbility" id="-324749994%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="sport-ability.html"><span>sport</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-324749994%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="sport-ability.html">sportAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.data/-w-k-sport-ability/index.html">WKSportAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="859717956%2FProperties%2F-1218342649" anchor-label="syncMocker" id="859717956%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.topstep.wearkit.apis.util/sync-mocker.html"><span>sync</span><wbr><span><span>Mocker</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="859717956%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="index.html">WKWearKit</a><span class="token punctuation">.</span><a href="../../com.topstep.wearkit.apis.util/sync-mocker.html">syncMocker</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.util/-w-k-sync-mocker/index.html">WKSyncMocker</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1046721265%2FProperties%2F-1218342649" anchor-label="timeAbility" id="1046721265%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="time-ability.html"><span>time</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1046721265%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="time-ability.html">timeAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.base/-w-k-time-ability/index.html">WKTimeAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="537107880%2FProperties%2F-1218342649" anchor-label="unitAbility" id="537107880%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="unit-ability.html"><span>unit</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="537107880%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="unit-ability.html">unitAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.config/-w-k-unit-ability/index.html">WKUnitAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1148945942%2FProperties%2F-1218342649" anchor-label="weatherAbility" id="1148945942%2FProperties%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="weather-ability.html"><span>weather</span><wbr><span><span>Ability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1148945942%2FProperties%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="weather-ability.html">weatherAbility</a><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.ability.base/-w-k-weather-ability/index.html">WKWeatherAbility</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-252952485%2FFunctions%2F-1218342649" anchor-label="getDataSharer" id="-252952485%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-data-sharer.html"><span>get</span><wbr><span>Data</span><wbr><span><span>Sharer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-252952485%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="androidx.annotation/RestrictTo///PointingToDeclaration/"><span class="token annotation builtin">RestrictTo</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="token punctuation">[</span><span><span data-unresolved-link="androidx.annotation/RestrictTo.Scope.LIBRARY_GROUP///PointingToDeclaration/">RestrictTo.Scope.LIBRARY_GROUP</span></span><wbr><span class="token punctuation">]</span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-data-sharer.html"><span class="token function">getDataSharer</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.topstep.wearkit.apis.internal/-data-share-manager/index.html">DataShareManager</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1594318672%2FFunctions%2F-1218342649" anchor-label="getProxyKit" id="-1594318672%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-proxy-kit.html"><span>get</span><wbr><span>Proxy</span><wbr><span><span>Kit</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1594318672%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="androidx.annotation/RestrictTo///PointingToDeclaration/"><span class="token annotation builtin">RestrictTo</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="token punctuation">[</span><span><span data-unresolved-link="androidx.annotation/RestrictTo.Scope.LIBRARY_GROUP///PointingToDeclaration/">RestrictTo.Scope.LIBRARY_GROUP</span></span><wbr><span class="token punctuation">]</span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-proxy-kit.html"><span class="token function">getProxyKit</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">WKWearKit</a></div><div class="brief "><p class="paragraph"><a href="index.html">WKWearKit</a> may have represented other objects, use this method to obtain its proxy object</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-213928634%2FFunctions%2F-1218342649" anchor-label="getRawSDK" id="-213928634%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-raw-s-d-k.html"><span>get</span><wbr><span>Raw</span><wbr><span><span>SDK</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-213928634%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-raw-s-d-k.html"><span class="token function">getRawSDK</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></div><div class="brief "><p class="paragraph">Get the raw sdk object.May be FcSDK or FwSDK.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1989041376%2FFunctions%2F-1218342649" anchor-label="rxJavaPluginsIgnoreExceptions" id="1989041376%2FFunctions%2F-1218342649" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":sdk-apis:dokkaHtmlPartial/release" data-filterable-set=":sdk-apis:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="rx-java-plugins-ignore-exceptions.html"><span>rx</span><wbr><span>Java</span><wbr><span>Plugins</span><wbr><span>Ignore</span><wbr><span><span>Exceptions</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1989041376%2FFunctions%2F-1218342649"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sdk-apis:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="rx-java-plugins-ignore-exceptions.html"><span class="token function">rxJavaPluginsIgnoreExceptions</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html">Class</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html">Throwable</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Recommended exceptions ignored with <span data-unresolved-link="io.reactivex.rxjava3.plugins/RxJavaPlugins/setErrorHandler/#io.reactivex.rxjava3.functions.Consumer[kotlin.Throwable]/PointingToDeclaration/">RxJavaPlugins.setErrorHandler</span></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
