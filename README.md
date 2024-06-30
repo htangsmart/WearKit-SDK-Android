@@ -27,6 +27,8 @@ dependencies{
 }
 ```
 
+[How to local aars?](libs/dependencies.md)
+
 ## 3.Init
 1. Use `wearKitInit` to obtain `WKWearKit`. As shown in the following example code.
 2. Use `wearKit.scanner` to scan device
