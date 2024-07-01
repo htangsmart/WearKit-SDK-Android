@@ -1,4 +1,6 @@
 
+How to use local aars?
+
 # Base
 
 ```kotlin
@@ -37,7 +39,7 @@ dependencies {
 ```
 
 ## sdk-aliagent-v{latest_version}.aar
-When you use this aar, you also need to add some additional dependencies and obfuscation rules.
+When you use this aar, you also need to add some additional dependencies and proguard rules.
 
 ```kotlin
 dependencies {
