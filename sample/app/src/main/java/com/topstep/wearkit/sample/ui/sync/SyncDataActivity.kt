@@ -142,14 +142,14 @@ class SyncDataActivity : BaseActivity() {
                         it.distance,
                         it.calories,
                         it.steps,
-                        it.warmUpDuration,
-                        it.fatBurningDuration,
-                        it.aerobicDuration,
-                        it.anaerobicDuration,
-                        it.heartLimitDuration,
-                        it.avgHeartRate,
-                        it.maxHeartRate,
-                        it.minHeartRate
+                        it.heartRateDuration.warmUp,
+                        it.heartRateDuration.fatBurning,
+                        it.heartRateDuration.aerobic,
+                        it.heartRateDuration.anaerobic,
+                        it.heartRateDuration.heartLimit,
+                        it.heartRate.avg,
+                        it.heartRate.max,
+                        it.heartRate.min,
                     )
                 }?.let {
                     appDatabase.sportDao().insert(it)
