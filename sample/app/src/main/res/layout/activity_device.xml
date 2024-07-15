@@ -100,6 +100,11 @@
             <!--                style="@style/Widget.Sample.PreferenceView.Item.Text"-->
             <!--                app:preferenceTitle="@string/dial_custom_widget"/>-->
 
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_sport_push"
+                style="@style/Widget.Sample.PreferenceView.Item.Text"
+                app:preferenceTitle="@string/sport_push"/>
+
         </LinearLayout>
 
     </LinearLayout>

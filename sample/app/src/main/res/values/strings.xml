@@ -616,4 +616,7 @@
     <string name="dial_delete_last">Delete last dial</string>
     <string name="dial_install_one">Install one dial</string>
 
+    <!--Sport Push-->
+    <string name="sport_push">Sport Push</string>
+
 </resources>

@@ -114,7 +114,7 @@ class DialStyleCustomActivity : GetPhotoVideoActivity() {
         }.observeOn(AndroidSchedulers.mainThread()).doOnSubscribe {
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
             progressDialog.setCancelable(false)
-            progressDialog.setTitle("表盘安装中...")
+            progressDialog.setTitle("Installing...")
             progressDialog.show()
         }.subscribe({
             progressDialog.progress = it.progress

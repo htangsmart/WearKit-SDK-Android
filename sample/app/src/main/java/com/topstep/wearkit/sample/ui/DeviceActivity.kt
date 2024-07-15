@@ -21,6 +21,7 @@ import com.topstep.wearkit.sample.ui.measure.MeasureActivity
 import com.topstep.wearkit.sample.ui.music.MediaControlActivity
 import com.topstep.wearkit.sample.ui.music.MusicActivity
 import com.topstep.wearkit.sample.ui.ota.LocalOtaActivity
+import com.topstep.wearkit.sample.ui.sport.SportPushActivity
 import com.topstep.wearkit.sample.ui.sync.SyncDataActivity
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
 import com.topstep.wearkit.sample.utils.permission.PermissionHelper
@@ -77,10 +78,15 @@ class DeviceActivity : BaseActivity() {
         viewBind.itemMusicPush.clickTrigger {
             PermissionHelper.requestReadAudio(this) { granted ->
                 if (granted) {
-                    startActivity(Intent(this, MusicActivity::class.java))
+                    if (wearKit.connector.getConnectorState() != WKConnectorState.CONNECTED) {
+                        toast("Device not connected!")
+                    } else if (!wearKit.musicAbility.compat.isSupport()) {
+                        toast("UnSupport!")
+                    } else {
+                        startActivity(Intent(this, MusicActivity::class.java))
+                    }
                 }
             }
-
         }
 
         viewBind.itemHealthMeasurement.clickTrigger {
@@ -98,6 +104,8 @@ class DeviceActivity : BaseActivity() {
         viewBind.itemDialBase.clickTrigger {
             if (wearKit.connector.getConnectorState() != WKConnectorState.CONNECTED) {
                 toast("Device not connected!")
+            } else if (!wearKit.dialAbility.compat.isSupport()) {
+                toast("UnSupport!")
             } else {
                 startActivity(Intent(this, DialBaseActivity::class.java))
             }
@@ -106,8 +114,20 @@ class DeviceActivity : BaseActivity() {
         viewBind.itemDialCustomStyle.clickTrigger {
             if (wearKit.connector.getConnectorState() != WKConnectorState.CONNECTED) {
                 toast("Device not connected!")
+            } else if (!wearKit.dialStyleAbility.compat.isSupport()) {
+                toast("UnSupport!")
             } else {
                 startActivity(Intent(this, DialStyleCustomActivity::class.java))
+            }
+        }
+
+        viewBind.itemSportPush.clickTrigger {
+            if (wearKit.connector.getConnectorState() != WKConnectorState.CONNECTED) {
+                toast("Device not connected!")
+            } else if (!wearKit.sportUIAbility.compat.isSupport()) {
+                toast("UnSupport!")
+            } else {
+                startActivity(Intent(this, SportPushActivity::class.java))
             }
         }
     }
