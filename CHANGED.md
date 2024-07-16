@@ -1,3 +1,18 @@
+# v3.0.1-beta06
+
+2024-07-16
+
+1. ADD: `WKWeatherHour` add `windScale`,`ultraviolet` and `visibility` fields
+2. ADD: `WKSportType` add `SWIM_IN_POOL` and `SWIM_OPEN_WEATHER` constants
+3. ADD: `WKWearKit` add `release` method for help release sdk
+4. ADD: `WKConnector` add `isBindOrLogin` method to determine whether this connection is in BIND mode or LOGIN mode
+5. ADD: `WKSportRecord` add more sport fields
+6. ADD: `WKSportUIAbility` for sport ui push
+7. CHANGE: `WKSportType` constant value changed
+8. CHANGE: `WKDialStyleAbility` apis changed. `WKDialStyleProvider` remove. How to migrate from beta05 ? Please refer to the sample.
+9. CHANGE: `WKConnector` modify `close(clearAuth,removeBond)` to `clear(clearAuth)`
+10. FIX: Fix some bugs
+
 # v3.0.1-beta05
 
 2024-06-28
