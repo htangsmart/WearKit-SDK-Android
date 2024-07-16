@@ -3,15 +3,17 @@ package com.topstep.wearkit.sample
 import android.net.Uri
 import com.topstep.wearkit.apis.model.config.WKDeviceInfo
 import com.topstep.wearkit.apis.model.core.WKDeviceType
+import com.topstep.wearkit.apis.model.dial.FitCloudDialStyleResources
+import com.topstep.wearkit.apis.model.dial.ShenJuDialStyleResources
+import com.topstep.wearkit.apis.model.dial.WKDialStyleResources
 import com.topstep.wearkit.apis.model.file.WKResources
-import com.topstep.wearkit.apis.provider.WKDialStyleProvider
 import com.topstep.wearkit.base.utils.Optional
 import io.reactivex.rxjava3.core.Single
 
 /**
  * Provide your own dial style resources
  */
-object MyDialStyleProvider : WKDialStyleProvider {
+object MyDialStyleProvider {
 
     /**
      * Use default resources provide by SDK
@@ -30,11 +32,11 @@ object MyDialStyleProvider : WKDialStyleProvider {
 
     var strategy = STRATEGY_CUSTOM_ALL
 
-    override fun getResources(deviceInfo: WKDeviceInfo): Single<Optional<WKDialStyleProvider.StyleResources>>? {
+    fun getResources(deviceInfo: WKDeviceInfo): Single<Optional<WKDialStyleResources>> {
         if (strategy == STRATEGY_DEFAULT) {
             //Return null means use default resources and constraint provide by SDK
             //If the SDK can't provide the matching resources or constraint, it will emit [WKUnsupportedException]
-            return null
+            return Single.just(Optional(null))
         }
         if (deviceInfo.type == WKDeviceType.FIT_CLOUD) {
             if (deviceInfo.model.endsWith("4362")) {
@@ -46,10 +48,10 @@ object MyDialStyleProvider : WKDialStyleProvider {
             }
         }
         //Others,provide null to use default resources provide by SDK
-        return null
+        return Single.just(Optional(null))
     }
 
-    private fun forDevice4362(): WKDialStyleProvider.StyleResources {
+    private fun forDevice4362(): WKDialStyleResources {
         val baseUrl = "file:///android_asset/dial/style/4362"
         val images = listOf(
             Uri.parse("$baseUrl/style1.png"),
@@ -62,11 +64,11 @@ object MyDialStyleProvider : WKDialStyleProvider {
             WKResources(uri = Uri.parse("$baseUrl/template.bin"), size = 967396),
         )
         return if (strategy == STRATEGY_CUSTOM_RESOURCES) {
-            WKDialStyleProvider.StyleResources(
+            WKDialStyleResources(
                 images = images, templates = templates,
             )
         } else {
-            WKDialStyleProvider.FitCloudStyleResources(
+            FitCloudDialStyleResources(
                 images = images, templates = templates,
                 styleWidth = 200,
                 styleHeight = 120,
@@ -76,7 +78,7 @@ object MyDialStyleProvider : WKDialStyleProvider {
         }
     }
 
-    private fun forDeviceOSW802N(): WKDialStyleProvider.StyleResources {
+    private fun forDeviceOSW802N(): WKDialStyleResources {
         val baseUrl = "file:///android_asset/dial/style/OSW-802N"
         val images = listOf(
             Uri.parse("$baseUrl/style1.png"),
@@ -91,11 +93,11 @@ object MyDialStyleProvider : WKDialStyleProvider {
             WKResources(uri = Uri.parse("$baseUrl/template4.json"), size = 2738),
         )
         return if (strategy == STRATEGY_CUSTOM_RESOURCES) {
-            WKDialStyleProvider.StyleResources(
+            WKDialStyleResources(
                 images = images, templates = templates,
             )
         } else {
-            WKDialStyleProvider.ShenJuStyleResources(
+            ShenJuDialStyleResources(
                 images = images, templates = templates,
             )
         }

@@ -18,7 +18,9 @@ import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.topstep.wearkit.apis.ability.dial.WKDialStyleAbility
 import com.topstep.wearkit.apis.model.dial.WKDialStyleConstraint
+import com.topstep.wearkit.apis.model.dial.WKDialStyleResources
 import com.topstep.wearkit.sample.MyApplication
+import com.topstep.wearkit.sample.MyDialStyleProvider
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityDialStyleCustomBinding
 import com.topstep.wearkit.sample.files.AppFiles
@@ -28,6 +30,7 @@ import com.topstep.wearkit.sample.ui.dial.style.adapter.DialPositionSelectAdapte
 import com.topstep.wearkit.sample.ui.dial.style.adapter.DialStyleSelectAdapter
 import com.topstep.wearkit.sample.widget.ColorPickerView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
 import timber.log.Timber
 import java.io.File
 
@@ -50,8 +53,9 @@ class DialStyleCustomActivity : GetPhotoVideoActivity() {
         supportActionBar?.setTitle(R.string.dial_custom_style)
 
         //Request custom style constraint(info)
-        wearKit.dialStyleAbility.requestConstraint()
-            .observeOn(AndroidSchedulers.mainThread())
+        getDialStyleResources().flatMap {
+            wearKit.dialStyleAbility.requestConstraint(it)
+        }.observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 this.styleConstraint = it
                 updateUI(it)
@@ -92,6 +96,20 @@ class DialStyleCustomActivity : GetPhotoVideoActivity() {
 
         viewBind.btnCreateDial.clickTrigger {
             createAndInstall()
+        }
+    }
+
+    private fun getDialStyleResources(): Single<WKDialStyleResources> {
+        val deviceInfo = wearKit.deviceAbility.getDeviceInfo()
+        return MyDialStyleProvider.getResources(deviceInfo).flatMap {
+            val value = it.value
+            if (value == null) {
+                //If you don't have your own dial style resources
+                //Request sdk by default
+                wearKit.dialStyleAbility.requestCloudDialStyleResources()
+            } else {
+                Single.just(value)
+            }
         }
     }
 

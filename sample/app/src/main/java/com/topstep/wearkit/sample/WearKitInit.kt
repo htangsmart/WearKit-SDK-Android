@@ -56,7 +56,7 @@ fun wearKitInit(application: Application): WKWearKit {
             WKShenJuKit.Builder(application, processLifecycleObserver, rxBleClient)
         )
     }
-    val wearKit = buildWKWearKit(builders, arrayOf(MyDialStyleProvider))
+    val wearKit = buildWKWearKit(builders)
 
     /**
      * ToNote:
