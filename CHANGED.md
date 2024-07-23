@@ -1,3 +1,13 @@
+# v3.0.1-beta07
+
+2024-07-23
+
+1. ADD: Add auto download when use `WKDialStyleAbility.createCustom`
+2. OPTIMIZE: Optimize FlyWear-SDK connection speed
+3. FIX: Fix bug of ShenJu-SDK init on work thread.
+4. FIX: Fix bug of ShenJu-SDK has none default shape.
+5. FIX: Fix bug of FitCloud-SDK pace of sport data
+
 # v3.0.1-beta06
 
 2024-07-16
