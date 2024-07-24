@@ -94,7 +94,9 @@ class SyncDataActivity : BaseActivity() {
                 }
             }
             // heart rate
-            WKSyncData.Type.HEART_RATE -> {
+            WKSyncData.Type.HEART_RATE,
+            WKSyncData.Type.HEART_RATE_MANUAL,
+            -> {
                 data.toHeartRate()?.map {
                     Timber.e("Sync HeartRate:$it")
                     HeartRateEntity(it.timestampSeconds, it.heartRate)
@@ -103,7 +105,9 @@ class SyncDataActivity : BaseActivity() {
                 }
             }
             // blood oxygen
-            WKSyncData.Type.BLOOD_OXYGEN -> {
+            WKSyncData.Type.BLOOD_OXYGEN,
+            WKSyncData.Type.BLOOD_OXYGEN_MANUAL,
+            -> {
                 data.toBloodOxygen()?.map {
                     Timber.e("Sync BloodOxygen:$it")
                     BloodOxygenEntity(it.timestampSeconds, it.oxygen)
@@ -112,7 +116,9 @@ class SyncDataActivity : BaseActivity() {
                 }
             }
             //blood pressure
-            WKSyncData.Type.BLOOD_PRESSURE -> {
+            WKSyncData.Type.BLOOD_PRESSURE,
+            WKSyncData.Type.BLOOD_PRESSURE_MANUAL,
+            -> {
                 data.toBloodPressure()?.map {
                     Timber.e("Sync BloodPressure:$it")
                     BloodPressureEntity(it.timestampSeconds, it.sbp, it.dbp)
@@ -121,7 +127,9 @@ class SyncDataActivity : BaseActivity() {
                 }
             }
             //pressure
-            WKSyncData.Type.PRESSURE -> {
+            WKSyncData.Type.PRESSURE,
+            WKSyncData.Type.PRESSURE_MANUAL,
+            -> {
                 data.toPressure()?.map {
                     Timber.e("Sync Pressure:$it")
                     PressureEntity(it.timestampSeconds, it.pressure)
