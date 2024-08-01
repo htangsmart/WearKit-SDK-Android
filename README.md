@@ -18,7 +18,7 @@ dependencyResolutionManagement {
 ```
 dependencies{
     ...
-    def weakit_version = "3.0.1-beta06"
+    def weakit_version = "3.0.1-beta08"
     implementation("com.topstep.wearkit:sdk-core:$weakit_version")
     implementation("com.topstep.wearkit:sdk-flywear-adapter:$weakit_version")
     implementation("com.topstep.wearkit:sdk-fitcloud-adapter:$weakit_version")
@@ -27,7 +27,7 @@ dependencies{
 }
 ```
 
-[How to local aars?](libs/dependencies.md)
+[How to use local aars?](libs/dependencies.md)
 
 ## 3.Init
 1. Use `wearKitInit` to obtain `WKWearKit`. As shown in the following example code.

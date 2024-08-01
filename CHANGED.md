@@ -1,3 +1,10 @@
+# v3.0.1-beta08
+
+2024-08-01
+
+1. ADD: Add `WKBloodPressureAbility`
+2. FIX: Fix bug of `WKDndAbility`
+
 # v3.0.1-beta07
 
 2024-07-23
