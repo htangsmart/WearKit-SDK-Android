@@ -9,7 +9,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.topstep.wearkit.apis.model.file.WKFileOp
-import com.topstep.wearkit.apis.model.file.toWKFileInfo
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityMusicBinding
@@ -17,7 +16,6 @@ import com.topstep.wearkit.sample.ui.base.BaseActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import java.io.File
 
@@ -69,7 +67,7 @@ class MusicActivity : BaseActivity() {
                     watchMusicAdapter.notifyDataSetChanged()
                 }
             }, {
-                Timber.i(it)
+                Timber.w(it)
             })
     }
 
@@ -79,7 +77,7 @@ class MusicActivity : BaseActivity() {
         viewBind.watchMusicRy.adapter = watchMusicAdapter
 
         watchMusicAdapter.listener = object : WatchMusicAdapter.Listener {
-            override fun onItemDelete(name: String, position: Int) {
+            override fun onItemDelete(name: String, pos: Int) {
                 // delete music
                 wearKit.musicAbility.deleteFile(name)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -87,7 +85,7 @@ class MusicActivity : BaseActivity() {
                         val sources = watchMusicAdapter.sources
                         if (sources != null) {
                             for (i in sources.size - 1 downTo 0) {
-                                if (position == i) {
+                                if (pos == i) {
                                     sources.removeAt(i)
                                     watchMusicAdapter.notifyItemRemoved(i)
                                     watchMusicAdapter.notifyItemRangeChanged(0, sources.size)
@@ -97,7 +95,8 @@ class MusicActivity : BaseActivity() {
                         }
                         toast(R.string.tip_success)
                     }, {
-                        Timber.i(it)
+                        toast(R.string.tip_failed)
+                        Timber.w(it)
                     })
             }
         }
@@ -121,7 +120,8 @@ class MusicActivity : BaseActivity() {
                     viewBind.notMusic.visibility = View.VISIBLE
                 }
             }, {
-                Timber.i(it)
+                toast(R.string.tip_failed)
+                Timber.w(it)
             })
     }
 
@@ -129,39 +129,36 @@ class MusicActivity : BaseActivity() {
     private fun pushMusic(filePaths: MutableList<String>) {
         viewBind.musicLayout.visibility = View.VISIBLE
         var index = 0
+        var failCount = 0
         pushMusicDisposable = Observable.fromIterable(filePaths).concatMapCompletable {
             index++
-            val srcFile = File(it)
-            wearKit.musicAbility.addFile(srcFile, srcFile.toWKFileInfo())
-                .subscribeOn(Schedulers.io())
+            wearKit.musicAbility.addFile(File(it))
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext { progress ->
                     viewBind.musicProgress.progress = progress
                     viewBind.musicCount.text = "$index / ${filePaths.size}"
                     viewBind.tvProgress.text = "$progress %"
                 }
-                .doOnError {
-
-                }
-                .doOnComplete {
+                .doOnError { err ->
+                    Timber.w(err)
+                    failCount++
                 }
                 .onErrorComplete()
                 .ignoreElements()
-        }.doOnSubscribe {
-
         }.doOnComplete {
             viewBind.musicLayout.visibility = View.GONE
             viewBind.musicProgress.progress = 0
             viewBind.tvProgress.text = ""
             viewBind.musicCount.text = ""
             toast(R.string.ds_push_success)
-            requestWatchMusic()
-        }.doOnError {
-
         }.subscribe({
-
+            val successCount = filePaths.size - failCount
+            toast("Success:$successCount  Fail:$failCount")
+            if (successCount > 0) {
+                requestWatchMusic()
+            }
         }, {
-            Timber.i(it)
+            Timber.w(it)
         })
     }
 
