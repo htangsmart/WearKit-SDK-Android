@@ -8,6 +8,7 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kilnn.tool.widget.ktx.clickTrigger
+import com.topstep.wearkit.apis.ability.file.addFile
 import com.topstep.wearkit.apis.model.file.WKFileOp
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
