@@ -27,7 +27,7 @@ dependencies{
 }
 ```
 
-[How to use local aars?](libs/dependencies.md)
+[How to use local aars?](libs/How_to_use_local_aars.md)
 
 ## 3.Init
 1. Use `wearKitInit` to obtain `WKWearKit`. As shown in the following example code.

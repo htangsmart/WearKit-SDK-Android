@@ -26,11 +26,13 @@ dependencies {
 
 # FitCloud-SDK
 ```kotlin
-//Required
 dependencies {
+    //Required
     implementation("aar/sdk-fitcloud-v{latest_version}.aar")
     implementation("aar/sdk-fitcloud-adapter-v{latest_version}.aar")
     implementation("aar/sdk-realtek-dfu-v{latest_version}.aar")//Use for dfu
+    implementation("aar/sdk-realtek-bbpro-v{latest_version}.aar")//Use for MusicAbility,EBookAbility,AlbumAbility
+    implementation("aar/sdk-realtek-file-v{latest_version}.jar")//Use for MusicAbility,EBookAbility,AlbumAbility
     implementation("androidx.palette:palette-ktx:1.0.0")//Use for create watchface bitmap
 
     //Optional
@@ -39,7 +41,7 @@ dependencies {
 ```
 
 ## sdk-aliagent-v{latest_version}.aar
-When you use this aar, you also need to add some additional dependencies and proguard rules.
+When you use this aar, you also need to add some additional dependencies.
 
 ```kotlin
 dependencies {
@@ -51,23 +53,6 @@ dependencies {
     implementation("androidx.localbroadcastmanager:localbroadcastmanager:1.1.0")
     implementation("com.aliyun.dpa:oss-android-sdk:2.9.13")
 }
-```
-
-```kotlin
--keepattributes Signature
-        
--keep class com.alibaba.aliagentsdk.** { *; }
--keep class com.google.gson.** { *; }
--keep class com.fd.aliiot.core.** { *; }
--keep class org.eclipse.paho.**{*;}
--keep class com.alibaba.sdk.android.oss.** { *; }
--keep class com.alibaba.fastjson.**{*; }
--keep class org.json.** { *; }
-
--dontwarn okio.**
--dontwarn com.google.gson.**
--dontwarn com.alibaba.fastjson.**
--dontwarn org.apache.commons.codec.binary.**
 ```
 
 # FlyWear-SDK
