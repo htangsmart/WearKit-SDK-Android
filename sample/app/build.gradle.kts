@@ -49,7 +49,8 @@ android {
             signingConfig = signingConfigs.getByName("wearkit")
         }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("wearkit")
         }
