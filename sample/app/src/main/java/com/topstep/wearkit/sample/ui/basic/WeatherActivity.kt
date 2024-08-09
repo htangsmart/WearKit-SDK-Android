@@ -44,7 +44,7 @@ class WeatherActivity : BaseActivity() {
             //Mock today weather
             val weatherToday = WKWeatherToday(
                 timestampSeconds = System.currentTimeMillis() / 1000,
-                code = WKWeatherCode.CLEAR_DAY,
+                code = WKWeatherCode.CLEAR,
                 tempMin = 10,
                 tempMax = 20,
                 tempCurrent = 18,
@@ -75,7 +75,7 @@ class WeatherActivity : BaseActivity() {
                 hoursList.add(
                     WKWeatherHour(
                         timestampSeconds = System.currentTimeMillis() / 1000 + (i + 1) * 60 * 60,//Mock next few hours
-                        code = WKWeatherCode.LIGHT_RAIN,
+                        code = WKWeatherCode.RAIN,
                         tempCurrent = 16 + i,
                     )
                 )
