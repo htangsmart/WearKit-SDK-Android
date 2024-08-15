@@ -1,3 +1,40 @@
+# v3.0.1-beta09
+
+2024-08-14
+
+1. CHANGED: Add Realtek file transfer dependencies in “sdk-fitcloud”. If there is a compilation error for duplicate classes, exclude them like this
+   ```groovy
+   //"sdk-fitcloud" included in "sdk-fitcloud-adapter", so just exclude them in "sdk-fitcloud-adapter" is OK.
+   implementation("com.topstep.wearkit:sdk-fitcloud-adapter:$latest_version") {
+       exclude group: "com.topstep.wearkit", module: "ext-realtek-bbpro"
+       exclude group: "com.topstep.wearkit", module: "ext-realtek-file"
+   }
+   ```
+2. CHANGE: `WKMusicAbility` remove useless parameters
+3. CHANGE: The definition of `WKWeatherCode` has changed.
+    ```kotlin
+   CLEAR_DAY change to CLEAR
+   PARTLY_CLOUDY_DAY change to CLOUDY
+   CLOUDY change to OVERCAST
+   
+   LIGHT_RAIN,MODERATE_RAIN change to RAIN
+   STORM_RAIN removed, use HEAVY_RAIN instead
+   
+   LIGHT_HAZE,MODERATE_HAZE,HEAVY_HAZE change to HAZE
+   
+   LIGHT_SNOW,MODERATE_SNOW change to RAIN
+   STORM_SNOW removed, use HEAVY_SNOW instead
+   
+   FOG change to SMOKE_FOG
+   SAND,DUST change to SAND_DUST
+   
+   SLEET change to FREEZING_RAIN
+   
+   HAIL_SLEET added
+    ```
+4. CHANGED: Update "sdk-aliagent-v1.0.5.aar", fix error on Android 14. (Very few watches have this feature)
+5. ADD: Add `WKEBookAbility`,`WKAlbumAbility`
+
 # v3.0.1-beta08
 
 2024-08-01
