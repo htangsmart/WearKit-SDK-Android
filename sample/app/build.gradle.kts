@@ -68,6 +68,29 @@ android {
     }
 }
 
+afterEvaluate {
+    tasks.getByName("installDebug").doLast {
+        val versionName = android.defaultConfig.versionName
+        val oldApkFile = file("${buildDir}/outputs/apk/debug/app-debug.apk")
+        val newApkFile = file("${buildDir}/outputs/apk/debug/WearKit-sample-v${versionName}.apk")
+        if (newApkFile.exists()) {
+            newApkFile.delete()
+        }
+        if (newApkFile.exists()) {
+            println("File can't delete")
+            return@doLast
+        }
+        if (!oldApkFile.exists()) {
+            println("File can't found")
+            return@doLast
+        }
+        oldApkFile.copyTo(newApkFile)
+        if (!newApkFile.exists()) {
+            println("File can't create")
+        }
+    }
+}
+
 dependencies {
     //WearKit Required
     if (isDeveloperEnvironment()) {
