@@ -31,6 +31,7 @@ android {
         buildConfigField("boolean", "isSupportFitCloud", "true")
         buildConfigField("boolean", "isSupportFlyWear", "true")
         buildConfigField("boolean", "isSupportShenJu", "true")
+        buildConfigField("boolean", "isSupportProtoTb", "true")
 
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
@@ -101,6 +102,7 @@ dependencies {
         implementation("com.topstep.wearkit:sdk-flywear-adapter:$weakitVersion") { isChanging = weakitChanging }
         implementation("com.topstep.wearkit:sdk-fitcloud-adapter:$weakitVersion") { isChanging = weakitChanging }
         implementation("com.topstep.wearkit:sdk-shenju-adapter:$weakitVersion") { isChanging = weakitChanging }
+        implementation("com.topstep.wearkit:sdk-prototb-adapter:$weakitVersion") { isChanging = weakitChanging }
         implementation("com.topstep.wearkit:sdk-helper:$weakitVersion") { isChanging = weakitChanging }
     } else {
         //For author environment, use local project
@@ -108,6 +110,7 @@ dependencies {
         implementation(project(":sdk-flywear-adapter"))
         implementation(project(":sdk-fitcloud-adapter"))
         implementation(project(":sdk-shenju-adapter"))
+        implementation(project(":sdk-prototb-adapter"))
         implementation(project(":sdk-helper"))
     }
     implementation(libs.timber)

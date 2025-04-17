@@ -9,6 +9,7 @@
     <string name="main_device_fitcloud">FitCloud设备</string>
     <string name="main_device_flywear">FlyWear设备</string>
     <string name="main_device_shenju">ShenJu设备</string>
+    <string name="main_device_prototb">ProtoTb设备</string>
     <string name="main_to_qrcode">扫描连接</string>
 
     <!--DeviceBasicActivity-->

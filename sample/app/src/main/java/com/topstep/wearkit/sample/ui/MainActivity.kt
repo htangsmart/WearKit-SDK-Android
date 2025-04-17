@@ -34,6 +34,9 @@ class MainActivity : BaseActivity() {
         viewBind.btnScanShenju.setOnClickListener {
             DeviceScanActivity.start(this, WKDeviceType.SHEN_JU)
         }
+        viewBind.btnScanPrototb.setOnClickListener {
+            DeviceScanActivity.start(this, WKDeviceType.PROTO_TB)
+        }
     }
 
     override fun onResume() {

@@ -9,6 +9,7 @@ import com.topstep.wearkit.base.ProcessLifecycleManager
 import com.topstep.wearkit.core.buildWKWearKit
 import com.topstep.wearkit.fitcloud.WKFitCloudKit
 import com.topstep.wearkit.flywear.WKFlyWearKit
+import com.topstep.wearkit.prototb.WKProtoTbKit
 import com.topstep.wearkit.sample.utils.log.AppLogger
 import com.topstep.wearkit.shenju.WKShenJuKit
 import io.reactivex.rxjava3.exceptions.CompositeException
@@ -54,6 +55,11 @@ fun wearKitInit(application: Application): WKWearKit {
     if (BuildConfig.isSupportShenJu) {
         builders.add(
             WKShenJuKit.Builder(application, processLifecycleObserver, rxBleClient)
+        )
+    }
+    if (BuildConfig.isSupportProtoTb) {
+        builders.add(
+            WKProtoTbKit.Builder(application, processLifecycleObserver, rxBleClient)
         )
     }
     val wearKit = buildWKWearKit(builders)
