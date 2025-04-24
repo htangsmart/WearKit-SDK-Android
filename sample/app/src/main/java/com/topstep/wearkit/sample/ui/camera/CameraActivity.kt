@@ -7,9 +7,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.hardware.display.DisplayManager
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.os.Environment
+import android.os.*
 import android.provider.MediaStore
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -20,6 +18,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.window.layout.WindowMetricsCalculator
 import com.github.kilnn.tool.storage.FileUtil
 import com.github.kilnn.tool.widget.ktx.clickTrigger
+import com.shenju.cameracapturer.FrameData
+import com.shenju.cameracapturer.OSIJni
+import com.topstep.wearkit.apis.WKWearKit
 import com.topstep.wearkit.apis.model.message.WKCameraMessage
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
@@ -78,6 +79,11 @@ class CameraActivity : BaseActivity() {
     private var camera: Camera? = null
     private var cameraProvider: ProcessCameraProvider? = null
 
+    // Preview
+    private val osiJni: OSIJni = OSIJni()
+    private val encoderThread: HandlerThread = HandlerThread("encoder")
+    private lateinit var encoderHandler: Handler
+
     override fun onPause() {
         super.onPause()
         viewBind.countDownView.cancelCountDown()
@@ -126,6 +132,16 @@ class CameraActivity : BaseActivity() {
             })
 
         setPhotographMode(true)
+
+        //preview
+        osiJni.initEncoder(PREVIEW_WIDTH, PREVIEW_HEIGHT)
+        encoderThread.start()
+        encoderHandler = Handler(encoderThread.looper)
+        wearKit.cameraAbility.startPreview().onErrorComplete()
+            .doOnError {
+                Timber.w(it)
+            }
+            .subscribe()
     }
 
     private fun setPhotographMode(mode: Boolean) {
@@ -234,15 +250,12 @@ class CameraActivity : BaseActivity() {
             // Set initial target rotation, we will have to call this again if rotation changes
             // during the lifecycle of this use case
             .setTargetRotation(rotation)
+            .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
+            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
             // The analyzer can then be assigned to the instance
             .also {
-                it.setAnalyzer(cameraExecutor, LuminosityAnalyzer { _ ->
-                    // Values returned from our analyzer are passed to the attached listener
-                    // We log image analysis results here - you should do something useful
-                    // instead!
-//                    Timber.tag(TAG).d("Average luminosity: $luma")
-                })
+                it.setAnalyzer(cameraExecutor, LuminosityAnalyzer(wearKit, encoderHandler, osiJni, lensFacing == CameraSelector.LENS_FACING_FRONT))
             }
 
         // Must unbind the use-cases before rebinding them
@@ -447,7 +460,13 @@ class CameraActivity : BaseActivity() {
      * <p>All we need to do is override the function `analyze` with our desired operations. Here,
      * we compute the average luminosity of the image by looking at the Y plane of the YUV frame.
      */
-    private class LuminosityAnalyzer(listener: LumaListener? = null) : ImageAnalysis.Analyzer {
+    private class LuminosityAnalyzer(
+        private val wearKit: WKWearKit,
+        private val encoderHandler: Handler,
+        private val osiJni: OSIJni,
+        private val isFront: Boolean,
+        listener: LumaListener? = null,
+    ) : ImageAnalysis.Analyzer {
         private val frameRateWindow = 8
         private val frameTimestamps = ArrayDeque<Long>(5)
         private val listeners = ArrayList<LumaListener>().apply { listener?.let { add(it) } }
@@ -487,6 +506,10 @@ class CameraActivity : BaseActivity() {
          *
          */
         override fun analyze(image: ImageProxy) {
+//            encoderHandler.post {
+            sendPreviewToWatch(image)
+//            }
+
             // If there are no listeners attached, we don't need to perform analysis
             if (listeners.isEmpty()) {
                 image.close()
@@ -526,12 +549,62 @@ class CameraActivity : BaseActivity() {
 
             image.close()
         }
+
+        private var lastPreviewSentTimestamp = 0L
+
+        private fun sendPreviewToWatch(image: ImageProxy) {
+            val currentTime = System.currentTimeMillis()
+            if (currentTime - lastPreviewSentTimestamp < PREVIEW_INTERVAL) {
+                return
+            }
+            lastPreviewSentTimestamp = currentTime
+
+            val planes = image.planes
+            val yPlane = planes[0]
+            val uPlane = planes[1]
+            val vPlane = planes[2]
+
+            val yBytes: ByteArray = YuvUtil.extractPlaneData(yPlane, image.width, image.height)
+            val uBytes: ByteArray
+            val vBytes: ByteArray?
+
+            if (uPlane.pixelStride == 2) { // UV数据交错
+                uBytes = YuvUtil.extractUVPlaneData(uPlane, image.width / 2, image.height / 2) // 注意宽度和高度
+                vBytes = null
+            } else {
+                uBytes = YuvUtil.extractPlaneData(uPlane, image.width / 2, image.height / 2) // 注意宽度和高度
+                vBytes = YuvUtil.extractPlaneData(vPlane, image.width / 2, image.height / 2) // 注意宽度和高度
+            }
+
+            synchronized(osiJni) {
+                val h264Data = FrameData()
+                val ret = osiJni.runEncoder(
+                    yBytes, uBytes, vBytes, image.width, image.height,
+                    image.imageInfo.rotationDegrees, h264Data, isFront
+                )
+                if (ret == 0) {
+                    wearKit.cameraAbility.updatePreview(
+                        h264Data.frameType, h264Data.frameData
+                    ).onErrorComplete()
+                        .doOnError {
+                            Timber.w(it)
+                        }
+                        .subscribe()
+                }
+            }
+
+        }
+
     }
 
     companion object {
         private const val TAG = "Camera"
         private const val RATIO_4_3_VALUE = 4.0 / 3.0
         private const val RATIO_16_9_VALUE = 16.0 / 9.0
+
+        private const val PREVIEW_INTERVAL = 100L // 发送预览的时间间隔(毫秒)
+        private const val PREVIEW_WIDTH = 466 // 预览图像宽度
+        private const val PREVIEW_HEIGHT = 466 // 预览图像高度
 
         fun makePublicContentValues(context: Context): ContentValues? {
             val contentValues = ContentValues()
@@ -565,6 +638,11 @@ class CameraActivity : BaseActivity() {
         setPhotographMode(false)
         cameraExecutor.shutdown()
         displayManager.unregisterDisplayListener(displayListener)
+        //preview
+        encoderThread.quitSafely()
+        synchronized(osiJni) {
+            osiJni.closeEncoder()
+        }
     }
 
 }
