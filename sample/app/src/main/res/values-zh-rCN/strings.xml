@@ -10,7 +10,8 @@
     <string name="main_device_flywear">FlyWear设备</string>
     <string name="main_device_shenju">ShenJu设备</string>
     <string name="main_device_prototb">ProtoTb设备</string>
-    <string name="main_to_qrcode">扫描连接</string>
+    <string name="main_to_qrcode">扫码连接</string>
+    <string name="main_switch_method">切换连接方式</string>
 
     <!--DeviceBasicActivity-->
     <string name="ds_device_basic">基础功能</string>

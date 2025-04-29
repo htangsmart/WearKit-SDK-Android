@@ -79,13 +79,28 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_qrcode"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:text="@string/main_to_qrcode"/>
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_qrcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="@string/main_to_qrcode"/>
+
+            <Button
+                android:id="@+id/btn_connection_method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="@string/main_switch_method"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
