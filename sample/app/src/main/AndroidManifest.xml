@@ -88,6 +88,8 @@
 
         <activity android:name=".ui.config.FunctionConfigActivity"/>
 
+        <activity android:name=".ui.config.UnitConfigActivity"/>
+
         <activity android:name=".ui.contacts.ContactsActivity"/>
 
         <activity android:name=".ui.contacts.EmergencyContactsActivity"/>

@@ -10,24 +10,19 @@
         android:orientation="vertical">
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_function_config"
+            android:id="@+id/item_metric_imperial"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_function_config"/>
+            app:preferenceTitle="@string/ds_metric_imperial"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_unit_config"
+            android:id="@+id/item_temperature_unit"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_unit_config"/>
+            app:preferenceTitle="@string/ds_temperature_unit"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_pb_test_get_all"
+            android:id="@+id/item_pb_test_get_config"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="获取所有配置"/>
-
-        <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_pb_test_get_device_info"
-            style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="获取设备信息"/>
+            app:preferenceTitle="获取单位配置"/>
 
         <TextView
             android:id="@+id/tv_tips"

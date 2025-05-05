@@ -205,8 +205,14 @@
     <string name="ds_weather">天气</string>
     <string name="ds_health_enhanced">增强健康监测</string>
 
-    <string name="ds_length_unit_imperial">长度单位-英制(英里、英尺)</string>
-    <string name="ds_temperature_unit_fahrenheit">温度单位-华氏度(℉)</string>
+    <string name="ds_unit_config">单位配置</string>
+    <string name="ds_metric_imperial">公英制</string>
+    <string name="ds_metric">公制</string>
+    <string name="ds_imperial">英制</string>
+    <string name="ds_temperature_unit">温度单位</string>
+    <string name="ds_temperature_celsius">摄氏度</string>
+    <string name="ds_temperature_fahrenheit">华氏度</string>
+
     <string name="ds_disconnect_reminder">断开提醒</string>
     <string name="ds_display_exercise_goal">显示锻炼目标</string>
 

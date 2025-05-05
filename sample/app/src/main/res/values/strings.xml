@@ -205,8 +205,14 @@
     <string name="ds_weather">Weather</string>
     <string name="ds_health_enhanced">Enhanced health monitor</string>
 
-    <string name="ds_length_unit_imperial">Length Units-Imperial(miles, feet)</string>
-    <string name="ds_temperature_unit_fahrenheit">Temperature Units-Fahrenheit(℉)</string>
+    <string name="ds_unit_config">Unit Config</string>
+    <string name="ds_metric_imperial">Metric or Imperial</string>
+    <string name="ds_metric">Metric</string>
+    <string name="ds_imperial">Imperial</string>
+    <string name="ds_temperature_unit">Temperature Units</string>
+    <string name="ds_temperature_celsius">Celsius</string>
+    <string name="ds_temperature_fahrenheit">Fahrenheit</string>
+
     <string name="ds_disconnect_reminder">Disconnect Reminder</string>
     <string name="ds_display_exercise_goal">Display Exercise Goal</string>
 
