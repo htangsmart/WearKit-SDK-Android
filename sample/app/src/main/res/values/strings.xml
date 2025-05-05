@@ -11,10 +11,13 @@
     <string name="main_device_shenju">ShenJu Device</string>
     <string name="main_device_prototb">ProtoTb Device</string>
     <string name="main_to_qrcode">Scan Qr Code to connect</string>
-    <string name="main_switch_method">Switch Connection Method</string>
+    <string name="main_switch_method">Switch Connection Method:%s</string>
+    <string name="main_not_implemented">Not implemented</string>
+    <string name="main_switch_done">Switch to %s, Please restart this app(Only for FlyWear,ProtoTb Device)</string>
 
     <!--DeviceBasicActivity-->
     <string name="ds_device_basic">Basic functions</string>
+    <string name="ds_device_config">Config</string>
     <string name="ds_device_reboot">Device Reboot</string>
     <string name="ds_device_shutdown">Device Shutdown</string>
     <string name="ds_device_reset">Device Reset</string>
@@ -189,12 +192,19 @@
     <string name="ds_config_start_time">Start Time</string>
     <string name="ds_config_end_time">End Time</string>
     <string name="ds_config_interval_time">Interval Time</string>
+    <string name="ds_enabled">Enabled</string>
+    <string name="ds_disabled">Disabled</string>
 
     <string name="ds_function_config">Function Config</string>
-    <string name="ds_wear_right_hand">Right Hand Wearing</string>
-    <string name="ds_enhanced_measurement">Enhanced Measurement</string>
-    <string name="ds_time_format_12_hour">Time Format-12 Hour</string>
-    <string name="ds_time_format_24_hour">Time Format-24 Hour</string>
+    <string name="ds_wear_hand">Wear hand</string>
+    <string name="ds_wear_hand_left">Left hand</string>
+    <string name="ds_wear_hand_right">Right hand</string>
+    <string name="ds_time_format">Time format</string>
+    <string name="ds_time_format_12_hour">12 Hour</string>
+    <string name="ds_time_format_24_hour">24 Hour</string>
+    <string name="ds_weather">Weather</string>
+    <string name="ds_health_enhanced">Enhanced health monitor</string>
+
     <string name="ds_length_unit_imperial">Length Units-Imperial(miles, feet)</string>
     <string name="ds_temperature_unit_fahrenheit">Temperature Units-Fahrenheit(℉)</string>
     <string name="ds_disconnect_reminder">Disconnect Reminder</string>

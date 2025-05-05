@@ -61,6 +61,11 @@
                 app:preferenceTitle="@string/ds_device_basic"/>
 
             <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_config"
+                style="@style/Widget.Sample.PreferenceView.Item.Text"
+                app:preferenceTitle="@string/ds_device_config"/>
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
                 android:id="@+id/item_version_info"
                 style="@style/Widget.Sample.PreferenceView.Item.Text"
                 app:preferenceTitle="@string/version_info"/>

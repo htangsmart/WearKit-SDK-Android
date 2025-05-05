@@ -11,10 +11,13 @@
     <string name="main_device_shenju">ShenJu设备</string>
     <string name="main_device_prototb">ProtoTb设备</string>
     <string name="main_to_qrcode">扫码连接</string>
-    <string name="main_switch_method">切换连接方式</string>
+    <string name="main_switch_method">切换连接方式:%s</string>
+    <string name="main_not_implemented">暂未实现</string>
+    <string name="main_switch_done">已切换为%s，重启APP后生效(仅针对FlyWear,ProtoTb设备)</string>
 
     <!--DeviceBasicActivity-->
     <string name="ds_device_basic">基础功能</string>
+    <string name="ds_device_config">配置</string>
     <string name="ds_device_reboot">重启</string>
     <string name="ds_device_shutdown">关机</string>
     <string name="ds_device_reset">恢复出厂设置</string>
@@ -189,12 +192,19 @@
     <string name="ds_config_start_time">开始时间</string>
     <string name="ds_config_end_time">结束时间</string>
     <string name="ds_config_interval_time">间隔时间</string>
+    <string name="ds_enabled">已开启</string>
+    <string name="ds_disabled">已关闭</string>
 
     <string name="ds_function_config">功能配置</string>
-    <string name="ds_wear_right_hand">右手佩戴</string>
-    <string name="ds_enhanced_measurement">增强测量</string>
-    <string name="ds_time_format_12_hour">时间格式-12小时制</string>
-    <string name="ds_time_format_24_hour">时间格式-24小时制</string>
+    <string name="ds_wear_hand">佩戴方式</string>
+    <string name="ds_wear_hand_left">左手</string>
+    <string name="ds_wear_hand_right">右手</string>
+    <string name="ds_time_format">时间格式</string>
+    <string name="ds_time_format_12_hour">12小时制</string>
+    <string name="ds_time_format_24_hour">24小时制</string>
+    <string name="ds_weather">天气</string>
+    <string name="ds_health_enhanced">增强健康监测</string>
+
     <string name="ds_length_unit_imperial">长度单位-英制(英里、英尺)</string>
     <string name="ds_temperature_unit_fahrenheit">温度单位-华氏度(℉)</string>
     <string name="ds_disconnect_reminder">断开提醒</string>

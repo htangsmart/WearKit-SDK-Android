@@ -15,6 +15,7 @@ import com.topstep.wearkit.sample.model.DeviceInfo
 import com.topstep.wearkit.sample.model.UserInfo
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.ui.basic.DeviceBasicActivity
+import com.topstep.wearkit.sample.ui.config.DeviceConfigActivity
 import com.topstep.wearkit.sample.ui.dial.base.DialBaseActivity
 import com.topstep.wearkit.sample.ui.dial.style.DialStyleCustomActivity
 import com.topstep.wearkit.sample.ui.measure.MeasureActivity
@@ -69,6 +70,10 @@ class DeviceActivity : BaseActivity() {
 
         viewBind.itemBasic.clickTrigger {
             startActivity(Intent(this, DeviceBasicActivity::class.java))
+        }
+
+        viewBind.itemConfig.clickTrigger {
+            startActivity(Intent(this, DeviceConfigActivity::class.java))
         }
 
         viewBind.itemVersionInfo.clickTrigger {

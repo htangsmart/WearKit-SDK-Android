@@ -41,24 +41,23 @@ class MainActivity : BaseActivity() {
             DeviceScanActivity.start(this, WKDeviceType.PROTO_TB)
         }
         viewBind.btnQrcode.setOnClickListener {
-            toast("暂未实现")
+            toast(R.string.main_not_implemented)
         }
         updateBtnConnectionMethodText()
         viewBind.btnConnectionMethod.setOnClickListener {
             val method = !getConnectionMethod()
             setConnectionMethod(method)
-            val str = "已切换为%s，重启APP后生效(仅针对FlyWear,ProtoTb设备)"
             if (method) {
-                toast(String.format(str, "BLE"))
+                toast(getString(R.string.main_switch_done, "BLE"))
             } else {
-                toast(String.format(str, "SPP"))
+                toast(getString(R.string.main_switch_done, "SPP"))
             }
             updateBtnConnectionMethodText()
         }
     }
 
     private fun updateBtnConnectionMethodText() {
-        viewBind.btnConnectionMethod.text = getText(R.string.main_switch_method).toString() + ":" + if (getConnectionMethod()) "BLE" else "SPP"
+        viewBind.btnConnectionMethod.text = getString(R.string.main_switch_method, if (getConnectionMethod()) "BLE" else "SPP")
     }
 
     override fun onResume() {

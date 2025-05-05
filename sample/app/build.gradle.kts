@@ -173,6 +173,9 @@ dependencies {
     implementation(libs.androidx.camera.extensions)
     implementation(libs.androidx.window)
 
+    //protobuf
+    implementation(libs.protobuf)
+
     implementation(libs.kilnn.wheelview)
 }
 

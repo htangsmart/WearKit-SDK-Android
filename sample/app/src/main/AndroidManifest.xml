@@ -84,6 +84,10 @@
 
         <activity android:name=".ui.basic.BatteryActivity"/>
 
+        <activity android:name=".ui.config.DeviceConfigActivity"/>
+
+        <activity android:name=".ui.config.FunctionConfigActivity"/>
+
         <activity android:name=".ui.contacts.ContactsActivity"/>
 
         <activity android:name=".ui.contacts.EmergencyContactsActivity"/>
