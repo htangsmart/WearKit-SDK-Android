@@ -36,7 +36,7 @@ class SportAdapter : RecyclerView.Adapter<SportAdapter.ItemViewHolder>() {
         holder.viewBind.sportName.text = item.sportName
         holder.viewBind.sportTime.text = holder.viewBind.sportTime.context.getString(R.string.sport_total_duration, AppUtils.secondsToHMS(item.duration))
         holder.viewBind.sportDistance.visibility = if (item.distance.toInt() > 0) View.VISIBLE else View.GONE
-        holder.viewBind.sportDistance.text = holder.viewBind.sportDistance.context.getString(R.string.exercise_goal_distance) + ":" + (item.distance / 1000f).formatToTwoDecimalPlaces()
+        holder.viewBind.sportDistance.text = holder.viewBind.sportDistance.context.getString(R.string.activity_goal_distance) + ":" + (item.distance / 1000f).formatToTwoDecimalPlaces()
         holder.viewBind.sportCalories.text = holder.viewBind.sportCalories.context.getString(R.string.unit_k_calories_param, item.calories.toInt())
         holder.viewBind.sportAvgHeartRate.text = holder.viewBind.sportAvgHeartRate.context.getString(R.string.sport_avg_heart_rate, item.avgHeartRate)
     }

@@ -10,29 +10,39 @@
         android:orientation="vertical">
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_function_config"
+            android:id="@+id/item_step"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_function_config"/>
+            app:preferenceTitle="@string/activity_goal_step"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_unit_config"
+            android:id="@+id/item_distance"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_unit_config"/>
+            app:preferenceTitle="@string/activity_goal_distance"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_goal_config"
+            android:id="@+id/item_calories"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/activity_goal"/>
+            app:preferenceTitle="@string/activity_goal_calories"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_pb_test_get_all"
+            android:id="@+id/item_duration"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="获取所有配置"/>
+            app:preferenceTitle="@string/activity_goal_duration"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_pb_test_get_device_info"
+            android:id="@+id/item_number"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="获取设备信息"/>
+            app:preferenceTitle="@string/activity_goal_number"/>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            android:id="@+id/item_sport_duration"
+            style="@style/Widget.Sample.PreferenceView.Item.Text"
+            app:preferenceTitle="@string/activity_goal_sport_duration"/>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            android:id="@+id/item_pb_test_get_config"
+            style="@style/Widget.Sample.PreferenceView.Item.Text"
+            app:preferenceTitle="获取目标配置"/>
 
         <TextView
             android:id="@+id/tv_tips"

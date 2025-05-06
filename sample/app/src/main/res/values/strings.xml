@@ -326,11 +326,14 @@
     <string name="ds_dial_position_right">Right</string>
     <string name="ds_dial_component_edit">Edit Component</string>
 
-    <!--Exercise Goal-->
-    <string name="exercise_goal">Exercise Goal</string>
-    <string name="exercise_goal_step">Step</string>
-    <string name="exercise_goal_distance">Distance</string>
-    <string name="exercise_goal_calories">Calories</string>
+    <!--Activity Goal-->
+    <string name="activity_goal">Activity Goal</string>
+    <string name="activity_goal_step">Step</string>
+    <string name="activity_goal_distance">Distance</string>
+    <string name="activity_goal_calories">Calories</string>
+    <string name="activity_goal_duration">Activity duration</string>
+    <string name="activity_goal_number">Activity numbers</string>
+    <string name="activity_goal_sport_duration">Sport duration</string>
 
     <!--Log-->
     <string name="help_log">Log</string>

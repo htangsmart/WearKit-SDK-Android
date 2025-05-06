@@ -326,11 +326,14 @@
     <string name="ds_dial_position_right">右</string>
     <string name="ds_dial_component_edit">编辑组件</string>
 
-    <!--Exercise Goal-->
-    <string name="exercise_goal">运动目标</string>
-    <string name="exercise_goal_step">步数</string>
-    <string name="exercise_goal_distance">距离</string>
-    <string name="exercise_goal_calories">卡路里</string>
+    <!--Activity Goal-->
+    <string name="activity_goal">运动目标</string>
+    <string name="activity_goal_step">步数</string>
+    <string name="activity_goal_distance">距离</string>
+    <string name="activity_goal_calories">卡路里</string>
+    <string name="activity_goal_duration">活动时长</string>
+    <string name="activity_goal_number">活动次数</string>
+    <string name="activity_goal_sport_duration">运动时长</string>
 
     <!--Log-->
     <string name="help_log">日志</string>
