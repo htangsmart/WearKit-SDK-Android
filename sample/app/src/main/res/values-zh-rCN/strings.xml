@@ -224,7 +224,7 @@
     <string name="ds_sbp">收缩压</string>
     <string name="ds_dbp">舒张压</string>
 
-    <string name="ds_turn_wrist_lighting_config">抬腕亮屏配置</string>
+    <string name="ds_raisewakeup_config">抬腕亮屏配置</string>
 
     <string name="ds_heart_rate_alarm">心率预警提醒</string>
     <string name="ds_heart_rate_alarm_des">心率持续超过预警值时提醒</string>

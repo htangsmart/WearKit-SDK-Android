@@ -224,7 +224,7 @@
     <string name="ds_sbp">Systolic pressure</string>
     <string name="ds_dbp">Diastolic pressure</string>
 
-    <string name="ds_turn_wrist_lighting_config">Raise to Wake Config</string>
+    <string name="ds_raisewakeup_config">Raise to Wake Config</string>
 
     <string name="ds_heart_rate_alarm">Heart Rate Warning Reminder</string>
     <string name="ds_heart_rate_alarm_des">Warning when the heart rate continues to exceed the warning value</string>
