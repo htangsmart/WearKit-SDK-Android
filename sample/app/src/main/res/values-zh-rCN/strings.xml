@@ -222,10 +222,6 @@
     <string name="ds_sedentary_config">久坐提醒配置</string>
     <string name="ds_drink_water_config">喝水提醒配置</string>
 
-    <string name="ds_blood_pressure_config">血压参考值配置</string>
-    <string name="ds_sbp">收缩压</string>
-    <string name="ds_dbp">舒张压</string>
-
     <string name="ds_raisewakeup_config">抬腕亮屏配置</string>
 
     <string name="ds_heart_rate_config">心率配置</string>
@@ -233,6 +229,15 @@
     <string name="ds_heart_rate_alarm_exercise">活动心率预警</string>
     <string name="ds_heart_rate_alarm_resting">静息心率预警</string>
     <string name="ds_heart_rate_threshold">运动心率区间阈值</string>
+
+    <string name="ds_pressure_config">压力配置</string>
+    <string name="ds_pressure_monitor">压力监测</string>
+
+    <string name="ds_blood_oxygen_config">血氧配置</string>
+    <string name="ds_blood_oxygen_monitor">血氧监测</string>
+
+    <string name="ds_blood_pressure_config">血压配置</string>
+    <string name="ds_blood_pressure_monitor">血压监测</string>
 
     <string name="ds_blood_pressure_alarm">血压预警提醒</string>
     <string name="ds_blood_pressure_alarm_des">血压持续超过预警值时提醒</string>

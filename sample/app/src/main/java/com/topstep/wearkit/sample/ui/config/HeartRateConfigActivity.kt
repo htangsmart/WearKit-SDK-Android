@@ -180,6 +180,7 @@ class HeartRateConfigActivity : BaseActivity(), TimePickerDialogFragment.Listene
     private fun setMonitor(config: WKHeartRateMonitorConfig) {
         setDispose?.dispose()
         setDispose = wearKit.heartRateAbility.setMonitorConfig(config)
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 Timber.i("Set Success")
             }, { throwable ->

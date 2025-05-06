@@ -223,16 +223,21 @@
     <string name="ds_sedentary_config">Sedentary Reminder Config</string>
     <string name="ds_drink_water_config">Drink Water Reminder Config</string>
 
-    <string name="ds_blood_pressure_config">Blood Pressure Reference Config</string>
-    <string name="ds_sbp">Systolic pressure</string>
-    <string name="ds_dbp">Diastolic pressure</string>
-
     <string name="ds_raisewakeup_config">Raise to Wake Config</string>
 
     <string name="ds_heart_rate_config">HeartRate Config</string>
     <string name="ds_heart_rate_monitor">HeartRate Monitor</string>
     <string name="ds_heart_rate_alarm_exercise">HeartRate exercise alarm</string>
     <string name="ds_heart_rate_alarm_resting">HeartRate resting alarm</string>
+
+    <string name="ds_pressure_config">Pressure Config</string>
+    <string name="ds_pressure_monitor">Pressure Monitor</string>
+
+    <string name="ds_blood_oxygen_config">Blood Oxygen Config</string>
+    <string name="ds_blood_oxygen_monitor">Blood Oxygen Monitor</string>
+
+    <string name="ds_blood_pressure_config">Blood Pressure Config</string>
+    <string name="ds_blood_pressure_monitor">Blood Pressure Monitor</string>
 
     <string name="ds_blood_pressure_alarm">Blood Pressure Warning Reminder</string>
     <string name="ds_blood_pressure_alarm_des">Warning when blood pressure continues to exceed the warning value</string>

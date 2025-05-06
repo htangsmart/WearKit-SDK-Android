@@ -40,6 +40,21 @@
             app:preferenceTitle="@string/ds_heart_rate_config"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
+            android:id="@+id/item_pressure_config"
+            style="@style/Widget.Sample.PreferenceView.Item.Text"
+            app:preferenceTitle="@string/ds_pressure_config"/>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            android:id="@+id/item_blood_oxygen_config"
+            style="@style/Widget.Sample.PreferenceView.Item.Text"
+            app:preferenceTitle="@string/ds_blood_oxygen_config"/>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            android:id="@+id/item_blood_pressure_config"
+            style="@style/Widget.Sample.PreferenceView.Item.Text"
+            app:preferenceTitle="@string/ds_blood_pressure_config"/>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
             android:id="@+id/item_pb_test_get_all"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
             app:preferenceTitle="获取所有配置"/>

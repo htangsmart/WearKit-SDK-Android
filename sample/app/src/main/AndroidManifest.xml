@@ -98,6 +98,12 @@
 
         <activity android:name=".ui.config.HeartRateConfigActivity"/>
 
+        <activity android:name=".ui.config.PressureConfigActivity"/>
+
+        <activity android:name=".ui.config.BloodOxygenConfigActivity"/>
+
+        <activity android:name=".ui.config.BloodPressureConfigActivity"/>
+
         <activity android:name=".ui.contacts.ContactsActivity"/>
 
         <activity android:name=".ui.contacts.EmergencyContactsActivity"/>
