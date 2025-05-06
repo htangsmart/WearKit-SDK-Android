@@ -35,6 +35,10 @@ class DeviceConfigActivity : BaseActivity() {
             startActivity(Intent(this, GoalConfigActivity::class.java))
         }
 
+        viewBind.itemDndConfig.setOnClickListener {
+            startActivity(Intent(this, DndConfigActivity::class.java))
+        }
+
         //for test sdk-prototb-adapter. Developer can ignore it.
         if (wearKit.getRawSDK() is PbSDK) {
             viewBind.itemPbTestGetAll.isVisible = true

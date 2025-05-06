@@ -251,9 +251,6 @@
     <string name="ds_blood_pressure_conflict_msg">The blood pressure alarm value you set is too close to the private blood pressure reference value to avoid false alarm, please reset.</string>
 
     <string name="ds_dnd_config">DND Config</string>
-    <string name="ds_dnd_config_all_day">DND All Day</string>
-    <string name="ds_dnd_config_all_day_des">The following settings will be ignored if you turn on DND all-day</string>
-    <string name="ds_dnd_config_period_time">DND Period Time</string>
 
     <string name="ds_screen_vibrate">Screen And Vibrate Config</string>
     <string name="ds_vibration_intensity">Vibration strength</string>

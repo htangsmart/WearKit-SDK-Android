@@ -10,34 +10,24 @@
         android:orientation="vertical">
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_function_config"
-            style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_function_config"/>
-
-        <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_unit_config"
-            style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_unit_config"/>
-
-        <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_goal_config"
-            style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/activity_goal"/>
-
-        <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_dnd_config"
-            style="@style/Widget.Sample.PreferenceView.Item.Text"
+            android:id="@+id/item_config"
+            style="@style/Widget.Sample.PreferenceView.Item.Switch"
             app:preferenceTitle="@string/ds_dnd_config"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_pb_test_get_all"
+            android:id="@+id/item_start"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="获取所有配置"/>
+            app:preferenceTitle="@string/ds_config_start_time"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_pb_test_get_device_info"
+            android:id="@+id/item_end"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="获取设备信息"/>
+            app:preferenceTitle="@string/ds_config_end_time"/>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            android:id="@+id/item_pb_test_get_config"
+            style="@style/Widget.Sample.PreferenceView.Item.Text"
+            app:preferenceTitle="获取勿扰配置"/>
 
         <TextView
             android:id="@+id/tv_tips"

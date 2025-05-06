@@ -92,6 +92,8 @@
 
         <activity android:name=".ui.config.UnitConfigActivity"/>
 
+        <activity android:name=".ui.config.DndConfigActivity"/>
+
         <activity android:name=".ui.contacts.ContactsActivity"/>
 
         <activity android:name=".ui.contacts.EmergencyContactsActivity"/>
