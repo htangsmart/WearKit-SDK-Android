@@ -76,6 +76,7 @@ class UnitConfigActivity : BaseActivity() {
         }
         setDispose?.dispose()
         setDispose = wearKit.unitAbility.setConfig(newConfig)
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 Timber.i("Set Success")
             }, { throwable ->

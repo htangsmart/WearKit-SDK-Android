@@ -43,6 +43,10 @@ class DeviceConfigActivity : BaseActivity() {
             startActivity(Intent(this, RaiseWakeupConfigActivity::class.java))
         }
 
+        viewBind.itemHeartRateConfig.setOnClickListener {
+            startActivity(Intent(this, HeartRateConfigActivity::class.java))
+        }
+
         //for test sdk-prototb-adapter. Developer can ignore it.
         if (wearKit.getRawSDK() is PbSDK) {
             viewBind.itemPbTestGetAll.isVisible = true

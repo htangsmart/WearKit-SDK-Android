@@ -81,6 +81,7 @@ class DndConfigActivity : BaseActivity(), TimePickerDialogFragment.Listener {
     private fun setDnd(config: WKDndConfig) {
         setDispose?.dispose()
         setDispose = wearKit.dndAbility.setConfig(config)
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 Timber.i("Set Success")
             }, { throwable ->

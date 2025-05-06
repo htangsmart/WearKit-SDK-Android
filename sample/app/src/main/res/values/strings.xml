@@ -194,6 +194,9 @@
     <string name="ds_config_interval_time">Interval Time</string>
     <string name="ds_enabled">Enabled</string>
     <string name="ds_disabled">Disabled</string>
+    <string name="ds_config_min_value">Min value</string>
+    <string name="ds_config_max_value">Max value</string>
+    <string name="ds_heart_rate_threshold">Sport heart rate threshold</string>
 
     <string name="ds_function_config">Function Config</string>
     <string name="ds_wear_hand">Wear hand</string>
@@ -226,15 +229,10 @@
 
     <string name="ds_raisewakeup_config">Raise to Wake Config</string>
 
-    <string name="ds_heart_rate_alarm">Heart Rate Warning Reminder</string>
-    <string name="ds_heart_rate_alarm_des">Warning when the heart rate continues to exceed the warning value</string>
-    <string name="ds_heart_rate_alarm_static">Normal HR Alarm</string>
-    <string name="ds_heart_rate_alarm_static_des">Remind when the normal heart rate continues to exceed the alarm value for 15 minutes</string>
-    <string name="ds_heart_rate_alarm_static_value">Normal HR Alarm Value</string>
-    <string name="ds_heart_rate_alarm_dynamic">Sports HR Alarm Value</string>
-    <string name="ds_heart_rate_alarm_dynamic_des">Remind when the sports heart rate continues to exceed the alarm value for 10 seconds</string>
-    <string name="ds_heart_rate_alarm_dynamic_value">Sports HR Alarm Value</string>
-    <string name="ds_heart_rate_alarm_value">Alarm Value</string>
+    <string name="ds_heart_rate_config">HeartRate Config</string>
+    <string name="ds_heart_rate_monitor">HeartRate Monitor</string>
+    <string name="ds_heart_rate_alarm_exercise">HeartRate exercise alarm</string>
+    <string name="ds_heart_rate_alarm_resting">HeartRate resting alarm</string>
 
     <string name="ds_blood_pressure_alarm">Blood Pressure Warning Reminder</string>
     <string name="ds_blood_pressure_alarm_des">Warning when blood pressure continues to exceed the warning value</string>

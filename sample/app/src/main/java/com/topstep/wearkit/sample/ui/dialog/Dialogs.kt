@@ -4,29 +4,6 @@ import androidx.fragment.app.Fragment
 import com.topstep.wearkit.sample.R
 
 const val PARCEL_ARGS = "parcelArgs"
-const val DIALOG_START_TIME = "start_time"
-fun Fragment.showStartTimeDialog(timeMinute: Int) {
-    TimePickerDialogFragment.newInstance(timeMinute, getString(R.string.ds_config_start_time))
-        .show(childFragmentManager, DIALOG_START_TIME)
-}
-
-const val DIALOG_END_TIME = "end_time"
-fun Fragment.showEndTimeDialog(timeMinute: Int) {
-    TimePickerDialogFragment.newInstance(timeMinute, getString(R.string.ds_config_end_time))
-        .show(childFragmentManager, DIALOG_END_TIME)
-}
-
-const val DIALOG_INTERVAL_TIME = "interval_time"
-fun Fragment.showIntervalDialog(value: Int, from: Int, to: Int) {
-    SelectIntDialogFragment.newInstance(
-        min = 1,
-        max = to / from,
-        multiples = from,
-        value = value,
-        title = requireContext().getString(R.string.ds_config_interval_time),
-        des = requireContext().getString(R.string.unit_minute)
-    ).show(childFragmentManager, DIALOG_INTERVAL_TIME)
-}
 
 const val SBP_MIN = 50
 const val SBP_DEFAULT = 125
@@ -57,31 +34,6 @@ fun Fragment.showSbpDialog(value: Int) {
         des = getString(R.string.unit_mmhg)
     ).show(childFragmentManager, DIALOG_SBP)
 }
-
-const val DIALOG_HR_STATIC = "hr_static"
-const val DIALOG_HR_DYNAMIC = "hr_dynamic"
-fun Fragment.showHrStaticDialog(value: Int) {
-    SelectIntDialogFragment.newInstance(
-        min = 10,
-        max = 15,
-        multiples = 10,
-        value = value,
-        title = getString(R.string.ds_heart_rate_alarm_static),
-        des = getString(R.string.unit_bmp)
-    ).show(childFragmentManager, DIALOG_HR_STATIC)
-}
-
-fun Fragment.showHrDynamicDialog(value: Int) {
-    SelectIntDialogFragment.newInstance(
-        min = 100,
-        max = 200,
-        multiples = 1,
-        value = value,
-        title = getString(R.string.ds_heart_rate_alarm_dynamic),
-        des = getString(R.string.unit_bmp)
-    ).show(childFragmentManager, DIALOG_HR_DYNAMIC)
-}
-
 
 const val DIALOG_SBP_UPPER = "sbp_upper"
 const val DIALOG_SBP_LOWER = "sbp_lower"

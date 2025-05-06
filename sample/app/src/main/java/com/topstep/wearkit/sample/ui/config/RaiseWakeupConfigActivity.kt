@@ -81,6 +81,7 @@ class RaiseWakeupConfigActivity : BaseActivity(), TimePickerDialogFragment.Liste
     private fun setRaiseWakeup(config: WKRaiseWakeupConfig) {
         setDispose?.dispose()
         setDispose = wearKit.raiseWakeupAbility.setConfig(config)
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 Timber.i("Set Success")
             }, { throwable ->

@@ -123,6 +123,7 @@ class GoalConfigActivity : BaseActivity(), SelectIntDialogFragment.Listener {
     private fun setGoal(config: WKActivityGoalConfig) {
         setDispose?.dispose()
         setDispose = wearKit.activityAbility.setGoalConfig(config)
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 Timber.i("Set Success")
             }, { throwable ->
