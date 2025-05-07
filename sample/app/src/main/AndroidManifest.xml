@@ -104,6 +104,8 @@
 
         <activity android:name=".ui.config.BloodPressureConfigActivity"/>
 
+        <activity android:name=".ui.config.NotificationConfigActivity"/>
+
         <activity android:name=".ui.contacts.ContactsActivity"/>
 
         <activity android:name=".ui.contacts.EmergencyContactsActivity"/>

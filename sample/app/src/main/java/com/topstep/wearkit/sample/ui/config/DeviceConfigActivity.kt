@@ -59,6 +59,10 @@ class DeviceConfigActivity : BaseActivity() {
             startActivity(Intent(this, BloodPressureConfigActivity::class.java))
         }
 
+        viewBind.itemNotificationConfig.setOnClickListener {
+            startActivity(Intent(this, NotificationConfigActivity::class.java))
+        }
+
         //for test sdk-prototb-adapter. Developer can ignore it.
         if (wearKit.getRawSDK() is PbSDK) {
             viewBind.itemPbTestGetAll.isVisible = true
