@@ -22,6 +22,7 @@ import com.shenju.cameracapturer.FrameData
 import com.shenju.cameracapturer.OSIJni
 import com.topstep.wearkit.apis.WKWearKit
 import com.topstep.wearkit.apis.model.message.WKCameraMessage
+import com.topstep.wearkit.base.utils.BytesUtil
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityCameraBinding
@@ -134,7 +135,7 @@ class CameraActivity : BaseActivity() {
         setPhotographMode(true)
 
         //preview
-        osiJni.initEncoder(PREVIEW_WIDTH, PREVIEW_HEIGHT)
+        osiJni.initEncoder(PREVIEW_WIDTH, PREVIEW_HEIGHT, 350, 20, 1)
         encoderThread.start()
         encoderHandler = Handler(encoderThread.looper)
         wearKit.cameraAbility.startPreview().onErrorComplete()
@@ -582,6 +583,7 @@ class CameraActivity : BaseActivity() {
                     yBytes, uBytes, vBytes, image.width, image.height,
                     image.imageInfo.rotationDegrees, h264Data, isFront
                 )
+                Timber.tag("ShenJu").w("h264 frame:" + BytesUtil.bytes2HexStr(h264Data.frameData))
                 if (ret == 0) {
                     wearKit.cameraAbility.updatePreview(
                         h264Data.frameType, h264Data.frameData
@@ -602,9 +604,9 @@ class CameraActivity : BaseActivity() {
         private const val RATIO_4_3_VALUE = 4.0 / 3.0
         private const val RATIO_16_9_VALUE = 16.0 / 9.0
 
-        private const val PREVIEW_INTERVAL = 100L // 发送预览的时间间隔(毫秒)
-        private const val PREVIEW_WIDTH = 466 // 预览图像宽度
-        private const val PREVIEW_HEIGHT = 466 // 预览图像高度
+        private const val PREVIEW_INTERVAL = 50L // 发送预览的时间间隔(毫秒)
+        private const val PREVIEW_WIDTH = 240 // 预览图像宽度
+        private const val PREVIEW_HEIGHT = 240 // 预览图像高度
 
         fun makePublicContentValues(context: Context): ContentValues? {
             val contentValues = ContentValues()
