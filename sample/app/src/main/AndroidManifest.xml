@@ -116,7 +116,9 @@
 
         <activity android:name=".ui.basic.FindPhoneActivity"/>
 
-        <activity android:name=".ui.camera.CameraActivity"/>
+        <activity
+            android:name=".ui.camera.CameraActivity"
+            android:launchMode="singleInstance"/>
 
         <activity android:name=".ui.basic.WeatherActivity"/>
 

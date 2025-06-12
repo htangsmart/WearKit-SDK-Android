@@ -7,7 +7,9 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.hardware.display.DisplayManager
 import android.net.Uri
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -48,7 +50,6 @@ class CameraActivity : BaseActivity() {
     private val wearKit = MyApplication.wearKit
     private lateinit var viewBind: ActivityCameraBinding
 
-
     /** Blocking camera operations are performed using this executor */
     private lateinit var cameraExecutor: ExecutorService
 
@@ -81,9 +82,8 @@ class CameraActivity : BaseActivity() {
     private var cameraProvider: ProcessCameraProvider? = null
 
     // Preview
+    private var isSupportPreview = false
     private val osiJni: OSIJni = OSIJni()
-    private val encoderThread: HandlerThread = HandlerThread("encoder")
-    private lateinit var encoderHandler: Handler
 
     override fun onPause() {
         super.onPause()
@@ -118,14 +118,51 @@ class CameraActivity : BaseActivity() {
 
         observeCameraDisposable = wearKit.cameraAbility.observeCameraMessage()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                when (it) {
+            .subscribe({ type ->
+                when (type) {
                     WKCameraMessage.CLOSE -> {
                         finish()
                     }
 
                     WKCameraMessage.TAKE_PHOTO -> {
                         viewBind.btnShutter.simulateClick()
+                    }
+
+                    WKCameraMessage.CAMERA_BACK -> {
+                        if (hasBackCamera()) {
+                            viewBind.imgFacing.setImageResource(R.drawable.ic_baseline_camera_rear_24)
+                            lensFacing = CameraSelector.LENS_FACING_BACK
+                            bindCameraUseCases()
+                        }
+                    }
+
+                    WKCameraMessage.CAMERA_FRONT -> {
+                        if (hasFrontCamera()) {
+                            viewBind.imgFacing.setImageResource(R.drawable.ic_baseline_camera_front_24)
+                            lensFacing = CameraSelector.LENS_FACING_FRONT
+                            bindCameraUseCases()
+                        }
+                    }
+
+                    WKCameraMessage.FLASH_OFF -> {
+                        imageCapture?.let {
+                            it.flashMode = ImageCapture.FLASH_MODE_OFF
+                            viewBind.imgFlash.setImageResource(R.drawable.ic_baseline_flash_off_24)
+                        }
+                    }
+
+                    WKCameraMessage.FLASH_AUTO -> {
+                        imageCapture?.let {
+                            it.flashMode = ImageCapture.FLASH_MODE_AUTO
+                            viewBind.imgFlash.setImageResource(R.drawable.ic_baseline_flash_auto_24)
+                        }
+                    }
+
+                    WKCameraMessage.FLASH_ON -> {
+                        imageCapture?.let {
+                            it.flashMode = ImageCapture.FLASH_MODE_ON
+                            viewBind.imgFlash.setImageResource(R.drawable.ic_baseline_flash_on_24)
+                        }
                     }
                 }
             }, {
@@ -135,14 +172,16 @@ class CameraActivity : BaseActivity() {
         setPhotographMode(true)
 
         //preview
-        osiJni.initEncoder(PREVIEW_WIDTH, PREVIEW_HEIGHT, 350, 20, 1)
-        encoderThread.start()
-        encoderHandler = Handler(encoderThread.looper)
-        wearKit.cameraAbility.startPreview().onErrorComplete()
-            .doOnError {
-                Timber.w(it)
-            }
-            .subscribe()
+        isSupportPreview = wearKit.cameraAbility.compat.isSupportPreview()
+        if (isSupportPreview) {
+            val size = wearKit.cameraAbility.compat.getPreviewSize()
+            osiJni.initEncoder(size.x, size.y, 350, PREVIEW_FPS, 1)
+            wearKit.cameraAbility.startPreview(PREVIEW_FPS).onErrorComplete()
+                .doOnError {
+                    Timber.w(it)
+                }
+                .subscribe()
+        }
     }
 
     private fun setPhotographMode(mode: Boolean) {
@@ -256,7 +295,7 @@ class CameraActivity : BaseActivity() {
             .build()
             // The analyzer can then be assigned to the instance
             .also {
-                it.setAnalyzer(cameraExecutor, LuminosityAnalyzer(wearKit, encoderHandler, osiJni, lensFacing == CameraSelector.LENS_FACING_FRONT))
+                it.setAnalyzer(cameraExecutor, LuminosityAnalyzer(wearKit, osiJni, lensFacing == CameraSelector.LENS_FACING_FRONT, isSupportPreview))
             }
 
         // Must unbind the use-cases before rebinding them
@@ -328,9 +367,11 @@ class CameraActivity : BaseActivity() {
         viewBind.imgFacing.isEnabled = false// Disable the button until the camera is set up
         viewBind.imgFacing.clickTrigger {
             lensFacing = if (CameraSelector.LENS_FACING_FRONT == lensFacing) {
+                wearKit.cameraAbility.sendCameraMessage(WKCameraMessage.CAMERA_BACK).onErrorComplete().subscribe()
                 viewBind.imgFacing.setImageResource(R.drawable.ic_baseline_camera_rear_24)
                 CameraSelector.LENS_FACING_BACK
             } else {
+                wearKit.cameraAbility.sendCameraMessage(WKCameraMessage.CAMERA_FRONT).onErrorComplete().subscribe()
                 viewBind.imgFacing.setImageResource(R.drawable.ic_baseline_camera_front_24)
                 CameraSelector.LENS_FACING_FRONT
             }
@@ -342,17 +383,23 @@ class CameraActivity : BaseActivity() {
         viewBind.imgFlash.clickTrigger {
             imageCapture?.let {
                 when (it.flashMode) {
+                    ImageCapture.FLASH_MODE_OFF -> {
+                        //off 切换为 auto
+                        wearKit.cameraAbility.sendCameraMessage(WKCameraMessage.FLASH_AUTO).onErrorComplete().subscribe()
+                        it.flashMode = ImageCapture.FLASH_MODE_AUTO
+                        viewBind.imgFlash.setImageResource(R.drawable.ic_baseline_flash_auto_24)
+                    }
                     ImageCapture.FLASH_MODE_AUTO -> {
+                        //auto 切换为 on
+                        wearKit.cameraAbility.sendCameraMessage(WKCameraMessage.FLASH_ON).onErrorComplete().subscribe()
                         it.flashMode = ImageCapture.FLASH_MODE_ON
                         viewBind.imgFlash.setImageResource(R.drawable.ic_baseline_flash_on_24)
                     }
                     ImageCapture.FLASH_MODE_ON -> {
+                        // on 切换为 off
+                        wearKit.cameraAbility.sendCameraMessage(WKCameraMessage.FLASH_OFF).onErrorComplete().subscribe()
                         it.flashMode = ImageCapture.FLASH_MODE_OFF
                         viewBind.imgFlash.setImageResource(R.drawable.ic_baseline_flash_off_24)
-                    }
-                    ImageCapture.FLASH_MODE_OFF -> {
-                        it.flashMode = ImageCapture.FLASH_MODE_AUTO
-                        viewBind.imgFlash.setImageResource(R.drawable.ic_baseline_flash_auto_24)
                     }
                     else -> {}
                 }
@@ -424,6 +471,8 @@ class CameraActivity : BaseActivity() {
             }
 
             override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                wearKit.cameraAbility.sendCameraMessage(WKCameraMessage.TAKE_PHOTO).onErrorComplete().subscribe()
+
                 viewBind.countDownView.playBeepShutter()
                 viewBind.root.displayFlashAnim()
 
@@ -463,9 +512,9 @@ class CameraActivity : BaseActivity() {
      */
     private class LuminosityAnalyzer(
         private val wearKit: WKWearKit,
-        private val encoderHandler: Handler,
         private val osiJni: OSIJni,
         private val isFront: Boolean,
+        private val isSupportPreview: Boolean,
         listener: LumaListener? = null,
     ) : ImageAnalysis.Analyzer {
         private val frameRateWindow = 8
@@ -507,9 +556,9 @@ class CameraActivity : BaseActivity() {
          *
          */
         override fun analyze(image: ImageProxy) {
-//            encoderHandler.post {
-            sendPreviewToWatch(image)
-//            }
+            if (isSupportPreview) {
+                sendPreviewToWatch(image)
+            }
 
             // If there are no listeners attached, we don't need to perform analysis
             if (listeners.isEmpty()) {
@@ -555,7 +604,7 @@ class CameraActivity : BaseActivity() {
 
         private fun sendPreviewToWatch(image: ImageProxy) {
             val currentTime = System.currentTimeMillis()
-            if (currentTime - lastPreviewSentTimestamp < PREVIEW_INTERVAL) {
+            if (currentTime - lastPreviewSentTimestamp < 1000 / PREVIEW_FPS) {
                 return
             }
             lastPreviewSentTimestamp = currentTime
@@ -604,9 +653,7 @@ class CameraActivity : BaseActivity() {
         private const val RATIO_4_3_VALUE = 4.0 / 3.0
         private const val RATIO_16_9_VALUE = 16.0 / 9.0
 
-        private const val PREVIEW_INTERVAL = 50L // 发送预览的时间间隔(毫秒)
-        private const val PREVIEW_WIDTH = 240 // 预览图像宽度
-        private const val PREVIEW_HEIGHT = 240 // 预览图像高度
+        private const val PREVIEW_FPS = 10
 
         fun makePublicContentValues(context: Context): ContentValues? {
             val contentValues = ContentValues()
@@ -640,8 +687,6 @@ class CameraActivity : BaseActivity() {
         setPhotographMode(false)
         cameraExecutor.shutdown()
         displayManager.unregisterDisplayListener(displayListener)
-        //preview
-        encoderThread.quitSafely()
         synchronized(osiJni) {
             osiJni.closeEncoder()
         }
