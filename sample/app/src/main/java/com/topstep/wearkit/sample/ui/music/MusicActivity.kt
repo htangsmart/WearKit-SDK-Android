@@ -1,7 +1,6 @@
 package com.topstep.wearkit.sample.ui.music
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -29,9 +28,9 @@ class MusicActivity : BaseActivity() {
     private var pushMusicDisposable: Disposable? = null
 
     private val addMusic = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
+        if (result.resultCode == RESULT_OK) {
             val pushMusicList = result.data?.getStringArrayListExtra("addMusic")
-            if (pushMusicList != null && pushMusicList.size > 0) {
+            if (pushMusicList != null && pushMusicList.isNotEmpty()) {
                 pushMusic(pushMusicList)
             }
         }

@@ -36,7 +36,7 @@ class WatchMusicAdapter : RecyclerView.Adapter<WatchMusicAdapter.ItemViewHolder>
             val actionPosition = holder.bindingAdapterPosition
             if (actionPosition != RecyclerView.NO_POSITION) {
                 val list = items[actionPosition]
-                listener?.onItemDelete(list.name, actionPosition)
+                listener?.onItemDelete(list.path, actionPosition)
             }
         }
     }
