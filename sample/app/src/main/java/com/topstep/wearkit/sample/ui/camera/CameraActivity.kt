@@ -32,7 +32,9 @@ import com.topstep.wearkit.sample.ui.base.BaseActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import timber.log.Timber
+import java.io.BufferedWriter
 import java.io.File
+import java.io.FileWriter
 import java.nio.ByteBuffer
 import java.util.ArrayDeque
 import java.util.concurrent.ExecutorService
@@ -84,6 +86,24 @@ class CameraActivity : BaseActivity() {
     // Preview
     private var isSupportPreview = false
     private val osiJni: OSIJni = OSIJni()
+
+    private fun dirDownload(context: Context): File? {
+        val dir = ContextCompat.getExternalFilesDirs(context, Environment.DIRECTORY_DOWNLOADS).firstOrNull() ?: return null
+        if (!dir.exists() && !dir.mkdirs()) {
+            return null
+        }
+        return dir
+    }
+
+    private fun getVideoFile(context: Context): File? {
+        val dir = dirDownload(context)
+        if (dir == null) return null
+        return File(dir, "test.h264")
+    }
+
+    private val file = getVideoFile(MyApplication.instance)!!
+    private val fileWriter = if (TEST_MODE == 1) BufferedWriter(FileWriter(file)) else null
+    private val fileReader = if (TEST_MODE == 0) FileCycleReader(file) else if (TEST_MODE == 2) FileFixReader(MyApplication.instance) else null
 
     override fun onPause() {
         super.onPause()
@@ -295,7 +315,7 @@ class CameraActivity : BaseActivity() {
             .build()
             // The analyzer can then be assigned to the instance
             .also {
-                it.setAnalyzer(cameraExecutor, LuminosityAnalyzer(wearKit, osiJni, lensFacing == CameraSelector.LENS_FACING_FRONT, isSupportPreview))
+                it.setAnalyzer(cameraExecutor, LuminosityAnalyzer(wearKit, osiJni, lensFacing == CameraSelector.LENS_FACING_FRONT, isSupportPreview, fileWriter, fileReader))
             }
 
         // Must unbind the use-cases before rebinding them
@@ -515,6 +535,8 @@ class CameraActivity : BaseActivity() {
         private val osiJni: OSIJni,
         private val isFront: Boolean,
         private val isSupportPreview: Boolean,
+        private val fileWriter: BufferedWriter?,
+        private val fileReader: FileTestReader?,
         listener: LumaListener? = null,
     ) : ImageAnalysis.Analyzer {
         private val frameRateWindow = 8
@@ -523,6 +545,9 @@ class CameraActivity : BaseActivity() {
         private var lastAnalyzedTimestamp = 0L
         var framesPerSecond: Double = -1.0
             private set
+
+        private var sumSize = 0
+        private val startTimestamp = System.currentTimeMillis()
 
         /**
          * Used to add listeners that will be called with each luma computed
@@ -609,6 +634,24 @@ class CameraActivity : BaseActivity() {
             }
             lastPreviewSentTimestamp = currentTime
 
+            if ((TEST_MODE == 0 || TEST_MODE == 2) && fileReader != null) {
+                val frameType = fileReader.readLine().also {
+                    Timber.w("file read:%s", it)
+                }?.toIntOrNull()
+                if (frameType != null) {
+                    val str = fileReader.readLine().also {
+                        Timber.w("file read:%s", it)
+                    }
+                    if (!str.isNullOrEmpty()) {
+                        val frameData = BytesUtil.hexStr2Bytes(str)
+                        if (frameData != null) {
+                            wearKit.cameraAbility.updatePreview(frameType, frameData).onErrorComplete().doOnError { Timber.w(it) }.subscribe()
+                        }
+                    }
+                }
+                return
+            }
+
             val planes = image.planes
             val yPlane = planes[0]
             val uPlane = planes[1]
@@ -632,15 +675,27 @@ class CameraActivity : BaseActivity() {
                     yBytes, uBytes, vBytes, image.width, image.height,
                     image.imageInfo.rotationDegrees, h264Data, isFront
                 )
-                Timber.tag("ShenJu").w("h264 frame:" + BytesUtil.bytes2HexStr(h264Data.frameData))
                 if (ret == 0) {
-                    wearKit.cameraAbility.updatePreview(
-                        h264Data.frameType, h264Data.frameData
-                    ).onErrorComplete()
-                        .doOnError {
-                            Timber.w(it)
-                        }
-                        .subscribe()
+                    sumSize += h264Data.frameData.size
+                    val useTime = System.currentTimeMillis() - startTimestamp
+                    //计算传输速度
+                    if (useTime > 0) {
+                        val speed = (sumSize / 1024.0) / (useTime / 1000.0)
+                        Timber.e("speed:$speed kb/s")
+                    }
+                    wearKit.cameraAbility.updatePreview(h264Data.frameType, h264Data.frameData).onErrorComplete().doOnError { Timber.w(it) }.subscribe()
+                    if (TEST_MODE == 1 && fileWriter != null) {
+                        fileWriter.write(
+                            StringBuilder().append(h264Data.frameType).append("\n").toString()
+                                .also {
+                                    Timber.w("file write:%s", it)
+                                })
+                        fileWriter.write(
+                            StringBuilder().append(BytesUtil.internalBytes2HexStr(h264Data.frameData)).append("\n").toString()
+                                .also {
+                                    Timber.w("file write:%s", it)
+                                })
+                    }
                 }
             }
 
@@ -653,7 +708,8 @@ class CameraActivity : BaseActivity() {
         private const val RATIO_4_3_VALUE = 4.0 / 3.0
         private const val RATIO_16_9_VALUE = 16.0 / 9.0
 
-        private const val PREVIEW_FPS = 10
+        private const val PREVIEW_FPS = 30
+        val TEST_MODE: Int? = null//null 正常模式，0读模式，1写模式，2读assets模式
 
         fun makePublicContentValues(context: Context): ContentValues? {
             val contentValues = ContentValues()
@@ -690,6 +746,8 @@ class CameraActivity : BaseActivity() {
         synchronized(osiJni) {
             osiJni.closeEncoder()
         }
+        runCatching { fileWriter?.close() }
+        runCatching { fileReader?.close() }
     }
 
 }
