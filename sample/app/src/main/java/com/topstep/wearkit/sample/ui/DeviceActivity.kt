@@ -130,6 +130,10 @@ class DeviceActivity : BaseActivity() {
                 startActivity(Intent(this, SportPushActivity::class.java))
             }
         }
+
+        viewBind.itemDisconnect.clickTrigger {
+            wearKit.connector.close()
+        }
     }
 
     override fun onStop() {

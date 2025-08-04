@@ -1,3 +1,10 @@
+# v3.0.1-beta13
+
+2025-05-19
+
+1. CHANGED: updata Realtek sdk version
+2. fix some bugs
+
 # v3.0.1-beta09
 
 2024-08-14

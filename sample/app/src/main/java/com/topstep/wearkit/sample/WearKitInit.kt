@@ -77,14 +77,14 @@ private class MyProcessLifecycleManager : ProcessLifecycleManager(), Application
     }
 
     override fun onActivityStarted(activity: Activity) {
-        if (startCount == 0) {
-            //At this time, the APP enters the foreground
-            setForeground(true)
-        }
         startCount++
     }
 
     override fun onActivityResumed(activity: Activity) {
+        if (startCount == 1) {
+            //At this time, the APP enters the foreground
+            setForeground(true)
+        }
     }
 
     override fun onActivityPaused(activity: Activity) {
