@@ -43,7 +43,7 @@ class WeatherActivity : BaseActivity() {
         if (checked) {
             //Mock today weather
             val weatherToday = WKWeatherToday(
-                timestampSeconds = System.currentTimeMillis(),
+                timestampSeconds = System.currentTimeMillis() / 1000,
                 code = WKWeatherCode.CLOUDY,
                 tempMin = 10,
                 tempMax = 20,
@@ -65,7 +65,7 @@ class WeatherActivity : BaseActivity() {
                 var data = currentTimestamps + (i * oneHourInMilliss)
                 dayList.add(
                     WKWeatherDay(
-                        timestampSeconds = data,
+                        timestampSeconds = data / 1000,
                         code = WKWeatherCode.CLEAR,
                         tempMin = 15 + i, tempMax = 25 + i
                     )
@@ -80,7 +80,7 @@ class WeatherActivity : BaseActivity() {
                 var data = currentTimestamp + (i * oneHourInMillis)
                 hoursList.add(
                     WKWeatherHour(
-                        timestampSeconds = data,//Mock next few hours
+                        timestampSeconds = data / 1000,//Mock next few hours
                         code = WKWeatherCode.HAZE,
                         tempCurrent = 16 + i,
                     )

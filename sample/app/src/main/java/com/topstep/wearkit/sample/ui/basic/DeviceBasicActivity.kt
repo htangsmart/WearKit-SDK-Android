@@ -11,8 +11,7 @@ import com.topstep.wearkit.sample.databinding.ActivityDeviceBasicBinding
 import com.topstep.wearkit.sample.ui.alarm.AlarmActivity
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.ui.camera.CameraActivity
-import com.topstep.wearkit.sample.ui.contacts.ContactsActivity
-import com.topstep.wearkit.sample.ui.contacts.EmergencyContactsActivity
+import com.topstep.wearkit.sample.ui.contacts.ContactsHomeActivity
 import com.topstep.wearkit.sample.ui.notification.NotificationActivity
 import com.topstep.wearkit.sample.ui.remind.RemindActivity
 import com.topstep.wearkit.sample.utils.permission.PermissionHelper
@@ -102,19 +101,7 @@ class DeviceBasicActivity : BaseActivity() {
         }
 
         viewBind.btnContacts.clickTrigger {
-            if (wearKit.contactsAbility.compat.getContactsCommonMaxNumber() > 0) {
-                startActivity(Intent(this, ContactsActivity::class.java))
-            } else {
-                toast(R.string.tip_un_support)
-            }
-        }
-
-        viewBind.btnEmergencyContact.clickTrigger {
-            if (wearKit.contactsAbility.compat.getContactsEmergencyMaxNumber() > 0) {
-                startActivity(Intent(this, EmergencyContactsActivity::class.java))
-            } else {
-                toast(R.string.tip_un_support)
-            }
+            startActivity(Intent(this, ContactsHomeActivity::class.java))
         }
 
         viewBind.btnAlarm.clickTrigger {
