@@ -26,14 +26,19 @@ import com.topstep.wearkit.sample.ui.sport.SportPushActivity
 import com.topstep.wearkit.sample.ui.sync.SyncDataActivity
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
 import com.topstep.wearkit.sample.utils.permission.PermissionHelper
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
+import timber.log.Timber
 
 class DeviceActivity : BaseActivity() {
 
     private val wearKit = MyApplication.wearKit
     private lateinit var viewBind: ActivityDeviceBinding
     private lateinit var device: DeviceInfo
+
+    private var pullLogDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +60,7 @@ class DeviceActivity : BaseActivity() {
                         WKConnectorState.PRE_CONNECTING,
                         WKConnectorState.CONNECTING,
                         WKConnectorState.PRE_CONNECTED,
-                        -> getString(R.string.device_state_connecting)
+                            -> getString(R.string.device_state_connecting)
                         WKConnectorState.CONNECTED -> getString(R.string.device_state_connected)
                     }
                 }
@@ -135,6 +140,33 @@ class DeviceActivity : BaseActivity() {
                 startActivity(Intent(this, SportPushActivity::class.java))
             }
         }
+
+        viewBind.itemPullLog.clickTrigger {
+            if (wearKit.connector.getConnectorState() != WKConnectorState.CONNECTED) {
+                toast("Device not connected!")
+            } else if (!wearKit.logAbility.compat.isSupport()) {
+                toast("UnSupport!")
+            } else {
+                if (pullLogDisposable?.isDisposed != false) {
+                    pullLogDisposable = wearKit.logAbility.pull()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            Timber.w("pull log progress:" + it.progress)
+                            val file = it.result
+                            if (file != null) {
+                                if (!file.exists()) {
+                                    toast("Device has no logs")
+                                } else {
+                                    toast("Log file save:${file.path}")
+                                }
+                            }
+                        }, {
+                            Timber.w(it)
+                        })
+                }
+            }
+        }
+
     }
 
     override fun onStop() {
@@ -143,6 +175,11 @@ class DeviceActivity : BaseActivity() {
         if (isFinishing) {
             wearKit.connector.close()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        pullLogDisposable?.dispose()
     }
 
     private fun connect(user: UserInfo?) {
