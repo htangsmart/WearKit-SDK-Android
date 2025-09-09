@@ -1,6 +1,7 @@
 package com.topstep.wearkit.sample.ui
 
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import com.topstep.wearkit.apis.model.core.WKDeviceType
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.data.PreferencesStorage
@@ -9,7 +10,10 @@ import com.topstep.wearkit.sample.getConnectionMethod
 import com.topstep.wearkit.sample.model.DeviceInfo
 import com.topstep.wearkit.sample.setConnectionMethod
 import com.topstep.wearkit.sample.ui.base.BaseActivity
+import com.topstep.wearkit.sample.ui.dialog.LogShareDialogFragment
 import com.topstep.wearkit.sample.ui.discovery.DeviceScanActivity
+import com.topstep.wearkit.sample.utils.log.AppLogger
+import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity() {
 
@@ -54,6 +58,18 @@ class MainActivity : BaseActivity() {
             }
             updateBtnConnectionMethodText()
         }
+
+        viewBind.btnLog.setOnClickListener {
+            lifecycleScope.launch {
+                val files = AppLogger.getLogFiles(this@MainActivity)
+                if (files.isNullOrEmpty()) {
+                    toast(R.string.tip_current_no_data)
+                    return@launch
+                }
+                LogShareDialogFragment.newInstance(files).show(supportFragmentManager, null)
+            }
+        }
+
     }
 
     private fun updateBtnConnectionMethodText() {

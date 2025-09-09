@@ -100,6 +100,14 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/main_switch_method"/>
 
+            <Button
+                android:id="@+id/btn_log"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="LOG"/>
+
         </LinearLayout>
 
     </LinearLayout>
