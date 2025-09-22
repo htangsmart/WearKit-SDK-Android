@@ -1,3 +1,11 @@
+# v3.0.1-beta14
+
+2025-09-22
+
+1. Adapt to Android 15 and 16k policies
+2. CHANGED: updata Realtek sdk version from 1.0.3 to 1.0.4
+2. fix some bugs
+
 # v3.0.1-beta13
 
 2025-05-19
