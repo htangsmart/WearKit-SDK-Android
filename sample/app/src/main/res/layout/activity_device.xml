@@ -111,6 +111,11 @@
                 app:preferenceTitle="@string/sport_push"/>
 
             <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_disconnect"
+                style="@style/Widget.Sample.PreferenceView.Item.Text"
+                app:preferenceTitle="disconnect"/>
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
                 android:id="@+id/item_pull_log"
                 style="@style/Widget.Sample.PreferenceView.Item.Text"
                 app:preferenceTitle="Pull log from device"/>

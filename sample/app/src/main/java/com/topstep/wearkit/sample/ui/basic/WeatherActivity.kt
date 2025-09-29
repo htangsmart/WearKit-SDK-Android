@@ -44,7 +44,7 @@ class WeatherActivity : BaseActivity() {
             //Mock today weather
             val weatherToday = WKWeatherToday(
                 timestampSeconds = System.currentTimeMillis() / 1000,
-                code = WKWeatherCode.CLEAR,
+                code = WKWeatherCode.CLOUDY,
                 tempMin = 10,
                 tempMax = 20,
                 tempCurrent = 18,
@@ -59,11 +59,14 @@ class WeatherActivity : BaseActivity() {
 
             //Mock the weather for the next 6 days
             val dayList = ArrayList<WKWeatherDay>()
-            for (i in 0 until 6) {
+            val currentTimestamps = System.currentTimeMillis()
+            val oneHourInMilliss = 24 * 60 * 60 * 1000L
+            for (i in 1 until 7) {
+                var data = currentTimestamps + (i * oneHourInMilliss)
                 dayList.add(
                     WKWeatherDay(
-                        timestampSeconds = System.currentTimeMillis() / 1000 + (i + 1) * 24 * 60 * 60,
-                        code = WKWeatherCode.CLOUDY,
+                        timestampSeconds = data / 1000,
+                        code = WKWeatherCode.CLEAR,
                         tempMin = 15 + i, tempMax = 25 + i
                     )
                 )
@@ -71,11 +74,14 @@ class WeatherActivity : BaseActivity() {
 
             //Mock the weather for the next 24 hours
             val hoursList = ArrayList<WKWeatherHour>()
-            for (i in 0 until 24) {
+            val currentTimestamp = System.currentTimeMillis()
+            val oneHourInMillis = 60 * 60 * 1000L
+            for (i in 1 until 25) {
+                var data = currentTimestamp + (i * oneHourInMillis)
                 hoursList.add(
                     WKWeatherHour(
-                        timestampSeconds = System.currentTimeMillis() / 1000 + (i + 1) * 60 * 60,//Mock next few hours
-                        code = WKWeatherCode.RAIN,
+                        timestampSeconds = data / 1000,//Mock next few hours
+                        code = WKWeatherCode.HAZE,
                         tempCurrent = 16 + i,
                     )
                 )

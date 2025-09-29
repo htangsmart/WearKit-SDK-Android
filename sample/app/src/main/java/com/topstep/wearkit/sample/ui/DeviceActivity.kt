@@ -167,6 +167,10 @@ class DeviceActivity : BaseActivity() {
             }
         }
 
+
+        viewBind.itemDisconnect.clickTrigger {
+            wearKit.connector.close()
+        }
     }
 
     override fun onStop() {

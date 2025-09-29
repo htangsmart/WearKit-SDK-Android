@@ -47,8 +47,10 @@
     <string name="ds_alarm_add_limit">最多可添加%d个闹钟。</string>
 
     <!--Contacts-->
+    <string name="ds_contacts">联系人</string>
     <string name="ds_contacts_common">常用联系人</string>
     <string name="ds_contacts_emergency">紧急联系人</string>
+    <string name="ds_contacts_image">联系人图片</string>
     <string name="ds_contacts_delete">请选择要删除的数据</string>
     <string name="ds_contacts_add_limit">最多可添加%d位常用联系人。</string>
     <string name="ds_contacts_emergency_switch">紧急开关状态</string>
