@@ -151,6 +151,7 @@ class DeviceActivity : BaseActivity() {
                     pullLogDisposable = wearKit.logAbility.pull()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
+                            toast("progress:" + it.progress)
                             Timber.w("pull log progress:" + it.progress)
                             val file = it.result
                             if (file != null) {
@@ -162,6 +163,7 @@ class DeviceActivity : BaseActivity() {
                             }
                         }, {
                             Timber.w(it)
+                            toast(it.stackTraceToString())
                         })
                 }
             }
