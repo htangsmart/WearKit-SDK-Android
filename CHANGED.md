@@ -1,3 +1,13 @@
+# v3.0.1
+
+2025-10-29
+
+1. CHANGE: Optional SDK supports 16k
+2. Add: a new SDK compatible with the new watch platform
+   implementation("com.topstep.wearkit:sdk-prototb-adapter:$latest_version")
+3. CHANGE: 'WKSportRecord' add 'speed'
+4. Fix: Fix some bugs
+
 # v3.0.1-beta14
 
 2025-09-22
