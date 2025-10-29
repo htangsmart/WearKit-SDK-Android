@@ -23,6 +23,7 @@ dependencies{
     implementation("com.topstep.wearkit:sdk-flywear-adapter:$weakit_version")
     implementation("com.topstep.wearkit:sdk-fitcloud-adapter:$weakit_version")
     implementation("com.topstep.wearkit:sdk-shenju-adapter:$weakit_version")
+	implementation("com.topstep.wearkit:sdk-prototb-adapter:$weakit_version")
     implementation("com.topstep.wearkit:sdk-helper:$weakit_version")
 }
 ```
@@ -91,6 +92,11 @@ fun wearKitInit(application: Application): WKWearKit {
 //            WKShenJuKit.Builder(application, processLifecycleObserver, rxBleClient)
 //        )
 //    }
+	if (BuildConfig.isSupportProtoTb) {
+        builders.add(
+            WKProtoTbKit.Builder(application, processLifecycleObserver, rxBleClient)
+        )
+    }
     val wearKit = buildWKWearKit(builders)
 
     /**
