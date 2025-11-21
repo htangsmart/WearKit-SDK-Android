@@ -48,6 +48,7 @@ android {
     //解决多个第三库里都包含这个so，导致无法编译的问题
     packagingOptions {
         pickFirst("**/libc++_shared.so")
+        exclude("META-INF/INDEX.LIST")
     }
 
     buildTypes {
