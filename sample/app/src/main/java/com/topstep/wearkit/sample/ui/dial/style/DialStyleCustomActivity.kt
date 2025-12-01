@@ -128,14 +128,14 @@ class DialStyleCustomActivity : GetPhotoVideoActivity() {
                 this.colorTint = selectedColor
             }
         ).flatMapObservable {
-            wearKit.dialStyleAbility.installCustom(it.dialFile)
+            wearKit.dialAbility.install(it.dialId, it.dialFile)
         }.observeOn(AndroidSchedulers.mainThread()).doOnSubscribe {
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
             progressDialog.setCancelable(false)
             progressDialog.setTitle("Installing...")
             progressDialog.show()
         }.subscribe({
-            progressDialog.progress = it.progress
+            progressDialog.progress = it
         }, {
             Timber.w(it)
             progressDialog.dismiss()
