@@ -1,10 +1,11 @@
 [versions]
 #Android-Kotlin
-android-gradle = "8.1.4"
+android-gradle = "8.6.0"
 kotlin = "1.8.22"
 kotlin-coroutines = "1.7.3"
 ksp = "1.8.22-1.0.11"
-dokka = "1.8.10"
+dokka = "1.9.20"
+protobuf = "0.9.5"
 #AndroidX
 androidx-core = "1.9.0"
 androidx-appcompat = "1.6.1"
@@ -20,16 +21,17 @@ androidx-room = "2.5.0"
 androidx-splashscreen = "1.0.0"
 androidx-datastore = "1.0.0"
 androidx-work = "2.7.1"
-androidx-camera = "1.2.1"
+androidx-camera = "1.4.2"
 androidx-window = "1.0.0"
 androidx-annotation = "1.5.0"
 androidx-media = "1.6.0"
 androidx-palette = "1.0.0"
 google-material = "1.9.0"
+androidx-media3 = "1.4.1"
 #Common
 timber = "5.0.1"
 permissionx = "1.7.1"
-mars-xlog = "1.2.5"
+mars-xlog = "1.2.6"
 kilnn-toolkit = "1.0.2"
 kilnn-wheelview = "1.0.2"
 leakcanary = "2.12"
@@ -41,10 +43,12 @@ rxandroidble = "1.17.2"
 okhttp3 = "4.10.0"
 okhttp3-logging = "4.9.1"
 retrofit2 = "2.9.0"
+protobuf-javalite = "4.33.1"
 #Others
 insetter = "0.6.1"
 commons-io = "2.8.0"
 alibaba-fastjson = "1.2.83"
+airbnb-lottie = "6.5.2"
 #Test
 junit = "4.13.2"
 androidx-junit = "1.1.5"
@@ -60,6 +64,8 @@ kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 androidx-navigation = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidx-navigation" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobuf" }
 
 [libraries]
 #Android-Kotlin
@@ -103,6 +109,9 @@ androidx-annotation = { module = "androidx.annotation:annotation", version.ref =
 androidx-media = { module = "androidx.media:media", version.ref = "androidx-media" }
 androidx-palette = { module = "androidx.palette:palette-ktx", version.ref = "androidx-palette" }
 google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
+androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "androidx-media3" }
+androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "androidx-media3" }
+androidx-media3-exoplayer-dash = { module = "androidx.media3:media3-exoplayer-dash", version.ref = "androidx-media3" }
 #Common
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 permissionx = { module = "com.guolindev.permissionx:permissionx", version.ref = "permissionx" }
@@ -122,10 +131,13 @@ okhttp3 = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp3" }
 okhttp3-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp3-logging" }
 retrofit2 = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit2" }
 retrofit2-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit2" }
+protoc = { module = "com.google.protobuf:protobuf-java-util", version.ref = "protobuf-javalite" }
+protobuf = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf-javalite" }
 #Others
 insetter = { module = "dev.chrisbanes.insetter:insetter", version.ref = "insetter" }
 commons-io = { module = "commons-io:commons-io", version.ref = "commons-io" }
 alibaba-fastjson = { module = "com.alibaba:fastjson", version.ref = "alibaba-fastjson" }
+airbnb-lottie = { module = "com.airbnb.android:lottie", version.ref = "airbnb-lottie" }
 #Test
 junit = { module = "junit:junit", version.ref = "junit" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
