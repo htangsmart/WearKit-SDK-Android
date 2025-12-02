@@ -2,13 +2,13 @@ package com.topstep.wearkit.sample.ui
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import com.topstep.fitcloud.sdk.v2.FcSDK
 import com.topstep.wearkit.apis.model.core.WKDeviceType
-import com.topstep.wearkit.sample.R
+import com.topstep.wearkit.prototb.apis.PbSDK
+import com.topstep.wearkit.sample.*
 import com.topstep.wearkit.sample.data.PreferencesStorage
 import com.topstep.wearkit.sample.databinding.ActivityMainBinding
-import com.topstep.wearkit.sample.getConnectionMethod
 import com.topstep.wearkit.sample.model.DeviceInfo
-import com.topstep.wearkit.sample.setConnectionMethod
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.ui.dialog.LogShareDialogFragment
 import com.topstep.wearkit.sample.ui.discovery.DeviceScanActivity
@@ -70,6 +70,22 @@ class MainActivity : BaseActivity() {
             }
         }
 
+        getSkipAuth().let {
+            viewBind.cbSkipAuth.isChecked = it
+            updateSkipAuth(it)
+        }
+
+        viewBind.cbSkipAuth.setOnCheckedChangeListener { _, isChecked ->
+            setSkipAuth(isChecked)
+            updateSkipAuth(isChecked)
+        }
+
+    }
+
+    private fun updateSkipAuth(skip: Boolean) {
+        //Only for test. Developer should not use this(Only part watches support it)
+        FcSDK.CONNECT_SKIP_AUTH = skip
+        PbSDK.CONNECT_SKIP_AUTH = skip
     }
 
     private fun updateBtnConnectionMethodText() {

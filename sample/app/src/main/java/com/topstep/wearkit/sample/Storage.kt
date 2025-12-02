@@ -28,3 +28,13 @@ fun Context.setConnectionMethod(method: Boolean) {
         putBoolean("connection_method", method)
     }
 }
+
+fun Context.getSkipAuth(): Boolean {
+    return getAppStorage().getBoolean("skip_auth", false)
+}
+
+fun Context.setSkipAuth(value: Boolean) {
+    return getAppStorage().edit {
+        putBoolean("skip_auth", value)
+    }
+}

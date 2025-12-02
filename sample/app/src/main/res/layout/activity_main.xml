@@ -108,6 +108,13 @@
                 android:layout_marginTop="16dp"
                 android:text="LOG"/>
 
+            <CheckBox
+                android:id="@+id/cb_skip_auth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/main_skip_auth"/>
+
         </LinearLayout>
 
     </LinearLayout>
