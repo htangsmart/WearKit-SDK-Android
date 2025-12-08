@@ -626,7 +626,7 @@
     <string name="dial_installing">表盘安装中</string>
     <string name="dial_get_all">获取所有表盘</string>
     <string name="dial_delete_last">删除最后一个表盘</string>
-    <string name="dial_install_one">安装一个表盘</string>
+    <string name="dial_install">安装表盘</string>
 
     <!--Sport Push-->
     <string name="sport_push">运动推送</string>

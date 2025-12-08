@@ -1,14 +1,19 @@
 package com.topstep.wearkit.sample.ui.dial.base
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kilnn.tool.widget.ktx.clickTrigger
+import com.topstep.flywear.sdk.apis.FwSDK
 import com.topstep.wearkit.apis.model.dial.WKDialInfo
 import com.topstep.wearkit.apis.model.dial.WKDialType
+import com.topstep.wearkit.base.utils.UriUtil
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityDialBaseBinding
@@ -16,8 +21,11 @@ import com.topstep.wearkit.sample.databinding.ItemDialItemBinding
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
+import okio.FileNotFoundException
 import timber.log.Timber
+import java.io.File
 
 class DialBaseActivity : BaseActivity() {
 
@@ -26,9 +34,39 @@ class DialBaseActivity : BaseActivity() {
 
     private val innerAdapter = InnerAdapter()
 
+    private val selectFileLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val data = result.data
+            if (data == null) {
+                toast("Select file error!")
+                return@registerForActivityResult
+            }
+
+            val uris = mutableListOf<Uri>()
+            // 处理多选文件
+            if (data.clipData != null) {
+                // 多个文件
+                val clipData = data.clipData!!
+                for (i in 0 until clipData.itemCount) {
+                    clipData.getItemAt(i)?.uri?.let { uris.add(it) }
+                }
+            } else if (data.data != null) {
+                // 单个文件
+                uris.add(data.data!!)
+            }
+
+            if (uris.isEmpty()) {
+                toast("Select file error!")
+            } else {
+                startInstall(uris)
+            }
+        }
+    }
+
     private var refreshDisposable: Disposable? = null
     private var deleteDisposable: Disposable? = null
     private var selectDisposable: Disposable? = null
+    private var installDisposable: Disposable? = null
 
     private fun refreshDials() {
         refreshDisposable?.dispose()
@@ -109,15 +147,46 @@ class DialBaseActivity : BaseActivity() {
         }
 
         viewBind.btnInstall.clickTrigger {
-//            wearKit.dialAbility.install(
-//                dialId = "1111",
-//                file = File(""),
-//            ).subscribe({ progress ->
-//                Timber.i("install:$progress")
-//            }, {
-//                Timber.w(it)
-//            })
+            //Select dial file(s)
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            intent.type = "*/*"
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true) // 支持多选
+            try {
+                selectFileLauncher.launch(intent)
+            } catch (e: Exception) {
+                Timber.w(e)
+                toast("Select file error!")
+            }
         }
+    }
+
+    private fun startInstall(uris: List<Uri>) {
+        if (wearKit.getRawSDK() is FwSDK) {
+            toast("FwSDK dialAbility.install require dialId")
+            return
+        }
+        installDisposable?.dispose()
+
+        var index = 1
+        installDisposable = Observable.fromIterable(uris).concatMap {
+            val result = UriUtil.getFilePath(this, it)
+            val path = result?.path
+            if (!path.isNullOrEmpty()) {
+                wearKit.dialAbility.install("", File(path))
+                    .doOnComplete {
+                        index++
+                    }
+            } else {
+                Observable.error(FileNotFoundException("无法获取文件路径"))
+            }
+        }.subscribe({
+            toast("Install dial $index progress:$it")
+        }, {
+            toast("Install dial $index error")
+        }, {
+            toast("Install success all")
+        })
     }
 
     override fun onDestroy() {
@@ -125,6 +194,7 @@ class DialBaseActivity : BaseActivity() {
         refreshDisposable?.dispose()
         deleteDisposable?.dispose()
         selectDisposable?.dispose()
+        installDisposable?.dispose()
     }
 
     private class InnerViewHolder(val viewBind: ItemDialItemBinding) : RecyclerView.ViewHolder(viewBind.root)
