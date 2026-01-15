@@ -1,3 +1,10 @@
+# v3.0.2
+
+2026-01-15
+
+1. CHANGE: sdk-prototb-adapter first release version and supports 16k
+2. Fix: Fix some bugs
+
 # v3.0.1
 
 2025-10-29
