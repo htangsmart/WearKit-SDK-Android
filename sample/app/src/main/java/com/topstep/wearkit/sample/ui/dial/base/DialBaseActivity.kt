@@ -13,7 +13,7 @@ import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.topstep.flywear.sdk.apis.FwSDK
 import com.topstep.wearkit.apis.model.dial.WKDialInfo
 import com.topstep.wearkit.apis.model.dial.WKDialType
-import com.topstep.wearkit.base.utils.UriUtil
+import com.topstep.wearkit.base.download.UriCopyDownloader
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityDialBaseBinding
@@ -23,7 +23,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
-import okio.FileNotFoundException
 import timber.log.Timber
 import java.io.File
 
@@ -161,6 +160,13 @@ class DialBaseActivity : BaseActivity() {
         }
     }
 
+    private fun copyTempFile(uri: Uri): File {
+        val downloader = UriCopyDownloader(this, externalCacheDir, 30_0000)
+        return downloader.download(uri.toString(), null, true).filter {
+            it.progress == 100
+        }.singleOrError().map { it.result as File }.blockingGet()
+    }
+
     private fun startInstall(uris: List<Uri>) {
         if (wearKit.getRawSDK() is FwSDK) {
             toast("FwSDK dialAbility.install require dialId")
@@ -170,19 +176,15 @@ class DialBaseActivity : BaseActivity() {
 
         var index = 1
         installDisposable = Observable.fromIterable(uris).concatMap {
-            val result = UriUtil.getFilePath(this, it)
-            val path = result?.path
-            if (!path.isNullOrEmpty()) {
-                wearKit.dialAbility.install("", File(path))
-                    .doOnComplete {
-                        index++
-                    }
-            } else {
-                Observable.error(FileNotFoundException("无法获取文件路径"))
+            val file = copyTempFile(it)
+            wearKit.dialAbility.install("", file).doOnComplete {
+                index++
+                file.delete()
             }
         }.subscribe({
             toast("Install dial $index progress:$it")
         }, {
+            Timber.w(it)
             toast("Install dial $index error")
         }, {
             toast("Install success all")
