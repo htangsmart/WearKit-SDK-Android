@@ -31,7 +31,7 @@ androidx-media3 = "1.4.1"
 #Common
 timber = "5.0.1"
 permissionx = "1.7.1"
-mars-xlog = "1.2.6"
+mars-xlog = "1.2.5"
 kilnn-toolkit = "1.0.2"
 kilnn-wheelview = "1.0.2"
 leakcanary = "2.12"
