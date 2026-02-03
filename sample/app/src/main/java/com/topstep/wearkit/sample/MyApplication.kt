@@ -39,6 +39,7 @@ class MyApplication : MultiDexApplication() {
 
     private fun initMainProcess() {
         //Only for test. Developer should not use this
+        PbSDK.COMPANY_ID_ALL = true
         PbSDK.BLE_CONNECTION = getConnectionMethod()
         FwSDK.BLE_CONNECTION = getConnectionMethod()
         //Init
