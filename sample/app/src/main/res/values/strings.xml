@@ -617,6 +617,13 @@
     <string name="target_consume">consume</string>
     <string name="Activity_duration">Activity duration</string>
 
+    <!--lock-->
+    <string name="screen_lock">Screen Lock</string>
+    <string name="game_lock">Game Lock</string>
+    <string name="lock_enabled">Enabled:</string>
+    <string name="lock_password">Password:</string>
+    <string name="lock_password_hint">Enter 6-digit PIN</string>
+
     <!--Dial-->
     <string name="dial_base">Base Dial</string>
     <string name="dial_custom_style">Dial Custom Style</string>

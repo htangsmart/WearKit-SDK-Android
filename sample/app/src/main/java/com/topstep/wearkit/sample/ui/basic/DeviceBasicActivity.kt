@@ -126,21 +126,34 @@ class DeviceBasicActivity : BaseActivity() {
 
         viewBind.btnNotification.clickTrigger {
             startActivity(Intent(this, NotificationActivity::class.java))
-
         }
 
         viewBind.btnRemind.clickTrigger {
             startActivity(Intent(this, RemindActivity::class.java))
-
         }
 
         viewBind.btnTimeFormat.clickTrigger {
             startActivity(Intent(this, TimeFormatActivity::class.java))
-
         }
 
         viewBind.btnActivityTarget.clickTrigger {
             startActivity(Intent(this, SportTargetActivity::class.java))
+        }
+
+        viewBind.btnScreenLock.clickTrigger {
+            if (wearKit.lockAbility.compat.isSupportScreenLock()) {
+                startActivity(Intent(this, ScreenLockActivity::class.java))
+            } else {
+                toast(R.string.tip_un_support)
+            }
+        }
+
+        viewBind.btnGameLock.clickTrigger {
+            if (wearKit.lockAbility.compat.isSupportGameLock()) {
+                startActivity(Intent(this, GameLockActivity::class.java))
+            } else {
+                toast(R.string.tip_un_support)
+            }
         }
     }
 

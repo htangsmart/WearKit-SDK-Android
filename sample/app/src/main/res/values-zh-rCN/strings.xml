@@ -618,6 +618,13 @@
     <string name="activity_target">活动目标</string>
     <string name="Activity_duration">活动时长</string>
 
+    <!--lock-->
+    <string name="screen_lock">屏幕锁</string>
+    <string name="game_lock">游戏锁</string>
+    <string name="lock_enabled">启用:</string>
+    <string name="lock_password">密码:</string>
+    <string name="lock_password_hint">请输入6位数字密码</string>
+
     <!--Dial-->
     <string name="dial_base">基础表盘</string>
     <string name="dial_custom_style">自定义表盘样式</string>

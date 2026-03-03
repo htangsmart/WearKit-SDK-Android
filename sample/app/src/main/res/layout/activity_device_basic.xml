@@ -106,6 +106,18 @@
             android:layout_height="wrap_content"
             android:text="@string/activity_target"/>
 
+        <Button
+            android:id="@+id/btn_screen_lock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/screen_lock"/>
+
+        <Button
+            android:id="@+id/btn_game_lock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/game_lock"/>
+
     </LinearLayout>
 
 </ScrollView>
