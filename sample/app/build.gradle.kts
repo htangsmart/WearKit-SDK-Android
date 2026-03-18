@@ -106,7 +106,7 @@ dependencies {
     //WearKit Required
     if (isDeveloperEnvironment()) {
         //For developer environment, use remote dependencies
-        val weakitVersion = "3.0.2-t9-SNAPSHOT"
+        val weakitVersion = "3.0.2.1-SNAPSHOT"
         val weakitChanging = weakitVersion.contains("SNAPSHOT")
         implementation("com.topstep.wearkit:sdk-core:$weakitVersion") { isChanging = weakitChanging }
         implementation("com.topstep.wearkit:sdk-flywear-adapter:$weakitVersion") { isChanging = weakitChanging }
