@@ -82,10 +82,9 @@ class GameLockActivity : BaseActivity(), TimePickerDialogFragment.Listener {
             return
         }
 
-        val passwordBytes = pinStr.toPinBytes()
         val lock = WKGameLock(
             isEnabled = isEnabled,
-            password = passwordBytes,
+            password = pinStr,
             start = startMinutes,
             end = endMinutes,
         )
@@ -98,11 +97,6 @@ class GameLockActivity : BaseActivity(), TimePickerDialogFragment.Listener {
                 Timber.w(it)
                 toast(R.string.tip_failed)
             })
-    }
-
-    private fun String.toPinBytes(): ByteArray {
-        val digits = map { (it - '0').toByte() }.toByteArray()
-        return ByteArray(6) { index -> if (index < digits.size) digits[index] else 0 }
     }
 
     companion object {

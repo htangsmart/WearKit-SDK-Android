@@ -41,8 +41,7 @@ class ScreenLockActivity : BaseActivity() {
             return
         }
 
-        val passwordBytes = pinStr.toPinBytes()
-        val lock = WKScreenLock(isEnabled = isEnabled, password = passwordBytes)
+        val lock = WKScreenLock(isEnabled = isEnabled, password = pinStr)
 
         wearKit.lockAbility.setScreenLock(lock)
             .observeOn(AndroidSchedulers.mainThread())
@@ -56,11 +55,6 @@ class ScreenLockActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-    }
-
-    private fun String.toPinBytes(): ByteArray {
-        val digits = map { (it - '0').toByte() }.toByteArray()
-        return ByteArray(6) { index -> if (index < digits.size) digits[index] else 0 }
     }
 
 }
