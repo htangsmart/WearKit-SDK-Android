@@ -1,5 +1,6 @@
 package com.topstep.wearkit.sample.ui
 
+import android.bluetooth.BluetoothAdapter
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
@@ -14,9 +15,11 @@ import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityDeviceQrCodeBinding
 import com.topstep.wearkit.sample.model.DeviceInfo
 import com.topstep.wearkit.sample.ui.base.BaseActivity
+import com.topstep.wearkit.sample.ui.discovery.DeviceScanActivity
 import com.topstep.wearkit.sample.ui.discovery.DeviceScanActivity.Companion.EXTRA_TYPE
 import timber.log.Timber
 import java.net.URLDecoder
+import java.util.regex.Pattern
 
 class DeviceQrCodeActivity : BaseActivity() {
 
@@ -26,6 +29,7 @@ class DeviceQrCodeActivity : BaseActivity() {
 
     private val wearKit = MyApplication.wearKit
     private lateinit var deviceType: WKDeviceType
+    private val addressPattern = Pattern.compile("([A-Fa-f0-9]{2}:){5}[A-Fa-f0-9]{2}")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,12 +60,13 @@ class DeviceQrCodeActivity : BaseActivity() {
                     Timber.v("str:%s", str)
                     val result = wearKit.scanner.qrcode(str)
                     if (result != null) {
-                        DeviceActivity.start(
-                            this, DeviceInfo(
-                                deviceType, result.address, result.name
-                            )
-                        )
+                        DeviceActivity.start(this, DeviceInfo(deviceType, result.address, result.name))
                         finish()
+                    } else {
+                        val address = findAddress(str)
+                        if (BluetoothAdapter.checkBluetoothAddress(address)) {
+                            DeviceActivity.start(this, DeviceInfo(deviceType, address!!, DeviceScanActivity.UNKNOWN_DEVICE_NAME))
+                        }
                     }
                 }
             }
@@ -107,6 +112,15 @@ class DeviceQrCodeActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         remoteView.onDestroy()
+    }
+
+    private fun findAddress(str: String): String? {
+        val matcher = addressPattern.matcher(str)
+        return if (matcher.find()) {
+            matcher.group()
+        } else {
+            null
+        }
     }
 
 }
