@@ -187,6 +187,7 @@ dependencies {
     implementation(libs.protobuf)
 
     implementation(libs.kilnn.wheelview)
+    implementation("com.huawei.hms:scanplus:2.12.0.301")
 }
 
 fun isDeveloperEnvironment(): Boolean {

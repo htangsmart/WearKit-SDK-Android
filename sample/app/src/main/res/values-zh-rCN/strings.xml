@@ -10,7 +10,7 @@
     <string name="main_device_flywear">FlyWear设备</string>
     <string name="main_device_shenju">ShenJu设备</string>
     <string name="main_device_prototb">ProtoTb设备</string>
-    <string name="main_to_qrcode">扫码连接</string>
+    <string name="main_to_qrcode">扫码</string>
     <string name="main_switch_method">切换连接方式:%s</string>
     <string name="main_not_implemented">暂未实现</string>
     <string name="main_switch_done">已切换为%s，重启APP后生效(仅针对FlyWear,ProtoTb设备)</string>

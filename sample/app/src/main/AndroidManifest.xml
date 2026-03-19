@@ -76,6 +76,8 @@
 
         <activity android:name=".ui.DeviceActivity"/>
 
+        <activity android:name=".ui.DeviceQrCodeActivity"/>
+
         <activity android:name=".ui.ota.LocalOtaActivity"/>
 
         <activity android:name=".ui.basic.DeviceBasicActivity"/>

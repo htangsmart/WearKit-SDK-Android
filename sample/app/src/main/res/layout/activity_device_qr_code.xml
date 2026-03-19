@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/rim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.github.kilnn.tool.widget.ScanCodeLayout
+        android:id="@+id/scan_code_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:rectCorners="16dp"
+        app:rectSize="240dp"
+        app:scan_bar="@drawable/scan_bar">
+
+        <FrameLayout
+            android:id="@+id/scan_code_layout_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/btn_flush"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/flashlight_off"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+    </com.github.kilnn.tool.widget.ScanCodeLayout>
+
+</FrameLayout>

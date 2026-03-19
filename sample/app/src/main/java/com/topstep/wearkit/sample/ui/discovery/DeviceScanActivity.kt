@@ -6,6 +6,8 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.Menu
+import android.view.MenuItem
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -17,6 +19,7 @@ import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityDeviceScanBinding
 import com.topstep.wearkit.sample.model.DeviceInfo
 import com.topstep.wearkit.sample.ui.DeviceActivity
+import com.topstep.wearkit.sample.ui.DeviceQrCodeActivity
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.utils.flowLocationServiceState
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
@@ -27,7 +30,7 @@ import timber.log.Timber
 class DeviceScanActivity : BaseActivity() {
 
     private lateinit var viewBind: ActivityDeviceScanBinding
-    private lateinit var type: WKDeviceType
+    private lateinit var deviceType: WKDeviceType
     private lateinit var scannerHelper: ScannerHelper
 
     /**
@@ -95,8 +98,8 @@ class DeviceScanActivity : BaseActivity() {
 
         supportActionBar?.setTitle(R.string.main_to_scan)
 
-        type = WKDeviceType.valueOf(intent.getStringExtra(EXTRA_TYPE)!!)
-        scannerHelper = ScannerHelper(this, type)
+        deviceType = WKDeviceType.valueOf(intent.getStringExtra(EXTRA_TYPE)!!)
+        scannerHelper = ScannerHelper(this, deviceType)
         scannerHelper.listener = scannerListener
         lifecycle.addObserver(scannerHelper)
 
@@ -140,7 +143,7 @@ class DeviceScanActivity : BaseActivity() {
         scannerHelper.stop()
         DeviceActivity.start(
             this, DeviceInfo(
-                type, address, if (name.isNullOrEmpty()) {
+                deviceType, address, if (name.isNullOrEmpty()) {
                     UNKNOWN_DEVICE_NAME
                 } else {
                     name
@@ -174,8 +177,28 @@ class DeviceScanActivity : BaseActivity() {
         return snackbar
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_device_scan, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_scan_qr_code -> {
+                scannerHelper.stop()
+                startActivity(
+                    Intent(this, DeviceQrCodeActivity::class.java).apply {
+                        putExtra(EXTRA_TYPE, deviceType.name)
+                    }
+                )
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     companion object {
-        private const val EXTRA_TYPE = "type"
+        const val EXTRA_TYPE = "type"
         const val UNKNOWN_DEVICE_NAME = "Unknown"
 
         fun start(context: Context, type: WKDeviceType) {
