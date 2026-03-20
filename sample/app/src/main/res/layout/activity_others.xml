@@ -24,6 +24,16 @@
                 style="@style/Widget.Sample.PreferenceView.Item"
                 app:preferenceTitle="ICE"/>
 
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_parental_mode"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="Parental Mode"/>
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_class_room_mode"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="ClassRoom Mode"/>
+
         </LinearLayout>
 
     </LinearLayout>

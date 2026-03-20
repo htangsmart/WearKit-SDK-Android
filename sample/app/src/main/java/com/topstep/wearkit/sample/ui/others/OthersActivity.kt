@@ -26,6 +26,22 @@ class OthersActivity : BaseActivity() {
                 toast(R.string.unit_km)
             }
         }
+
+        viewBind.itemParentalMode.clickTrigger {
+            if (wearKit.b2b.hsdAbility.compat.isSupportParentalMode()) {
+                startActivity(Intent(this, HsdParentalModeActivity::class.java))
+            } else {
+                toast(R.string.tip_failed)
+            }
+        }
+
+        viewBind.itemClassRoomMode.clickTrigger {
+            if (wearKit.b2b.hsdAbility.compat.isSupportClassRoomMode()) {
+                startActivity(Intent(this, HsdClassRoomModeActivity::class.java))
+            } else {
+                toast(R.string.tip_failed)
+            }
+        }
     }
 
 }
