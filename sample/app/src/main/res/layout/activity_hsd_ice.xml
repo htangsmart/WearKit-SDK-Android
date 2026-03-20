@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ICE Label 1"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/edit_label1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:hint="Enter ICE label 1"
+        android:inputType="text"
+        android:maxLength="63" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="ICE Label 2"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/edit_label2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:hint="Enter ICE label 2"
+        android:inputType="text"
+        android:maxLength="63" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="ICE Label 3"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/edit_label3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:hint="Enter ICE label 3"
+        android:inputType="text"
+        android:maxLength="63" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/action_save" />
+
+</LinearLayout>

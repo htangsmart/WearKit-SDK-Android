@@ -158,6 +158,9 @@
         <activity android:name=".ui.dial.base.DialBaseActivity"/>
         <activity android:name=".ui.sport.SportPushActivity"/>
 
+        <activity android:name=".ui.others.OthersActivity"/>
+        <activity android:name=".ui.others.HsdIceActivity"/>
+
         <service
             android:name=".ui.notification.MyNotificationListenerService"
             android:exported="true"

@@ -22,6 +22,7 @@ import com.topstep.wearkit.sample.ui.measure.MeasureActivity
 import com.topstep.wearkit.sample.ui.music.MediaControlActivity
 import com.topstep.wearkit.sample.ui.music.MusicActivity
 import com.topstep.wearkit.sample.ui.ota.LocalOtaActivity
+import com.topstep.wearkit.sample.ui.others.OthersActivity
 import com.topstep.wearkit.sample.ui.sport.SportPushActivity
 import com.topstep.wearkit.sample.ui.sync.SyncDataActivity
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
@@ -170,9 +171,12 @@ class DeviceActivity : BaseActivity() {
             }
         }
 
-
         viewBind.itemDisconnect.clickTrigger {
             wearKit.connector.close()
+        }
+
+        viewBind.itemOthers.clickTrigger {
+            startActivity(Intent(this, OthersActivity::class.java))
         }
     }
 
