@@ -77,6 +77,13 @@
                 android:layout_gravity="center"
                 android:text="@string/main_device_prototb"/>
 
+            <Button
+                android:id="@+id/btn_scan_abmate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/main_device_abmate"/>
+
         </LinearLayout>
 
         <LinearLayout

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import com.polidea.rxandroidble3.RxBleClient
+import com.topstep.wearkit.abmate.WKAbMateKit
 import com.topstep.wearkit.apis.WKWearKit
 import com.topstep.wearkit.base.ProcessLifecycleManager
 import com.topstep.wearkit.core.buildWKWearKit
@@ -60,6 +61,11 @@ fun wearKitInit(application: Application): WKWearKit {
     if (BuildConfig.isSupportProtoTb) {
         builders.add(
             WKProtoTbKit.Builder(application, processLifecycleObserver, rxBleClient)
+        )
+    }
+    if (BuildConfig.isSupportAbMate) {
+        builders.add(
+            WKAbMateKit.Builder(application, processLifecycleObserver, rxBleClient)
         )
     }
     val wearKit = buildWKWearKit(builders)

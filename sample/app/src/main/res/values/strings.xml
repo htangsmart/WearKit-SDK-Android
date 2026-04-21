@@ -10,6 +10,7 @@
     <string name="main_device_flywear">FlyWear Device</string>
     <string name="main_device_shenju">ShenJu Device</string>
     <string name="main_device_prototb">ProtoTb Device</string>
+    <string name="main_device_abmate">AbMate Device</string>
     <string name="main_to_qrcode">Scan Qr Code to connect</string>
     <string name="main_switch_method">Switch Connection Method:%s</string>
     <string name="main_not_implemented">Not implemented</string>

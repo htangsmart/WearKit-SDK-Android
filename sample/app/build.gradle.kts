@@ -1,3 +1,6 @@
+import java.text.SimpleDateFormat
+import java.util.Date
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin)
@@ -21,10 +24,10 @@ android {
 
     defaultConfig {
         applicationId = "com.topstep.wearkit.sample"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0.0.1"
+        versionName = "1.0.0.2-${SimpleDateFormat("yyMMddHHmm").format(Date())}"
         multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -32,6 +35,7 @@ android {
         buildConfigField("boolean", "isSupportFlyWear", "true")
         buildConfigField("boolean", "isSupportShenJu", "true")
         buildConfigField("boolean", "isSupportProtoTb", "true")
+        buildConfigField("boolean", "isSupportAbMate", "true")
 
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
@@ -101,15 +105,16 @@ afterEvaluate {
 
 dependencies {
     //WearKit Required
+    val weakitVersion = "3.0.2.3-SNAPSHOT"
+    val weakitChanging = weakitVersion.contains("SNAPSHOT")
     if (isDeveloperEnvironment()) {
         //For developer environment, use remote dependencies
-        val weakitVersion = "3.0.2-t9-SNAPSHOT"
-        val weakitChanging = weakitVersion.contains("SNAPSHOT")
         implementation("com.topstep.wearkit:sdk-core:$weakitVersion") { isChanging = weakitChanging }
         implementation("com.topstep.wearkit:sdk-flywear-adapter:$weakitVersion") { isChanging = weakitChanging }
         implementation("com.topstep.wearkit:sdk-fitcloud-adapter:$weakitVersion") { isChanging = weakitChanging }
         implementation("com.topstep.wearkit:sdk-shenju-adapter:$weakitVersion") { isChanging = weakitChanging }
         implementation("com.topstep.wearkit:sdk-prototb-adapter:$weakitVersion") { isChanging = weakitChanging }
+        implementation("com.topstep.wearkit:sdk-abmate-adapter:$weakitVersion") { isChanging = weakitChanging }
         implementation("com.topstep.wearkit:sdk-helper:$weakitVersion") { isChanging = weakitChanging }
     } else {
         //For author environment, use local project
@@ -118,6 +123,11 @@ dependencies {
         implementation(project(":sdk-fitcloud-adapter"))
         implementation(project(":sdk-shenju-adapter"))
         implementation(project(":sdk-prototb-adapter"))
+        if (hasSubmoduleAbMate()) {
+            implementation(project(":sdk-abmate-adapter"))
+        } else {
+            implementation("com.topstep.wearkit:sdk-abmate-adapter:$weakitVersion") { isChanging = weakitChanging }
+        }
         implementation(project(":sdk-helper"))
     }
     implementation(libs.timber)
@@ -188,4 +198,10 @@ dependencies {
 
 fun isDeveloperEnvironment(): Boolean {
     return !project.projectDir.path.toString().contains("android-sdk-wearkit")
+}
+
+fun hasSubmoduleAbMate(): Boolean {
+    val parent = project.projectDir.parent
+    val file = File(parent, "sdk-abmate-adapter/build.gradle.kts")
+    return file.exists()
 }
