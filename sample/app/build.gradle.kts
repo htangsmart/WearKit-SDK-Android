@@ -202,7 +202,9 @@ fun isDeveloperEnvironment(): Boolean {
 }
 
 fun hasSubmoduleAbMate(): Boolean {
-    val parent = project.projectDir.parent
+    val index = project.projectDir.path.indexOf("android-sdk-wearkit")
+    if (index == -1) return false
+    val parent = project.projectDir.path.take(index + "android-sdk-wearkit".length)
     val file = File(parent, "sdk-abmate-adapter/build.gradle.kts")
     return file.exists()
 }
