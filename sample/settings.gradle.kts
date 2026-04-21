@@ -22,13 +22,13 @@ dependencyResolutionManagement {
         maven {
             url = uri("https://maven.topstepht.com/repository/maven-public/")
         }
-        //sdk-fitcloud中com.github.artillerymans.Core:paycertification:leadingSmart_1.0.50依赖需要此配置
+        //骆方案sdk(com.artillery.pay:paycertification)
         maven {
             credentials {
                 username = "5ff28ca9ed01613630f9d551"
                 password = "cxN-HwJ]yzST"
             }
-            url= uri("https://packages.aliyun.com/6718aa5c2c78927f26d82a35/maven/mltcloudai")
+            url = uri("https://packages.aliyun.com/6718aa5c2c78927f26d82a35/maven/mltcloudai")
         }
     }
 }
@@ -50,6 +50,7 @@ if (!isDeveloperEnvironment()) {//Developers ignored this
     include(":sdk-shenju-adapter")
     include(":sdk-prototb-adapter")
     include(":sdk-helper")
+    include(":sdk-abmate-adapter")
     project(":sdk-base").projectDir = file("../../sdk-base")
     project(":sdk-apis").projectDir = file("../../sdk-apis")
     project(":sdk-core").projectDir = file("../../sdk-core")
@@ -63,6 +64,7 @@ if (!isDeveloperEnvironment()) {//Developers ignored this
     project(":sdk-shenju-adapter").projectDir = file("../../sdk-shenju-adapter")
     project(":sdk-prototb-adapter").projectDir = file("../../sdk-prototb-adapter")
     project(":sdk-helper").projectDir = file("../../sdk-helper")
+    project(":sdk-abmate-adapter").projectDir = file("../../sdk-abmate-adapter")
 }
 
 /**

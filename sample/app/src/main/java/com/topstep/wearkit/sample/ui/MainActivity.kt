@@ -44,6 +44,12 @@ class MainActivity : BaseActivity() {
         viewBind.btnScanPrototb.setOnClickListener {
             DeviceScanActivity.start(this, WKDeviceType.PROTO_TB)
         }
+        viewBind.btnScanAbmate.setOnClickListener {
+            DeviceScanActivity.start(this, WKDeviceType.AB_MATE)
+        }
+        viewBind.btnQrcode.setOnClickListener {
+            toast(R.string.main_not_implemented)
+        }
         updateBtnConnectionMethodText()
         viewBind.btnConnectionMethod.setOnClickListener {
             val method = !getConnectionMethod()
