@@ -50,6 +50,14 @@ class OthersActivity : BaseActivity() {
                 toast(R.string.tip_failed)
             }
         }
+
+        viewBind.itemHabit.clickTrigger {
+            if (wearKit.b2b.hsdAbility.compat.getHabitMaxNumber() > 0) {
+                startActivity(Intent(this, HsdHabitActivity::class.java))
+            } else {
+                toast(R.string.tip_failed)
+            }
+        }
     }
 
 }

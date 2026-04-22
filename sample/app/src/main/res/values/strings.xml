@@ -638,4 +638,11 @@
     <!--Sport Push-->
     <string name="sport_push">Sport Push</string>
 
+    <string-array name="hsd_habit_types">
+        <item>Custom</item>
+        <item>Sport</item>
+        <item>Study</item>
+        <item>Sleep</item>
+    </string-array>
+
 </resources>

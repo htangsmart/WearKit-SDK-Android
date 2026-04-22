@@ -39,6 +39,11 @@
                 style="@style/Widget.Sample.PreferenceView.Item"
                 app:preferenceTitle="Task &amp; Reward"/>
 
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_habit"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="Habit"/>
+
         </LinearLayout>
 
     </LinearLayout>
