@@ -27,6 +27,9 @@ class HsdUsageInfoActivity : BaseActivity() {
         viewBind.btnRequestGameUsage.clickTrigger {
             requestGameUsageInfo()
         }
+        viewBind.btnResetUsage.clickTrigger {
+            resetUsageInfo()
+        }
     }
 
     @SuppressLint("CheckResult", "SetTextI18n")
@@ -66,6 +69,18 @@ class HsdUsageInfoActivity : BaseActivity() {
                     }
                 }
                 viewBind.tvResult.text = sb.toString()
+                toast(R.string.tip_success)
+            }, {
+                Timber.w(it)
+                toast(R.string.tip_failed)
+            })
+    }
+
+    @SuppressLint("CheckResult")
+    private fun resetUsageInfo() {
+        wearKit.b2b.hsdAbility.resetUsageInfo()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
                 toast(R.string.tip_success)
             }, {
                 Timber.w(it)
