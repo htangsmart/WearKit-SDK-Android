@@ -165,6 +165,7 @@
         <activity android:name=".ui.others.HsdTaskActivity"/>
         <activity android:name=".ui.others.HsdHabitActivity"/>
         <activity android:name=".ui.others.HsdUsageInfoActivity"/>
+        <activity android:name=".ui.others.HsdGameActivity"/>
 
         <service
             android:name=".ui.notification.MyNotificationListenerService"

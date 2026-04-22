@@ -49,6 +49,11 @@
                 style="@style/Widget.Sample.PreferenceView.Item"
                 app:preferenceTitle="Usage Info"/>
 
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_game"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="Game"/>
+
         </LinearLayout>
 
     </LinearLayout>
