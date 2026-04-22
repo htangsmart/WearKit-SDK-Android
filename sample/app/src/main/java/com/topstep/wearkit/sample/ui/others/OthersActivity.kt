@@ -58,6 +58,14 @@ class OthersActivity : BaseActivity() {
                 toast(R.string.tip_failed)
             }
         }
+
+        viewBind.itemUsageInfo.clickTrigger {
+            if (wearKit.b2b.hsdAbility.compat.isSupportUsageInfo()) {
+                startActivity(Intent(this, HsdUsageInfoActivity::class.java))
+            } else {
+                toast(R.string.tip_failed)
+            }
+        }
     }
 
 }

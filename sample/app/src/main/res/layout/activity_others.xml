@@ -44,6 +44,11 @@
                 style="@style/Widget.Sample.PreferenceView.Item"
                 app:preferenceTitle="Habit"/>
 
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_usage_info"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="Usage Info"/>
+
         </LinearLayout>
 
     </LinearLayout>
