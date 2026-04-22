@@ -162,6 +162,7 @@
         <activity android:name=".ui.others.HsdIceActivity"/>
         <activity android:name=".ui.others.HsdParentalModeActivity"/>
         <activity android:name=".ui.others.HsdClassRoomModeActivity"/>
+        <activity android:name=".ui.others.HsdTaskActivity"/>
 
         <service
             android:name=".ui.notification.MyNotificationListenerService"
