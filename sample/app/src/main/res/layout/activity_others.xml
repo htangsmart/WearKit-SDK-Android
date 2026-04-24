@@ -54,6 +54,11 @@
                 style="@style/Widget.Sample.PreferenceView.Item"
                 app:preferenceTitle="Game"/>
 
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_offline_map"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="Push Offline Map"/>
+
         </LinearLayout>
 
     </LinearLayout>
