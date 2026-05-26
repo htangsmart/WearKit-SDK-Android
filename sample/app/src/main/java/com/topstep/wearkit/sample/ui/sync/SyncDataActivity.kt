@@ -17,6 +17,8 @@ import com.topstep.wearkit.sample.utils.AppUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @SuppressLint("CheckResult")
 class SyncDataActivity : BaseActivity() {
@@ -96,7 +98,7 @@ class SyncDataActivity : BaseActivity() {
             // heart rate
             WKSyncData.Type.HEART_RATE,
             WKSyncData.Type.HEART_RATE_MANUAL,
-            -> {
+                -> {
                 data.toHeartRate()?.map {
                     Timber.e("Sync HeartRate:$it")
                     HeartRateEntity(it.timestampSeconds, it.heartRate)
@@ -107,7 +109,7 @@ class SyncDataActivity : BaseActivity() {
             // blood oxygen
             WKSyncData.Type.BLOOD_OXYGEN,
             WKSyncData.Type.BLOOD_OXYGEN_MANUAL,
-            -> {
+                -> {
                 data.toBloodOxygen()?.map {
                     Timber.e("Sync BloodOxygen:$it")
                     BloodOxygenEntity(it.timestampSeconds, it.oxygen)
@@ -118,7 +120,7 @@ class SyncDataActivity : BaseActivity() {
             //blood pressure
             WKSyncData.Type.BLOOD_PRESSURE,
             WKSyncData.Type.BLOOD_PRESSURE_MANUAL,
-            -> {
+                -> {
                 data.toBloodPressure()?.map {
                     Timber.e("Sync BloodPressure:$it")
                     BloodPressureEntity(it.timestampSeconds, it.sbp, it.dbp)
@@ -129,7 +131,7 @@ class SyncDataActivity : BaseActivity() {
             //pressure
             WKSyncData.Type.PRESSURE,
             WKSyncData.Type.PRESSURE_MANUAL,
-            -> {
+                -> {
                 data.toPressure()?.map {
                     Timber.e("Sync Pressure:$it")
                     PressureEntity(it.timestampSeconds, it.pressure)
@@ -163,6 +165,21 @@ class SyncDataActivity : BaseActivity() {
                     appDatabase.sportDao().insert(it)
                 }
             }
+
+            WKSyncData.Type.HRV -> {
+                val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
+                data.toHRV()?.forEach { daily ->
+                    Timber.e(
+                        "Sync HRV Daily:ts=%s baselineMin=%d baselineMax=%d baselineCenter=%d hrvAvg=%d items=%d",
+                        format.format(daily.timestampSeconds * 1000L), daily.baselineMin, daily.baselineMax,
+                        daily.baselineCenter, daily.hrvAvg, daily.items.size
+                    )
+                    daily.items.forEach { item ->
+                        Timber.e("Sync HRV Item:ts=%s hrv=%d", format.format(item.timestampSeconds * 1000L), item.hrv)
+                    }
+                }
+            }
+
             else -> {}
         }
         timeProvider.onItemSyncSuccess(data)
