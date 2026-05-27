@@ -28,7 +28,7 @@ class OthersActivity : BaseActivity() {
             if (wearKit.b2b.hsdAbility.compat.isSupportIce()) {
                 startActivity(Intent(this, HsdIceActivity::class.java))
             } else {
-                toast(R.string.unit_km)
+                toast(R.string.tip_un_support)
             }
         }
 
@@ -36,7 +36,7 @@ class OthersActivity : BaseActivity() {
             if (wearKit.b2b.hsdAbility.compat.isSupportParentalMode()) {
                 startActivity(Intent(this, HsdParentalModeActivity::class.java))
             } else {
-                toast(R.string.tip_failed)
+                toast(R.string.tip_un_support)
             }
         }
 
@@ -44,7 +44,7 @@ class OthersActivity : BaseActivity() {
             if (wearKit.b2b.hsdAbility.compat.isSupportClassRoomMode()) {
                 startActivity(Intent(this, HsdClassRoomModeActivity::class.java))
             } else {
-                toast(R.string.tip_failed)
+                toast(R.string.tip_un_support)
             }
         }
 
@@ -52,7 +52,7 @@ class OthersActivity : BaseActivity() {
             if (wearKit.b2b.hsdAbility.compat.getTaskMaxNumber() > 0) {
                 startActivity(Intent(this, HsdTaskActivity::class.java))
             } else {
-                toast(R.string.tip_failed)
+                toast(R.string.tip_un_support)
             }
         }
 
@@ -60,7 +60,7 @@ class OthersActivity : BaseActivity() {
             if (wearKit.b2b.hsdAbility.compat.getHabitMaxNumber() > 0) {
                 startActivity(Intent(this, HsdHabitActivity::class.java))
             } else {
-                toast(R.string.tip_failed)
+                toast(R.string.tip_un_support)
             }
         }
 
@@ -68,7 +68,7 @@ class OthersActivity : BaseActivity() {
             if (wearKit.b2b.hsdAbility.compat.isSupportUsageInfo()) {
                 startActivity(Intent(this, HsdUsageInfoActivity::class.java))
             } else {
-                toast(R.string.tip_failed)
+                toast(R.string.tip_un_support)
             }
         }
 
@@ -76,7 +76,7 @@ class OthersActivity : BaseActivity() {
             if (wearKit.b2b.hsdAbility.compat.isSupportGame()) {
                 startActivity(Intent(this, HsdGameActivity::class.java))
             } else {
-                toast(R.string.tip_failed)
+                toast(R.string.tip_un_support)
             }
         }
 
@@ -84,7 +84,7 @@ class OthersActivity : BaseActivity() {
             if (wearKit.locationMapAbility.compat.isSupportOfflineMap()) {
                 if (pushOfflineMapDisposable?.isDisposed != false) {
                     pushOfflineMapDisposable = wearKit.locationMapAbility.pushOfflineMap(
-                        22.5445741, 114.0545429, 10
+                        22.5445741, 114.0545429, 1
                     ).observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             toast("push map progress:$it")
@@ -94,7 +94,7 @@ class OthersActivity : BaseActivity() {
                         })
                 }
             } else {
-                toast(R.string.tip_failed)
+                toast(R.string.tip_un_support)
             }
         }
     }
