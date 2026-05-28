@@ -42,6 +42,11 @@ android {
             arg("room.incremental", "true")
             arg("room.expandProjection", "true")
         }
+
+        ndk {
+            // 限制打包的 native ABI，主要为了控制 libVLC 引入的 .so 体积
+            abiFilters += listOf("armeabi-v7a", "arm64-v8a")
+        }
     }
 
     buildFeatures {
@@ -135,6 +140,9 @@ dependencies {
     implementation(libs.rxandroid)
     implementation(libs.rxandroidble)
     implementation(libs.androidx.media)
+
+    //RTSP playback - libVLC（Media3 RTSP 对非标 SDP 容错差，换 libVLC）
+    implementation("org.videolan.android:libvlc-all:3.6.0")
 
     //Base
     implementation(platform(libs.kotlin.coroutines.bom))

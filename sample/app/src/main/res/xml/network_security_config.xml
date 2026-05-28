@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- WKFileAbility.rtsp() 通过设备 wifi 直连返回的 RTSP 地址通常是局域网 IP，
+     需要允许明文流量；其余域名仍走默认安全策略。 -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true"/>
+</network-security-config>
