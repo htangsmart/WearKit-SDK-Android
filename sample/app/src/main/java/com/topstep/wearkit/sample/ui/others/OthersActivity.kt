@@ -3,6 +3,7 @@ package com.topstep.wearkit.sample.ui.others
 import android.content.Intent
 import android.os.Bundle
 import com.github.kilnn.tool.widget.ktx.clickTrigger
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityOthersBinding
@@ -83,20 +84,32 @@ class OthersActivity : BaseActivity() {
         viewBind.itemOfflineMap.clickTrigger {
             if (wearKit.locationMapAbility.compat.isSupportOfflineMap()) {
                 if (pushOfflineMapDisposable?.isDisposed != false) {
-                    pushOfflineMapDisposable = wearKit.locationMapAbility.pushOfflineMap(
-                        22.5445741, 114.0545429, 1
-                    ).observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            toast("push map progress:$it")
-                        }, {
-                            Timber.w(it)
-                            toast(it.stackTraceToString())
-                        })
+                    showRadiusChoiceDialog { radius ->
+                        pushOfflineMapDisposable = wearKit.locationMapAbility.pushOfflineMap(
+                            22.5445741, 114.0545429, radius
+                        ).observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({
+                                toast("push map progress:$it")
+                            }, {
+                                Timber.w(it)
+                                toast(it.stackTraceToString())
+                            })
+                    }
                 }
             } else {
                 toast(R.string.tip_un_support)
             }
         }
+    }
+
+    private fun showRadiusChoiceDialog(onSelected: (radius: Int) -> Unit) {
+        val items = Array(10) { "${it + 1} km" }
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Select radius(500k per 1km)")
+            .setItems(items) { _, which ->
+                onSelected(which + 1)
+            }
+            .show()
     }
 
 }
