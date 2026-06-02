@@ -177,6 +177,10 @@ class DeviceActivity : BaseActivity() {
         }
 
         viewBind.itemRtsp.clickTrigger {
+            if (MyApplication.isFlavorLite()) {
+                toast("Please use full build version!")
+                return@clickTrigger
+            }
             if (wearKit.connector.getConnectorState() != WKConnectorState.CONNECTED) {
                 toast("Device not connected!")
             } else {

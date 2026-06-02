@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.topstep.wearkit.apis.model.core.WKDeviceType
 import com.topstep.wearkit.apis.model.core.WKScanResult
+import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityDeviceScanBinding
 import com.topstep.wearkit.sample.model.DeviceInfo
@@ -185,6 +186,10 @@ class DeviceScanActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_scan_qr_code -> {
+                if (MyApplication.isFlavorLite()) {
+                    toast("Please use full build version!")
+                    return true
+                }
                 scannerHelper.stop()
                 startActivity(
                     Intent(this, DeviceQrCodeActivity::class.java).apply {

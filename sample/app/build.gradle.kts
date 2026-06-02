@@ -1,3 +1,4 @@
+import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -42,10 +43,22 @@ android {
             arg("room.incremental", "true")
             arg("room.expandProjection", "true")
         }
+    }
 
-        ndk {
-            // 限制打包的 native ABI，主要为了控制 libVLC 引入的 .so 体积
-            abiFilters += listOf("armeabi-v7a", "arm64-v8a")
+    flavorDimensions += "size"
+    productFlavors {
+        create("full") {
+            dimension = "size"
+            ndk {
+                abiFilters += listOf("armeabi-v7a", "arm64-v8a")
+            }
+        }
+        create("lite") {
+            dimension = "size"
+            versionNameSuffix = "-lite"
+            ndk {
+                abiFilters += listOf("arm64-v8a")
+            }
         }
     }
 
@@ -85,25 +98,46 @@ android {
     }
 }
 
+// Reduce apk size of lite flavor
+extensions.configure<ApplicationAndroidComponentsExtension>("androidComponents") {
+    onVariants(selector().withFlavor("size" to "lite")) { variant ->
+        variant.packaging.jniLibs.excludes.addAll(
+            listOf(
+                //sdk-flywear-adapter(Very few devices)
+                "**/libpython3.11.so",
+                "**/libcrypto1.1.so",
+                "**/libsqlite3.so",
+                "**/libssl1.1.so",
+                "**/libpersimwear.so",
+                "**/libffi.so",
+
+                //vlc(Uncommon functions)
+                "**/libvlc.so",
+                "**/libvlcjni.so",
+
+                //huawei scanplus(Uncommon functions)
+                "**/libscannative.so",
+            )
+        )
+    }
+}
+
 afterEvaluate {
-    tasks.getByName("installDebug").doLast {
-        val versionName = android.defaultConfig.versionName
-        val oldApkFile = file("${buildDir}/outputs/apk/debug/app-debug.apk")
-        val newApkFile = file("${buildDir}/outputs/apk/debug/WearKit-sample-v${versionName}.apk")
-        if (newApkFile.exists()) {
-            newApkFile.delete()
-        }
-        if (newApkFile.exists()) {
-            println("File can't delete")
-            return@doLast
-        }
-        if (!oldApkFile.exists()) {
-            println("File can't found")
-            return@doLast
-        }
-        oldApkFile.copyTo(newApkFile)
-        if (!newApkFile.exists()) {
-            println("File can't create")
+    android.applicationVariants.configureEach {
+        if (buildType.name != "debug") return@configureEach
+        val variant = this
+        val installTaskName = "install${variant.name.replaceFirstChar { it.uppercaseChar() }}"
+        tasks.matching { it.name == installTaskName }.configureEach {
+            doLast {
+                val flavorName = variant.flavorName ?: "default"
+                val oldApkFile = variant.outputs.first().outputFile
+                val newApkFile = file(
+                    "${layout.buildDirectory.get()}/outputs/apk/${flavorName}/debug/WearKit-sample-${flavorName}-v${variant.versionName}.apk"
+                )
+                newApkFile.parentFile.mkdirs()
+                if (newApkFile.exists()) newApkFile.delete()
+                if (oldApkFile.exists()) oldApkFile.copyTo(newApkFile, overwrite = true)
+            }
         }
     }
 }

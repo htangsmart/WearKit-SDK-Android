@@ -21,6 +21,10 @@ class MyApplication : MultiDexApplication() {
 
         @JvmStatic
         lateinit var myMediaController: MyMediaController
+
+        fun isFlavorLite(): Boolean {
+            return BuildConfig.FLAVOR.endsWith("lite")
+        }
     }
 
     override fun onCreate() {
