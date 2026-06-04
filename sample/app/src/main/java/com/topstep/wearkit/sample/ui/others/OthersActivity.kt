@@ -85,7 +85,7 @@ class OthersActivity : BaseActivity() {
             if (wearKit.locationMapAbility.compat.isSupportOfflineMap()) {
                 if (pushOfflineMapDisposable?.isDisposed != false) {
                     showRadiusChoiceDialog { radius ->
-                        pushOfflineMapDisposable = wearKit.locationMapAbility.pushOfflineMap(
+                        pushOfflineMapDisposable = wearKit.locationMapAbility.setOfflineMap(
                             22.5445741, 114.0545429, radius
                         ).observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
