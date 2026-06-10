@@ -9,6 +9,7 @@ import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityOthersBinding
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.Disposable
 import timber.log.Timber
 
@@ -18,6 +19,8 @@ class OthersActivity : BaseActivity() {
     private lateinit var viewBind: ActivityOthersBinding
 
     private var pushOfflineMapDisposable: Disposable? = null
+    private var listOfflineMapDisposable: Disposable? = null
+    private var deleteOfflineMapDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,12 +84,13 @@ class OthersActivity : BaseActivity() {
             }
         }
 
-        viewBind.itemOfflineMap.clickTrigger {
+        viewBind.itemPushOfflineMap.clickTrigger {
             if (wearKit.locationMapAbility.compat.isSupportOfflineMap()) {
                 if (pushOfflineMapDisposable?.isDisposed != false) {
                     showRadiusChoiceDialog { radius ->
+                        //Push a "TestMap" to device
                         pushOfflineMapDisposable = wearKit.locationMapAbility.setOfflineMap(
-                            22.5445741, 114.0545429, radius
+                            22.5445741, 114.0545429, radius, name = "TestMap"
                         ).observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
                                 toast("push map progress:$it")
@@ -96,6 +100,57 @@ class OthersActivity : BaseActivity() {
                             })
                     }
                 }
+            } else {
+                toast(R.string.tip_un_support)
+            }
+        }
+
+        viewBind.itemListOfflineMap.clickTrigger {
+            if (wearKit.locationMapAbility.compat.isSupportOfflineMap()) {
+                listOfflineMapDisposable?.dispose()
+                listOfflineMapDisposable = wearKit.locationMapAbility.listOfflineMap().subscribe({
+                    val s = StringBuilder()
+                        .append("Maps on device:")
+                    for (name in it) {
+                        s.append(name)
+                        s.append("   ")
+                    }
+                    toast(s.toString())
+                }, {
+                    Timber.w(it)
+                    toast(it.stackTraceToString())
+                })
+            } else {
+                toast(R.string.tip_un_support)
+            }
+        }
+
+        viewBind.itemDeleteOfflineMap.clickTrigger {
+            if (wearKit.locationMapAbility.compat.isSupportOfflineMap()) {
+                deleteOfflineMapDisposable?.dispose()
+                deleteOfflineMapDisposable = wearKit.locationMapAbility.listOfflineMap()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .flatMapCompletable { maps ->
+                        if (maps.isEmpty()) {
+                            toast("没有地图")
+                            Completable.complete()
+                        } else {
+                            val name = maps.first()
+                            val remaining = maps.size - 1
+                            wearKit.locationMapAbility.deleteOfflineMap(name)
+                                .andThen(
+                                    Completable.fromAction {
+                                        toast("删除了 $name 地图，还剩 $remaining 个")
+                                    }
+                                )
+                        }
+                    }
+                    .subscribe({
+                        // empty list case already toasted
+                    }, {
+                        Timber.w(it)
+                        toast(it.stackTraceToString())
+                    })
             } else {
                 toast(R.string.tip_un_support)
             }
@@ -110,6 +165,13 @@ class OthersActivity : BaseActivity() {
                 onSelected(which + 1)
             }
             .show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        pushOfflineMapDisposable?.dispose()
+        listOfflineMapDisposable?.dispose()
+        deleteOfflineMapDisposable?.dispose()
     }
 
 }
