@@ -24,6 +24,8 @@ import com.topstep.wearkit.sample.ui.music.MediaControlActivity
 import com.topstep.wearkit.sample.ui.music.MusicActivity
 import com.topstep.wearkit.sample.ui.ota.LocalOtaActivity
 import com.topstep.wearkit.sample.ui.others.OthersActivity
+import com.topstep.wearkit.sample.ui.special.BusinessCardActivity
+import com.topstep.wearkit.sample.ui.special.PaymentCodeActivity
 import com.topstep.wearkit.sample.ui.sport.SportPushActivity
 import com.topstep.wearkit.sample.ui.sync.SyncDataActivity
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
@@ -140,6 +142,26 @@ class DeviceActivity : BaseActivity() {
                 toast("UnSupport!")
             } else {
                 startActivity(Intent(this, SportPushActivity::class.java))
+            }
+        }
+
+        viewBind.itemPaymentCode.clickTrigger {
+            if (wearKit.connector.getConnectorState() != WKConnectorState.CONNECTED) {
+                toast("Device not connected!")
+            } else if (!wearKit.paymentCodeAbility.compat.isSupport()) {
+                toast(R.string.tip_un_support)
+            } else {
+                startActivity(Intent(this, PaymentCodeActivity::class.java))
+            }
+        }
+
+        viewBind.itemBusinessCard.clickTrigger {
+            if (wearKit.connector.getConnectorState() != WKConnectorState.CONNECTED) {
+                toast("Device not connected!")
+            } else if (!wearKit.businessCardAbility.compat.isSupport()) {
+                toast(R.string.tip_un_support)
+            } else {
+                startActivity(Intent(this, BusinessCardActivity::class.java))
             }
         }
 

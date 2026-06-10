@@ -637,6 +637,10 @@
 
     <!--Sport Push-->
     <string name="sport_push">Sport Push</string>
+    <string name="payment_code">Payment Code</string>
+    <string name="business_card">Business Card</string>
+    <string name="qr_code_ability_tips">Tap an item to push a demo QR code URL to the device.</string>
+    <string name="qr_code_ability_demo_content">This is a %1$s demo QR code</string>
 
     <string-array name="hsd_habit_types">
         <item>Custom</item>

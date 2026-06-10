@@ -111,6 +111,16 @@
                 app:preferenceTitle="@string/sport_push"/>
 
             <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_payment_code"
+                style="@style/Widget.Sample.PreferenceView.Item.Text"
+                app:preferenceTitle="@string/payment_code"/>
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_business_card"
+                style="@style/Widget.Sample.PreferenceView.Item.Text"
+                app:preferenceTitle="@string/business_card"/>
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
                 android:id="@+id/item_disconnect"
                 style="@style/Widget.Sample.PreferenceView.Item.Text"
                 app:preferenceTitle="disconnect"/>

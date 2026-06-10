@@ -638,5 +638,9 @@
 
     <!--Sport Push-->
     <string name="sport_push">运动推送</string>
+    <string name="payment_code">收款码</string>
+    <string name="business_card">名片</string>
+    <string name="qr_code_ability_tips">点击条目可将演示 QR 码内容推送到设备。</string>
+    <string name="qr_code_ability_demo_content">这是 %1$s 演示 QR 码</string>
 
 </resources>
