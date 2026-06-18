@@ -18,7 +18,6 @@ import com.topstep.wearkit.sample.ui.basic.DeviceBasicActivity
 import com.topstep.wearkit.sample.ui.config.DeviceConfigActivity
 import com.topstep.wearkit.sample.ui.dial.base.DialBaseActivity
 import com.topstep.wearkit.sample.ui.dial.style.DialStyleCustomActivity
-import com.topstep.wearkit.sample.ui.file.RtspPlayerActivity
 import com.topstep.wearkit.sample.ui.measure.MeasureActivity
 import com.topstep.wearkit.sample.ui.music.MediaControlActivity
 import com.topstep.wearkit.sample.ui.music.MusicActivity
@@ -196,18 +195,6 @@ class DeviceActivity : BaseActivity() {
 
         viewBind.itemDisconnect.clickTrigger {
             wearKit.connector.close()
-        }
-
-        viewBind.itemRtsp.clickTrigger {
-            if (MyApplication.isFlavorLite()) {
-                toast("Please use full build version!")
-                return@clickTrigger
-            }
-            if (wearKit.connector.getConnectorState() != WKConnectorState.CONNECTED) {
-                toast("Device not connected!")
-            } else {
-                RtspPlayerActivity.start(this)
-            }
         }
 
         viewBind.itemOthers.clickTrigger {

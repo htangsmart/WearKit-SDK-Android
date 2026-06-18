@@ -131,11 +131,6 @@
                 app:preferenceTitle="Pull log from device"/>
 
             <com.github.kilnn.tool.widget.item.PreferenceItem
-                android:id="@+id/item_rtsp"
-                style="@style/Widget.Sample.PreferenceView.Item.Text"
-                app:preferenceTitle="RTSP Stream"/>
-
-            <com.github.kilnn.tool.widget.item.PreferenceItem
                 android:id="@+id/item_others"
                 style="@style/Widget.Sample.PreferenceView.Item.Text"
                 app:preferenceTitle="Others"/>
