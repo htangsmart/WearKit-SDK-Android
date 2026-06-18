@@ -3,6 +3,7 @@ package com.topstep.wearkit.sample
 import androidx.multidex.MultiDexApplication
 import com.github.kilnn.tool.system.SystemUtil
 import com.topstep.flywear.sdk.apis.FwSDK
+import com.topstep.wearkit.abmate.apis.AbMateSDK
 import com.topstep.wearkit.apis.WKWearKit
 import com.topstep.wearkit.prototb.apis.PbSDK
 import com.topstep.wearkit.sample.data.PreferencesStorage
@@ -44,6 +45,7 @@ class MyApplication : MultiDexApplication() {
     private fun initMainProcess() {
         //Only for test. Developer should not use this
         PbSDK.COMPANY_ID_ALL = true
+        AbMateSDK.BLE_CONNECTION = getConnectionMethod()
         PbSDK.BLE_CONNECTION = getConnectionMethod()
         FwSDK.BLE_CONNECTION = getConnectionMethod()
         //Init
