@@ -41,6 +41,8 @@ object MyDialStyleProvider {
         if (deviceInfo.type == WKDeviceType.FIT_CLOUD) {
             if (deviceInfo.model.endsWith("4362")) {
                 return Single.just(Optional(forDevice4362()))
+            } else if (deviceInfo.model.endsWith("A000")) {
+                return Single.just(Optional(forDeviceA000()))
             }
         } else if (deviceInfo.type == WKDeviceType.SHEN_JU) {
             if (deviceInfo.model == "OSW-802N") {
@@ -72,6 +74,33 @@ object MyDialStyleProvider {
                 images = images, templates = templates,
                 styleWidth = 200,
                 styleHeight = 120,
+                paddingX = 20,
+                paddingY = 38,
+            )
+        }
+    }
+
+    private fun forDeviceA000(): WKDialStyleResources {
+        val baseUrl = "file:///android_asset/dial/style/A000"
+        val images = listOf(
+            Uri.parse("$baseUrl/style1.png"),
+            Uri.parse("$baseUrl/style2.png"),
+            Uri.parse("$baseUrl/style3.png"),
+            Uri.parse("$baseUrl/style4.png"),
+            Uri.parse("$baseUrl/style5.png"),
+        )
+        val templates = listOf(
+            WKResources(uri = Uri.parse("$baseUrl/template.bin"), size = 1571736),
+        )
+        return if (strategy == STRATEGY_CUSTOM_RESOURCES) {
+            WKDialStyleResources(
+                images = images, templates = templates,
+            )
+        } else {
+            FitCloudDialStyleResources(
+                images = images, templates = templates,
+                styleWidth = 158,
+                styleHeight = 77,
                 paddingX = 20,
                 paddingY = 38,
             )
