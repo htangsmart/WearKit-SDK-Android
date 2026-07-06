@@ -144,7 +144,7 @@ afterEvaluate {
 
 dependencies {
     //WearKit Required
-    val weakitVersion = "3.0.2.3-SNAPSHOT"
+    val weakitVersion = "3.0.2.4-SNAPSHOT"
     val weakitChanging = weakitVersion.contains("SNAPSHOT")
     if (isDeveloperEnvironment()) {
         //For developer environment, use remote dependencies
