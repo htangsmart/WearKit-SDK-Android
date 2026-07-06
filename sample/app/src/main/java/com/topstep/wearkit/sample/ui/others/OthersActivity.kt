@@ -160,6 +160,10 @@ class OthersActivity : BaseActivity() {
             }
         }
 
+        viewBind.itemEpo.clickTrigger {
+            startActivity(Intent(this, EpoActivity::class.java))
+        }
+
         abmateWifiTest()
     }
 

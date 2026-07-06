@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_support"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="isSupportEpo:"/>
+
+    <Button
+        android:id="@+id/btn_update_force"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Update EPO (built-in server, force)"/>
+
+    <Button
+        android:id="@+id/btn_update_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update EPO (built-in server, normal)"/>
+
+    <Button
+        android:id="@+id/btn_request_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Request EPO Time (debug)"/>
+
+    <Button
+        android:id="@+id/btn_clear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Clear EPO (debug)"/>
+
+    <TextView
+        android:id="@+id/tv_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>
