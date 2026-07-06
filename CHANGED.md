@@ -1,3 +1,17 @@
+# v3.0.2.4
+
+2026-07-06
+
+1. ADD: Add `WKLockAbility`
+2. ADD: ADD `HsdAbility` for customized ability
+3. ADD: ADD `WKLocationMapAbility`
+4. ADD: ADD `WKMuslimAbility` instead of `WKPrayerAbility`
+5. ADD: ADD HRV features. `WKHeartRateAbility.setHRVConfig`,`WKSyncData.HRV`
+6. CHANGE: `WKAlarm` add `type` field
+7. CHANGE: The Weather add more field. Such as `quality`, `humidity`...
+8. CHANGE：`WKAlarmAbility.getAlarmMaxNumber` now may return 0.
+9. Fix: Fix some bugs
+
 # v3.0.2
 
 2026-01-15
@@ -21,7 +35,7 @@
 
 1. Adapt to Android 15 and 16k policies
 2. CHANGED: updata Realtek sdk version from 1.0.3 to 1.0.4
-2. fix some bugs
+3. fix some bugs
 
 # v3.0.1-beta13
 
