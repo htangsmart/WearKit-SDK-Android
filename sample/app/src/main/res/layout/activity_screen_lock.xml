@@ -39,8 +39,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:hint="@string/lock_password_hint"
-        android:inputType="numberPassword"
-        android:maxLength="6"/>
+        android:inputType="numberPassword"/>
 
     <Button
         android:id="@+id/btn_save"

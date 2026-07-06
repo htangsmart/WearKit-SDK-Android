@@ -623,7 +623,7 @@
     <string name="game_lock">Game Lock</string>
     <string name="lock_enabled">Enabled:</string>
     <string name="lock_password">Password:</string>
-    <string name="lock_password_hint">Enter 6-digit PIN</string>
+    <string name="lock_password_hint">Enter %d-digit PIN</string>
 
     <!--Dial-->
     <string name="dial_base">Base Dial</string>

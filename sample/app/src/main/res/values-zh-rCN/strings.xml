@@ -624,7 +624,7 @@
     <string name="game_lock">游戏锁</string>
     <string name="lock_enabled">启用:</string>
     <string name="lock_password">密码:</string>
-    <string name="lock_password_hint">请输入6位数字密码</string>
+    <string name="lock_password_hint">请输入%d位数字密码</string>
 
     <!--Dial-->
     <string name="dial_base">基础表盘</string>

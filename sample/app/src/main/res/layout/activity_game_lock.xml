@@ -32,8 +32,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="12dp"
             android:hint="@string/lock_password_hint"
-            android:inputType="numberPassword"
-            android:maxLength="6"/>
+            android:inputType="numberPassword"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
             android:id="@+id/item_start_time"

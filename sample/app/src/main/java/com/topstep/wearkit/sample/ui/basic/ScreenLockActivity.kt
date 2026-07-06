@@ -2,6 +2,7 @@ package com.topstep.wearkit.sample.ui.basic
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.InputFilter
 import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.topstep.wearkit.apis.model.special.WKScreenLock
 import com.topstep.wearkit.sample.MyApplication
@@ -23,21 +24,30 @@ class ScreenLockActivity : BaseActivity() {
         setContentView(viewBind.root)
         supportActionBar?.setTitle(R.string.screen_lock)
 
+        setupPasswordInput()
+
         viewBind.btnSave.clickTrigger {
             saveScreenLock()
         }
     }
 
+    private fun setupPasswordInput() {
+        val passwordLength = wearKit.lockAbility.compat.getPasswordLength()
+        viewBind.editPassword.filters = arrayOf(InputFilter.LengthFilter(passwordLength))
+        viewBind.editPassword.hint = getString(R.string.lock_password_hint, passwordLength)
+    }
+
     private fun saveScreenLock() {
         val isEnabled = viewBind.switchScreenLock.isChecked
         val pinStr = viewBind.editPassword.text?.toString().orEmpty()
+        val passwordLength = wearKit.lockAbility.compat.getPasswordLength()
 
-        if (isEnabled && pinStr.length != 6) {
-            toast(R.string.lock_password_hint)
+        if (pinStr.length != passwordLength) {
+            toast(getString(R.string.lock_password_hint, passwordLength))
             return
         }
-        if (isEnabled && !pinStr.all { it in '0'..'9' }) {
-            toast(R.string.lock_password_hint)
+        if (!pinStr.all { it in '0'..'9' }) {
+            toast(getString(R.string.lock_password_hint, passwordLength))
             return
         }
 
