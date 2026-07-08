@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/btn_order_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="订单确认"/>
+
+        <Button
+            android:id="@+id/btn_placing_order"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:text="下单"/>
+
+        <Button
+            android:id="@+id/btn_no_driver"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:text="无司机接单"/>
+
+        <Button
+            android:id="@+id/btn_driver_accepted"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:text="接单"/>
+
+        <Button
+            android:id="@+id/btn_order_cancelled"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:text="取消订单"/>
+
+        <Button
+            android:id="@+id/btn_arrived"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:text="到达"/>
+
+        <Button
+            android:id="@+id/btn_in_trip"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:text="行程中"/>
+
+        <Button
+            android:id="@+id/btn_payment_failed"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:text="支付失败"/>
+
+        <Button
+            android:id="@+id/btn_trip_ended"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:text="行程结束"/>
+
+    </LinearLayout>
+
+</ScrollView>

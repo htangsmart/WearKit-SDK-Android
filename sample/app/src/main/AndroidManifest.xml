@@ -183,6 +183,9 @@
         <activity android:name=".ui.others.HsdUsageInfoActivity"/>
         <activity android:name=".ui.others.HsdGameActivity"/>
 
+        <activity android:name=".ui.raw.RawFcSdkActivity"/>
+        <activity android:name=".ui.raw.TaxiActivity"/>
+
         <service
             android:name=".ui.notification.MyNotificationListenerService"
             android:exported="true"

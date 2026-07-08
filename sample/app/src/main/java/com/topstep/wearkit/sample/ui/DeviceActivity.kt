@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.github.kilnn.tool.widget.ktx.clickTrigger
+import com.topstep.fitcloud.sdk.v2.FcSDK
 import com.topstep.flywear.sdk.model.core.FwAuthMode
 import com.topstep.wearkit.apis.model.core.WKConnectorState
 import com.topstep.wearkit.sample.MyApplication
@@ -23,6 +24,7 @@ import com.topstep.wearkit.sample.ui.music.MediaControlActivity
 import com.topstep.wearkit.sample.ui.music.MusicActivity
 import com.topstep.wearkit.sample.ui.ota.LocalOtaActivity
 import com.topstep.wearkit.sample.ui.others.OthersActivity
+import com.topstep.wearkit.sample.ui.raw.RawFcSdkActivity
 import com.topstep.wearkit.sample.ui.special.BusinessCardActivity
 import com.topstep.wearkit.sample.ui.special.PaymentCodeActivity
 import com.topstep.wearkit.sample.ui.sport.SportPushActivity
@@ -199,6 +201,15 @@ class DeviceActivity : BaseActivity() {
 
         viewBind.itemOthers.clickTrigger {
             startActivity(Intent(this, OthersActivity::class.java))
+        }
+
+        viewBind.itemRawFcsdk.clickTrigger {
+            val raw = wearKit.getRawSDK() as? FcSDK
+            if (raw == null) {
+                toast("This is not a FcSDK device!")
+                return@clickTrigger
+            }
+            startActivity(Intent(this, RawFcSdkActivity::class.java))
         }
     }
 

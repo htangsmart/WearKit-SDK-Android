@@ -135,6 +135,11 @@
                 style="@style/Widget.Sample.PreferenceView.Item.Text"
                 app:preferenceTitle="Others"/>
 
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_raw_fcsdk"
+                style="@style/Widget.Sample.PreferenceView.Item.Text"
+                app:preferenceTitle="Raw FcSDK"/>
+
         </LinearLayout>
 
     </LinearLayout>
