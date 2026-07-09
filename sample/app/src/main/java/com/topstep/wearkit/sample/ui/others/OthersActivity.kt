@@ -88,6 +88,14 @@ class OthersActivity : BaseActivity() {
             }
         }
 
+        viewBind.itemTitanQrcode.clickTrigger {
+            if (wearKit.b2b.titanAbility.compat.isSupportQrCode()) {
+                startActivity(Intent(this, TitanQrCodeActivity::class.java))
+            } else {
+                toast(R.string.tip_un_support)
+            }
+        }
+
         viewBind.itemPushOfflineMap.clickTrigger {
             if (wearKit.locationMapAbility.compat.isSupportOfflineMap()) {
                 if (pushOfflineMapDisposable?.isDisposed != false) {
