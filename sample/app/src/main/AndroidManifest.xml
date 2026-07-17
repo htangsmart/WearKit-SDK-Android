@@ -166,7 +166,10 @@
             android:name=".ui.file.RtspPlayerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"/>
 
-        <activity android:name=".ui.dial.style.DialStyleCustomActivity"/>
+        <activity android:name=".ui.dial.style.DialBaseCustomActivity"/>
+        <activity android:name=".ui.dial.style.DialVideoCustomActivity"/>
+        <activity android:name=".ui.dial.style.DialMultCustomActivity"/>
+        <activity android:name=".ui.dial.style.DialDanMuCustomActivity"/>
         <activity android:name=".ui.dial.base.DialBaseActivity"/>
         <activity android:name=".ui.sport.SportPushActivity"/>
 

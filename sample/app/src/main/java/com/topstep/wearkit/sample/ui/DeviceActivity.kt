@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.github.kilnn.tool.widget.ktx.clickTrigger
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.topstep.fitcloud.sdk.v2.FcSDK
 import com.topstep.flywear.sdk.model.core.FwAuthMode
 import com.topstep.wearkit.apis.model.core.WKConnectorState
@@ -18,7 +19,10 @@ import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.ui.basic.DeviceBasicActivity
 import com.topstep.wearkit.sample.ui.config.DeviceConfigActivity
 import com.topstep.wearkit.sample.ui.dial.base.DialBaseActivity
-import com.topstep.wearkit.sample.ui.dial.style.DialStyleCustomActivity
+import com.topstep.wearkit.sample.ui.dial.style.DialBaseCustomActivity
+import com.topstep.wearkit.sample.ui.dial.style.DialDanMuCustomActivity
+import com.topstep.wearkit.sample.ui.dial.style.DialMultCustomActivity
+import com.topstep.wearkit.sample.ui.dial.style.DialVideoCustomActivity
 import com.topstep.wearkit.sample.ui.measure.MeasureActivity
 import com.topstep.wearkit.sample.ui.music.MediaControlActivity
 import com.topstep.wearkit.sample.ui.music.MusicActivity
@@ -132,7 +136,7 @@ class DeviceActivity : BaseActivity() {
             } else if (!wearKit.dialStyleAbility.compat.isSupport()) {
                 toast("UnSupport!")
             } else {
-                startActivity(Intent(this, DialStyleCustomActivity::class.java))
+                showDialCustomStyleDialog()
             }
         }
 
@@ -224,6 +228,27 @@ class DeviceActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         pullLogDisposable?.dispose()
+    }
+
+    private fun showDialCustomStyleDialog() {
+        val compat = wearKit.dialStyleAbility.compat
+        val options = ArrayList<Pair<String, Class<*>>>()
+        options.add(getString(R.string.dial_custom_style_base) to DialBaseCustomActivity::class.java)
+        if (compat.isSupportVideoBackground()) {
+            options.add(getString(R.string.dial_custom_style_video) to DialVideoCustomActivity::class.java)
+        }
+        if (compat.isSupportMultipleBackground()) {
+            options.add(getString(R.string.dial_custom_style_multiple) to DialMultCustomActivity::class.java)
+        }
+        if (compat.isSupportDanMuBackground()) {
+            options.add(getString(R.string.dial_custom_style_danmu) to DialDanMuCustomActivity::class.java)
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.dial_custom_style)
+            .setItems(options.map { it.first }.toTypedArray()) { _, which ->
+                startActivity(Intent(this, options[which].second))
+            }
+            .show()
     }
 
     private fun connect(user: UserInfo?) {

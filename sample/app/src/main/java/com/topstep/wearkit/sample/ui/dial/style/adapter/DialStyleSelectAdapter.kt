@@ -28,6 +28,16 @@ class DialStyleSelectAdapter : RecyclerView.Adapter<DialStyleSelectAdapter.Style
         }
     var listener: Listener? = null
 
+    fun select(position: Int, notifyListener: Boolean = true) {
+        val items = this.items ?: return
+        if (position !in items.indices) return
+        selectPosition = position
+        notifyDataSetChanged()
+        if (notifyListener) {
+            listener?.onItemSelect(position, items[position])
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StyleViewHolder {
         return StyleViewHolder(
             ItemDialStyleSelectBinding.inflate(LayoutInflater.from(parent.context), parent, false)
