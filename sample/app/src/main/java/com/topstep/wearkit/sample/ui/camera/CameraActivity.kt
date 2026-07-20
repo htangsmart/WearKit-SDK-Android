@@ -20,11 +20,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.window.layout.WindowMetricsCalculator
 import com.github.kilnn.tool.storage.FileUtil
 import com.github.kilnn.tool.widget.ktx.clickTrigger
-import com.shenju.cameracapturer.FrameData
-import com.shenju.cameracapturer.OSIJni
-import com.topstep.wearkit.apis.WKWearKit
+import com.topstep.wearkit.apis.model.camera.toWKImageProxy
 import com.topstep.wearkit.apis.model.message.WKCameraMessage
-import com.topstep.wearkit.base.utils.BytesUtil
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityCameraBinding
@@ -32,19 +29,12 @@ import com.topstep.wearkit.sample.ui.base.BaseActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import timber.log.Timber
-import java.io.BufferedWriter
 import java.io.File
-import java.io.FileWriter
-import java.nio.ByteBuffer
-import java.util.ArrayDeque
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
-
-/** Helper type alias used for analysis use case callbacks */
-typealias LumaListener = (luma: Double) -> Unit
 
 @SuppressLint("CheckResult")
 class CameraActivity : BaseActivity() {
@@ -85,25 +75,6 @@ class CameraActivity : BaseActivity() {
 
     // Preview
     private var isSupportPreview = false
-    private val osiJni: OSIJni = OSIJni()
-
-    private fun dirDownload(context: Context): File? {
-        val dir = ContextCompat.getExternalFilesDirs(context, Environment.DIRECTORY_DOWNLOADS).firstOrNull() ?: return null
-        if (!dir.exists() && !dir.mkdirs()) {
-            return null
-        }
-        return dir
-    }
-
-    private fun getVideoFile(context: Context): File? {
-        val dir = dirDownload(context)
-        if (dir == null) return null
-        return File(dir, "test.h264")
-    }
-
-    private val file = getVideoFile(MyApplication.instance)!!
-    private val fileWriter = if (TEST_MODE == 1) BufferedWriter(FileWriter(file)) else null
-    private val fileReader = if (TEST_MODE == 0) FileCycleReader(file) else if (TEST_MODE == 2) FileFixReader(MyApplication.instance) else null
 
     override fun onPause() {
         super.onPause()
@@ -194,8 +165,6 @@ class CameraActivity : BaseActivity() {
         //preview
         isSupportPreview = wearKit.cameraAbility.compat.isSupportPreview()
         if (isSupportPreview) {
-            val size = wearKit.cameraAbility.compat.getPreviewSize()
-            osiJni.initEncoder(size.x, size.y, 350, PREVIEW_FPS, 1)
             wearKit.cameraAbility.startPreview(PREVIEW_FPS).onErrorComplete()
                 .doOnError {
                     Timber.w(it)
@@ -303,7 +272,7 @@ class CameraActivity : BaseActivity() {
             else -> viewBind.imgFlash.isEnabled = false
         }
 
-        // ImageAnalysis
+        val isFront = lensFacing == CameraSelector.LENS_FACING_FRONT
         imageAnalyzer = ImageAnalysis.Builder()
             // We request aspect ratio but no resolution
             .setTargetAspectRatio(screenAspectRatio)
@@ -313,9 +282,18 @@ class CameraActivity : BaseActivity() {
             .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
-            // The analyzer can then be assigned to the instance
-            .also {
-                it.setAnalyzer(cameraExecutor, LuminosityAnalyzer(wearKit, osiJni, lensFacing == CameraSelector.LENS_FACING_FRONT, isSupportPreview, fileWriter, fileReader))
+            .also { analysis ->
+                analysis.setAnalyzer(cameraExecutor) { image ->
+                    try {
+                        if (isSupportPreview) {
+                            wearKit.cameraAbility.updatePreview(image.toWKImageProxy(isFront))
+                        }
+                    } catch (e: Exception) {
+                        Timber.tag(TAG).w(e, "updatePreview failed")
+                    } finally {
+                        image.close()
+                    }
+                }
             }
 
         // Must unbind the use-cases before rebinding them
@@ -524,192 +502,12 @@ class CameraActivity : BaseActivity() {
         return cameraProvider?.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA) ?: false
     }
 
-    /**
-     * Our custom image analysis class.
-     *
-     * <p>All we need to do is override the function `analyze` with our desired operations. Here,
-     * we compute the average luminosity of the image by looking at the Y plane of the YUV frame.
-     */
-    private class LuminosityAnalyzer(
-        private val wearKit: WKWearKit,
-        private val osiJni: OSIJni,
-        private val isFront: Boolean,
-        private val isSupportPreview: Boolean,
-        private val fileWriter: BufferedWriter?,
-        private val fileReader: FileTestReader?,
-        listener: LumaListener? = null,
-    ) : ImageAnalysis.Analyzer {
-        private val frameRateWindow = 8
-        private val frameTimestamps = ArrayDeque<Long>(5)
-        private val listeners = ArrayList<LumaListener>().apply { listener?.let { add(it) } }
-        private var lastAnalyzedTimestamp = 0L
-        var framesPerSecond: Double = -1.0
-            private set
-
-        private var sumSize = 0
-        private val startTimestamp = System.currentTimeMillis()
-
-        /**
-         * Used to add listeners that will be called with each luma computed
-         */
-        fun onFrameAnalyzed(listener: LumaListener) = listeners.add(listener)
-
-        /**
-         * Helper extension function used to extract a byte array from an image plane buffer
-         */
-        private fun ByteBuffer.toByteArray(): ByteArray {
-            rewind()    // Rewind the buffer to zero
-            val data = ByteArray(remaining())
-            get(data)   // Copy the buffer into a byte array
-            return data // Return the byte array
-        }
-
-        /**
-         * Analyzes an image to produce a result.
-         *
-         * <p>The caller is responsible for ensuring this analysis method can be executed quickly
-         * enough to prevent stalls in the image acquisition pipeline. Otherwise, newly available
-         * images will not be acquired and analyzed.
-         *
-         * <p>The image passed to this method becomes invalid after this method returns. The caller
-         * should not store external references to this image, as these references will become
-         * invalid.
-         *
-         * @param image image being analyzed VERY IMPORTANT: Analyzer method implementation must
-         * call image.close() on received images when finished using them. Otherwise, new images
-         * may not be received or the camera may stall, depending on back pressure setting.
-         *
-         */
-        override fun analyze(image: ImageProxy) {
-            if (isSupportPreview) {
-                sendPreviewToWatch(image)
-            }
-
-            // If there are no listeners attached, we don't need to perform analysis
-            if (listeners.isEmpty()) {
-                image.close()
-                return
-            }
-
-            // Keep track of frames analyzed
-            val currentTime = System.currentTimeMillis()
-            frameTimestamps.push(currentTime)
-
-            // Compute the FPS using a moving average
-            while (frameTimestamps.size >= frameRateWindow) frameTimestamps.removeLast()
-            val timestampFirst = frameTimestamps.peekFirst() ?: currentTime
-            val timestampLast = frameTimestamps.peekLast() ?: currentTime
-            framesPerSecond = 1.0 / ((timestampFirst - timestampLast) /
-                    frameTimestamps.size.coerceAtLeast(1).toDouble()) * 1000.0
-
-            // Analysis could take an arbitrarily long amount of time
-            // Since we are running in a different thread, it won't stall other use cases
-
-            lastAnalyzedTimestamp = frameTimestamps.first
-
-            // Since format in ImageAnalysis is YUV, image.planes[0] contains the luminance plane
-            val buffer = image.planes[0].buffer
-
-            // Extract image data from callback object
-            val data = buffer.toByteArray()
-
-            // Convert the data into an array of pixel values ranging 0-255
-            val pixels = data.map { it.toInt() and 0xFF }
-
-            // Compute average luminance for the image
-            val luma = pixels.average()
-
-            // Call all listeners with new value
-            listeners.forEach { it(luma) }
-
-            image.close()
-        }
-
-        private var lastPreviewSentTimestamp = 0L
-
-        private fun sendPreviewToWatch(image: ImageProxy) {
-            val currentTime = System.currentTimeMillis()
-            if (currentTime - lastPreviewSentTimestamp < 1000 / PREVIEW_FPS) {
-                return
-            }
-            lastPreviewSentTimestamp = currentTime
-
-            if ((TEST_MODE == 0 || TEST_MODE == 2) && fileReader != null) {
-                val frameType = fileReader.readLine().also {
-                    Timber.w("file read:%s", it)
-                }?.toIntOrNull()
-                if (frameType != null) {
-                    val str = fileReader.readLine().also {
-                        Timber.w("file read:%s", it)
-                    }
-                    if (!str.isNullOrEmpty()) {
-                        val frameData = BytesUtil.hexStr2Bytes(str)
-                        if (frameData != null) {
-                            wearKit.cameraAbility.updatePreview(frameType, frameData).onErrorComplete().doOnError { Timber.w(it) }.subscribe()
-                        }
-                    }
-                }
-                return
-            }
-
-            val planes = image.planes
-            val yPlane = planes[0]
-            val uPlane = planes[1]
-            val vPlane = planes[2]
-
-            val yBytes: ByteArray = YuvUtil.extractPlaneData(yPlane, image.width, image.height)
-            val uBytes: ByteArray
-            val vBytes: ByteArray?
-
-            if (uPlane.pixelStride == 2) { // UV数据交错
-                uBytes = YuvUtil.extractUVPlaneData(uPlane, image.width / 2, image.height / 2) // 注意宽度和高度
-                vBytes = null
-            } else {
-                uBytes = YuvUtil.extractPlaneData(uPlane, image.width / 2, image.height / 2) // 注意宽度和高度
-                vBytes = YuvUtil.extractPlaneData(vPlane, image.width / 2, image.height / 2) // 注意宽度和高度
-            }
-
-            synchronized(osiJni) {
-                val h264Data = FrameData()
-                val ret = osiJni.runEncoder(
-                    yBytes, uBytes, vBytes, image.width, image.height,
-                    image.imageInfo.rotationDegrees, h264Data, isFront
-                )
-                if (ret == 0) {
-                    sumSize += h264Data.frameData.size
-                    val useTime = System.currentTimeMillis() - startTimestamp
-                    //计算传输速度
-                    if (useTime > 0) {
-                        val speed = (sumSize / 1024.0) / (useTime / 1000.0)
-                        Timber.e("speed:$speed kb/s")
-                    }
-                    wearKit.cameraAbility.updatePreview(h264Data.frameType, h264Data.frameData).onErrorComplete().doOnError { Timber.w(it) }.subscribe()
-                    if (TEST_MODE == 1 && fileWriter != null) {
-                        fileWriter.write(
-                            StringBuilder().append(h264Data.frameType).append("\n").toString()
-                                .also {
-                                    Timber.w("file write:%s", it)
-                                })
-                        fileWriter.write(
-                            StringBuilder().append(BytesUtil.internalBytes2HexStr(h264Data.frameData)).append("\n").toString()
-                                .also {
-                                    Timber.w("file write:%s", it)
-                                })
-                    }
-                }
-            }
-
-        }
-
-    }
-
     companion object {
         private const val TAG = "Camera"
         private const val RATIO_4_3_VALUE = 4.0 / 3.0
         private const val RATIO_16_9_VALUE = 16.0 / 9.0
 
         private const val PREVIEW_FPS = 30
-        val TEST_MODE: Int? = null//null 正常模式，0读模式，1写模式，2读assets模式
 
         fun makePublicContentValues(context: Context): ContentValues? {
             val contentValues = ContentValues()
@@ -740,14 +538,12 @@ class CameraActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         observeCameraDisposable?.dispose()
+        if (isSupportPreview) {
+            wearKit.cameraAbility.stopPreview()
+        }
         setPhotographMode(false)
         cameraExecutor.shutdown()
         displayManager.unregisterDisplayListener(displayListener)
-        synchronized(osiJni) {
-            osiJni.closeEncoder()
-        }
-        runCatching { fileWriter?.close() }
-        runCatching { fileReader?.close() }
     }
 
 }
