@@ -21,7 +21,9 @@ class DialStyleSelectAdapter : RecyclerView.Adapter<DialStyleSelectAdapter.Style
                 if (selectPosition !in value.indices) {
                     selectPosition = 0
                 }
-                listener?.onItemSelect(selectPosition, value[selectPosition])
+                if (value.isNotEmpty()) {
+                    listener?.onItemSelect(selectPosition, value[selectPosition])
+                }
             } else {
                 selectPosition = 0
             }

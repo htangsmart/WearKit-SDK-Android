@@ -135,6 +135,7 @@ class DialBaseCustomActivity : GetPhotoVideoActivity() {
 
     private fun updateUI(constraint: WKDialStyleConstraint) {
         viewBind.viewBackground.shape = wearKit.deviceAbility.getDeviceInfo().shape
+        viewBind.btnCreateDial.text = getString(R.string.ds_dial_create, "${constraint.templates.first().size / 1024}KB")
 
         styleAdapter.items = constraint.styles
         styleAdapter.notifyDataSetChanged()
