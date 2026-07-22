@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import com.github.kilnn.tool.widget.ktx.clickTrigger
+import com.topstep.wearkit.apis.ability.base.WKCameraAbility
 import com.topstep.wearkit.apis.model.message.WKCameraMessage
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
@@ -116,6 +117,16 @@ class DeviceBasicActivity : BaseActivity() {
             startActivity(Intent(this, FindPhoneActivity::class.java))
         }
 
+        val supportPreview = wearKit.cameraAbility.compat.isSupportPreview()
+        viewBind.tvPreviewSupport.text = if (supportPreview) "支持" else "不支持"
+        viewBind.tvPreviewSupport.setTextColor(
+            if (supportPreview) 0xFF2E7D32.toInt() else 0xFFC62828.toInt()
+        )
+
+        viewBind.etTestFps.setText(WKCameraAbility.TEST_FPS.toString())
+        viewBind.etTestBitrate.setText(WKCameraAbility.TEST_BITRATE.toString())
+        viewBind.etTestQuality.setText(WKCameraAbility.TEST_QUALITY.toString())
+
         viewBind.btnCamera.clickTrigger {
             startCamera()
         }
@@ -163,11 +174,21 @@ class DeviceBasicActivity : BaseActivity() {
     }
 
     private fun startCamera() {
+        applyCameraTestSettings()
         PermissionHelper.requestAppCamera(this) { granted ->
             if (granted) {
                 startActivity(Intent(this, CameraActivity::class.java))
             }
         }
+    }
+
+    private fun applyCameraTestSettings() {
+        val fps = viewBind.etTestFps.text?.toString()?.toIntOrNull() ?: 0
+        val bitrate = viewBind.etTestBitrate.text?.toString()?.toIntOrNull() ?: 0
+        val quality = viewBind.etTestQuality.text?.toString()?.toIntOrNull() ?: 0
+        WKCameraAbility.TEST_FPS = fps.coerceIn(0, 120)
+        WKCameraAbility.TEST_BITRATE = if (bitrate <= 0) 0 else bitrate.coerceIn(100, 1000)
+        WKCameraAbility.TEST_QUALITY = quality.coerceIn(0, 100)
     }
 
 }

@@ -20,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.window.layout.WindowMetricsCalculator
 import com.github.kilnn.tool.storage.FileUtil
 import com.github.kilnn.tool.widget.ktx.clickTrigger
+import com.topstep.wearkit.apis.ability.base.WKCameraAbility
 import com.topstep.wearkit.apis.model.camera.toWKImageProxy
 import com.topstep.wearkit.apis.model.message.WKCameraMessage
 import com.topstep.wearkit.sample.MyApplication
@@ -75,6 +76,12 @@ class CameraActivity : BaseActivity() {
 
     // Preview
     private var isSupportPreview = false
+
+    // CameraX analyzer feed-rate stats (touched only on cameraExecutor)
+    private var previewFeedStatsStartMs = 0L
+    private var previewFeedTotalFrames = 0L
+    private var previewFeedWindowStartMs = 0L
+    private var previewFeedWindowFrames = 0L
 
     override fun onPause() {
         super.onPause()
@@ -165,11 +172,44 @@ class CameraActivity : BaseActivity() {
         //preview
         isSupportPreview = wearKit.cameraAbility.compat.isSupportPreview()
         if (isSupportPreview) {
+            toast(
+                "预览参数：fps=${formatPreviewParam(WKCameraAbility.TEST_FPS)}，" +
+                        "码率=${formatPreviewParam(WKCameraAbility.TEST_BITRATE)}，" +
+                        "质量=${formatPreviewParam(WKCameraAbility.TEST_QUALITY)}"
+            )
             wearKit.cameraAbility.startPreview(PREVIEW_FPS).onErrorComplete()
                 .doOnError {
                     Timber.w(it)
                 }
                 .subscribe()
+        }
+    }
+
+    private fun formatPreviewParam(value: Int): String {
+        return if (value > 0) value.toString() else "默认"
+    }
+
+    /** Log CameraX analyzer fps about once per second: instant (1s window) + session average. */
+    private fun notePreviewFeedFrame() {
+        val now = System.currentTimeMillis()
+        if (previewFeedStatsStartMs == 0L) {
+            previewFeedStatsStartMs = now
+            previewFeedWindowStartMs = now
+        }
+        previewFeedTotalFrames++
+        previewFeedWindowFrames++
+        val windowElapsed = now - previewFeedWindowStartMs
+        if (windowElapsed >= 1000L) {
+            val instantFps = previewFeedWindowFrames * 1000.0 / windowElapsed
+            val totalElapsed = (now - previewFeedStatsStartMs).coerceAtLeast(1L)
+            val avgFps = previewFeedTotalFrames * 1000.0 / totalElapsed
+            Timber.tag(TAG).i(
+                "preview feed rate: instant=%.1f fps, avg=%.1f fps, frames=%d, elapsed=%dms",
+                instantFps, avgFps, previewFeedTotalFrames, totalElapsed
+            )
+            previewFeedWindowStartMs = now
+            previewFeedWindowFrames = 0L
+            toast(String.format("手机帧率: 实时 %.1f / 平均 %.1f fps", instantFps, avgFps))
         }
     }
 
@@ -286,6 +326,7 @@ class CameraActivity : BaseActivity() {
                 analysis.setAnalyzer(cameraExecutor) { image ->
                     try {
                         if (isSupportPreview) {
+                            notePreviewFeedFrame()
                             wearKit.cameraAbility.updatePreview(image.toWKImageProxy(isFront))
                         }
                     } catch (e: Exception) {
