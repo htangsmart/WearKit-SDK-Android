@@ -235,6 +235,8 @@ dependencies {
     //protobuf
     implementation(libs.protobuf)
 
+    implementation("com.antonkarpenko:ffmpeg-kit-min-gpl:2.1.0")
+
     implementation(libs.kilnn.wheelview)
     implementation("com.huawei.hms:scanplus:2.12.0.301")
 }

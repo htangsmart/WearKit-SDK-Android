@@ -75,7 +75,14 @@ dependencies {
     implementation("aar/sdk-shenju-opencv-v{latest_version}.aar")//For create video watchface
     implementation("aar/sdk-shenju-adapter-v{latest_version}.aar")
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.arthenica:ffmpeg-kit-min:6.0-2")//For create video watchface
+}
+```
+
+# ProtoTb-SDK
+```kotlin
+dependencies {
+    //Required
+    implementation("aar/sdk-prototb-adapter-v{latest_version}.aar")
 }
 ```
 
