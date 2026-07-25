@@ -9,6 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <!-- Below controls so shutter/facing buttons receive clicks; not clickable so empty area
+         touches fall through to PreviewView for pinch-zoom. -->
+    <com.topstep.wearkit.sample.utils.CountDownView
+        android:id="@+id/count_down_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:focusable="false"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,6 +51,20 @@
             app:tint="@android:color/white"/>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_zoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="140dp"
+        android:background="#66000000"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        android:text="1.0x"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:visibility="gone"/>
+
     <ImageButton
         android:id="@+id/btn_shutter"
         android:layout_width="60dp"
@@ -50,10 +73,5 @@
         android:layout_marginBottom="56dp"
         android:background="@drawable/ic_shutter"
         android:scaleType="fitCenter"/>
-
-    <com.topstep.wearkit.sample.utils.CountDownView
-        android:id="@+id/count_down_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
 </FrameLayout>

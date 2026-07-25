@@ -11,8 +11,11 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.ScaleGestureDetector
+import android.view.View
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.core.content.IntentCompat
 import androidx.lifecycle.Lifecycle
@@ -73,6 +76,11 @@ class CameraActivity : BaseActivity() {
     private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
     private var cameraProvider: ProcessCameraProvider? = null
+
+    private lateinit var scaleGestureDetector: ScaleGestureDetector
+    private val hideZoomUiRunnable = Runnable {
+        viewBind.tvZoom.visibility = View.GONE
+    }
 
     // Preview
     private var isSupportPreview = false
@@ -356,6 +364,9 @@ class CameraActivity : BaseActivity() {
             preview?.setSurfaceProvider(viewBind.viewFinder.surfaceProvider)
             camera?.let {
                 observeCameraState(it.cameraInfo)
+                // Reset zoom when switching cameras / rebinding
+                it.cameraControl.setZoomRatio(1f)
+                updateZoomUi(1f, show = false)
             }
         } catch (exc: Exception) {
             Timber.tag(TAG).w(exc, "Use case binding failed")
@@ -372,6 +383,42 @@ class CameraActivity : BaseActivity() {
             cameraState.error?.let { _ ->
                 // promptToast.showFailed("Camera error:${error.code}")
             }
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupPinchToZoom() {
+        // TextureView-based preview is more reliable with overlays / touch on some devices
+        viewBind.viewFinder.implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+
+        scaleGestureDetector = ScaleGestureDetector(this, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+            override fun onScale(detector: ScaleGestureDetector): Boolean {
+                val camera = camera ?: return false
+                val zoomState = camera.cameraInfo.zoomState.value ?: return false
+                val newRatio = (zoomState.zoomRatio * detector.scaleFactor)
+                    .coerceIn(zoomState.minZoomRatio, zoomState.maxZoomRatio)
+                camera.cameraControl.setZoomRatio(newRatio)
+                updateZoomUi(newRatio, show = true)
+                return true
+            }
+        })
+        // Listen on CountDownView: it sits above the preview and receives empty-area touches
+        // first. Controls (shutter / facing / flash) are drawn above it so clicks still work.
+        // Must return true on ACTION_DOWN so MOVE / POINTER_DOWN keep being delivered.
+        viewBind.countDownView.setOnTouchListener { _, event ->
+            scaleGestureDetector.onTouchEvent(event)
+            true
+        }
+    }
+
+    private fun updateZoomUi(zoomRatio: Float, show: Boolean) {
+        viewBind.tvZoom.removeCallbacks(hideZoomUiRunnable)
+        viewBind.tvZoom.text = String.format("%.1fx", zoomRatio)
+        if (show) {
+            viewBind.tvZoom.visibility = View.VISIBLE
+            viewBind.tvZoom.postDelayed(hideZoomUiRunnable, ZOOM_UI_HIDE_DELAY_MS)
+        } else {
+            viewBind.tvZoom.visibility = View.GONE
         }
     }
 
@@ -396,6 +443,8 @@ class CameraActivity : BaseActivity() {
 
     /** Method used to re-draw the camera UI controls, called every time configuration changes. */
     private fun updateCameraUi() {
+        setupPinchToZoom()
+
         // Listener for button used to capture photo
         viewBind.btnShutter.clickTrigger {
             prepareShutter()
@@ -549,6 +598,7 @@ class CameraActivity : BaseActivity() {
         private const val RATIO_16_9_VALUE = 16.0 / 9.0
 
         private const val PREVIEW_FPS = 30
+        private const val ZOOM_UI_HIDE_DELAY_MS = 1500L
 
         fun makePublicContentValues(context: Context): ContentValues? {
             val contentValues = ContentValues()
@@ -578,6 +628,9 @@ class CameraActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        if (::viewBind.isInitialized) {
+            viewBind.tvZoom.removeCallbacks(hideZoomUiRunnable)
+        }
         observeCameraDisposable?.dispose()
         if (isSupportPreview) {
             wearKit.cameraAbility.stopPreview()
