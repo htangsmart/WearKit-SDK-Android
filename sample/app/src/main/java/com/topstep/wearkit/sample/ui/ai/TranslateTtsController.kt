@@ -7,7 +7,7 @@ import android.media.AudioTrack
 import android.media.MediaPlayer
 import androidx.core.content.ContextCompat
 import com.topstep.aikit.model.AiAudioFormat
-import com.topstep.fitcloud.sdk.model.speech.FcTranslatePlayerState
+import com.topstep.wearkit.apis.model.speech.WKTranslatePlayerState
 import com.topstep.wearkit.sample.ui.ai.wav.WavFileWriter
 import timber.log.Timber
 import java.io.File
@@ -21,14 +21,14 @@ import java.util.concurrent.atomic.AtomicReference
 import kotlin.concurrent.thread
 
 /**
- * 翻译 TTS：落盘为 wav，并按设备 [FcTranslatePlayerState] 控制播放。
+ * 翻译 TTS：落盘为 wav，并按设备 [WKTranslatePlayerState] 控制播放。
  *
  * PCM：16k / mono / 16-bit（与 AiKit TranslateTts 一致）。
  */
 class TranslateTtsController(private val context: Context) {
 
     private val writer = WavFileWriter(TAG)
-    private val playerState = AtomicReference(FcTranslatePlayerState.START)
+    private val playerState = AtomicReference(WKTranslatePlayerState.START)
     private val streaming = AtomicBoolean(false)
     private val queue = LinkedBlockingQueue<ByteArray>()
     private var playbackThread: Thread? = null
@@ -60,11 +60,11 @@ class TranslateTtsController(private val context: Context) {
         return savedFile
     }
 
-    fun applyPlayerState(state: FcTranslatePlayerState) {
+    fun applyPlayerState(state: WKTranslatePlayerState) {
         Timber.tag(TAG).i("playerState: %s -> %s", playerState.get(), state)
         playerState.set(state)
         when (state) {
-            FcTranslatePlayerState.START -> {
+            WKTranslatePlayerState.START -> {
                 stopMediaPlayer()
                 if (savedFile != null && !streaming.get()) {
                     playSavedFile()
@@ -73,15 +73,15 @@ class TranslateTtsController(private val context: Context) {
                     audioTrack?.play()
                 }
             }
-            FcTranslatePlayerState.STOP -> {
+            WKTranslatePlayerState.STOP -> {
                 stopStreaming(clearQueue = true)
                 stopMediaPlayer()
             }
-            FcTranslatePlayerState.PAUSE -> {
+            WKTranslatePlayerState.PAUSE -> {
                 audioTrack?.pause()
                 mediaPlayer?.takeIf { it.isPlaying }?.pause()
             }
-            FcTranslatePlayerState.RESUME -> {
+            WKTranslatePlayerState.RESUME -> {
                 if (mediaPlayer != null) {
                     mediaPlayer?.start()
                 } else {
@@ -93,7 +93,7 @@ class TranslateTtsController(private val context: Context) {
     }
 
     fun release() {
-        playerState.set(FcTranslatePlayerState.STOP)
+        playerState.set(WKTranslatePlayerState.STOP)
         if (writing) {
             writer.finish()
             writing = false
@@ -115,7 +115,7 @@ class TranslateTtsController(private val context: Context) {
 
     /** STOP 时丢弃；PAUSE 时仍入队，由 AudioTrack.pause 卡住写出。 */
     private fun isPlayEnabled(): Boolean {
-        return playerState.get() != FcTranslatePlayerState.STOP
+        return playerState.get() != WKTranslatePlayerState.STOP
     }
 
     private fun ensureStreaming() {

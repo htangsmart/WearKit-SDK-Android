@@ -8,7 +8,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.topstep.aikit.AiKit
 import com.topstep.aikit.eyeear.EyeEarKit
-import com.topstep.fitcloud.sdk.v2.FcSDK
 import com.topstep.wearkit.sample.BuildConfig
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.databinding.ActivitySpeechAiBinding
@@ -48,8 +47,8 @@ class SpeechAiActivity : BaseActivity() {
 
         refreshRecordList()
 
-        val fcSDK = wearKit.getRawSDK() as? FcSDK
-        if (fcSDK == null || !fcSDK.speechAiAbility.isSupport()) {
+        val speechAi = wearKit.speechAiAbility
+        if (!speechAi.isSupport()) {
             toast("UnSupport!")
             return
         }
@@ -74,7 +73,7 @@ class SpeechAiActivity : BaseActivity() {
                     handler?.release()
                     handler = SpeechAiHandler(
                         context = this@SpeechAiActivity,
-                        speechAi = fcSDK.speechAiAbility,
+                        speechAi = speechAi,
                         aiKit = aikit,
                         onRecordSaved = {
                             runOnUiThread { refreshRecordList() }

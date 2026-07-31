@@ -3,13 +3,13 @@ package com.topstep.wearkit.sample.ui.ai.handler
 import android.content.Context
 import com.topstep.aikit.AiKit
 import com.topstep.aikit.model.AiChatResult
-import com.topstep.fitcloud.sdk.apis.ability.speech.FcSpeechAiAbility
-import com.topstep.fitcloud.sdk.model.speech.FcSpeechAiMessage
-import com.topstep.fitcloud.sdk.model.speech.FcSpeechSession
+import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
+import com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage
+import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import timber.log.Timber
 
 /**
- * [FcSpeechSession.Scene.ASK]
+ * [WKSpeechSession.Scene.ASK]
  *
  * - ASR 问题文本：流式 [sendTextQuestion] 给设备
  * - LLM 回答：等 [ASK_GENERATE_ANSWER] 后再 [sendTextAnswer]
@@ -17,13 +17,13 @@ import timber.log.Timber
  */
 class AskHandler(
     context: Context,
-    speechAi: FcSpeechAiAbility,
+    speechAi: WKSpeechAiAbility,
     aiKit: AiKit,
-    session: FcSpeechSession,
+    session: WKSpeechSession,
     onReleased: () -> Unit,
 ) : SceneHandler(context, speechAi, aiKit, session, onReleased) {
 
-    override val scene = FcSpeechSession.Scene.ASK
+    override val scene = WKSpeechSession.Scene.ASK
     override val tag = "AskHandler"
 
     /** 是否已允许向设备发送回答 */
@@ -84,9 +84,9 @@ class AskHandler(
         }
     }
 
-    override fun onMessage(msg: FcSpeechAiMessage) {
+    override fun onMessage(msg: WKSpeechAiMessage) {
         when (msg.type) {
-            FcSpeechAiMessage.Type.ASK_GENERATE_ANSWER -> {
+            WKSpeechAiMessage.Type.ASK_GENERATE_ANSWER -> {
                 Timber.tag(tag).i("ASK_GENERATE_ANSWER, flush pending=%s", pendingAnswer != null)
                 canSendAnswer = true
                 pendingAnswer?.let { (text, isComplete) ->
@@ -94,7 +94,7 @@ class AskHandler(
                     sendAnswer(text, isComplete)
                 }
             }
-            FcSpeechAiMessage.Type.ASK_SWITCH_MODEL -> {
+            WKSpeechAiMessage.Type.ASK_SWITCH_MODEL -> {
                 Timber.tag(tag).i("ASK_SWITCH_MODEL: %s", msg.data)
             }
         }

@@ -3,25 +3,25 @@ package com.topstep.wearkit.sample.ui.ai.handler
 import android.content.Context
 import com.topstep.aikit.AiKit
 import com.topstep.aikit.model.AiChatResult
-import com.topstep.fitcloud.sdk.apis.ability.speech.FcSpeechAiAbility
-import com.topstep.fitcloud.sdk.model.speech.FcSpeechSession
+import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
+import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import timber.log.Timber
 
 /**
- * [FcSpeechSession.Scene.CHAT]
+ * [WKSpeechSession.Scene.CHAT]
  *
  * 与 Ask 不同：Chat 文本无需确认，ASR / LLM 结果可直接 [sendTextQuestion] / [sendTextAnswer]。
- * 发送前用 [FcSpeechAiAbility.Chat.isSupportText] 判断设备是否支持展示文本。
+ * 发送前用 [WKSpeechAiAbility.Chat.isSupportText] 判断设备是否支持展示文本。
  */
 class ChatHandler(
     context: Context,
-    speechAi: FcSpeechAiAbility,
+    speechAi: WKSpeechAiAbility,
     aiKit: AiKit,
-    session: FcSpeechSession,
+    session: WKSpeechSession,
     onReleased: () -> Unit,
 ) : SceneHandler(context, speechAi, aiKit, session, onReleased) {
 
-    override val scene = FcSpeechSession.Scene.CHAT
+    override val scene = WKSpeechSession.Scene.CHAT
     override val tag = "ChatHandler"
 
     private var supportText = false

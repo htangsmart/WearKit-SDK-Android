@@ -6,10 +6,10 @@ import android.net.Uri
 import com.topstep.aikit.AiKit
 import com.topstep.aikit.model.AiAsrParams
 import com.topstep.aikit.model.AiAsrResult
-import com.topstep.fitcloud.sdk.apis.ability.speech.FcSpeechAiAbility
-import com.topstep.fitcloud.sdk.model.speech.FcSpeechAiError
-import com.topstep.fitcloud.sdk.model.speech.FcSpeechAiMessage
-import com.topstep.fitcloud.sdk.model.speech.FcSpeechSession
+import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
+import com.topstep.wearkit.apis.model.speech.WKSpeechAiError
+import com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage
+import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.apis.ability.dial.WKDialStyleAbility
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.MyDialStyleProvider
@@ -19,7 +19,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 /**
- * [FcSpeechSession.Scene.DIAL]
+ * [WKSpeechSession.Scene.DIAL]
  *
  * 1. 语音 → AiKit ASR → [sendText]
  * 2. [DIAL_GENERATE_IMAGE]：确认用文字生图 → [prepareImage] → [sendImage] 推**图片**预览
@@ -27,13 +27,13 @@ import java.io.FileOutputStream
  */
 class DialHandler(
     context: Context,
-    speechAi: FcSpeechAiAbility,
+    speechAi: WKSpeechAiAbility,
     aiKit: AiKit,
-    session: FcSpeechSession,
+    session: WKSpeechSession,
     onReleased: () -> Unit,
 ) : SceneHandler(context, speechAi, aiKit, session, onReleased) {
 
-    override val scene = FcSpeechSession.Scene.DIAL
+    override val scene = WKSpeechSession.Scene.DIAL
     override val tag = "DialHandler"
 
     private var imageWidth: Int = 0
@@ -73,7 +73,7 @@ class DialHandler(
             }, {
                 Timber.tag(tag).w(it, "asr error")
                 speechAi.dial
-                    .sendError(FcSpeechAiError.UNRECOGNIZED, it.message.orEmpty())
+                    .sendError(WKSpeechAiError.UNRECOGNIZED, it.message.orEmpty())
                     .onErrorComplete()
                     .subscribe()
                 release()
@@ -81,14 +81,14 @@ class DialHandler(
         )
     }
 
-    override fun onMessage(msg: FcSpeechAiMessage) {
+    override fun onMessage(msg: WKSpeechAiMessage) {
         when (msg.type) {
-            FcSpeechAiMessage.Type.DIAL_GENERATE_IMAGE -> {
+            WKSpeechAiMessage.Type.DIAL_GENERATE_IMAGE -> {
                 val size = msg.data as? Point
                 if (size == null || size.x <= 0 || size.y <= 0) {
                     Timber.tag(tag).w("DIAL_GENERATE_IMAGE invalid size: %s", msg.data)
                     speechAi.dial
-                        .sendError(FcSpeechAiError.OTHERS, "invalid image size")
+                        .sendError(WKSpeechAiError.OTHERS, "invalid image size")
                         .onErrorComplete()
                         .subscribe()
                     return
@@ -101,7 +101,7 @@ class DialHandler(
                 )
                 pushPreviewImage()
             }
-            FcSpeechAiMessage.Type.DIAL_GENERATE_DIAL -> {
+            WKSpeechAiMessage.Type.DIAL_GENERATE_DIAL -> {
                 Timber.tag(tag).i("DIAL_GENERATE_DIAL → push dial")
                 pushDial()
             }
@@ -149,7 +149,7 @@ class DialHandler(
      * 准备预览图片。
      *
      * 模拟「根据 ASR 文本请求生图」：当前 aikit 无生图能力，直接使用 assets/dial_test.jpg。
-     * 准备失败时才 [FcSpeechAiAbility.Dial.sendError]。
+     * 准备失败时才 [WKSpeechAiAbility.Dial.sendError]。
      */
     private fun prepareImage(): File? {
         return runCatching {
@@ -165,7 +165,7 @@ class DialHandler(
         }.getOrElse {
             Timber.tag(tag).w(it, "prepareImage failed")
             speechAi.dial
-                .sendError(FcSpeechAiError.OTHERS, "prepare image failed")
+                .sendError(WKSpeechAiError.OTHERS, "prepare image failed")
                 .onErrorComplete()
                 .subscribe()
             null
@@ -174,8 +174,6 @@ class DialHandler(
 
     /**
      * 准备表盘文件（图片 → 表盘 bin）。
-     *
-     * TODO: 正式组盘流程未定，这里暂用已准备图片走普通自定义表盘 [createCustom]。
      */
     private fun prepareDial(): Single<WKDialStyleAbility.CreateOutput> {
         val imageFile = preparedImageFile ?: prepareImage()

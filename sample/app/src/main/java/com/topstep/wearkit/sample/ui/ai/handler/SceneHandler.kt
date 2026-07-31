@@ -2,9 +2,9 @@ package com.topstep.wearkit.sample.ui.ai.handler
 
 import android.content.Context
 import com.topstep.aikit.AiKit
-import com.topstep.fitcloud.sdk.apis.ability.speech.FcSpeechAiAbility
-import com.topstep.fitcloud.sdk.model.speech.FcSpeechAiMessage
-import com.topstep.fitcloud.sdk.model.speech.FcSpeechSession
+import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
+import com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage
+import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.sample.ui.ai.SessionAudioSource
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import timber.log.Timber
@@ -15,13 +15,13 @@ import java.util.concurrent.atomic.AtomicBoolean
  */
 abstract class SceneHandler(
     protected val context: Context,
-    protected val speechAi: FcSpeechAiAbility,
+    protected val speechAi: WKSpeechAiAbility,
     protected val aiKit: AiKit,
-    protected val session: FcSpeechSession,
+    protected val session: WKSpeechSession,
     private val onReleased: () -> Unit,
 ) {
 
-    protected abstract val scene: FcSpeechSession.Scene
+    protected abstract val scene: WKSpeechSession.Scene
     protected abstract val tag: String
 
     private val released = AtomicBoolean(false)
@@ -31,7 +31,7 @@ abstract class SceneHandler(
     fun start() {
         disposables.add(
             speechAi.observeMessage().subscribe({ msg ->
-                if (msg.type == FcSpeechAiMessage.Type.SCENE_EXIT) {
+                if (msg.type == WKSpeechAiMessage.Type.SCENE_EXIT) {
                     if (msg.data == scene) {
                         Timber.tag(tag).i("SCENE_EXIT")
                         release()
@@ -50,8 +50,8 @@ abstract class SceneHandler(
     /** 本场景业务启动（订阅音频、调 AiKit 等）。 */
     protected abstract fun onStart()
 
-    /** 本场景专属设备消息（不含 [FcSpeechAiMessage.Type.SCENE_EXIT]）。 */
-    protected open fun onMessage(msg: FcSpeechAiMessage) {}
+    /** 本场景专属设备消息（不含 [WKSpeechAiMessage.Type.SCENE_EXIT]）。 */
+    protected open fun onMessage(msg: WKSpeechAiMessage) {}
 
     protected fun bindAudioSource(): SessionAudioSource {
         audioSource?.stop()

@@ -2,8 +2,8 @@ package com.topstep.wearkit.sample.ui.ai.handler
 
 import android.content.Context
 import com.topstep.aikit.AiKit
-import com.topstep.fitcloud.sdk.apis.ability.speech.FcSpeechAiAbility
-import com.topstep.fitcloud.sdk.model.speech.FcSpeechSession
+import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
+import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import timber.log.Timber
 
@@ -12,7 +12,7 @@ import timber.log.Timber
  */
 class SpeechAiHandler(
     private val context: Context,
-    private val speechAi: FcSpeechAiAbility,
+    private val speechAi: WKSpeechAiAbility,
     private val aiKit: AiKit,
     private val onRecordSaved: (() -> Unit)? = null,
 ) {
@@ -39,7 +39,7 @@ class SpeechAiHandler(
         )
     }
 
-    private fun createHandler(session: FcSpeechSession): SceneHandler {
+    private fun createHandler(session: WKSpeechSession): SceneHandler {
         lateinit var handler: SceneHandler
         val clearIfMine: () -> Unit = {
             if (current === handler) {
@@ -47,25 +47,25 @@ class SpeechAiHandler(
             }
         }
         handler = when (session.scene) {
-            FcSpeechSession.Scene.CHAT ->
+            WKSpeechSession.Scene.CHAT ->
                 ChatHandler(context, speechAi, aiKit, session, clearIfMine)
 
-            FcSpeechSession.Scene.RECORD,
-            FcSpeechSession.Scene.CALL_RECORD,
+            WKSpeechSession.Scene.RECORD,
+            WKSpeechSession.Scene.CALL_RECORD,
                 -> RecordHandler(
                 context, speechAi, aiKit, session, clearIfMine, onRecordSaved
             )
 
-            FcSpeechSession.Scene.TRANSLATE ->
+            WKSpeechSession.Scene.TRANSLATE ->
                 TranslateHandler(context, speechAi, aiKit, session, clearIfMine)
 
-            FcSpeechSession.Scene.TAXI ->
+            WKSpeechSession.Scene.TAXI ->
                 TaxiHandler(context, speechAi, aiKit, session, clearIfMine)
 
-            FcSpeechSession.Scene.DIAL ->
+            WKSpeechSession.Scene.DIAL ->
                 DialHandler(context, speechAi, aiKit, session, clearIfMine)
 
-            FcSpeechSession.Scene.ASK ->
+            WKSpeechSession.Scene.ASK ->
                 AskHandler(context, speechAi, aiKit, session, clearIfMine)
         }
         return handler

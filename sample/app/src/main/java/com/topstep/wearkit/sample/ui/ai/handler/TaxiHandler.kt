@@ -3,8 +3,8 @@ package com.topstep.wearkit.sample.ui.ai.handler
 import android.content.Context
 import com.topstep.aikit.AiKit
 import com.topstep.aikit.model.AiAudioFormat
-import com.topstep.fitcloud.sdk.apis.ability.speech.FcSpeechAiAbility
-import com.topstep.fitcloud.sdk.model.speech.FcSpeechSession
+import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
+import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.fitcloud.sdk.v2.FcSDK
 import com.topstep.fitcloud.sdk.v2.model.special.taxi.FcTaxiInfo
 import com.topstep.wearkit.sample.MyApplication
@@ -14,17 +14,17 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 /**
- * [FcSpeechSession.Scene.TAXI]：接收语音后模拟 AI 识别，再 [setTaxiInfo] 下发假数据。
+ * [WKSpeechSession.Scene.TAXI]：接收语音后模拟 AI 识别，再 [setTaxiInfo] 下发假数据。
  */
 class TaxiHandler(
     context: Context,
-    speechAi: FcSpeechAiAbility,
+    speechAi: WKSpeechAiAbility,
     aiKit: AiKit,
-    session: FcSpeechSession,
+    session: WKSpeechSession,
     onReleased: () -> Unit,
 ) : SceneHandler(context, speechAi, aiKit, session, onReleased) {
 
-    override val scene = FcSpeechSession.Scene.TAXI
+    override val scene = WKSpeechSession.Scene.TAXI
     override val tag = "TaxiHandler"
 
     private val saveWavForDebug = SaveWavForDebug(context)
@@ -54,8 +54,8 @@ class TaxiHandler(
 
     private fun sessionFormat(): AiAudioFormat {
         return when (val f = session.format!!) {
-            FcSpeechSession.Format.PCM -> AiAudioFormat.PCM
-            is FcSpeechSession.Format.OPUS -> AiAudioFormat.OPUS(f.frameSize)
+            WKSpeechSession.Format.PCM -> AiAudioFormat.PCM
+            is WKSpeechSession.Format.OPUS -> AiAudioFormat.OPUS(f.frameSize)
         }
     }
 

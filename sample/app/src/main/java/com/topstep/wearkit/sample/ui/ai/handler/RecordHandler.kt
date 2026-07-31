@@ -3,19 +3,19 @@ package com.topstep.wearkit.sample.ui.ai.handler
 import android.content.Context
 import com.topstep.aikit.AiKit
 import com.topstep.aikit.model.AiAudioFormat
-import com.topstep.fitcloud.sdk.apis.ability.speech.FcSpeechAiAbility
-import com.topstep.fitcloud.sdk.model.speech.FcSpeechSession
+import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
+import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.sample.ui.ai.wav.SpeechRecordSaver
 import timber.log.Timber
 
 /**
- * [FcSpeechSession.Scene.RECORD] / [FcSpeechSession.Scene.CALL_RECORD]：接收音频并保存为 wav。
+ * [WKSpeechSession.Scene.RECORD] / [WKSpeechSession.Scene.CALL_RECORD]：接收音频并保存为 wav。
  */
 class RecordHandler(
     context: Context,
-    speechAi: FcSpeechAiAbility,
+    speechAi: WKSpeechAiAbility,
     aiKit: AiKit,
-    session: FcSpeechSession,
+    session: WKSpeechSession,
     onReleased: () -> Unit,
     private val onRecordSaved: (() -> Unit)? = null,
 ) : SceneHandler(context, speechAi, aiKit, session, onReleased) {
@@ -49,7 +49,7 @@ class RecordHandler(
         val format = session.format?.toAiAudioFormat() ?: return
         val next = SpeechRecordSaver(context, scene)
         if (!next.start(format)) {
-            session.release(FcSpeechSession.Reason.ERROR_STORAGE)
+            session.release(WKSpeechSession.Reason.ERROR_STORAGE)
             release()
             return
         }
@@ -70,10 +70,10 @@ class RecordHandler(
         finishSaver()
     }
 
-    private fun FcSpeechSession.Format.toAiAudioFormat(): AiAudioFormat {
+    private fun WKSpeechSession.Format.toAiAudioFormat(): AiAudioFormat {
         return when (this) {
-            FcSpeechSession.Format.PCM -> AiAudioFormat.PCM
-            is FcSpeechSession.Format.OPUS -> AiAudioFormat.OPUS(frameSize)
+            WKSpeechSession.Format.PCM -> AiAudioFormat.PCM
+            is WKSpeechSession.Format.OPUS -> AiAudioFormat.OPUS(frameSize)
         }
     }
 }

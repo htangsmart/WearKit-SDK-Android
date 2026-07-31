@@ -3,17 +3,17 @@ package com.topstep.wearkit.sample.ui.ai
 import android.content.Context
 import com.topstep.aikit.audio.AiAudioSource
 import com.topstep.aikit.model.AiAudioFormat
-import com.topstep.fitcloud.sdk.model.speech.FcSpeechSession
+import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.sample.ui.ai.wav.SaveWavForDebug
 import io.reactivex.rxjava3.disposables.Disposable
 
 /**
  * 将手表会话音频转发给 AiKit。
  *
- * 注意：[FcSpeechSession.format] 仅在订阅 [FcSpeechSession.audio] 后才有值，
+ * 注意：[WKSpeechSession.format] 仅在订阅 [WKSpeechSession.audio] 后才有值，
  * [getFormat] 会在首帧非空数据时由 [AiAudioSource] 调用，勿在订阅前访问。
  */
-class SessionAudioSource(context: Context, val session: FcSpeechSession) : AiAudioSource(context) {
+class SessionAudioSource(context: Context, val session: WKSpeechSession) : AiAudioSource(context) {
 
     private var audioDisposable: Disposable? = null
     private val saveWavForDebug = SaveWavForDebug(context)
@@ -23,8 +23,8 @@ class SessionAudioSource(context: Context, val session: FcSpeechSession) : AiAud
         val f = session.format
             ?: error("session.format is null; audio() must be subscribed first")
         return when (f) {
-            FcSpeechSession.Format.PCM -> AiAudioFormat.PCM
-            is FcSpeechSession.Format.OPUS -> AiAudioFormat.OPUS(f.frameSize)
+            WKSpeechSession.Format.PCM -> AiAudioFormat.PCM
+            is WKSpeechSession.Format.OPUS -> AiAudioFormat.OPUS(f.frameSize)
         }
     }
 

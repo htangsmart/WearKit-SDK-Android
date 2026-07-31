@@ -4,31 +4,31 @@ import android.content.Context
 import com.topstep.aikit.AiKit
 import com.topstep.aikit.model.AiAsrParams
 import com.topstep.aikit.model.AiAsrResult
-import com.topstep.fitcloud.sdk.apis.ability.speech.FcSpeechAiAbility
-import com.topstep.fitcloud.sdk.model.speech.FcSpeechAiMessage
-import com.topstep.fitcloud.sdk.model.speech.FcSpeechSession
-import com.topstep.fitcloud.sdk.model.speech.FcTranslateLang
-import com.topstep.fitcloud.sdk.model.speech.FcTranslatePlayerState
+import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
+import com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage
+import com.topstep.wearkit.apis.model.speech.WKSpeechSession
+import com.topstep.wearkit.apis.model.speech.WKTranslateLang
+import com.topstep.wearkit.apis.model.speech.WKTranslatePlayerState
 import com.topstep.wearkit.sample.ui.ai.TranslateTtsController
 import timber.log.Timber
 
 /**
- * [FcSpeechSession.Scene.TRANSLATE]
+ * [WKSpeechSession.Scene.TRANSLATE]
  *
  * - 调 AiKit ASR/翻译，原文/译文回传设备
  * - 保存并播放 TranslateTts PCM
- * - 启动时用 [FcSpeechAiAbility.Translate.getLang] 取语言（仅中/英）
+ * - 启动时用 [WKSpeechAiAbility.Translate.getLang] 取语言（仅中/英）
  * - 处理 [TRANSLATE_PLAYER_STATE]
  */
 class TranslateHandler(
     context: Context,
-    speechAi: FcSpeechAiAbility,
+    speechAi: WKSpeechAiAbility,
     aiKit: AiKit,
-    session: FcSpeechSession,
+    session: WKSpeechSession,
     onReleased: () -> Unit,
 ) : SceneHandler(context, speechAi, aiKit, session, onReleased) {
 
-    override val scene = FcSpeechSession.Scene.TRANSLATE
+    override val scene = WKSpeechSession.Scene.TRANSLATE
     override val tag = "TranslateHandler"
 
     private val ttsController = TranslateTtsController(context)
@@ -37,7 +37,7 @@ class TranslateHandler(
     private val translateLocale: String
 
     init {
-        val lang = speechAi.translate.getLang() ?: FcTranslateLang.defaultFromSystemLocale()
+        val lang = speechAi.translate.getLang() ?: WKTranslateLang.defaultFromSystemLocale()
         val source = deviceLangToLocale(lang.source)
         val target = deviceLangToLocale(lang.target)
         if (source != null && target != null) {
@@ -110,10 +110,10 @@ class TranslateHandler(
         )
     }
 
-    override fun onMessage(msg: FcSpeechAiMessage) {
+    override fun onMessage(msg: WKSpeechAiMessage) {
         when (msg.type) {
-            FcSpeechAiMessage.Type.TRANSLATE_PLAYER_STATE -> {
-                val state = msg.data as? FcTranslatePlayerState
+            WKSpeechAiMessage.Type.TRANSLATE_PLAYER_STATE -> {
+                val state = msg.data as? WKTranslatePlayerState
                 if (state == null) {
                     Timber.tag(tag).w("TRANSLATE_PLAYER_STATE invalid data: %s", msg.data)
                     return
@@ -131,8 +131,8 @@ class TranslateHandler(
         /** 0x01/0x02 → 中文，0x03 → 英文；其它不支持。 */
         fun deviceLangToLocale(code: Byte): String? {
             return when (code.toInt() and 0xFF) {
-                FcTranslateLang.LANG_ZH.toInt() and 0xFF, 0x02 -> "zh-CN"
-                FcTranslateLang.LANG_EN.toInt() and 0xFF -> "en-US"
+                WKTranslateLang.LANG_ZH.toInt() and 0xFF, 0x02 -> "zh-CN"
+                WKTranslateLang.LANG_EN.toInt() and 0xFF -> "en-US"
                 else -> null
             }
         }

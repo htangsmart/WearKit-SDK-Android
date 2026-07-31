@@ -3,7 +3,7 @@ package com.topstep.wearkit.sample.ui.ai.wav
 import android.content.Context
 import androidx.core.content.ContextCompat
 import com.topstep.aikit.model.AiAudioFormat
-import com.topstep.fitcloud.sdk.model.speech.FcSpeechSession
+import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -14,7 +14,7 @@ import java.util.Locale
  */
 class SpeechRecordSaver(
     private val context: Context,
-    private val scene: FcSpeechSession.Scene,
+    private val scene: WKSpeechSession.Scene,
 ) {
 
     private val writer = WavFileWriter(TAG)
@@ -54,11 +54,11 @@ class SpeechRecordSaver(
                 .orEmpty()
         }
 
-        private fun createRecordFile(context: Context, scene: FcSpeechSession.Scene): File? {
+        private fun createRecordFile(context: Context, scene: WKSpeechSession.Scene): File? {
             val dir = recordDir(context) ?: return null
             val prefix = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.US).format(Date())
             val suffix = when (scene) {
-                FcSpeechSession.Scene.CALL_RECORD -> "call_record"
+                WKSpeechSession.Scene.CALL_RECORD -> "call_record"
                 else -> "record"
             }
             return File(dir, "${prefix}_${suffix}.wav")
