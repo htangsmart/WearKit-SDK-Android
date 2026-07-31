@@ -1,6 +1,7 @@
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -10,6 +11,10 @@ plugins {
 kotlin {
     jvmToolchain(8)
 }
+
+// 从主仓库 secrets/aikit.local.properties 读取调试参数，避免写入会公开的子仓
+val aikitLocalProps = loadAikitLocalProperties()
+
 android {
     signingConfigs {
         create("wearkit") {
@@ -25,7 +30,7 @@ android {
 
     defaultConfig {
         applicationId = "com.topstep.wearkit.sample"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0.0.2-${SimpleDateFormat("yyMMddHHmm").format(Date())}"
@@ -37,6 +42,9 @@ android {
         buildConfigField("boolean", "isSupportShenJu", "true")
         buildConfigField("boolean", "isSupportProtoTb", "true")
         buildConfigField("boolean", "isSupportAbMate", "true")
+        buildConfigField("String", "AIKIT_CHANNEL", aikitLocalProps.quoted("channel"))
+        buildConfigField("String", "AIKIT_MAC_ADDRESS", aikitLocalProps.quoted("macAddress"))
+        buildConfigField("String", "AIKIT_CUSTOM_PROMPT", aikitLocalProps.quoted("customPrompt"))
 
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
@@ -70,6 +78,7 @@ android {
     packaging {
         //解决多个第三库里都包含这个so，导致无法编译的问题
         jniLibs.pickFirsts.add("**/libc++_shared.so")
+        jniLibs.pickFirsts.add("**/libonnxruntime.so")
         //解决多个"META-INF/INDEX.LIST"文件的问题
         resources.excludes.add("META-INF/INDEX.LIST")
     }
@@ -144,17 +153,17 @@ afterEvaluate {
 
 dependencies {
     //WearKit Required
-    val weakitVersion = "3.0.2.4-SNAPSHOT"
-    val weakitChanging = weakitVersion.contains("SNAPSHOT")
+    val wearkitVersion = "3.0.2.4-SNAPSHOT"
+    val wearkitChanging = wearkitVersion.contains("SNAPSHOT")
     if (isDeveloperEnvironment()) {
         //For developer environment, use remote dependencies
-        implementation("com.topstep.wearkit:sdk-core:$weakitVersion") { isChanging = weakitChanging }
-        implementation("com.topstep.wearkit:sdk-flywear-adapter:$weakitVersion") { isChanging = weakitChanging }
-        implementation("com.topstep.wearkit:sdk-fitcloud-adapter:$weakitVersion") { isChanging = weakitChanging }
-        implementation("com.topstep.wearkit:sdk-shenju-adapter:$weakitVersion") { isChanging = weakitChanging }
-        implementation("com.topstep.wearkit:sdk-prototb-adapter:$weakitVersion") { isChanging = weakitChanging }
-        implementation("com.topstep.wearkit:sdk-abmate-adapter:$weakitVersion") { isChanging = weakitChanging }
-        implementation("com.topstep.wearkit:sdk-helper:$weakitVersion") { isChanging = weakitChanging }
+        implementation("com.topstep.wearkit:sdk-core:$wearkitVersion") { isChanging = wearkitChanging }
+        implementation("com.topstep.wearkit:sdk-flywear-adapter:$wearkitVersion") { isChanging = wearkitChanging }
+        implementation("com.topstep.wearkit:sdk-fitcloud-adapter:$wearkitVersion") { isChanging = wearkitChanging }
+        implementation("com.topstep.wearkit:sdk-shenju-adapter:$wearkitVersion") { isChanging = wearkitChanging }
+        implementation("com.topstep.wearkit:sdk-prototb-adapter:$wearkitVersion") { isChanging = wearkitChanging }
+        implementation("com.topstep.wearkit:sdk-abmate-adapter:$wearkitVersion") { isChanging = wearkitChanging }
+        implementation("com.topstep.wearkit:sdk-helper:$wearkitVersion") { isChanging = wearkitChanging }
     } else {
         //For author environment, use local project
         implementation(project(":sdk-core"))
@@ -165,7 +174,7 @@ dependencies {
         if (hasSubmoduleAbMate()) {
             implementation(project(":sdk-abmate-adapter"))
         } else {
-            implementation("com.topstep.wearkit:sdk-abmate-adapter:$weakitVersion") { isChanging = weakitChanging }
+            implementation("com.topstep.wearkit:sdk-abmate-adapter:$wearkitVersion") { isChanging = wearkitChanging }
         }
         implementation(project(":sdk-helper"))
     }
@@ -232,6 +241,15 @@ dependencies {
     implementation(libs.androidx.camera.extensions)
     implementation(libs.androidx.window)
 
+    //aikit
+    val aikitVersion = "0.2.0-SNAPSHOT"
+    val aikitChanging = aikitVersion.contains("SNAPSHOT")
+    implementation("com.topstep.aikit:base:$aikitVersion") { isChanging = aikitChanging }
+    implementation("com.topstep.aikit:starburst:$aikitVersion") { isChanging = aikitChanging }
+    implementation("com.topstep.aikit:eyeear:$aikitVersion") { isChanging = aikitChanging }
+    // Opus decode use for SaveWavForDebug
+    implementation("com.topstep.opus:lib-opustool:1.0.8")
+
     //protobuf
     implementation(libs.protobuf)
 
@@ -245,10 +263,34 @@ fun isDeveloperEnvironment(): Boolean {
     return !project.projectDir.path.toString().contains("android-sdk-wearkit")
 }
 
-fun hasSubmoduleAbMate(): Boolean {
+fun wearkitRootDir(): File? {
     val index = project.projectDir.path.indexOf("android-sdk-wearkit")
-    if (index == -1) return false
-    val parent = project.projectDir.path.take(index + "android-sdk-wearkit".length)
-    val file = File(parent, "sdk-abmate-adapter/build.gradle.kts")
-    return file.exists()
+    if (index == -1) return null
+    return File(project.projectDir.path.take(index + "android-sdk-wearkit".length))
+}
+
+fun hasSubmoduleAbMate(): Boolean {
+    val parent = wearkitRootDir() ?: return false
+    return File(parent, "sdk-abmate-adapter/build.gradle.kts").exists()
+}
+
+fun loadAikitLocalProperties(): Properties {
+    val props = Properties()
+    val file = wearkitRootDir()?.let { File(it, "secrets/aikit.local.properties") }
+    if (file != null && file.exists()) {
+        file.inputStream().use { props.load(it) }
+    } else {
+        logger.warn(
+            "AiKit local props not found (expected main-repo secrets/aikit.local.properties). " +
+                "AIKIT_* BuildConfig fields will be empty."
+        )
+    }
+    return props
+}
+
+fun Properties.quoted(key: String): String {
+    val value = getProperty(key, "")
+        .replace("\\", "\\\\")
+        .replace("\"", "\\\"")
+    return "\"$value\""
 }

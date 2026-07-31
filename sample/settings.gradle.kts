@@ -30,6 +30,18 @@ dependencyResolutionManagement {
             }
             url = uri("https://packages.aliyun.com/6718aa5c2c78927f26d82a35/maven/mltcloudai")
         }
+        //火山sdk
+        maven {
+            setUrl("https://artifact.bytedance.com/repository/encop_and_sol_ai_product/")
+        }
+        //骆sdk引用QQ音乐sdk
+        maven {
+            credentials {
+                username = "tvsdk_client"
+                password = "tvsdk-client"
+            }
+            setUrl("https://ct.y.qq.com/TVapp/nexus/repository/maven-public/")
+        }
     }
 }
 

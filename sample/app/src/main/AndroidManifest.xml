@@ -190,6 +190,7 @@
 
         <activity android:name=".ui.raw.RawFcSdkActivity"/>
         <activity android:name=".ui.raw.TaxiActivity"/>
+        <activity android:name=".ui.ai.SpeechAiActivity"/>
 
         <service
             android:name=".ui.notification.MyNotificationListenerService"

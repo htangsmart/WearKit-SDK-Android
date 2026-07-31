@@ -140,6 +140,11 @@
                 style="@style/Widget.Sample.PreferenceView.Item.Text"
                 app:preferenceTitle="Raw FcSDK"/>
 
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_speech_ai"
+                style="@style/Widget.Sample.PreferenceView.Item.Text"
+                app:preferenceTitle="Speech+Ai"/>
+
         </LinearLayout>
 
     </LinearLayout>

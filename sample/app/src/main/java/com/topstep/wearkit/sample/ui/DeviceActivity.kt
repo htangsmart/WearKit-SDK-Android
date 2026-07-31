@@ -15,6 +15,7 @@ import com.topstep.wearkit.sample.data.UserManager
 import com.topstep.wearkit.sample.databinding.ActivityDeviceBinding
 import com.topstep.wearkit.sample.model.DeviceInfo
 import com.topstep.wearkit.sample.model.UserInfo
+import com.topstep.wearkit.sample.ui.ai.SpeechAiActivity
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.ui.basic.DeviceBasicActivity
 import com.topstep.wearkit.sample.ui.config.DeviceConfigActivity
@@ -214,6 +215,10 @@ class DeviceActivity : BaseActivity() {
                 return@clickTrigger
             }
             startActivity(Intent(this, RawFcSdkActivity::class.java))
+        }
+
+        viewBind.itemSpeechAi.clickTrigger {
+            startActivity(Intent(this, SpeechAiActivity::class.java))
         }
     }
 
