@@ -124,8 +124,8 @@ class DeviceBasicActivity : BaseActivity() {
         )
 
         viewBind.etTestFps.setText(WKCameraAbility.TEST_FPS.toString())
-        viewBind.etTestBitrate.setText(WKCameraAbility.TEST_BITRATE.toString())
-        viewBind.etTestQuality.setText(WKCameraAbility.TEST_QUALITY.toString())
+        viewBind.etTestBitrate.setText(WKCameraAbility.TEST_H264_BITRATE.toString())
+        viewBind.etTestQuality.setText(WKCameraAbility.TEST_JPEG_QUALITY.toString())
 
         viewBind.btnCamera.clickTrigger {
             startCamera()
@@ -187,8 +187,8 @@ class DeviceBasicActivity : BaseActivity() {
         val bitrate = viewBind.etTestBitrate.text?.toString()?.toIntOrNull() ?: 0
         val quality = viewBind.etTestQuality.text?.toString()?.toIntOrNull() ?: 0
         WKCameraAbility.TEST_FPS = fps.coerceIn(0, 120)
-        WKCameraAbility.TEST_BITRATE = if (bitrate <= 0) 0 else bitrate.coerceIn(100, 1000)
-        WKCameraAbility.TEST_QUALITY = quality.coerceIn(0, 100)
+        WKCameraAbility.TEST_H264_BITRATE = if (bitrate <= 0) 0 else bitrate.coerceIn(100, 1000)
+        WKCameraAbility.TEST_JPEG_QUALITY = quality.coerceIn(0, 100)
     }
 
 }

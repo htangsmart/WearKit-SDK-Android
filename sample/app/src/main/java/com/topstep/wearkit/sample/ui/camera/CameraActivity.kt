@@ -182,10 +182,10 @@ class CameraActivity : BaseActivity() {
         if (isSupportPreview) {
             toast(
                 "预览参数：fps=${formatPreviewParam(WKCameraAbility.TEST_FPS)}，" +
-                        "码率=${formatPreviewParam(WKCameraAbility.TEST_BITRATE)}，" +
-                        "质量=${formatPreviewParam(WKCameraAbility.TEST_QUALITY)}"
+                        "H264码率=${formatPreviewParam(WKCameraAbility.TEST_H264_BITRATE)}，" +
+                        "JPEG质量=${formatPreviewParam(WKCameraAbility.TEST_JPEG_QUALITY)}"
             )
-            wearKit.cameraAbility.startPreview(PREVIEW_FPS).onErrorComplete()
+            wearKit.cameraAbility.startPreview().onErrorComplete()
                 .doOnError {
                     Timber.w(it)
                 }
@@ -597,7 +597,6 @@ class CameraActivity : BaseActivity() {
         private const val RATIO_4_3_VALUE = 4.0 / 3.0
         private const val RATIO_16_9_VALUE = 16.0 / 9.0
 
-        private const val PREVIEW_FPS = 30
         private const val ZOOM_UI_HIDE_DELAY_MS = 1500L
 
         fun makePublicContentValues(context: Context): ContentValues? {
