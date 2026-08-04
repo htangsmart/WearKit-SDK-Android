@@ -2,6 +2,9 @@ package com.topstep.wearkit.sample.ui.ai
 
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.SystemClock
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -15,11 +18,13 @@ import com.topstep.wearkit.sample.ui.ai.handler.SpeechAiHandler
 import com.topstep.wearkit.sample.ui.ai.wav.SaveWavForDebug
 import com.topstep.wearkit.sample.ui.ai.wav.SpeechRecordSaver
 import com.topstep.wearkit.sample.ui.base.BaseActivity
+import com.topstep.wearkit.sample.utils.permission.PermissionHelper
 import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class SpeechAiActivity : BaseActivity() {
 
@@ -29,12 +34,37 @@ class SpeechAiActivity : BaseActivity() {
     private var mediaPlayer: MediaPlayer? = null
     private var handler: SpeechAiHandler? = null
     private var playingRecordFile: File? = null
+    private var recordStartElapsedMs = 0L
+    private var recordTimingStarted = false
+    private val uiHandler = Handler(Looper.getMainLooper())
+    private val durationTicker = object : Runnable {
+        override fun run() {
+            if (handler?.isAppRecording() != true || !recordTimingStarted) return
+            updateRecordDuration()
+            uiHandler.postDelayed(this, 200L)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBind = ActivitySpeechAiBinding.inflate(layoutInflater)
         setContentView(viewBind.root)
         supportActionBar?.title = "Speech+Ai"
+
+        viewBind.btnAppRecord.setOnClickListener {
+            if (handler?.isAppRecording() == true) {
+                handler?.stopAppRecord()
+            } else {
+                // FitCloud SCO 链路需要 RECORD_AUDIO
+                PermissionHelper.requestRecordAudio(this) { granted ->
+                    if (!granted) {
+                        toast("需要录音权限（SCO）")
+                        return@requestRecordAudio
+                    }
+                    startAppDeviceRecord()
+                }
+            }
+        }
 
         viewBind.btnPlayLastAudio.setOnClickListener {
             if (mediaPlayer?.isPlaying == true && playingRecordFile == null) {
@@ -78,6 +108,12 @@ class SpeechAiActivity : BaseActivity() {
                         onRecordSaved = {
                             runOnUiThread { refreshRecordList() }
                         },
+                        onAppRecordEnded = {
+                            runOnUiThread { onAppRecordUiEnded() }
+                        },
+                        onAppRecordAudioStarted = {
+                            runOnUiThread { onAppRecordAudioStarted() }
+                        },
                     ).also { it.start() }
                 }
 
@@ -91,6 +127,48 @@ class SpeechAiActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         refreshRecordList()
+    }
+
+    private fun startAppDeviceRecord() {
+        val h = handler
+        if (h == null) {
+            toast("SpeechAi 未就绪")
+            return
+        }
+        stopPlayback()
+        if (!h.startAppRecord()) {
+            toast("开启设备录音失败（不支持或已有会话）")
+            return
+        }
+        recordTimingStarted = false
+        recordStartElapsedMs = 0L
+        viewBind.btnAppRecord.text = "结束录音"
+        viewBind.tvAppRecordDuration.text = "时长: 连接中…"
+        toast("正在开启设备录音")
+    }
+
+    private fun onAppRecordAudioStarted() {
+        if (handler?.isAppRecording() != true || recordTimingStarted) return
+        recordTimingStarted = true
+        recordStartElapsedMs = SystemClock.elapsedRealtime()
+        updateRecordDuration()
+        uiHandler.removeCallbacks(durationTicker)
+        uiHandler.post(durationTicker)
+        toast("设备录音已开始")
+    }
+
+    private fun onAppRecordUiEnded() {
+        uiHandler.removeCallbacks(durationTicker)
+        recordTimingStarted = false
+        viewBind.btnAppRecord.text = "开启录音"
+        refreshRecordList()
+    }
+
+    private fun updateRecordDuration() {
+        val elapsedMs = (SystemClock.elapsedRealtime() - recordStartElapsedMs).coerceAtLeast(0L)
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(elapsedMs)
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(elapsedMs) % 60
+        viewBind.tvAppRecordDuration.text = "时长: %02d:%02d".format(minutes, seconds)
     }
 
     private fun refreshRecordList() {
@@ -221,6 +299,10 @@ class SpeechAiActivity : BaseActivity() {
     }
 
     override fun onDestroy() {
+        if (handler?.isAppRecording() == true) {
+            handler?.stopAppRecord()
+        }
+        uiHandler.removeCallbacks(durationTicker)
         stopPlayback()
         handler?.release()
         handler = null

@@ -58,6 +58,10 @@ object PermissionHelper {
         requestPermission(fragment, permissions, grantResult)
     }
 
+    fun requestRecordAudio(activity: FragmentActivity, grantResult: ((Boolean) -> Unit)) {
+        requestPermission(activity, arrayListOf(Manifest.permission.RECORD_AUDIO), grantResult)
+    }
+
     fun hasCamera(context: Context): Boolean {
         return hasPermissions(context, arrayListOf(Manifest.permission.CAMERA))
     }

@@ -14,13 +14,21 @@ import java.util.Locale
  */
 class SpeechRecordSaver(
     private val context: Context,
-    private val scene: WKSpeechSession.Scene,
+    private val fileSuffix: String,
 ) {
+
+    constructor(context: Context, scene: WKSpeechSession.Scene) : this(
+        context,
+        when (scene) {
+            WKSpeechSession.Scene.CALL_RECORD -> "call_record"
+            else -> "record"
+        },
+    )
 
     private val writer = WavFileWriter(TAG)
 
     fun start(format: AiAudioFormat): Boolean {
-        val file = createRecordFile(context, scene) ?: return false
+        val file = createRecordFile(context, fileSuffix) ?: return false
         return writer.start(file, format)
     }
 
@@ -34,6 +42,7 @@ class SpeechRecordSaver(
     companion object {
         private const val TAG = "SpeechRecordSaver"
         private const val DIR_NAME = "speech_records"
+        const val SUFFIX_APP_RECORD = "app_record"
 
         fun recordDir(context: Context): File? {
             val parent = ContextCompat.getExternalFilesDirs(context, null).getOrNull(0) ?: return null
@@ -54,14 +63,10 @@ class SpeechRecordSaver(
                 .orEmpty()
         }
 
-        private fun createRecordFile(context: Context, scene: WKSpeechSession.Scene): File? {
+        private fun createRecordFile(context: Context, fileSuffix: String): File? {
             val dir = recordDir(context) ?: return null
             val prefix = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.US).format(Date())
-            val suffix = when (scene) {
-                WKSpeechSession.Scene.CALL_RECORD -> "call_record"
-                else -> "record"
-            }
-            return File(dir, "${prefix}_${suffix}.wav")
+            return File(dir, "${prefix}_${fileSuffix}.wav")
         }
     }
 }

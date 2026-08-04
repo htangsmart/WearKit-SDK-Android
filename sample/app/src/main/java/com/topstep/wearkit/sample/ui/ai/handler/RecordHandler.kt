@@ -18,6 +18,7 @@ class RecordHandler(
     session: WKSpeechSession,
     onReleased: () -> Unit,
     private val onRecordSaved: (() -> Unit)? = null,
+    private val onAudioStarted: (() -> Unit)? = null,
 ) : SceneHandler(context, speechAi, aiKit, session, onReleased) {
 
     override val scene = session.scene
@@ -25,11 +26,13 @@ class RecordHandler(
 
     private var saver: SpeechRecordSaver? = null
     private var finished = false
+    private var audioStartedNotified = false
 
     override fun onStart() {
         Timber.tag(tag).i("start scene=%s", scene)
         disposables.add(
             session.audio().subscribe({ data ->
+                notifyAudioStartedOnce()
                 ensureSaverStarted()
                 saver?.write(data)
             }, {
@@ -42,6 +45,12 @@ class RecordHandler(
                 release()
             })
         )
+    }
+
+    private fun notifyAudioStartedOnce() {
+        if (audioStartedNotified) return
+        audioStartedNotified = true
+        onAudioStarted?.invoke()
     }
 
     private fun ensureSaverStarted() {
