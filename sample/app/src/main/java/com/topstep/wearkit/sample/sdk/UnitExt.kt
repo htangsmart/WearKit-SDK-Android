@@ -63,7 +63,7 @@ fun WKWearKit.getUnitConfig(): MyUnitConfig {
 @CheckResult
 fun WKWearKit.setUnitConfig(config: MyUnitConfig): Completable {
     return this.unitAbility.setConfig(
-        WKUnitConfig(
+        WKUnitConfig.base(
             isMetric = config.isMetric,
             isCentigrade = config.isCentigrade,
         )

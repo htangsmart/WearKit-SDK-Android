@@ -2,6 +2,7 @@ package com.topstep.wearkit.sample.ui.config
 
 import android.os.Bundle
 import androidx.core.view.isVisible
+import com.topstep.wearkit.apis.model.config.WKUnitConfig
 import com.topstep.wearkit.prototb.apis.PbSDK
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
@@ -69,10 +70,35 @@ class UnitConfigActivity : BaseActivity() {
 
     private fun setToggle(isSetMetric: Boolean) {
         val oldConfig = wearKit.unitAbility.getConfig()
-        val newConfig = if (isSetMetric) {
-            oldConfig.copy(isMetric = !oldConfig.isMetric)
+        // setConfig 强制覆盖：不传旧 timestampSeconds，让适配器用当前时间推进 updateTime
+        val newConfig = if (wearKit.unitAbility.compat.isSupportSplitMetric()) {
+            // Sample UI 只有一个公制开关：拆分设备上同时切换长度和重量
+            if (isSetMetric) {
+                val metric = !oldConfig.isLengthMetric
+                WKUnitConfig.splitMetric(
+                    isLengthMetric = metric,
+                    isWeightMetric = metric,
+                    isCentigrade = oldConfig.isCentigrade,
+                )
+            } else {
+                WKUnitConfig.splitMetric(
+                    isLengthMetric = oldConfig.isLengthMetric,
+                    isWeightMetric = oldConfig.isWeightMetric,
+                    isCentigrade = !oldConfig.isCentigrade,
+                )
+            }
         } else {
-            oldConfig.copy(isCentigrade = !oldConfig.isCentigrade)
+            if (isSetMetric) {
+                WKUnitConfig.base(
+                    isMetric = !oldConfig.isMetric,
+                    isCentigrade = oldConfig.isCentigrade,
+                )
+            } else {
+                WKUnitConfig.base(
+                    isMetric = oldConfig.isMetric,
+                    isCentigrade = !oldConfig.isCentigrade,
+                )
+            }
         }
         setDispose?.dispose()
         setDispose = wearKit.unitAbility.setConfig(newConfig)
