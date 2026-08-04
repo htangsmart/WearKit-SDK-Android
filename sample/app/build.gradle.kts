@@ -153,7 +153,7 @@ afterEvaluate {
 
 dependencies {
     //WearKit Required
-    val wearkitVersion = "3.0.2.4-SNAPSHOT"
+    val wearkitVersion = "3.0.2.5-SNAPSHOT"
     val wearkitChanging = wearkitVersion.contains("SNAPSHOT")
     if (isDeveloperEnvironment()) {
         //For developer environment, use remote dependencies
