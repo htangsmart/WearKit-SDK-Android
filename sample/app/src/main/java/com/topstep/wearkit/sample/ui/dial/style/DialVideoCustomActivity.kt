@@ -17,6 +17,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.topstep.wearkit.apis.ability.dial.WKDialStyleAbility
+import com.topstep.wearkit.apis.model.dial.WKDialQuality
 import com.topstep.wearkit.apis.model.dial.WKDialStyleConstraint
 import com.topstep.wearkit.apis.model.dial.WKDialStyleResources
 import com.topstep.wearkit.sample.MyApplication
@@ -98,7 +99,9 @@ class DialVideoCustomActivity : GetPhotoVideoActivity(), SelectIntDialogFragment
         }
 
         viewBind.btnCreateDial.clickTrigger {
-            createAndInstall()
+            chooseDialQuality(wearKit.dialStyleAbility.compat.getQualityLevels()) { quality ->
+                createAndInstall(quality)
+            }
         }
     }
 
@@ -114,7 +117,7 @@ class DialVideoCustomActivity : GetPhotoVideoActivity(), SelectIntDialogFragment
         }
     }
 
-    private fun createAndInstall() {
+    private fun createAndInstall(quality: WKDialQuality) {
         val constraint = styleConstraint ?: return
         val uri = videoUri ?: return
         val progressDialog = ProgressDialog(this)
@@ -129,7 +132,9 @@ class DialVideoCustomActivity : GetPhotoVideoActivity(), SelectIntDialogFragment
                     colorTint = selectedColor,
                 ),
                 videoDurationMillis = videoDurationMillis,
-            )
+            ).apply {
+                this.quality = quality
+            }
         ).flatMapObservable {
             wearKit.dialAbility.install(it.dialId, it.dialFile)
         }.observeOn(AndroidSchedulers.mainThread()).doOnSubscribe {

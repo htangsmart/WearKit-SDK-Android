@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.topstep.wearkit.apis.ability.dial.WKDialStyleAbility
+import com.topstep.wearkit.apis.model.dial.WKDialQuality
 import com.topstep.wearkit.apis.model.dial.WKDialStyleConstraint
 import com.topstep.wearkit.apis.model.dial.WKDialStyleResources
 import com.topstep.wearkit.sample.MyApplication
@@ -73,7 +74,11 @@ class DialDanMuCustomActivity : BaseActivity(), SelectIntDialogFragment.Listener
         viewBind.btnFontSize.clickTrigger { selectFontSize() }
         viewBind.btnWalkSpeed.clickTrigger { selectWalkSpeed() }
         viewBind.btnSelectColor.clickTrigger { selectStyleColor() }
-        viewBind.btnCreateDial.clickTrigger { createAndInstall() }
+        viewBind.btnCreateDial.clickTrigger {
+            chooseDialQuality(wearKit.dialStyleAbility.compat.getQualityLevels()) { quality ->
+                createAndInstall(quality)
+            }
+        }
 
         viewBind.styleRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -218,7 +223,7 @@ class DialDanMuCustomActivity : BaseActivity(), SelectIntDialogFragment.Listener
         )
     }
 
-    private fun createAndInstall() {
+    private fun createAndInstall(quality: WKDialQuality) {
         val constraint = styleConstraint ?: return
         val uri = textUri ?: run {
             toast(R.string.dial_custom_style_danmu_text_hint)
@@ -238,7 +243,9 @@ class DialDanMuCustomActivity : BaseActivity(), SelectIntDialogFragment.Listener
                 ),
                 backgroundColor = backgroundColor,
                 walkSpeed = walkSpeed,
-            )
+            ).apply {
+                this.quality = quality
+            }
         ).flatMapObservable {
             wearKit.dialAbility.install(it.dialId, it.dialFile)
         }.observeOn(AndroidSchedulers.mainThread()).doOnSubscribe {
