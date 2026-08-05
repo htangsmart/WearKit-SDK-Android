@@ -1,7 +1,10 @@
 package com.topstep.wearkit.sample.ui
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.topstep.fitcloud.sdk.v2.FcSDK
 import com.topstep.wearkit.apis.model.core.WKDeviceType
 import com.topstep.wearkit.prototb.apis.PbSDK
@@ -80,6 +83,25 @@ class MainActivity : BaseActivity() {
             updateSkipAuth(isChecked)
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_check_update -> {
+                MaterialAlertDialogBuilder(this)
+                    .setMessage(
+                        "请从内网共享文件下载最新版本\n\\\\nas.topstepht.com\\TOPSTEP\\公用文件夹\\Android版本记录\\wearkit工具"
+                    )
+                    .show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun updateSkipAuth(skip: Boolean) {
