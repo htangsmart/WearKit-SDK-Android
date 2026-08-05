@@ -15,6 +15,18 @@
             app:preferenceTitle="@string/ds_metric_imperial"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
+            android:id="@+id/item_length_unit"
+            style="@style/Widget.Sample.PreferenceView.Item.Text"
+            android:visibility="gone"
+            app:preferenceTitle="@string/ds_length_unit"/>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            android:id="@+id/item_weight_unit"
+            style="@style/Widget.Sample.PreferenceView.Item.Text"
+            android:visibility="gone"
+            app:preferenceTitle="@string/ds_weight_unit"/>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
             android:id="@+id/item_temperature_unit"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
             app:preferenceTitle="@string/ds_temperature_unit"/>

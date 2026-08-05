@@ -213,6 +213,8 @@
 
     <string name="ds_unit_config">单位配置</string>
     <string name="ds_metric_imperial">公英制</string>
+    <string name="ds_length_unit">长度单位</string>
+    <string name="ds_weight_unit">重量单位</string>
     <string name="ds_metric">公制</string>
     <string name="ds_imperial">英制</string>
     <string name="ds_temperature_unit">温度单位</string>

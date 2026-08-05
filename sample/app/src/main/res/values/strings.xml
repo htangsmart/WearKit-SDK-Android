@@ -214,6 +214,8 @@
 
     <string name="ds_unit_config">Unit Config</string>
     <string name="ds_metric_imperial">Metric or Imperial</string>
+    <string name="ds_length_unit">Length Units</string>
+    <string name="ds_weight_unit">Weight Units</string>
     <string name="ds_metric">Metric</string>
     <string name="ds_imperial">Imperial</string>
     <string name="ds_temperature_unit">Temperature Units</string>

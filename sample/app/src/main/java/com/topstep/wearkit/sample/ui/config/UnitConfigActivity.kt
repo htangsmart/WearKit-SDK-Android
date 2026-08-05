@@ -19,36 +19,52 @@ class UnitConfigActivity : BaseActivity() {
     private var observeDispose: Disposable? = null
     private var getDispose: Disposable? = null
     private var setDispose: Disposable? = null
+    private val supportSplitMetric = wearKit.unitAbility.compat.isSupportSplitMetric()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBind = ActivityUnitConfigBinding.inflate(layoutInflater)
         setContentView(viewBind.root)
         supportActionBar?.setTitle(R.string.ds_unit_config)
+
+        viewBind.itemMetricImperial.isVisible = !supportSplitMetric
+        viewBind.itemLengthUnit.isVisible = supportSplitMetric
+        viewBind.itemWeightUnit.isVisible = supportSplitMetric
+
         observeDispose = wearKit.unitAbility.observeConfig(true)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                if (it.isMetric) {
-                    viewBind.itemMetricImperial.getTextView().setText(R.string.ds_metric)
+                if (supportSplitMetric) {
+                    viewBind.itemLengthUnit.getTextView().setText(
+                        if (it.isLengthMetric) R.string.ds_metric else R.string.ds_imperial
+                    )
+                    viewBind.itemWeightUnit.getTextView().setText(
+                        if (it.isWeightMetric) R.string.ds_metric else R.string.ds_imperial
+                    )
                 } else {
-                    viewBind.itemMetricImperial.getTextView().setText(R.string.ds_imperial)
+                    viewBind.itemMetricImperial.getTextView().setText(
+                        if (it.isMetric) R.string.ds_metric else R.string.ds_imperial
+                    )
                 }
 
-                if (it.isCentigrade) {
-                    viewBind.itemTemperatureUnit.getTextView().setText(R.string.ds_temperature_celsius)
-                } else {
-                    viewBind.itemTemperatureUnit.getTextView().setText(R.string.ds_temperature_fahrenheit)
-                }
-
+                viewBind.itemTemperatureUnit.getTextView().setText(
+                    if (it.isCentigrade) R.string.ds_temperature_celsius else R.string.ds_temperature_fahrenheit
+                )
             }, {
                 Timber.w(it)
             })
 
         viewBind.itemMetricImperial.setOnClickListener {
-            setToggle(true)
+            setToggle(ToggleType.METRIC)
+        }
+        viewBind.itemLengthUnit.setOnClickListener {
+            setToggle(ToggleType.LENGTH)
+        }
+        viewBind.itemWeightUnit.setOnClickListener {
+            setToggle(ToggleType.WEIGHT)
         }
         viewBind.itemTemperatureUnit.setOnClickListener {
-            setToggle(false)
+            setToggle(ToggleType.TEMPERATURE)
         }
 
         //for test sdk-prototb-adapter. Developer can ignore it.
@@ -68,36 +84,38 @@ class UnitConfigActivity : BaseActivity() {
         }
     }
 
-    private fun setToggle(isSetMetric: Boolean) {
+    private fun setToggle(type: ToggleType) {
         val oldConfig = wearKit.unitAbility.getConfig()
-        // setConfig 强制覆盖：不传旧 timestampSeconds，让适配器用当前时间推进 updateTime
-        val newConfig = if (wearKit.unitAbility.compat.isSupportSplitMetric()) {
-            // Sample UI 只有一个公制开关：拆分设备上同时切换长度和重量
-            if (isSetMetric) {
-                val metric = !oldConfig.isLengthMetric
-                WKUnitConfig.splitMetric(
-                    isLengthMetric = metric,
-                    isWeightMetric = metric,
+        val newConfig = if (supportSplitMetric) {
+            when (type) {
+                ToggleType.LENGTH -> WKUnitConfig.splitMetric(
+                    isLengthMetric = !oldConfig.isLengthMetric,
+                    isWeightMetric = oldConfig.isWeightMetric,
                     isCentigrade = oldConfig.isCentigrade,
                 )
-            } else {
-                WKUnitConfig.splitMetric(
+                ToggleType.WEIGHT -> WKUnitConfig.splitMetric(
+                    isLengthMetric = oldConfig.isLengthMetric,
+                    isWeightMetric = !oldConfig.isWeightMetric,
+                    isCentigrade = oldConfig.isCentigrade,
+                )
+                ToggleType.TEMPERATURE -> WKUnitConfig.splitMetric(
                     isLengthMetric = oldConfig.isLengthMetric,
                     isWeightMetric = oldConfig.isWeightMetric,
                     isCentigrade = !oldConfig.isCentigrade,
                 )
+                ToggleType.METRIC -> return
             }
         } else {
-            if (isSetMetric) {
-                WKUnitConfig.base(
+            when (type) {
+                ToggleType.METRIC -> WKUnitConfig.base(
                     isMetric = !oldConfig.isMetric,
                     isCentigrade = oldConfig.isCentigrade,
                 )
-            } else {
-                WKUnitConfig.base(
+                ToggleType.TEMPERATURE -> WKUnitConfig.base(
                     isMetric = oldConfig.isMetric,
                     isCentigrade = !oldConfig.isCentigrade,
                 )
+                ToggleType.LENGTH, ToggleType.WEIGHT -> return
             }
         }
         setDispose?.dispose()
@@ -115,6 +133,13 @@ class UnitConfigActivity : BaseActivity() {
         observeDispose?.dispose()
         getDispose?.dispose()
         setDispose?.dispose()
+    }
+
+    private enum class ToggleType {
+        METRIC,
+        LENGTH,
+        WEIGHT,
+        TEMPERATURE,
     }
 
 }
