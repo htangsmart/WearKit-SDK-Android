@@ -52,6 +52,19 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|top"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        android:background="#66000000"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"/>
+
+    <TextView
         android:id="@+id/tv_zoom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

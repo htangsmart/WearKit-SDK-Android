@@ -309,6 +309,11 @@
     <string name="edit_failed">Editing failed</string>
     <string name="take_failed">Shooting failed</string>
     <string name="take_success">Shooting success</string>
+    <string name="camera_mode_photo">Photo</string>
+    <string name="camera_mode_video">Video</string>
+    <string name="camera_recording">REC</string>
+    <string name="video_record_failed">Video recording failed</string>
+    <string name="video_record_success">Video saved</string>
 
     <!--Dial-->
     <string name="ds_dial">Dial</string>

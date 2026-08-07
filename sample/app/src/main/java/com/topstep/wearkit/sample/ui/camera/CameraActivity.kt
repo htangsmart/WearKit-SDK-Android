@@ -1,9 +1,11 @@
 package com.topstep.wearkit.sample.ui.camera
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.hardware.display.DisplayManager
 import android.net.Uri
@@ -15,6 +17,7 @@ import android.view.ScaleGestureDetector
 import android.view.View
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.video.*
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.core.content.IntentCompat
@@ -30,6 +33,7 @@ import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityCameraBinding
 import com.topstep.wearkit.sample.ui.base.BaseActivity
+import com.topstep.wearkit.sample.utils.permission.PermissionHelper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import timber.log.Timber
@@ -65,6 +69,7 @@ class CameraActivity : BaseActivity() {
             if (displayId == this@CameraActivity.displayId) {
                 imageCapture?.targetRotation = view.display.rotation
                 imageAnalyzer?.targetRotation = view.display.rotation
+                videoCapture?.targetRotation = view.display.rotation
             }
         }
     }
@@ -74,8 +79,17 @@ class CameraActivity : BaseActivity() {
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
     private var imageAnalyzer: ImageAnalysis? = null
+    private var videoCapture: VideoCapture<Recorder>? = null
+    private var recording: Recording? = null
     private var camera: Camera? = null
     private var cameraProvider: ProcessCameraProvider? = null
+
+    /** False = photo mode, true = video mode */
+    private var isVideoMode = false
+    private var isRecording = false
+    /** Start recording once video use cases are bound (e.g. after MODE_VIDEO + START_VIDEO). */
+    private var pendingStartVideo = false
+    private var pendingStartNotifyDevice = false
 
     private lateinit var scaleGestureDetector: ScaleGestureDetector
     private val hideZoomUiRunnable = Runnable {
@@ -94,6 +108,9 @@ class CameraActivity : BaseActivity() {
     override fun onPause() {
         super.onPause()
         viewBind.countDownView.cancelCountDown()
+        if (isRecording) {
+            stopVideoRecording(notifyDevice = true)
+        }
     }
 
     private var observeCameraDisposable: Disposable? = null
@@ -109,6 +126,8 @@ class CameraActivity : BaseActivity() {
 
         // Every time the orientation of device changes, update rotation for use cases
         displayManager.registerDisplayListener(displayListener, null)
+
+        updateModeUi()
 
         // Wait for the views to be properly laid out
         viewBind.viewFinder.post {
@@ -127,11 +146,16 @@ class CameraActivity : BaseActivity() {
             .subscribe({ type ->
                 when (type) {
                     WKCameraMessage.CLOSE -> {
+                        if (isRecording) {
+                            stopVideoRecording(notifyDevice = false)
+                        }
                         finish()
                     }
 
                     WKCameraMessage.TAKE_PHOTO -> {
-                        viewBind.btnShutter.simulateClick()
+                        if (!isVideoMode) {
+                            viewBind.btnShutter.simulateClick()
+                        }
                     }
 
                     WKCameraMessage.CAMERA_BACK -> {
@@ -155,6 +179,7 @@ class CameraActivity : BaseActivity() {
                             it.flashMode = ImageCapture.FLASH_MODE_OFF
                             viewBind.imgFlash.setImageResource(R.drawable.ic_baseline_flash_off_24)
                         }
+                        camera?.cameraControl?.enableTorch(false)
                     }
 
                     WKCameraMessage.FLASH_AUTO -> {
@@ -169,7 +194,21 @@ class CameraActivity : BaseActivity() {
                             it.flashMode = ImageCapture.FLASH_MODE_ON
                             viewBind.imgFlash.setImageResource(R.drawable.ic_baseline_flash_on_24)
                         }
+                        if (isVideoMode) {
+                            camera?.cameraControl?.enableTorch(true)
+                        }
                     }
+
+                    WKCameraMessage.ZOOM_RATIO_MAX -> setZoomByMessage(ZoomTarget.MAX)
+                    WKCameraMessage.ZOOM_RATIO_MIN -> setZoomByMessage(ZoomTarget.MIN)
+                    WKCameraMessage.ZOOM_RATIO_1X -> setZoomByMessage(ZoomTarget.RATIO_1X)
+                    WKCameraMessage.ZOOM_RATIO_2X -> setZoomByMessage(ZoomTarget.RATIO_2X)
+                    WKCameraMessage.ZOOM_RATIO_3X -> setZoomByMessage(ZoomTarget.RATIO_3X)
+
+                    WKCameraMessage.MODE_PHOTO -> switchCaptureMode(video = false, notifyDevice = false)
+                    WKCameraMessage.MODE_VIDEO -> switchCaptureMode(video = true, notifyDevice = false)
+                    WKCameraMessage.START_VIDEO -> requestStartVideo(notifyDevice = false)
+                    WKCameraMessage.STOP_VIDEO -> stopVideoRecording(notifyDevice = false)
                 }
             }, {
                 Timber.w(it)
@@ -278,6 +317,9 @@ class CameraActivity : BaseActivity() {
 
     /** Declare and bind preview, capture and analysis use cases */
     private fun bindCameraUseCases() {
+        if (isRecording) {
+            stopVideoRecording(notifyDevice = true)
+        }
 
         // Get screen metrics used to setup camera for full screen resolution
         val metrics = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this).bounds
@@ -301,24 +343,6 @@ class CameraActivity : BaseActivity() {
             // Set initial target rotation
             .setTargetRotation(rotation)
             .build()
-
-        // ImageCapture
-        val imageCapture = ImageCapture.Builder()
-            .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
-            // We request aspect ratio but no resolution to match preview config, but letting
-            // CameraX optimize for whatever specific resolution best fits our use cases
-            .setTargetAspectRatio(screenAspectRatio)
-            // Set initial target rotation, we will have to call this again if rotation changes
-            // during the lifecycle of this use case
-            .setTargetRotation(rotation)
-            .build().also { this.imageCapture = it }
-
-        when (imageCapture.flashMode) {
-            ImageCapture.FLASH_MODE_AUTO -> viewBind.imgFlash.setImageResource(R.drawable.ic_baseline_flash_auto_24)
-            ImageCapture.FLASH_MODE_ON -> viewBind.imgFlash.setImageResource(R.drawable.ic_baseline_flash_on_24)
-            ImageCapture.FLASH_MODE_OFF -> viewBind.imgFlash.setImageResource(R.drawable.ic_baseline_flash_off_24)
-            else -> viewBind.imgFlash.isEnabled = false
-        }
 
         val isFront = lensFacing == CameraSelector.LENS_FACING_FRONT
         imageAnalyzer = ImageAnalysis.Builder()
@@ -353,12 +377,39 @@ class CameraActivity : BaseActivity() {
             removeCameraStateObservers(it.cameraInfo)
         }
 
+        imageCapture = null
+        videoCapture = null
+
         try {
-            // A variable number of use-cases can be passed here -
-            // camera provides access to CameraControl & CameraInfo
-            camera = cameraProvider.bindToLifecycle(
-                this, cameraSelector, preview, imageCapture, imageAnalyzer
-            )
+            camera = if (isVideoMode) {
+                val recorder = Recorder.Builder()
+                    .setQualitySelector(QualitySelector.from(Quality.HD))
+                    .build()
+                val videoCapture = VideoCapture.withOutput(recorder).also {
+                    it.targetRotation = rotation
+                    this.videoCapture = it
+                }
+                cameraProvider.bindToLifecycle(
+                    this, cameraSelector, preview, videoCapture, imageAnalyzer
+                )
+            } else {
+                val imageCapture = ImageCapture.Builder()
+                    .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+                    .setTargetAspectRatio(screenAspectRatio)
+                    .setTargetRotation(rotation)
+                    .build().also { this.imageCapture = it }
+
+                when (imageCapture.flashMode) {
+                    ImageCapture.FLASH_MODE_AUTO -> viewBind.imgFlash.setImageResource(R.drawable.ic_baseline_flash_auto_24)
+                    ImageCapture.FLASH_MODE_ON -> viewBind.imgFlash.setImageResource(R.drawable.ic_baseline_flash_on_24)
+                    ImageCapture.FLASH_MODE_OFF -> viewBind.imgFlash.setImageResource(R.drawable.ic_baseline_flash_off_24)
+                    else -> viewBind.imgFlash.isEnabled = false
+                }
+
+                cameraProvider.bindToLifecycle(
+                    this, cameraSelector, preview, imageCapture, imageAnalyzer
+                )
+            }
 
             // Attach the viewfinder's surface provider to preview use case
             preview?.setSurfaceProvider(viewBind.viewFinder.surfaceProvider)
@@ -367,6 +418,13 @@ class CameraActivity : BaseActivity() {
                 // Reset zoom when switching cameras / rebinding
                 it.cameraControl.setZoomRatio(1f)
                 updateZoomUi(1f, show = false)
+            }
+            updateModeUi()
+            if (pendingStartVideo && isVideoMode && videoCapture != null) {
+                val notify = pendingStartNotifyDevice
+                pendingStartVideo = false
+                pendingStartNotifyDevice = false
+                startVideoRecording(notifyDevice = notify)
             }
         } catch (exc: Exception) {
             Timber.tag(TAG).w(exc, "Use case binding failed")
@@ -422,6 +480,89 @@ class CameraActivity : BaseActivity() {
         }
     }
 
+    /** Apply zoom from device camera message; clamps to the active camera's zoom range. */
+    private fun setZoomByMessage(target: ZoomTarget) {
+        val camera = camera ?: return
+        val zoomState = camera.cameraInfo.zoomState.value ?: return
+        val newRatio = when (target) {
+            ZoomTarget.MAX -> zoomState.maxZoomRatio
+            ZoomTarget.MIN -> zoomState.minZoomRatio
+            ZoomTarget.RATIO_1X -> 1f
+            ZoomTarget.RATIO_2X -> 2f
+            ZoomTarget.RATIO_3X -> 3f
+        }.coerceIn(zoomState.minZoomRatio, zoomState.maxZoomRatio)
+        camera.cameraControl.setZoomRatio(newRatio)
+        updateZoomUi(newRatio, show = true)
+    }
+
+    private fun requestStartVideo(notifyDevice: Boolean) {
+        if (isRecording) return
+        if (isVideoMode && videoCapture != null) {
+            startVideoRecording(notifyDevice = notifyDevice)
+            return
+        }
+        pendingStartVideo = true
+        pendingStartNotifyDevice = notifyDevice
+        if (!isVideoMode) {
+            switchCaptureMode(video = true, notifyDevice = false)
+        } else {
+            ensureAudioPermissionThenBind()
+        }
+    }
+
+    private fun switchCaptureMode(video: Boolean, notifyDevice: Boolean) {
+        if (isVideoMode == video) {
+            updateModeUi()
+            return
+        }
+        if (isRecording) {
+            stopVideoRecording(notifyDevice = true)
+        }
+        if (!video) {
+            pendingStartVideo = false
+            pendingStartNotifyDevice = false
+        }
+        viewBind.countDownView.cancelCountDown()
+        isVideoMode = video
+        updateModeUi()
+        if (notifyDevice) {
+            val message = if (video) WKCameraMessage.MODE_VIDEO else WKCameraMessage.MODE_PHOTO
+            wearKit.cameraAbility.sendCameraMessage(message).onErrorComplete().subscribe()
+        }
+        if (video) {
+            ensureAudioPermissionThenBind()
+        } else {
+            bindCameraUseCases()
+        }
+    }
+
+    private fun ensureAudioPermissionThenBind() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            bindCameraUseCases()
+            return
+        }
+        PermissionHelper.requestRecordAudio(this) {
+            // Record without audio if permission denied
+            bindCameraUseCases()
+        }
+    }
+
+    private fun updateModeUi() {
+        val text = when {
+            isRecording -> getString(R.string.camera_recording)
+            isVideoMode -> getString(R.string.camera_mode_video)
+            else -> getString(R.string.camera_mode_photo)
+        }
+        viewBind.tvMode.text = text
+        viewBind.tvMode.setTextColor(
+            if (isRecording) 0xFFFF4444.toInt() else 0xFFFFFFFF.toInt()
+        )
+        viewBind.imgFacing.isEnabled = !isRecording && hasBackCamera() && hasFrontCamera()
+        viewBind.btnShutter.alpha = if (isRecording) 0.6f else 1f
+    }
+
     /**
      *  [androidx.camera.core.ImageAnalysis.Builder] requires enum value of
      *  [androidx.camera.core.AspectRatio]. Currently it has values of 4:3 & 16:9.
@@ -445,15 +586,30 @@ class CameraActivity : BaseActivity() {
     private fun updateCameraUi() {
         setupPinchToZoom()
 
-        // Listener for button used to capture photo
+        // Listener for button used to capture photo / toggle video recording
         viewBind.btnShutter.clickTrigger {
-            prepareShutter()
+            if (isVideoMode) {
+                if (isRecording) {
+                    stopVideoRecording(notifyDevice = true)
+                } else {
+                    requestStartVideo(notifyDevice = true)
+                }
+            } else {
+                prepareShutter()
+            }
+        }
+
+        viewBind.tvMode.clickTrigger {
+            if (!isRecording) {
+                switchCaptureMode(video = !isVideoMode, notifyDevice = true)
+            }
         }
 
         // Setup for button used to switch cameras
 
         viewBind.imgFacing.isEnabled = false// Disable the button until the camera is set up
         viewBind.imgFacing.clickTrigger {
+            if (isRecording) return@clickTrigger
             lensFacing = if (CameraSelector.LENS_FACING_FRONT == lensFacing) {
                 wearKit.cameraAbility.sendCameraMessage(WKCameraMessage.CAMERA_BACK).onErrorComplete().subscribe()
                 viewBind.imgFacing.setImageResource(R.drawable.ic_baseline_camera_rear_24)
@@ -469,6 +625,18 @@ class CameraActivity : BaseActivity() {
         }
 
         viewBind.imgFlash.clickTrigger {
+            if (isVideoMode) {
+                val camera = camera ?: return@clickTrigger
+                val enable = !(camera.cameraInfo.torchState.value == TorchState.ON)
+                camera.cameraControl.enableTorch(enable)
+                wearKit.cameraAbility.sendCameraMessage(
+                    if (enable) WKCameraMessage.FLASH_ON else WKCameraMessage.FLASH_OFF
+                ).onErrorComplete().subscribe()
+                viewBind.imgFlash.setImageResource(
+                    if (enable) R.drawable.ic_baseline_flash_on_24 else R.drawable.ic_baseline_flash_off_24
+                )
+                return@clickTrigger
+            }
             imageCapture?.let {
                 when (it.flashMode) {
                     ImageCapture.FLASH_MODE_OFF -> {
@@ -537,7 +705,7 @@ class CameraActivity : BaseActivity() {
         }
 
         // Create output options object which contains file + metadata
-        val contentValues = makePublicContentValues(this)
+        val contentValues = makePublicImageContentValues(this)
         if (contentValues == null) {
             toast(R.string.take_failed)
             return
@@ -573,10 +741,72 @@ class CameraActivity : BaseActivity() {
         })
     }
 
+    @SuppressLint("MissingPermission")
+    private fun startVideoRecording(notifyDevice: Boolean) {
+        if (!isVideoMode || isRecording) return
+        if (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) return
+        val videoCapture = this.videoCapture ?: return
+
+        val contentValues = makePublicVideoContentValues(this)
+        if (contentValues == null) {
+            toast(R.string.video_record_failed)
+            return
+        }
+
+        val mediaStoreOutput = MediaStoreOutputOptions.Builder(
+            contentResolver,
+            MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+        ).setContentValues(contentValues).build()
+
+        var pending: PendingRecording = videoCapture.output.prepareRecording(this, mediaStoreOutput)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            pending = pending.withAudioEnabled()
+        }
+
+        recording = pending.start(ContextCompat.getMainExecutor(this)) { event ->
+            when (event) {
+                is VideoRecordEvent.Start -> {
+                    isRecording = true
+                    updateModeUi()
+                    if (notifyDevice) {
+                        wearKit.cameraAbility.sendCameraMessage(WKCameraMessage.START_VIDEO)
+                            .onErrorComplete().subscribe()
+                    }
+                }
+                is VideoRecordEvent.Finalize -> {
+                    isRecording = false
+                    recording = null
+                    updateModeUi()
+                    if (event.hasError()) {
+                        Timber.tag(TAG).e("Video capture failed: ${event.cause}")
+                        toast(R.string.video_record_failed)
+                    } else {
+                        Timber.tag(TAG).i("Video capture succeeded: ${event.outputResults.outputUri}")
+                        toast(R.string.video_record_success)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun stopVideoRecording(notifyDevice: Boolean) {
+        val active = recording ?: return
+        active.stop()
+        recording = null
+        isRecording = false
+        updateModeUi()
+        if (notifyDevice) {
+            wearKit.cameraAbility.sendCameraMessage(WKCameraMessage.STOP_VIDEO)
+                .onErrorComplete().subscribe()
+        }
+    }
+
     /** Enabled or disabled a button to switch cameras depending on the available cameras */
     private fun updateCameraSwitchButton() {
         try {
-            viewBind.imgFacing.isEnabled = hasBackCamera() && hasFrontCamera()
+            viewBind.imgFacing.isEnabled = !isRecording && hasBackCamera() && hasFrontCamera()
         } catch (exception: CameraInfoUnavailableException) {
             viewBind.imgFacing.isEnabled = false
         }
@@ -599,7 +829,24 @@ class CameraActivity : BaseActivity() {
 
         private const val ZOOM_UI_HIDE_DELAY_MS = 1500L
 
+        private enum class ZoomTarget {
+            MAX, MIN, RATIO_1X, RATIO_2X, RATIO_3X
+        }
+
+        fun makePublicImageContentValues(context: Context): ContentValues? {
+            return makePublicMediaContentValues(context, isVideo = false)
+        }
+
+        fun makePublicVideoContentValues(context: Context): ContentValues? {
+            return makePublicMediaContentValues(context, isVideo = true)
+        }
+
+        /** Kept for callers that still use the old name. */
         fun makePublicContentValues(context: Context): ContentValues? {
+            return makePublicImageContentValues(context)
+        }
+
+        private fun makePublicMediaContentValues(context: Context, isVideo: Boolean): ContentValues? {
             val contentValues = ContentValues()
             val appName = context.getString(R.string.app_name).replace(" ", "")
             var dir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), appName)
@@ -612,14 +859,27 @@ class CameraActivity : BaseActivity() {
                 }
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-                contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, FileUtil.generateFileName())
-                contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM + "/$appName")
+                if (isVideo) {
+                    contentValues.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4")
+                    contentValues.put(MediaStore.Video.Media.DISPLAY_NAME, FileUtil.generateFileName() + ".mp4")
+                    contentValues.put(MediaStore.Video.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM + "/$appName")
+                } else {
+                    contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                    contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, FileUtil.generateFileName())
+                    contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM + "/$appName")
+                }
             } else {
-                val filename = FileUtil.generateImageFileName()
-                contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, filename)
-                val file = File(dir, filename)
-                contentValues.put(MediaStore.Images.Media.DATA, file.absolutePath)
+                if (isVideo) {
+                    val filename = FileUtil.generateFileName() + ".mp4"
+                    contentValues.put(MediaStore.Video.Media.DISPLAY_NAME, filename)
+                    val file = File(dir, filename)
+                    contentValues.put(MediaStore.Video.Media.DATA, file.absolutePath)
+                } else {
+                    val filename = FileUtil.generateImageFileName()
+                    contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, filename)
+                    val file = File(dir, filename)
+                    contentValues.put(MediaStore.Images.Media.DATA, file.absolutePath)
+                }
             }
             return contentValues
         }
@@ -629,6 +889,9 @@ class CameraActivity : BaseActivity() {
         super.onDestroy()
         if (::viewBind.isInitialized) {
             viewBind.tvZoom.removeCallbacks(hideZoomUiRunnable)
+        }
+        if (isRecording) {
+            stopVideoRecording(notifyDevice = false)
         }
         observeCameraDisposable?.dispose()
         if (isSupportPreview) {

@@ -14,6 +14,7 @@
         android:name="android.hardware.camera"
         android:required="false"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <!--Used to start CameraActivity in the background-->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>

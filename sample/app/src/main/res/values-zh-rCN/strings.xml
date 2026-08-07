@@ -309,6 +309,11 @@
     <string name="edit_failed">编辑失败</string>
     <string name="take_failed">拍摄失败</string>
     <string name="take_success">拍摄成功</string>
+    <string name="camera_mode_photo">拍照</string>
+    <string name="camera_mode_video">录像</string>
+    <string name="camera_recording">录制中</string>
+    <string name="video_record_failed">录像失败</string>
+    <string name="video_record_success">录像已保存</string>
 
     <!--Dial-->
     <string name="ds_dial">表盘</string>
