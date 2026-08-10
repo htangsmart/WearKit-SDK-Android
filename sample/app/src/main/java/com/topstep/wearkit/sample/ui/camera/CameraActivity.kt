@@ -98,6 +98,7 @@ class CameraActivity : BaseActivity() {
 
     // Preview
     private var isSupportPreview = false
+    private var isSupportVideo = false
 
     // CameraX analyzer feed-rate stats (touched only on cameraExecutor)
     private var previewFeedStatsStartMs = 0L
@@ -120,6 +121,9 @@ class CameraActivity : BaseActivity() {
         viewBind = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(viewBind.root)
         supportActionBar?.setTitle(R.string.ds_camera_control)
+
+        isSupportPreview = wearKit.cameraAbility.compat.isSupportPreview()
+        isSupportVideo = wearKit.cameraAbility.compat.isSupportVideo()
 
         // Initialize our background executor
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -206,8 +210,17 @@ class CameraActivity : BaseActivity() {
                     WKCameraMessage.ZOOM_RATIO_3X -> setZoomByMessage(ZoomTarget.RATIO_3X)
 
                     WKCameraMessage.MODE_PHOTO -> switchCaptureMode(video = false, notifyDevice = false)
-                    WKCameraMessage.MODE_VIDEO -> switchCaptureMode(video = true, notifyDevice = false)
-                    WKCameraMessage.START_VIDEO -> requestStartVideo(notifyDevice = false)
+                    WKCameraMessage.MODE_VIDEO -> {
+                        if (isSupportVideo) {
+                            switchCaptureMode(video = true, notifyDevice = false)
+                        }
+                    }
+                    WKCameraMessage.START_VIDEO -> {
+                        if (isSupportVideo) {
+                            requestStartVideo(notifyDevice = false)
+                        }
+                    }
+                    // Always allow stop / photo mode for cleanup even if video is unsupported
                     WKCameraMessage.STOP_VIDEO -> stopVideoRecording(notifyDevice = false)
                 }
             }, {
@@ -217,7 +230,6 @@ class CameraActivity : BaseActivity() {
         setPhotographMode(true)
 
         //preview
-        isSupportPreview = wearKit.cameraAbility.compat.isSupportPreview()
         if (isSupportPreview) {
             toast(
                 "预览参数：fps=${formatPreviewParam(WKCameraAbility.TEST_FPS)}，" +
@@ -496,7 +508,7 @@ class CameraActivity : BaseActivity() {
     }
 
     private fun requestStartVideo(notifyDevice: Boolean) {
-        if (isRecording) return
+        if (!isSupportVideo || isRecording) return
         if (isVideoMode && videoCapture != null) {
             startVideoRecording(notifyDevice = notifyDevice)
             return
@@ -511,6 +523,7 @@ class CameraActivity : BaseActivity() {
     }
 
     private fun switchCaptureMode(video: Boolean, notifyDevice: Boolean) {
+        if (video && !isSupportVideo) return
         if (isVideoMode == video) {
             updateModeUi()
             return
@@ -550,6 +563,7 @@ class CameraActivity : BaseActivity() {
     }
 
     private fun updateModeUi() {
+        viewBind.tvMode.visibility = if (isSupportVideo) View.VISIBLE else View.GONE
         val text = when {
             isRecording -> getString(R.string.camera_recording)
             isVideoMode -> getString(R.string.camera_mode_video)
@@ -600,7 +614,7 @@ class CameraActivity : BaseActivity() {
         }
 
         viewBind.tvMode.clickTrigger {
-            if (!isRecording) {
+            if (isSupportVideo && !isRecording) {
                 switchCaptureMode(video = !isVideoMode, notifyDevice = true)
             }
         }
