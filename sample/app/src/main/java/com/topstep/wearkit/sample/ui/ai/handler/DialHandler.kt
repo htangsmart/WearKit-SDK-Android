@@ -6,11 +6,11 @@ import android.net.Uri
 import com.topstep.aikit.AiKit
 import com.topstep.aikit.model.AiAsrParams
 import com.topstep.aikit.model.AiAsrResult
+import com.topstep.wearkit.apis.ability.dial.WKDialStyleAbility
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
 import com.topstep.wearkit.apis.model.speech.WKSpeechAiError
 import com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
-import com.topstep.wearkit.apis.ability.dial.WKDialStyleAbility
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.MyDialStyleProvider
 import io.reactivex.rxjava3.core.Single
@@ -23,7 +23,8 @@ import java.io.FileOutputStream
  *
  * 1. 语音 → AiKit ASR → [sendText]
  * 2. [DIAL_GENERATE_IMAGE]：确认用文字生图 → [prepareImage] → [sendImage] 推**图片**预览
- * 3. [DIAL_GENERATE_DIAL]：确认用图片生成表盘 → [prepareDial] → [install] 推**表盘**
+ * 3. [DIAL_GENERATE_DIAL]：确认用图片生成表盘 → [prepareDial] → [install] 推**表盘**；
+ *    仅生成表盘失败时 [sendError]（安装失败不上报）
  */
 class DialHandler(
     context: Context,
@@ -124,10 +125,20 @@ class DialHandler(
         )
     }
 
-    /** 将准备好的表盘文件安装到设备。 */
+    /**
+     * 将准备好的表盘文件安装到设备。
+     * 仅 [prepareDial]（生成表盘）失败时 [WKSpeechAiAbility.Dial.sendError]；安装失败只打日志。
+     */
     private fun pushDial() {
         disposables.add(
             prepareDial()
+                .doOnError {
+                    Timber.tag(tag).w(it, "prepareDial failed")
+                    speechAi.dial
+                        .sendError(WKSpeechAiError.OTHERS, it.message.orEmpty())
+                        .onErrorComplete()
+                        .subscribe()
+                }
                 .flatMapObservable { output ->
                     Timber.tag(tag).i(
                         "install dialId=%s file=%s",
@@ -138,6 +149,7 @@ class DialHandler(
                 .subscribe({ progress ->
                     Timber.tag(tag).i("install dial progress=%d", progress)
                 }, {
+                    // prepareDial 错误已在 doOnError 上报；此处多为 install 失败，不再 sendError
                     Timber.tag(tag).w(it, "push dial failed")
                 }, {
                     Timber.tag(tag).i("push dial complete")
