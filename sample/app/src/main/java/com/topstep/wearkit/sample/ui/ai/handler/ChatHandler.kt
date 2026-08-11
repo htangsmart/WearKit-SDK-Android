@@ -12,6 +12,8 @@ import timber.log.Timber
  *
  * 与 Ask 不同：Chat 文本无需确认，ASR / LLM 结果可直接 [sendTextQuestion] / [sendTextAnswer]。
  * 发送前用 [WKSpeechAiAbility.Chat.isSupportText] 判断设备是否支持展示文本。
+ *
+ * 离场：CHAT 为持续音频流。因此在音频流结束时即 [release]；若随后仍收到 EXIT，[release] 幂等。
  */
 class ChatHandler(
     context: Context,
@@ -29,7 +31,7 @@ class ChatHandler(
     override fun onStart() {
         supportText = speechAi.chat.isSupportText()
         Timber.tag(tag).i("supportText=%s", supportText)
-        val source = bindAudioSource()
+        val source = bindAudioSource(releaseOnAudioEnd = true)
         disposables.add(
             aiKit.chat.chat(
                 audioSource = source,

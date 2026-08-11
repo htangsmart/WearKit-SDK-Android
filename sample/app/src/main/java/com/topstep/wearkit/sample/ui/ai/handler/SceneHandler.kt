@@ -11,7 +11,13 @@ import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * 单个场景的一次性 Handler：随 session 创建，在 [SCENE_EXIT] / 出错 / 结束时 [release]。
+ * 单个场景的一次性 Handler：随 session 创建。
+ *
+ * 何时 [release] 由各场景自行决定：
+ * - 收到匹配本场景的 [WKSpeechAiMessage.Type.SCENE_EXIT]（基类统一处理）
+ * - 业务出错
+ * - 部分场景（如 CHAT）在音频流结束时主动 [release]（见 [bindAudioSource]）
+ *
  */
 abstract class SceneHandler(
     protected val context: Context,
@@ -53,9 +59,27 @@ abstract class SceneHandler(
     /** 本场景专属设备消息（不含 [WKSpeechAiMessage.Type.SCENE_EXIT]）。 */
     protected open fun onMessage(msg: WKSpeechAiMessage) {}
 
-    protected fun bindAudioSource(): SessionAudioSource {
+    /**
+     * @param releaseOnAudioEnd true：音频流 complete/error 时 [release]；
+     */
+    protected fun bindAudioSource(releaseOnAudioEnd: Boolean = false): SessionAudioSource {
         audioSource?.stop()
-        return SessionAudioSource(context, session).also { audioSource = it }
+        return SessionAudioSource(
+            context = context,
+            session = session,
+            onAudioEnded = if (releaseOnAudioEnd) {
+                { err ->
+                    if (err != null) {
+                        Timber.tag(tag).w(err, "audio ended → release")
+                    } else {
+                        Timber.tag(tag).i("audio complete → release")
+                    }
+                    release()
+                }
+            } else {
+                null
+            },
+        ).also { audioSource = it }
     }
 
     /**
