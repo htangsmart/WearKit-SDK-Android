@@ -87,7 +87,7 @@ class DialHandler(
             WKSpeechAiMessage.Type.DIAL_GENERATE_IMAGE -> {
                 val size = msg.data as? Point
                 if (size == null || size.x <= 0 || size.y <= 0) {
-                    Timber.tag(tag).w("DIAL_GENERATE_IMAGE invalid size: %s", msg.data)
+                    Timber.tag(tag).w("DIAL_GENERATE_IMAGE invalid device size: %s", msg.data)
                     speechAi.dial
                         .sendError(WKSpeechAiError.OTHERS, "invalid image size")
                         .onErrorComplete()
@@ -97,7 +97,7 @@ class DialHandler(
                 imageWidth = size.x
                 imageHeight = size.y
                 Timber.tag(tag).i(
-                    "DIAL_GENERATE_IMAGE %dx%d → push preview image",
+                    "DIAL_GENERATE_IMAGE device %dx%d → generate & push image",
                     imageWidth, imageHeight
                 )
                 pushPreviewImage()
@@ -112,9 +112,9 @@ class DialHandler(
     /** 将准备好的图片推到设备做预览（非表盘安装）。 */
     private fun pushPreviewImage() {
         val file = prepareImage() ?: return
-        Timber.tag(tag).i("sendImage %s %dx%d", file.absolutePath, imageWidth, imageHeight)
+        Timber.tag(tag).i("sendImage %s (device %dx%d)", file.absolutePath, imageWidth, imageHeight)
         disposables.add(
-            speechAi.dial.sendImage(file, imageWidth, imageHeight).subscribe({ progress ->
+            speechAi.dial.sendImage(file).subscribe({ progress ->
                 Timber.tag(tag).i("sendImage progress=%d", progress)
             }, {
                 // 发送失败不走 sendError；sendError 仅用于准备图片失败
