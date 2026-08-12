@@ -6,19 +6,19 @@ import com.topstep.wearkit.apis.model.dial.WKDialQuality
 import com.topstep.wearkit.sample.R
 
 /**
- * If [qualityLevels] is not empty, show a quality picker; otherwise use [WKDialQuality.HIGH].
+ * If [qualityLevels] is not empty, show a quality picker; otherwise use [WKDialQuality.SD].
  */
 internal fun Activity.chooseDialQuality(
     qualityLevels: List<WKDialQuality>,
     onChosen: (WKDialQuality) -> Unit,
 ) {
     if (qualityLevels.isEmpty()) {
-        onChosen(WKDialQuality.HIGH)
+        onChosen(WKDialQuality.SD)
         return
     }
     val labels = qualityLevels.map { quality ->
         when (quality) {
-            WKDialQuality.HIGH -> getString(R.string.dial_quality_high)
+            WKDialQuality.SD -> getString(R.string.dial_quality_sd)
             WKDialQuality.LOSSLESS -> getString(R.string.dial_quality_lossless)
         }
     }.toTypedArray()

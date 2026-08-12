@@ -660,7 +660,7 @@
     <string name="dial_custom_style_danmu_font_italic">斜体</string>
     <string name="dial_custom_style_danmu_font_bold_italic">粗斜体</string>
     <string name="dial_quality_select">选择表盘质量</string>
-    <string name="dial_quality_high">高清</string>
+    <string name="dial_quality_sd">标清</string>
     <string name="dial_quality_lossless">无损</string>
     <string name="dial_custom_widget">自定义表盘组件</string>
     <string name="dial_color">颜色</string>
