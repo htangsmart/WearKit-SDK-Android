@@ -1,12 +1,29 @@
+# v3.0.2.5
+
+2026-08-12
+
+1. ADD: Add more constant definitions in `WKSportType`
+2. ADD: Add `TitanAbility` for customized ability
+3. ADD: Add EPO features in `WKLocationMapAbility`
+4. ADD: Add compat of `getPasswordLength` in `WKLockAbility`
+5. ADD: Add compat of `isSupport` in `WKRaiseWakeupAbility`
+6. CHANGE: Modify preview api in `WKCameraAbility`
+7. ADD: Add video control in `WKCameraAbility`.
+8. ADD: Add `WKSpeechAiAbility` for speech AI features (chat / translate / dial / ask / record)
+9. ADD: Add connect without user info in `WKConnector`
+10. CHANGE: Modify constructor of `WKUnitConfig`, and add compat of split unit of length/weight.
+11. Add: Add quality params of `WKDialStyleAbility.CreateInput`. See `WKDialStyleAbility.Compat.getQualityLevels`
+12. Add: `WKBusinessCard` add type `ZALO`
+
 # v3.0.2.4
 
 2026-07-06
 
 1. ADD: Add `WKLockAbility`
-2. ADD: ADD `HsdAbility` for customized ability
-3. ADD: ADD `WKLocationMapAbility`
-4. ADD: ADD `WKMuslimAbility` instead of `WKPrayerAbility`
-5. ADD: ADD HRV features. `WKHeartRateAbility.setHRVConfig`,`WKSyncData.HRV`
+2. ADD: Add `HsdAbility` for customized ability
+3. ADD: Add `WKLocationMapAbility`
+4. ADD: Add `WKMuslimAbility` instead of `WKPrayerAbility`
+5. ADD: Add HRV features. `WKHeartRateAbility.setHRVConfig`,`WKSyncData.HRV`
 6. CHANGE: `WKAlarm` add `type` field
 7. CHANGE: The Weather add more field. Such as `quality`, `humidity`...
 8. CHANGE：`WKAlarmAbility.getAlarmMaxNumber` now may return 0.
