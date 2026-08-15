@@ -15,8 +15,8 @@ import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityDeviceQrCodeBinding
 import com.topstep.wearkit.sample.model.DeviceInfo
 import com.topstep.wearkit.sample.ui.base.BaseActivity
-import com.topstep.wearkit.sample.ui.discovery.DeviceScanActivity
 import com.topstep.wearkit.sample.ui.discovery.DeviceScanActivity.Companion.EXTRA_TYPE
+import com.topstep.wearkit.sample.ui.discovery.ScanDevicesAdapter
 import timber.log.Timber
 import java.net.URLDecoder
 import java.util.regex.Pattern
@@ -65,7 +65,7 @@ class DeviceQrCodeActivity : BaseActivity() {
                     } else {
                         val address = findAddress(str)
                         if (BluetoothAdapter.checkBluetoothAddress(address)) {
-                            DeviceActivity.start(this, DeviceInfo(deviceType, address!!, DeviceScanActivity.UNKNOWN_DEVICE_NAME))
+                            DeviceActivity.start(this, DeviceInfo(deviceType, address!!, ScanDevicesAdapter.UNKNOWN_DEVICE_NAME))
                         }
                     }
                 }

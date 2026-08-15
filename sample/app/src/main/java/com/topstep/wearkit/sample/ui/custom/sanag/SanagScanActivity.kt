@@ -1,48 +1,37 @@
-package com.topstep.wearkit.sample.ui.discovery
+package com.topstep.wearkit.sample.ui.custom.sanag
 
 import android.bluetooth.BluetoothAdapter
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.view.Menu
-import android.view.MenuItem
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.topstep.wearkit.apis.model.core.WKDeviceType
 import com.topstep.wearkit.apis.model.core.WKScanResult
-import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
-import com.topstep.wearkit.sample.databinding.ActivityDeviceScanBinding
-import com.topstep.wearkit.sample.model.DeviceInfo
-import com.topstep.wearkit.sample.ui.DeviceActivity
-import com.topstep.wearkit.sample.ui.DeviceQrCodeActivity
+import com.topstep.wearkit.sample.databinding.ActivitySanagScanBinding
 import com.topstep.wearkit.sample.ui.base.BaseActivity
+import com.topstep.wearkit.sample.ui.discovery.*
 import com.topstep.wearkit.sample.utils.flowLocationServiceState
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
 import com.topstep.wearkit.sample.utils.permission.PermissionHelper
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class DeviceScanActivity : BaseActivity() {
+class SanagScanActivity : BaseActivity() {
 
-    private lateinit var viewBind: ActivityDeviceScanBinding
-    private lateinit var deviceType: WKDeviceType
+    private lateinit var viewBind: ActivitySanagScanBinding
     private lateinit var scannerHelper: ScannerHelper
 
-    /**
-     * Avoid repeated requests for permissions at the same time
-     */
     private var isRequestingPermission: Boolean = false
 
     private val adapter: ScanDevicesAdapter = ScanDevicesAdapter().apply {
         listener = object : ScanDevicesAdapter.Listener {
             override fun onItemClick(device: ScanDevice) {
-                tryingBind(device.address, device.name)
+                selectDevice(device.address, device.name)
             }
         }
     }
@@ -53,7 +42,7 @@ class DeviceScanActivity : BaseActivity() {
             lifecycleScope.launchWhenResumed {
                 if (!isRequestingPermission) {
                     isRequestingPermission = true
-                    PermissionHelper.requestBle(this@DeviceScanActivity) {
+                    PermissionHelper.requestBle(this@SanagScanActivity) {
                         isRequestingPermission = false
                     }
                 }
@@ -89,23 +78,20 @@ class DeviceScanActivity : BaseActivity() {
         override fun onScanResult(result: WKScanResult) {
             adapter.newScanResult(result)
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBind = ActivityDeviceScanBinding.inflate(layoutInflater)
+        viewBind = ActivitySanagScanBinding.inflate(layoutInflater)
         setContentView(viewBind.root)
-
         supportActionBar?.setTitle(R.string.main_to_scan)
 
-        deviceType = WKDeviceType.valueOf(intent.getStringExtra(EXTRA_TYPE)!!)
-        scannerHelper = ScannerHelper(this, deviceType)
+        // type = null → raw RxBleClient scan (no WKDeviceType filter)
+        scannerHelper = ScannerHelper(this)
         scannerHelper.listener = scannerListener
         lifecycle.addObserver(scannerHelper)
 
         viewBind.refreshLayout.setOnRefreshListener {
-            //Clear data when using pull to refresh. This is a different strategy than fabScan click event
             adapter.clearItems()
             if (!scannerHelper.start()) {
                 viewBind.refreshLayout.isRefreshing = false
@@ -123,7 +109,7 @@ class DeviceScanActivity : BaseActivity() {
         lifecycle.launchRepeatOnStarted {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
                 launch {
-                    flowLocationServiceState(this@DeviceScanActivity).collect { isEnabled ->
+                    flowLocationServiceState(this@SanagScanActivity).collect { isEnabled ->
                         viewBind.layoutLocationService.isVisible = !isEnabled
                     }
                 }
@@ -140,17 +126,16 @@ class DeviceScanActivity : BaseActivity() {
         }
     }
 
-    private fun tryingBind(address: String, name: String?) {
+    private fun selectDevice(address: String, name: String?) {
         scannerHelper.stop()
-        DeviceActivity.start(
-            this, DeviceInfo(
-                deviceType, address, if (name.isNullOrEmpty()) {
-                    ScanDevicesAdapter.UNKNOWN_DEVICE_NAME
-                } else {
-                    name
-                }
+        SanagPreferencesStorage.setLastDevice(
+            SanagDeviceInfo(
+                address = address,
+                name = if (name.isNullOrEmpty()) ScanDevicesAdapter.UNKNOWN_DEVICE_NAME else name,
             )
         )
+        setResult(RESULT_OK)
+        finish()
     }
 
     private var bluetoothSnackbar: Snackbar? = null
@@ -178,39 +163,4 @@ class DeviceScanActivity : BaseActivity() {
         return snackbar
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_device_scan, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_scan_qr_code -> {
-                if (MyApplication.isFlavorLite()) {
-                    toast("Please use full build version!")
-                    return true
-                }
-                scannerHelper.stop()
-                startActivity(
-                    Intent(this, DeviceQrCodeActivity::class.java).apply {
-                        putExtra(EXTRA_TYPE, deviceType.name)
-                    }
-                )
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    companion object {
-        const val EXTRA_TYPE = "type"
-
-        fun start(context: Context, type: WKDeviceType) {
-            context.startActivity(
-                Intent(context, DeviceScanActivity::class.java).apply {
-                    putExtra(EXTRA_TYPE, type.name)
-                }
-            )
-        }
-    }
 }

@@ -1,5 +1,6 @@
 package com.topstep.wearkit.sample.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -13,6 +14,7 @@ import com.topstep.wearkit.sample.data.PreferencesStorage
 import com.topstep.wearkit.sample.databinding.ActivityMainBinding
 import com.topstep.wearkit.sample.model.DeviceInfo
 import com.topstep.wearkit.sample.ui.base.BaseActivity
+import com.topstep.wearkit.sample.ui.custom.sanag.SanagDemoActivity
 import com.topstep.wearkit.sample.ui.dialog.LogShareDialogFragment
 import com.topstep.wearkit.sample.ui.discovery.DeviceScanActivity
 import com.topstep.wearkit.sample.utils.log.AppLogger
@@ -98,6 +100,11 @@ class MainActivity : BaseActivity() {
                         "请从内网共享文件下载最新版本\n\\\\nas.topstepht.com\\TOPSTEP\\公用文件夹\\Android版本记录\\wearkit工具"
                     )
                     .show()
+                true
+            }
+            R.id.menu_sanag_demo -> {
+                MyApplication.wearKit.connector.close()
+                startActivity(Intent(this, SanagDemoActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -18,7 +18,7 @@ import io.reactivex.rxjava3.exceptions.UndeliverableException
 import io.reactivex.rxjava3.functions.Consumer
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 
-fun wearKitInit(application: Application): WKWearKit {
+fun wearKitInit(application: Application, rxBleClient: RxBleClient): WKWearKit {
     /**
      * ToNote:
      * 1.Configure log. "WearKit-SDK" use the Timber to output log, so you need to configure the Timber.
@@ -42,7 +42,6 @@ fun wearKitInit(application: Application): WKWearKit {
     val processLifecycleObserver = MyProcessLifecycleManager().also {
         application.registerActivityLifecycleCallbacks(it)
     }
-    val rxBleClient = RxBleClient.create(application)
     if (BuildConfig.isSupportFitCloud) {
         builders.add(
             WKFitCloudKit.Builder(application, processLifecycleObserver, rxBleClient)

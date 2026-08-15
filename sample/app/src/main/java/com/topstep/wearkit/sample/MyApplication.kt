@@ -2,6 +2,7 @@ package com.topstep.wearkit.sample
 
 import androidx.multidex.MultiDexApplication
 import com.github.kilnn.tool.system.SystemUtil
+import com.polidea.rxandroidble3.RxBleClient
 import com.topstep.flywear.sdk.apis.FwSDK
 import com.topstep.wearkit.abmate.apis.AbMateSDK
 import com.topstep.wearkit.apis.WKWearKit
@@ -16,6 +17,9 @@ class MyApplication : MultiDexApplication() {
     companion object {
         @JvmStatic
         lateinit var instance: MyApplication
+
+        @JvmStatic
+        lateinit var rxBleClient: RxBleClient
 
         @JvmStatic
         lateinit var wearKit: WKWearKit
@@ -49,7 +53,8 @@ class MyApplication : MultiDexApplication() {
         PbSDK.BLE_CONNECTION = getConnectionMethod()
         FwSDK.BLE_CONNECTION = getConnectionMethod()
         //Init
-        wearKit = wearKitInit(this)
+        rxBleClient = RxBleClient.create(this)
+        wearKit = wearKitInit(this, rxBleClient)
         PreferencesStorage.init(this)
         myMediaController = MyMediaController(this, wearKit)
     }

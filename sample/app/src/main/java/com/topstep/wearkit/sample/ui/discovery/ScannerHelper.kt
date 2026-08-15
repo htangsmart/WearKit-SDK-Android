@@ -5,23 +5,30 @@ import android.content.Context
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
+import com.polidea.rxandroidble3.RxBleClient
 import com.polidea.rxandroidble3.exceptions.BleScanException
+import com.polidea.rxandroidble3.scan.ScanSettings
 import com.topstep.wearkit.apis.model.core.WKDeviceType
 import com.topstep.wearkit.apis.model.core.WKScanResult
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.utils.flowBluetoothAdapterState
 import com.topstep.wearkit.sample.utils.permission.PermissionHelper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.util.concurrent.TimeUnit
 
+/**
+ * @param type Device type for SDK filtered scan. When null, scans all BLE devices via [RxBleClient].
+ */
 class ScannerHelper(
     private val context: Context,
-    private val type: WKDeviceType,
+    private val type: WKDeviceType? = null,
 ) : DefaultLifecycleObserver {
 
     private val bluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
@@ -119,7 +126,7 @@ class ScannerHelper(
     private fun scan() {
         if (scanDisposable?.isDisposed != false) {
             //It is recommended not to set the scan duration too short
-            scanDisposable = wearKit.scanner.scan(type, 120 * 1000, checkLocationService = false, acceptEmptyName = true)
+            scanDisposable = createScanObservable()
                 .doOnSubscribe {
                     listener?.onScanStart()
                 }
@@ -138,6 +145,36 @@ class ScannerHelper(
         }
     }
 
+    private fun createScanObservable(): Observable<WKScanResult> {
+        val deviceType = type
+        return if (deviceType != null) {
+            // Keep legacy duration arg used by DeviceScanActivity
+            wearKit.scanner.scan(deviceType, 120 * 1000, checkLocationService = false, acceptEmptyName = true)
+        } else {
+            val scanSettings = ScanSettings.Builder()
+                .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+                .setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)
+                .setShouldCheckLocationServicesState(false)
+                .build()
+            val hasConnectPermission = MyApplication.rxBleClient.isConnectRuntimePermissionGranted
+            MyApplication.rxBleClient.scanBleDevices(scanSettings)
+                .take(120 * 1000, TimeUnit.SECONDS)
+                .map { result ->
+                    WKScanResult(
+                        device = result.bleDevice.bluetoothDevice,
+                        name = if (hasConnectPermission) result.bleDevice.name else null,
+                        rssi = result.rssi,
+                    )
+                }
+                .filter {
+                    // Intentionally drop empty names: raw scan has no WKDeviceType filter,
+                    // so the list would be too noisy for manual selection.
+                    val name = it.name
+                    name != null && name.isNotEmpty()
+                }
+        }
+    }
+
     private fun analysisScanError(throwable: Throwable) {
         val reason = if (throwable is BleScanException) {
             throwable.reason
@@ -149,12 +186,12 @@ class ScannerHelper(
             BleScanException.BLUETOOTH_NOT_AVAILABLE,
             BleScanException.LOCATION_PERMISSION_MISSING,
             BleScanException.LOCATION_SERVICES_DISABLED,
-            -> {
+                -> {
                 //Ignore these error states because it is handled elsewhere, or has been checked before the scan starts
             }
             BleScanException.SCAN_FAILED_ALREADY_STARTED,
             BleScanException.UNDOCUMENTED_SCAN_THROTTLE,
-            -> {
+                -> {
                 //Prompt the user to re-search in a few seconds
                 listener?.scanErrorDelayAlert()
             }

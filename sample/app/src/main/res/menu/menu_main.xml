@@ -7,4 +7,9 @@
         android:title="@string/update_check"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/menu_sanag_demo"
+        android:title="@string/main_sanag_demo"
+        app:showAsAction="never" />
+
 </menu>

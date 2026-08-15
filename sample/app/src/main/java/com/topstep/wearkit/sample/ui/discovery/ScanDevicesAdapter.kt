@@ -95,7 +95,7 @@ class ScanDevicesAdapter : RecyclerView.Adapter<ScanDevicesAdapter.DeviceViewHol
     class DeviceViewHolder(val viewBind: ItemScanDeviceBinding) : RecyclerView.ViewHolder(viewBind.root) {
         fun bind(result: ScanDevice) {
             viewBind.tvName.text = if (result.name.isNullOrEmpty()) {
-                DeviceScanActivity.UNKNOWN_DEVICE_NAME
+                UNKNOWN_DEVICE_NAME
             } else {
                 result.name
             }
@@ -104,6 +104,9 @@ class ScanDevicesAdapter : RecyclerView.Adapter<ScanDevicesAdapter.DeviceViewHol
         }
     }
 
+    companion object {
+        const val UNKNOWN_DEVICE_NAME = "Unknown"
+    }
 }
 
 class ScanDevice(

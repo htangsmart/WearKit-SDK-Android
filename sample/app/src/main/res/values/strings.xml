@@ -17,6 +17,7 @@
     <string name="main_switch_done">Switch to %s, Please restart this app(Only for FlyWear,ProtoTb,AbMate Device)</string>
     <string name="main_skip_auth">Connect skip auth</string>
     <string name="update_check">Update</string>
+    <string name="main_sanag_demo">Sanag Custom</string>
 
     <!--DeviceBasicActivity-->
     <string name="ds_device_basic">Basic functions</string>
@@ -75,6 +76,7 @@
     <string name="action_delete">Delete</string>
     <string name="action_more">More</string>
     <string name="action_connect">Connect</string>
+    <string name="action_disconnect">Disconnect</string>
 
     <!--Tips-->
     <string name="tip_prompt">Hint</string>
