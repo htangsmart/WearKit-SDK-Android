@@ -62,6 +62,19 @@ object PermissionHelper {
         requestPermission(activity, arrayListOf(Manifest.permission.RECORD_AUDIO), grantResult)
     }
 
+    /**
+     * Runtime permissions required when file transfer needs WiFi.
+     * Normal permissions (ACCESS_WIFI_STATE / CHANGE_WIFI_STATE) are not requested here.
+     */
+    fun requestFileWifi(activity: FragmentActivity, grantResult: ((Boolean) -> Unit)) {
+        val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arrayListOf(Manifest.permission.NEARBY_WIFI_DEVICES)
+        } else {
+            arrayListOf(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+        requestPermission(activity, permissions, grantResult)
+    }
+
     fun hasCamera(context: Context): Boolean {
         return hasPermissions(context, arrayListOf(Manifest.permission.CAMERA))
     }

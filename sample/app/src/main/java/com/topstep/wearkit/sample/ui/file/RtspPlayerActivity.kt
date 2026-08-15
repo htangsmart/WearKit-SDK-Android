@@ -1,22 +1,20 @@
 package com.topstep.wearkit.sample.ui.file
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.net.wifi.WifiManager
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import com.permissionx.guolindev.PermissionX
-import com.topstep.wearkit.abmate.apis.AbMateSDK
 import com.topstep.wearkit.apis.ability.file.WKFileAbility
 import com.topstep.wearkit.apis.exception.WKUnsupportedException
 import com.topstep.wearkit.apis.model.core.WKConnectorState
 import com.topstep.wearkit.sample.MyApplication
+import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityRtspPlayerBinding
 import com.topstep.wearkit.sample.ui.base.BaseActivity
+import com.topstep.wearkit.sample.utils.permission.PermissionHelper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import org.videolan.libvlc.LibVLC
@@ -47,19 +45,13 @@ class RtspPlayerActivity : BaseActivity() {
             return
         }
 
-        // rtsp() 目前仅 AbMate 设备支持
-        val rawSdk = wearKit.getRawSDK() as? AbMateSDK
-        if (rawSdk == null) {
-            toast("Only AbMate device supports RTSP")
+        val ability = wearKit.fileAbility
+        if (!ability.compat.isSupportRtsp()) {
+            toast(R.string.tip_un_support)
             finish()
             return
         }
-        if (!rawSdk.fileAbility.compat.isSupport()) {
-            toast("UnSupport!")
-            finish()
-            return
-        }
-        fileAbility = rawSdk.fileAbility
+        fileAbility = ability
 
         setupPlayer()
     }
@@ -99,14 +91,19 @@ class RtspPlayerActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        requestWifiPermissions { granted ->
+        val requireWifi = fileAbility?.compat?.isRequireWifi() == true
+        if (!requireWifi) {
+            subscribeRtsp()
+            return
+        }
+        PermissionHelper.requestFileWifi(this) { granted ->
             if (!granted) {
                 viewBind.tvStatus.text = "Wifi permissions denied"
-                return@requestWifiPermissions
+                return@requestFileWifi
             }
             if (!isWifiEnabled()) {
                 viewBind.tvStatus.text = "Please enable Wifi"
-                return@requestWifiPermissions
+                return@requestFileWifi
             }
             subscribeRtsp()
         }
@@ -174,21 +171,6 @@ class RtspPlayerActivity : BaseActivity() {
     private fun isWifiEnabled(): Boolean {
         val wm = applicationContext.getSystemService(Context.WIFI_SERVICE) as? WifiManager ?: return false
         return wm.isWifiEnabled
-    }
-
-    private fun requestWifiPermissions(grantResult: (Boolean) -> Unit) {
-        val perms = mutableListOf(
-            Manifest.permission.ACCESS_WIFI_STATE,
-            Manifest.permission.CHANGE_WIFI_STATE,
-        )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            perms += Manifest.permission.NEARBY_WIFI_DEVICES
-        } else {
-            perms += Manifest.permission.ACCESS_FINE_LOCATION
-        }
-        PermissionX.init(this)
-            .permissions(perms)
-            .request { allGranted, _, _ -> grantResult(allGranted) }
     }
 
     companion object {

@@ -1,17 +1,18 @@
 package com.topstep.wearkit.sample.ui.others
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.topstep.wearkit.abmate.apis.AbMateSDK
+import com.topstep.wearkit.apis.ability.file.WKFileAbility
 import com.topstep.wearkit.apis.model.core.WKConnectorState
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityOthersBinding
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.ui.file.RtspPlayerActivity
+import com.topstep.wearkit.sample.utils.permission.PermissionHelper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -188,60 +189,70 @@ class OthersActivity : BaseActivity() {
             rawSdk.abMateManager.turnOnCamera(0, onSuccess = {}, onFail = {})
         }
         viewBind.itemAbmateGetFileNames.clickTrigger {
-            val rawSdk = wearKit.getRawSDK() as? AbMateSDK
-            if (rawSdk == null) {
-                toast("Only AbMate device supports this function!")
+            val fileAbility = wearKit.fileAbility
+            if (!fileAbility.compat.isSupport()) {
+                toast(R.string.tip_un_support)
                 return@clickTrigger
             }
-            abmateWifiPermission()
-            getFileNamesDisposable = rawSdk.fileAbility.requestFiles()
-                .subscribe({
-                    it.forEach { f ->
-                        Timber.i("requestFiles path:%s", f.path)
-                    }
-                }, {
-                    Timber.w(it, "requestFiles error")
-                })
-
+            ensureFileWifiReady(fileAbility) {
+                getFileNamesDisposable?.dispose()
+                getFileNamesDisposable = fileAbility.requestFiles()
+                    .subscribe({
+                        it.forEach { f ->
+                            Timber.i("requestFiles path:%s", f.path)
+                        }
+                    }, {
+                        Timber.w(it, "requestFiles error")
+                    })
+            }
         }
         viewBind.itemAbmatePullFiles.clickTrigger {
-            val rawSdk = wearKit.getRawSDK() as? AbMateSDK
-            if (rawSdk == null) {
-                toast("Only AbMate device supports this function!")
+            val fileAbility = wearKit.fileAbility
+            if (!fileAbility.compat.isSupport()) {
+                toast(R.string.tip_un_support)
                 return@clickTrigger
             }
-            abmateWifiPermission()
-            pullFilesDisposable = rawSdk.fileAbility.pullFiles(null)
-                .subscribe({
-                    Timber.i("pullFiles event:%s", it)
-                }, {
-                    Timber.w(it, "pullFiles error")
-                })
+            ensureFileWifiReady(fileAbility) {
+                pullFilesDisposable?.dispose()
+                pullFilesDisposable = fileAbility.pullFiles(null)
+                    .subscribe({
+                        Timber.i("pullFiles event:%s", it)
+                    }, {
+                        Timber.w(it, "pullFiles error")
+                    })
+            }
         }
         viewBind.itemAbmateRtsp.clickTrigger {
             if (MyApplication.isFlavorLite()) {
                 toast("Please use full build version!")
                 return@clickTrigger
             }
-            val rawSdk = wearKit.getRawSDK() as? AbMateSDK
-            if (rawSdk == null) {
-                toast("Only AbMate device supports this function!")
+            val fileAbility = wearKit.fileAbility
+            if (!fileAbility.compat.isSupportRtsp()) {
+                toast(R.string.tip_un_support)
                 return@clickTrigger
             }
-            abmateWifiPermission()
             if (wearKit.connector.getConnectorState() != WKConnectorState.CONNECTED) {
                 toast("Device not connected!")
-            } else {
+                return@clickTrigger
+            }
+            ensureFileWifiReady(fileAbility) {
                 RtspPlayerActivity.start(this)
             }
         }
     }
 
-    private fun abmateWifiPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestPermissions(arrayOf(android.Manifest.permission.NEARBY_WIFI_DEVICES), 1001)
-        } else {
-            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1001)
+    private fun ensureFileWifiReady(fileAbility: WKFileAbility, onReady: () -> Unit) {
+        if (!fileAbility.compat.isRequireWifi()) {
+            onReady()
+            return
+        }
+        PermissionHelper.requestFileWifi(this) { granted ->
+            if (granted) {
+                onReady()
+            } else {
+                toast("Wifi permissions denied")
+            }
         }
     }
 
@@ -260,6 +271,8 @@ class OthersActivity : BaseActivity() {
         pushOfflineMapDisposable?.dispose()
         listOfflineMapDisposable?.dispose()
         deleteOfflineMapDisposable?.dispose()
+        getFileNamesDisposable?.dispose()
+        pullFilesDisposable?.dispose()
     }
 
 }
