@@ -279,6 +279,34 @@
     <!--Version-->
     <string name="version_upgrade_param">升级(<xliff:g id="param">%1$s</xliff:g>)</string>
     <string name="version_info">版本信息</string>
+    <string name="ds_project_num">项目号：%1$s</string>
+    <string name="ds_firmware_version">版本号：%1$s</string>
+    <string name="action_ota">OTA</string>
+    <string name="ds_ota_progress">进度：%1$d%%</string>
+    <string name="ds_ota_select_file_error">选择文件失败</string>
+    <string name="ds_file">文件</string>
+    <string name="ds_file_count">获取数量</string>
+    <string name="ds_file_pull">拉取文件</string>
+    <string name="ds_file_count_result">数量：%1$d</string>
+    <string name="ds_file_pull_progress">拉取 %1$d/%2$d  %3$d%%</string>
+    <string name="ds_file_pull_done">已拉取 %1$d 个文件</string>
+    <string name="ds_file_wifi_denied">WiFi 权限被拒绝</string>
+    <string name="ds_speech">音频</string>
+    <string name="ds_speech_chat">对话</string>
+    <string name="ds_speech_debug">Debug</string>
+    <string name="ds_speech_init">初始化中…</string>
+    <string name="ds_speech_init_fail">初始化失败</string>
+    <string name="ds_speech_ready">已就绪，请在设备上发起对话</string>
+    <string name="ds_speech_chatting">对话中…</string>
+    <string name="ds_speech_need_record">需要录音权限（SCO）</string>
+    <string name="ds_speech_play_last">播放最近 Debug 录音</string>
+    <string name="ds_speech_stop">停止播放</string>
+    <string name="ds_speech_stopped">已停止</string>
+    <string name="ds_speech_play_done">播放完成</string>
+    <string name="ds_speech_no_audio">最近 Debug 录音: 无</string>
+    <string name="ds_speech_pcm_unsupported">当前为 pcm，请改为 wav 后再播放</string>
+    <string name="ds_speech_playing">正在播放: %1$s\n%2$s</string>
+    <string name="ds_speech_audio_hint">最近 Debug 录音: %1$s (%2$d bytes)\n%3$s</string>
     <string name="version_hardware_update">硬件更新</string>
     <string name="version_latest_version_code">最新版本：</string>
     <string name="version_update_content">更新内容：</string>

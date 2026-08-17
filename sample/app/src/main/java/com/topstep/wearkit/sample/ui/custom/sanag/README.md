@@ -2,8 +2,12 @@
 
 Sample 入口：主界面菜单 → **塞那定制**（`SanagDemoActivity`）。
 当前 Demo 已覆盖：
+
 * 扫描 / 连接 / 断开
 * 电量
+* 版本和OTA
+* 文件
+* AI音频
 
 ---
 
@@ -164,3 +168,206 @@ wearKit.batteryAbility.observeBatteryChange()
 ```
 
 ---
+
+## 版本和OTA
+
+连接成功后从 `WKDeviceInfo` 读取：
+
+- `model`：项目号
+- `version`：版本号
+
+```kotlin
+// 连接就绪后立刻读一次
+val info = wearKit.deviceAbility.getDeviceInfo()
+// info.model / info.version
+
+// 设备信息变化时刷新（如重连后）
+wearKit.deviceAbility.observeDeviceInfo(false)
+    .observeOn(AndroidSchedulers.mainThread())
+    .subscribe({ info ->
+        // info.model / info.version
+    }, { Timber.w(it) })
+```
+
+---
+
+使用 `wearKit.otaAbility.ota(file)` 进行 OTA ，进度为 0–100。
+
+```kotlin
+val dialog = ProgressDialog(context).apply {
+    setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
+    setCancelable(false)
+    setCanceledOnTouchOutside(false)
+    max = 100
+    show()
+}
+copyUriToFile(uri)
+    .flatMapObservable { wearKit.otaAbility.ota(it) }
+    .observeOn(AndroidSchedulers.mainThread())
+    .doFinally { dialog.dismiss() }
+    .subscribe({ progress ->
+        dialog.progress = progress
+    }, { error ->
+        Timber.w(error)
+    })
+```
+
+注意：
+
+- 必须已连接（`WKConnectorState.CONNECTED`）。
+- 升级过程中设备可能断开，属正常现象；完成后重新连接再读版本号确认。
+- 建议电量高于 20%，手机与设备距离保持在 0.5 米内。
+
+---
+
+## 文件
+
+使用 `wearKit.fileAbility` 管理设备上的媒体文件（列表 / 拉取 / 删除）。
+
+调用前先检查 `compat.isSupport()`。`requestFilesCount()`、`deleteFile()` 不需要 WiFi；`requestFiles()` / `pullFiles()` 在 `compat.isRequireWifi()` 为 `true` 时需要 WiFi 权限。
+
+### 1. 获取数量
+
+```kotlin
+wearKit.fileAbility.requestFilesCount()
+    .observeOn(AndroidSchedulers.mainThread())
+    .subscribe({ count ->
+        // 设备上的文件数量
+    }, { Timber.w(it) })
+```
+
+### 2. 拉取文件
+
+`pullFiles(saveDir)`：`saveDir` 为 `null` 时保存到 `Context.getExternalCacheDir()`。每拉完一个文件会删除设备上的原文件。
+
+```kotlin
+fun ensureFileWifiReady(fileAbility: WKFileAbility, onReady: () -> Unit) {
+    if (!fileAbility.compat.isRequireWifi()) {
+        onReady()
+        return
+    }
+    PermissionHelper.requestFileWifi(context) { granted ->
+        if (granted) onReady()
+    }
+}
+
+ensureFileWifiReady(wearKit.fileAbility) {
+    wearKit.fileAbility.pullFiles(null)
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe({ event ->
+            when (event) {
+                is WKFileTransferEvent.OnFileProgress -> {
+                    // event.index / event.count / event.progress
+                }
+                is WKFileTransferEvent.OnFileCompleted -> {
+                    // event.devicePath / event.savePath
+                }
+                is WKFileTransferEvent.OnAllCompleted -> {
+                    // event.savePaths
+                }
+            }
+        }, { Timber.w(it) })
+}
+```
+
+注意：
+
+- 必须已连接（`WKConnectorState.CONNECTED`）。
+- `isRequireWifi() == true` 时需声明 `ACCESS_WIFI_STATE`、`CHANGE_WIFI_STATE`，并申请 `NEARBY_WIFI_DEVICES`（API 33+）或 `ACCESS_FINE_LOCATION`。
+
+---
+
+## AI音频
+
+入口：塞那 Demo → **对话**（`SanagSpeechAiActivity`）。塞那目前只对接设备发起的 **CHAT**。
+
+WearKit 只负责设备侧会话和音频传输。ASR / LLM 由 App 自行接入。
+
+### 1. 能力检查
+
+```kotlin
+val speechAi = wearKit.speechAiAbility
+if (!speechAi.isSupport()) {
+    // 设备不支持语音 AI，无需初始化后续逻辑
+    return
+}
+// 可选：是否展示对话入口
+speechAi.session.isSupportDeviceScene(WKSpeechSession.Scene.CHAT)
+```
+
+### 2. 订阅设备会话（必须）
+
+`observeDeviceSession()` **必须在整个可用期间保持订阅**。没有观察者时，设备开麦会被 SDK 忽略，设备侧会自己超时。
+
+同一时刻最多一个会话。发出的 `WKSpeechSession` 尚未开始，必须尽快调用 `audio()`，否则会被自动释放。
+
+```kotlin
+speechAi.session.observeDeviceSession()
+    .subscribe({ session ->
+        if (session.scene != WKSpeechSession.Scene.CHAT) return@subscribe
+        startChat(session)
+    }, { Timber.w(it) })
+```
+
+| 属性 / 方法           | 说明                                            |
+|-------------------|-----------------------------------------------|
+| `origin`          | `DEVICE` 设备发起 / `APP` App 发起                  |
+| `scene`           | 场景，塞那只用 `CHAT`                                |
+| `format`          | 音频格式，**仅在 `audio()` 发出第一帧后才有值**               |
+| `audio()`         | 订阅一次，开始收音频；再次订阅会 `ERROR_STATE`                |
+| `release(reason)` | 结束会话，幂等；dispose `audio()` 等价于 `release(NONE)` |
+| `isActive()`      | 是否为当前活跃会话                                     |
+
+`format`：
+
+| 类型                            | 参数                            |
+|-------------------------------|-------------------------------|
+| `WKSpeechSession.Format.PCM`  | 单声道、16 kHz、16-bit             |
+| `WKSpeechSession.Format.OPUS` | 单声道、16 kHz，`frameSize` 为每帧字节数 |
+
+### 3. 接收音频
+
+```kotlin
+fun startChat(session: WKSpeechSession) {
+    session.audio().subscribe({ bytes ->
+        // bytes 按 session.format 解码后交给自己的 ASR / LLM
+        val format = session.format // 首帧之后才非 null
+    }, { error ->
+        // 异常结束：低电、来电、断连、超时等，见 WKSpeechSession.Exception
+        Timber.w(error)
+    }, {
+        // 正常结束（设备关麦，或 App 调用了 release / dispose）
+    })
+}
+```
+
+`audio()` 的 `onError` 为 `WKSpeechSession.Exception`：
+
+| errorCode            | 含义             |
+|----------------------|----------------|
+| `ERROR_BATTERY`      | 设备低电关闭         |
+| `ERROR_INCOMING`     | 来电关闭           |
+| `ERROR_CONFLICT`     | 设备状态冲突，无法开始    |
+| `ERROR_DISCONNECTED` | 连接断开           |
+| `ERROR_STATE`        | 重复订阅 `audio()` |
+| `ERROR_UNKNOWN`      | 未知错误           |
+
+正常关麦走 `onComplete`，不会走 `onError`。
+
+### 4. 离场
+
+音频流结束只表示这一路音频停了。页面 / AI 逻辑应在 `observeMessage()` 收到对应场景的 `SCENE_EXIT` 后再退出。
+
+收到 `SCENE_EXIT` 时，SDK 也会结束仍活跃的音频会话（已关闭则幂等）。
+
+```kotlin
+speechAi.observeMessage().subscribe({ msg ->
+    if (msg.type == WKSpeechAiMessage.Type.SCENE_EXIT &&
+        msg.data == WKSpeechSession.Scene.CHAT
+    ) {
+        // 结束本次对话
+    }
+}, { Timber.w(it) })
+```
+
+也可主动 `session.release(WKSpeechSession.Reason.NONE)`。
