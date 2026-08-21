@@ -153,9 +153,9 @@ afterEvaluate {
 
 dependencies {
     //WearKit Required
-    val wearkitVersion = "3.0.2.5"
+    val wearkitVersion = "3.0.2.5-UGREEN-SNAPSHOT"
     val wearkitChanging = wearkitVersion.contains("SNAPSHOT")
-    if (isDeveloperEnvironment()) {
+    if (!isDeveloperEnvironment()) {
         //For developer environment, use remote dependencies
         implementation("com.topstep.wearkit:sdk-core:$wearkitVersion") { isChanging = wearkitChanging }
         implementation("com.topstep.wearkit:sdk-flywear-adapter:$wearkitVersion") { isChanging = wearkitChanging }
