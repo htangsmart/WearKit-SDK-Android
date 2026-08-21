@@ -1,88 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="录音文件（最近 3 条）"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/ll_records"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"/>
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tv_records_empty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="暂无录音"
-        android:textColor="#666666"
-        android:textSize="13sp"/>
+        <TextView
+            android:id="@+id/tv_aikit_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ds_speech_init"
+            android:textColor="#666666"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        android:background="#DDDDDD"/>
+        <Button
+            android:id="@+id/btn_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/ds_speech_chat"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="设备录音（APP 发起）："
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+        <Button
+            android:id="@+id/btn_record"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/ds_speech_record"/>
 
-    <TextView
-        android:id="@+id/tv_app_record_duration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="时长: 00:00"
-        android:textColor="#666666"
-        android:textSize="14sp"/>
+        <Button
+            android:id="@+id/btn_translate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/ds_speech_translate"/>
 
-    <Button
-        android:id="@+id/btn_app_record"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="开启录音"/>
+        <Button
+            android:id="@+id/btn_chat_translate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/ds_speech_chat_translate"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        android:background="#DDDDDD"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="#DDDDDD"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Debug："/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Debug："/>
 
-    <TextView
-        android:id="@+id/tv_audio_file"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="#666666"
-        android:textSize="12sp"/>
+        <TextView
+            android:id="@+id/tv_audio_file"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="#666666"
+            android:textSize="12sp"/>
 
-    <Button
-        android:id="@+id/btn_play_last_audio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="播放最近 Debug 录音"/>
+        <Button
+            android:id="@+id/btn_play_last_audio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="播放最近 Debug 录音"/>
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

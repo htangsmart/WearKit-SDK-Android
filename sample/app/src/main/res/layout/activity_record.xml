@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_record_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ds_speech_ready"
+        android:textColor="#666666"/>
+
+    <TextView
+        android:id="@+id/tv_record_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/ds_speech_duration_idle"
+        android:textColor="#666666"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/tv_asr_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:textColor="#333333"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/ds_speech_lang"
+        android:textStyle="bold"/>
+
+    <RadioGroup
+        android:id="@+id/rg_record_lang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/rb_lang_zh"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_lang_zh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ds_speech_lang_zh"/>
+
+        <RadioButton
+            android:id="@+id/rb_lang_en"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/ds_speech_lang_en"/>
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_record_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ds_speech_start_phone"/>
+
+        <Button
+            android:id="@+id/btn_record_sco"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="@string/ds_speech_start_headset"/>
+
+        <Button
+            android:id="@+id/btn_record_device"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="@string/ds_speech_start_device"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_record_exit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:enabled="false"
+        android:text="@string/ds_speech_exit"/>
+
+</LinearLayout>

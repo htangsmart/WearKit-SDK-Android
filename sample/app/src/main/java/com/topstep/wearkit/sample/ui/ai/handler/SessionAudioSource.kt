@@ -1,4 +1,4 @@
-package com.topstep.wearkit.sample.ui.ai
+package com.topstep.wearkit.sample.ui.ai.handler
 
 import android.content.Context
 import com.topstep.aikit.audio.AiAudioSource
@@ -15,17 +15,20 @@ import io.reactivex.rxjava3.disposables.Disposable
  *
  * @param onAudioEnded 设备/会话侧音频流结束（complete 或 error）时回调；
  * 主动 [stop] / dispose 不会触发。
+ * @param onFirstAudio 收到首帧音频时回调一次（用于 UI 开始计时等）。
  */
 class SessionAudioSource(
     context: Context,
     val session: WKSpeechSession,
     private val onAudioEnded: ((Throwable?) -> Unit)? = null,
+    private val onFirstAudio: (() -> Unit)? = null,
 ) : AiAudioSource(context) {
 
     private var audioDisposable: Disposable? = null
     private val saveWavForDebug = SaveWavForDebug(context)
     private var debugStarted = false
     private var endedNotified = false
+    private var firstAudioNotified = false
 
     override fun getFormat(): AiAudioFormat {
         val f = session.format
@@ -40,6 +43,10 @@ class SessionAudioSource(
         super.onStart()
         // 尽快订阅 audio()，否则设备会话会因超时自动 release
         audioDisposable = session.audio().subscribe({ data ->
+            if (!firstAudioNotified) {
+                firstAudioNotified = true
+                onFirstAudio?.invoke()
+            }
             if (!debugStarted) {
                 debugStarted = true
                 saveWavForDebug.start(getFormat())

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_translate_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ds_speech_ready"
+        android:textColor="#666666"/>
+
+    <TextView
+        android:id="@+id/tv_tts_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/ds_speech_tts_idle"
+        android:textColor="#666666"
+        android:textSize="13sp"/>
+
+    <ScrollView
+        android:id="@+id/scroll_translate"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/ll_messages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/ds_speech_translate_empty"
+        android:textColor="#666666"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/ds_speech_lang_source"
+        android:textStyle="bold"/>
+
+    <RadioGroup
+        android:id="@+id/rg_source_lang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/rb_source_zh"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_source_zh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ds_speech_lang_zh"/>
+
+        <RadioButton
+            android:id="@+id/rb_source_en"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/ds_speech_lang_en"/>
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ds_speech_lang_target"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btn_swap_lang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ds_speech_lang_swap"/>
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/rg_target_lang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/rb_target_en"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_target_zh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ds_speech_lang_zh"/>
+
+        <RadioButton
+            android:id="@+id/rb_target_en"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/ds_speech_lang_en"/>
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_translate_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ds_speech_start_phone"/>
+
+        <Button
+            android:id="@+id/btn_translate_sco"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="@string/ds_speech_start_headset"/>
+
+        <Button
+            android:id="@+id/btn_translate_device"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="@string/ds_speech_start_device"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_translate_exit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:enabled="false"
+        android:text="@string/ds_speech_exit"/>
+
+</LinearLayout>

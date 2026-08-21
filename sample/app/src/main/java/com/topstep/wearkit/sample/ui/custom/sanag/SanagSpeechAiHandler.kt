@@ -4,7 +4,7 @@ import android.content.Context
 import com.topstep.aikit.AiKit
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
-import com.topstep.wearkit.sample.ui.ai.handler.ChatHandler
+import com.topstep.wearkit.sample.ui.ai.chat.ChatHandler
 import com.topstep.wearkit.sample.ui.ai.handler.SceneHandler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import timber.log.Timber

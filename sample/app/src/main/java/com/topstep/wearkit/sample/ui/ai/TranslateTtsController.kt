@@ -1,12 +1,16 @@
 package com.topstep.wearkit.sample.ui.ai
 
 import android.content.Context
+import android.media.AudioAttributes
+import android.media.AudioDeviceInfo
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
 import android.media.MediaPlayer
+import android.os.Build
 import androidx.core.content.ContextCompat
 import com.topstep.aikit.model.AiAudioFormat
+import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.apis.model.speech.WKTranslatePlayerState
 import com.topstep.wearkit.sample.ui.ai.wav.WavFileWriter
 import timber.log.Timber
@@ -14,28 +18,22 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import java.util.concurrent.LinkedBlockingQueue
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
-import kotlin.concurrent.thread
 
 /**
- * 翻译 TTS：落盘为 wav，并按设备 [WKTranslatePlayerState] 控制播放。
+ * 翻译 TTS 控制器：落盘 + 设备播放状态；PCM 出声交给 [MyAudioPlayer]（默认手机扬声器）。
  *
  * PCM：16k / mono / 16-bit（与 AiKit TranslateTts 一致）。
  */
 class TranslateTtsController(private val context: Context) {
 
+    private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     private val writer = WavFileWriter(TAG)
     private val playerState = AtomicReference(WKTranslatePlayerState.START)
-    private val streaming = AtomicBoolean(false)
-    private val queue = LinkedBlockingQueue<ByteArray>()
-    private var playbackThread: Thread? = null
-    private var audioTrack: AudioTrack? = null
     private var mediaPlayer: MediaPlayer? = null
     private var savedFile: File? = null
     private var writing = false
+    private var playerOwned = false
 
     /** 写入一段 TTS PCM；空数组忽略。 */
     fun writePcm(data: ByteArray) {
@@ -43,8 +41,8 @@ class TranslateTtsController(private val context: Context) {
         ensureWriter()
         writer.write(data)
         if (isPlayEnabled()) {
-            ensureStreaming()
-            queue.offer(data.copyOf())
+            ensurePlayerStarted()
+            MyAudioPlayer.sendData(data.copyOf())
         }
     }
 
@@ -54,8 +52,8 @@ class TranslateTtsController(private val context: Context) {
         writing = false
         savedFile = writer.finish()?.takeIf { it.exists() && it.length() > 0 }
         Timber.tag(TAG).i("tts saved: %s", savedFile?.absolutePath)
-        if (streaming.get()) {
-            queue.offer(END_MARKER)
+        if (MyAudioPlayer.isStarted()) {
+            MyAudioPlayer.sendFinish()
         }
         return savedFile
     }
@@ -66,27 +64,29 @@ class TranslateTtsController(private val context: Context) {
         when (state) {
             WKTranslatePlayerState.START -> {
                 stopMediaPlayer()
-                if (savedFile != null && !streaming.get()) {
+                if (savedFile != null && !MyAudioPlayer.isStarted()) {
                     playSavedFile()
-                } else {
-                    ensureStreaming()
-                    audioTrack?.play()
+                } else if (MyAudioPlayer.isStarted()) {
+                    MyAudioPlayer.resume()
+                } else if (writing) {
+                    ensurePlayerStarted()
                 }
             }
             WKTranslatePlayerState.STOP -> {
-                stopStreaming(clearQueue = true)
+                if (MyAudioPlayer.isStarted()) {
+                    MyAudioPlayer.stop()
+                }
                 stopMediaPlayer()
             }
             WKTranslatePlayerState.PAUSE -> {
-                audioTrack?.pause()
+                MyAudioPlayer.pause()
                 mediaPlayer?.takeIf { it.isPlaying }?.pause()
             }
             WKTranslatePlayerState.RESUME -> {
                 if (mediaPlayer != null) {
                     mediaPlayer?.start()
                 } else {
-                    ensureStreaming()
-                    audioTrack?.play()
+                    MyAudioPlayer.resume()
                 }
             }
         }
@@ -98,10 +98,11 @@ class TranslateTtsController(private val context: Context) {
             writer.finish()
             writing = false
         }
-        stopStreaming(clearQueue = true)
         stopMediaPlayer()
-        audioTrack?.release()
-        audioTrack = null
+        if (playerOwned) {
+            MyAudioPlayer.deactivate()
+            playerOwned = false
+        }
     }
 
     private fun ensureWriter() {
@@ -113,58 +114,36 @@ class TranslateTtsController(private val context: Context) {
         }
     }
 
-    /** STOP 时丢弃；PAUSE 时仍入队，由 AudioTrack.pause 卡住写出。 */
     private fun isPlayEnabled(): Boolean {
         return playerState.get() != WKTranslatePlayerState.STOP
     }
 
-    private fun ensureStreaming() {
-        if (!streaming.compareAndSet(false, true)) return
-        val track = audioTrack ?: createAudioTrack().also { audioTrack = it }
-        track.play()
-        playbackThread = thread(name = "translate-tts") {
-            try {
-                while (streaming.get()) {
-                    val data = queue.poll(100, TimeUnit.MILLISECONDS) ?: continue
-                    if (data === END_MARKER) break
-                    if (data.isNotEmpty()) {
-                        // PAUSE 时 AudioTrack.pause，write 会阻塞或写入缓冲
-                        track.write(data, 0, data.size)
-                    }
-                }
-            } catch (e: Exception) {
-                Timber.tag(TAG).w(e, "stream play failed")
-            } finally {
-                streaming.set(false)
-            }
+    private fun ensurePlayerStarted() {
+        if (!playerOwned) {
+            MyAudioPlayer.activate(WKSpeechSession.Source.PHONE_MIC)
+            playerOwned = true
         }
-    }
-
-    private fun stopStreaming(clearQueue: Boolean) {
-        if (!streaming.getAndSet(false)) {
-            if (clearQueue) queue.clear()
-            audioTrack?.runCatching {
-                pause()
-                flush()
-                stop()
-            }
-            return
-        }
-        playbackThread?.interrupt()
-        playbackThread = null
-        if (clearQueue) queue.clear()
-        audioTrack?.runCatching {
-            pause()
-            flush()
-            stop()
+        if (!MyAudioPlayer.isStarted()) {
+            MyAudioPlayer.start()
         }
     }
 
     private fun playSavedFile() {
         val file = savedFile ?: return
         stopMediaPlayer()
+        // 复用 MyAudioPlayer 的手机外放路由习惯：先 activate 再播文件
+        if (!playerOwned) {
+            MyAudioPlayer.activate(WKSpeechSession.Source.PHONE_MIC)
+            playerOwned = true
+        }
         runCatching {
             mediaPlayer = MediaPlayer().apply {
+                setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                        .build(),
+                )
                 setDataSource(file.absolutePath)
                 setOnCompletionListener {
                     Timber.tag(TAG).i("media play complete")
@@ -174,6 +153,7 @@ class TranslateTtsController(private val context: Context) {
                     true
                 }
                 prepare()
+                preferBuiltinSpeaker(this)
                 start()
             }
         }.onFailure {
@@ -189,26 +169,22 @@ class TranslateTtsController(private val context: Context) {
         mediaPlayer = null
     }
 
-    private fun createAudioTrack(): AudioTrack {
-        val bufferSize = AudioTrack.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT)
-            .coerceAtLeast(SAMPLE_RATE / 10)
-        return AudioTrack(
-            AudioManager.STREAM_MUSIC,
-            SAMPLE_RATE,
-            CHANNEL_CONFIG,
-            AUDIO_FORMAT,
-            bufferSize,
-            AudioTrack.MODE_STREAM,
-        )
+    private fun preferBuiltinSpeaker(player: MediaPlayer) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return
+        val speaker = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+            .firstOrNull { it.type == AudioDeviceInfo.TYPE_BUILTIN_SPEAKER }
+        if (speaker == null) {
+            Timber.tag(TAG).w("builtin speaker not found")
+            return
+        }
+        if (!player.setPreferredDevice(speaker)) {
+            Timber.tag(TAG).w("MediaPlayer setPreferredDevice speaker failed")
+        }
     }
 
     companion object {
         private const val TAG = "TranslateTts"
         private const val DIR_NAME = "translate_tts"
-        private const val SAMPLE_RATE = 16000
-        private const val CHANNEL_CONFIG = AudioFormat.CHANNEL_OUT_MONO
-        private const val AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT
-        private val END_MARKER = ByteArray(0)
 
         private fun createTtsFile(context: Context): File? {
             val parent = ContextCompat.getExternalFilesDirs(context, null).getOrNull(0) ?: return null
