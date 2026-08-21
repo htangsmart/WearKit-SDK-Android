@@ -2,15 +2,16 @@ package com.topstep.wearkit.sample.ui.custom.sanag
 
 import android.media.MediaPlayer
 import android.os.Bundle
-import com.topstep.aikit.AiKit
-import com.topstep.aikit.eyeear.EyeEarKit
-import com.topstep.wearkit.sample.BuildConfig
+import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivitySanagSpeechAiBinding
+import com.topstep.wearkit.sample.ui.ai.SpeechAiManager
 import com.topstep.wearkit.sample.ui.ai.wav.SaveWavForDebug
 import com.topstep.wearkit.sample.ui.base.BaseActivity
+import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
 import com.topstep.wearkit.sample.utils.permission.PermissionHelper
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
@@ -20,8 +21,6 @@ class SanagSpeechAiActivity : BaseActivity() {
 
     private val wearKit = MyApplication.wearKit
     private lateinit var viewBind: ActivitySanagSpeechAiBinding
-    private var aikit: AiKit? = null
-    private var handler: SanagSpeechAiHandler? = null
     private var mediaPlayer: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,11 +48,27 @@ class SanagSpeechAiActivity : BaseActivity() {
 
         PermissionHelper.requestRecordAudio(this) { granted ->
             if (!granted) {
-                viewBind.tvSpeechState.setText(R.string.ds_speech_need_record)
                 toast(R.string.ds_speech_need_record)
-                return@requestRecordAudio
             }
-            initAiKit()
+        }
+
+        lifecycle.launchRepeatOnStarted {
+            launch {
+                SpeechAiManager.state.collect { bindAiKit(it) }
+            }
+            launch {
+                SpeechAiManager.activeSession.collect { session ->
+                    if (SpeechAiManager.state.value != SpeechAiManager.State.READY) return@collect
+                    viewBind.tvSpeechState.setText(
+                        if (session?.scene == WKSpeechSession.Scene.CHAT) {
+                            R.string.ds_speech_chatting
+                        } else {
+                            R.string.ds_speech_ready
+                        }
+                    )
+                    refreshDebugAudioHint()
+                }
+            }
         }
     }
 
@@ -62,51 +77,20 @@ class SanagSpeechAiActivity : BaseActivity() {
         refreshDebugAudioHint()
     }
 
-    private fun initAiKit() {
-        val speechAi = wearKit.speechAiAbility
-        val aikit = EyeEarKit(this)
-        aikit.init(
-            params = AiKit.InitParams(
-                channel = BuildConfig.AIKIT_CHANNEL,
-                macAddress = BuildConfig.AIKIT_MAC_ADDRESS,
-                customPrompt = BuildConfig.AIKIT_CUSTOM_PROMPT,
-            ),
-            handler = object : AiKit.InitHandler {
-                override fun onInitFail() {
-                    this@SanagSpeechAiActivity.aikit = null
-                    handler?.release()
-                    handler = null
-                    runOnUiThread {
-                        viewBind.tvSpeechState.setText(R.string.ds_speech_init_fail)
-                    }
-                }
-
-                override fun onInitSuccess() {
-                    this@SanagSpeechAiActivity.aikit = aikit
-                    handler?.release()
-                    handler = SanagSpeechAiHandler(
-                        context = this@SanagSpeechAiActivity,
-                        speechAi = speechAi,
-                        aiKit = aikit,
-                        onChatChanged = { chatting ->
-                            runOnUiThread {
-                                viewBind.tvSpeechState.setText(
-                                    if (chatting) R.string.ds_speech_chatting else R.string.ds_speech_ready
-                                )
-                                refreshDebugAudioHint()
-                            }
-                        },
-                    ).also { it.start() }
-                    runOnUiThread {
-                        viewBind.tvSpeechState.setText(R.string.ds_speech_ready)
-                    }
-                }
-
-                override fun receiveInitData(bytes: ByteArray) {
-                    // do nothing
-                }
-            },
-        )
+    private fun bindAiKit(state: SpeechAiManager.State) {
+        when (state) {
+            SpeechAiManager.State.IDLE,
+            SpeechAiManager.State.INITIALIZING,
+                -> viewBind.tvSpeechState.setText(R.string.ds_speech_init)
+            SpeechAiManager.State.READY -> {
+                val chatting = SpeechAiManager.activeSession.value?.scene == WKSpeechSession.Scene.CHAT
+                viewBind.tvSpeechState.setText(
+                    if (chatting) R.string.ds_speech_chatting else R.string.ds_speech_ready
+                )
+            }
+            SpeechAiManager.State.FAILED ->
+                viewBind.tvSpeechState.setText(R.string.ds_speech_init_fail)
+        }
     }
 
     private fun playDebugAudio() {
@@ -171,10 +155,6 @@ class SanagSpeechAiActivity : BaseActivity() {
 
     override fun onDestroy() {
         stopPlayback()
-        handler?.release()
-        handler = null
         super.onDestroy()
-        aikit?.release()
-        aikit = null
     }
 }

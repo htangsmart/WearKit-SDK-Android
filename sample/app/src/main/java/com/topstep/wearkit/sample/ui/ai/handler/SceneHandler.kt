@@ -5,7 +5,6 @@ import com.topstep.aikit.AiKit
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
 import com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
-import com.topstep.wearkit.sample.ui.ai.SessionAudioSource
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
@@ -61,8 +60,12 @@ abstract class SceneHandler(
 
     /**
      * @param releaseOnAudioEnd true：音频流 complete/error 时 [release]；
+     * @param onFirstAudio 收到首帧音频时回调一次。
      */
-    protected fun bindAudioSource(releaseOnAudioEnd: Boolean = false): SessionAudioSource {
+    protected fun bindAudioSource(
+        releaseOnAudioEnd: Boolean = false,
+        onFirstAudio: (() -> Unit)? = null,
+    ): SessionAudioSource {
         audioSource?.stop()
         return SessionAudioSource(
             context = context,
@@ -79,6 +82,7 @@ abstract class SceneHandler(
             } else {
                 null
             },
+            onFirstAudio = onFirstAudio,
         ).also { audioSource = it }
     }
 
@@ -92,6 +96,7 @@ abstract class SceneHandler(
             audioSource = null
             disposables.clear()
             onRelease()
+            session.release()
         }.onFailure {
             Timber.tag(tag).w(it, "release failed")
         }

@@ -1,4 +1,4 @@
-package com.topstep.wearkit.sample.ui.ai.handler
+package com.topstep.wearkit.sample.ui.ai.translate
 
 import android.content.Context
 import com.topstep.aikit.AiKit
@@ -9,16 +9,17 @@ import com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.apis.model.speech.WKTranslateLang
 import com.topstep.wearkit.apis.model.speech.WKTranslatePlayerState
+import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
 import com.topstep.wearkit.sample.ui.ai.TranslateTtsController
+import com.topstep.wearkit.sample.ui.ai.handler.SceneHandler
 import timber.log.Timber
 
 /**
  * [WKSpeechSession.Scene.TRANSLATE]
  *
- * - 调 AiKit ASR/翻译，原文/译文回传设备
- * - 保存并播放 TranslateTts PCM
- * - 启动时用 [WKSpeechAiAbility.Translate.getLang] 取语言（仅中/英）
- * - 处理 [TRANSLATE_PLAYER_STATE]
+ * - 调 AiKit ASR/翻译，原文/译文回传设备并写入 [TranslateTranscript]
+ * - TTS 默认手机外放，响应设备 [WKSpeechAiMessage.Type.TRANSLATE_PLAYER_STATE]
+ * - APP 语言来自 [TranslateTranscript]；设备语言来自 [WKSpeechAiAbility.Translate.getLang]
  */
 class TranslateHandler(
     context: Context,
@@ -37,45 +38,60 @@ class TranslateHandler(
     private val translateLocale: String
 
     init {
+        val pair = resolveLocales()
+        originalLocale = pair.first
+        translateLocale = pair.second
+    }
+
+    override fun onStart() {
+        Timber.tag(tag).i(
+            "start origin=%s source=%s %s -> %s",
+            session.origin, session.source, originalLocale, translateLocale,
+        )
+        TranslateTranscript.onSessionStarted(session, originalLocale, translateLocale)
+        if (session.source == WKSpeechSession.Source.PHONE_MIC) {
+            MyAudioPlayer.activate(WKSpeechSession.Source.PHONE_MIC)
+        }
+        startAsr()
+    }
+
+    private fun resolveLocales(): Pair<String, String> {
+        if (session.origin == WKSpeechSession.Origin.APP) {
+            return TranslateTranscript.appOriginalLocale to TranslateTranscript.appTranslateLocale
+        }
         val lang = speechAi.translate.getLang() ?: WKTranslateLang.defaultFromSystemLocale()
         val source = deviceLangToLocale(lang.source)
         val target = deviceLangToLocale(lang.target)
         if (source != null && target != null) {
-            originalLocale = source
-            translateLocale = target
-        } else {
-            Timber.tag(tag).w(
-                "unsupported lang pair source=0x%02X target=0x%02X, fallback zh-CN -> en-US",
-                lang.source, lang.target
-            )
-            originalLocale = "zh-CN"
-            translateLocale = "en-US"
+            return source to target
         }
-    }
-
-    override fun onStart() {
-        Timber.tag(tag).i("start %s -> %s", originalLocale, translateLocale)
-        startAsr()
+        Timber.tag(tag).w(
+            "unsupported lang pair source=0x%02X target=0x%02X, fallback zh-CN -> en-US",
+            lang.source, lang.target,
+        )
+        return "zh-CN" to "en-US"
     }
 
     private fun startAsr() {
         val source = bindAudioSource()
         disposables.add(
             aiKit.audio.asr(
-                source, AiAsrParams(
+                source,
+                AiAsrParams(
                     originalLocale = originalLocale,
                     translateLocale = translateLocale,
                     originalFileRequired = false,
                     translateTtsRequired = true,
                     autoStop = true,
-                )
+                ),
             ).subscribe({ result ->
                 when (result) {
                     is AiAsrResult.OriginalText -> {
                         Timber.tag(tag).i(
                             "source[%d]: %s complete=%s",
-                            result.index, result.text, result.isComplete
+                            result.index, result.text, result.isComplete,
                         )
+                        TranslateTranscript.onSourceText(result.text, result.isComplete, result.index)
                         speechAi.translate
                             .sendTextSource(result.text, result.isComplete)
                             .onErrorComplete().subscribe()
@@ -83,8 +99,9 @@ class TranslateHandler(
                     is AiAsrResult.TranslateText -> {
                         Timber.tag(tag).i(
                             "target[%d]: %s complete=%s",
-                            result.index, result.text, result.isComplete
+                            result.index, result.text, result.isComplete,
                         )
+                        TranslateTranscript.onTargetText(result.text, result.isComplete, result.index)
                         speechAi.translate
                             .sendTextTarget(result.text, result.isComplete)
                             .onErrorComplete().subscribe()
@@ -104,7 +121,6 @@ class TranslateHandler(
                 }
             }, {
                 Timber.tag(tag).w(it, "asr error")
-                // 音频/识别出错：收尾 TTS，等 SCENE_EXIT 再整体释放也可；这里直接 release
                 release()
             })
         )
@@ -119,12 +135,15 @@ class TranslateHandler(
                     return
                 }
                 ttsController.applyPlayerState(state)
+                TranslateTranscript.onPlayerState(state)
             }
         }
     }
 
     override fun onRelease() {
         ttsController.release()
+        MyAudioPlayer.deactivate()
+        TranslateTranscript.onSessionEnded()
     }
 
     companion object {

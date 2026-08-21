@@ -9,6 +9,7 @@ import com.topstep.wearkit.apis.WKWearKit
 import com.topstep.wearkit.prototb.apis.PbSDK
 import com.topstep.wearkit.sample.data.PreferencesStorage
 import com.topstep.wearkit.sample.ui.music.MyMediaController
+import com.topstep.wearkit.sample.ui.ai.SpeechAiManager
 import com.topstep.wearkit.sample.utils.log.AppLogger
 import com.topstep.wearkit.sample.utils.log.MyCrashHandler
 
@@ -56,6 +57,7 @@ class MyApplication : MultiDexApplication() {
         rxBleClient = RxBleClient.create(this)
         wearKit = wearKitInit(this, rxBleClient)
         PreferencesStorage.init(this)
+        SpeechAiManager.init(this)
         myMediaController = MyMediaController(this, wearKit)
     }
 
