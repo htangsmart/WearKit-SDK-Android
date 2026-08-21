@@ -15,7 +15,8 @@ import timber.log.Timber
  * [WKSpeechSession.Scene.CHAT_TRANSLATE_SELF] / [WKSpeechSession.Scene.CHAT_TRANSLATE_PEER]
  *
  * 独立于普通 Translate：按 [WKChatTranslateMode] + 声源角色决定回传文本与 TTS 路由。
- * 不处理 [com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage.Type.TRANSLATE_PLAYER_STATE]。
+ * 不调用 [WKSpeechAiAbility.Translate.sendTtsReady]，也不处理
+ * [com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage.Type.TRANSLATE_PLAYER_STATE]。
  */
 class ChatTranslateHandler(
     context: Context,
@@ -100,15 +101,8 @@ class ChatTranslateHandler(
                             if (result.bytes.isNotEmpty()) {
                                 MyAudioPlayer.sendData(result.bytes.copyOf())
                             }
-                        } else {
-                            if (MyAudioPlayer.isStarted()) {
-                                MyAudioPlayer.sendFinish()
-                            }
-                            if (policy.sendTtsReady) {
-                                speechAi.translate
-                                    .sendTtsReady()
-                                    .onErrorComplete().subscribe()
-                            }
+                        } else if (MyAudioPlayer.isStarted()) {
+                            MyAudioPlayer.sendFinish()
                         }
                     }
                     else -> {}
@@ -139,7 +133,6 @@ class ChatTranslateHandler(
         val sendSource: Boolean,
         val sendTarget: Boolean,
         val ttsRoute: WKSpeechSession.Source,
-        val sendTtsReady: Boolean,
     ) {
         companion object {
             fun resolve(mode: WKChatTranslateMode, isSelf: Boolean): Policy {
@@ -149,14 +142,12 @@ class ChatTranslateHandler(
                             sendSource = false,
                             sendTarget = true,
                             ttsRoute = WKSpeechSession.Source.DEVICE_CMD,
-                            sendTtsReady = true,
                         )
                     } else {
                         Policy(
                             sendSource = true,
                             sendTarget = false,
                             ttsRoute = WKSpeechSession.Source.PHONE_MIC,
-                            sendTtsReady = false,
                         )
                     }
                     WKChatTranslateMode.PRIVATE -> if (isSelf) {
@@ -164,14 +155,12 @@ class ChatTranslateHandler(
                             sendSource = false,
                             sendTarget = true,
                             ttsRoute = WKSpeechSession.Source.DEVICE_CMD,
-                            sendTtsReady = true,
                         )
                     } else {
                         Policy(
                             sendSource = true,
                             sendTarget = false,
                             ttsRoute = WKSpeechSession.Source.DEVICE_SCO,
-                            sendTtsReady = false,
                         )
                     }
                     WKChatTranslateMode.PORTABLE -> if (isSelf) {
@@ -179,14 +168,12 @@ class ChatTranslateHandler(
                             sendSource = false,
                             sendTarget = false,
                             ttsRoute = WKSpeechSession.Source.DEVICE_SCO,
-                            sendTtsReady = false,
                         )
                     } else {
                         Policy(
                             sendSource = false,
                             sendTarget = false,
                             ttsRoute = WKSpeechSession.Source.PHONE_MIC,
-                            sendTtsReady = false,
                         )
                     }
                 }
