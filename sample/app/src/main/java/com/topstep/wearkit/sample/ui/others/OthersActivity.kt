@@ -173,6 +173,10 @@ class OthersActivity : BaseActivity() {
             startActivity(Intent(this, EpoActivity::class.java))
         }
 
+        viewBind.itemRecordFile.clickTrigger {
+            startActivity(Intent(this, RecordFileActivity::class.java))
+        }
+
         abmateWifiTest()
     }
 
