@@ -65,6 +65,8 @@ class MusicActivity : BaseActivity() {
                 } else if (it.op == WKFileOp.CLEAR) {
                     watchMusicAdapter.sources?.clear()
                     watchMusicAdapter.notifyDataSetChanged()
+                } else if (it.op == WKFileOp.OTHERS) {
+                    requestWatchMusic()
                 }
             }, {
                 Timber.w(it)

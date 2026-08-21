@@ -6,11 +6,11 @@ import android.net.Uri
 import com.topstep.aikit.AiKit
 import com.topstep.aikit.model.AiAsrParams
 import com.topstep.aikit.model.AiAsrResult
+import com.topstep.wearkit.apis.ability.dial.WKDialStyleAbility
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
 import com.topstep.wearkit.apis.model.speech.WKSpeechAiError
 import com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
-import com.topstep.wearkit.apis.ability.dial.WKDialStyleAbility
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.MyDialStyleProvider
 import io.reactivex.rxjava3.core.Single
@@ -113,7 +113,7 @@ class DialHandler(
         val file = prepareImage() ?: return
         Timber.tag(tag).i("sendImage %s %dx%d", file.absolutePath, imageWidth, imageHeight)
         disposables.add(
-            speechAi.dial.sendImage(file, imageWidth, imageHeight).subscribe({ progress ->
+            speechAi.dial.sendImage(file).subscribe({ progress ->
                 Timber.tag(tag).i("sendImage progress=%d", progress)
             }, {
                 // 发送失败不走 sendError；sendError 仅用于准备图片失败

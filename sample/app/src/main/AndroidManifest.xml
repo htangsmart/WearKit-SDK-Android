@@ -177,6 +177,7 @@
         <activity android:name=".ui.special.BusinessCardActivity"/>
 
         <activity android:name=".ui.others.OthersActivity"/>
+        <activity android:name=".ui.others.RecordFileActivity"/>
         <activity android:name=".ui.others.EpoActivity"/>
         <activity android:name=".ui.others.HsdIceActivity"/>
         <activity android:name=".ui.others.HsdParentalModeActivity"/>
