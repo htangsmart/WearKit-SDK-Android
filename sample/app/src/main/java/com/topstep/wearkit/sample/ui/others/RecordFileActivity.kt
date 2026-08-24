@@ -91,14 +91,19 @@ class RecordFileActivity : BaseActivity() {
         releaseMediaPlayer()
         pullFilesDisposable?.dispose()
         viewBind.tvState.text = "Pulling..."
-        //拉取到应用外部私有目录下，方便查看落盘文件
         val saveDir = File(getExternalFilesDir(null), "record_files").apply { mkdirs() }
         pullFilesDisposable = wearKit.fileAbility.pullFiles(saveDir)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ event ->
-                Timber.i("pull event: %s", event)
-                if (event is WKFileTransferEvent.OnAllCompleted) {
-                    lastSavedFiles = event.savePaths
+                when (event) {
+                    is WKFileTransferEvent.OnFileProgress ->
+                        Timber.i("pull event: OnFileProgress %d/%d progress=%d%% speed=%.1fKB/s", event.index, event.count, event.progress, event.speed / 1024)
+                    is WKFileTransferEvent.OnFileCompleted ->
+                        Timber.i("pull event: OnFileCompleted %d/%d save=%s", event.index, event.count, event.savePath)
+                    is WKFileTransferEvent.OnAllCompleted -> {
+                        Timber.i("pull event: OnAllCompleted files=%d", event.devicePaths.size)
+                        lastSavedFiles = event.savePaths
+                    }
                 }
                 viewBind.tvState.text = describe(event)
             }, {
