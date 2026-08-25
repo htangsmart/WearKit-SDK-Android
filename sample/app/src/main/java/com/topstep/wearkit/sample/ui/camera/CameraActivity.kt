@@ -22,6 +22,8 @@ import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.core.content.IntentCompat
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.window.layout.WindowMetricsCalculator
 import com.github.kilnn.tool.storage.FileUtil
@@ -95,6 +97,8 @@ class CameraActivity : BaseActivity() {
     private val hideZoomUiRunnable = Runnable {
         viewBind.tvZoom.visibility = View.GONE
     }
+    private var pendingZoomInfoLiveData: LiveData<ZoomState>? = null
+    private var pendingZoomInfoObserver: Observer<ZoomState>? = null
 
     // Preview
     private var isSupportPreview = false
@@ -387,6 +391,7 @@ class CameraActivity : BaseActivity() {
         camera?.let {
             // Must remove observers from the previous camera instance
             removeCameraStateObservers(it.cameraInfo)
+            clearPendingZoomInfoObserver()
         }
 
         imageCapture = null
@@ -430,6 +435,7 @@ class CameraActivity : BaseActivity() {
                 // Reset zoom when switching cameras / rebinding
                 it.cameraControl.setZoomRatio(1f)
                 updateZoomUi(1f, show = false)
+                sendCameraZoomRange(it)
             }
             updateModeUi()
             if (pendingStartVideo && isVideoMode && videoCapture != null) {
@@ -445,6 +451,37 @@ class CameraActivity : BaseActivity() {
 
     private fun removeCameraStateObservers(cameraInfo: CameraInfo) {
         cameraInfo.cameraState.removeObservers(this)
+    }
+
+    private fun clearPendingZoomInfoObserver() {
+        val observer = pendingZoomInfoObserver ?: return
+        pendingZoomInfoLiveData?.removeObserver(observer)
+        pendingZoomInfoObserver = null
+        pendingZoomInfoLiveData = null
+    }
+
+    /** Send zoom min/max once LiveData has a value; do not observe ongoing pinch-zoom updates. */
+    private fun sendCameraZoomRange(camera: Camera) {
+        clearPendingZoomInfoObserver()
+        val liveData = camera.cameraInfo.zoomState
+        val current = liveData.value
+        if (current != null) {
+            sendCameraZoomInfo(current)
+            return
+        }
+        val observer = Observer<ZoomState> { state ->
+            clearPendingZoomInfoObserver()
+            sendCameraZoomInfo(state)
+        }
+        pendingZoomInfoLiveData = liveData
+        pendingZoomInfoObserver = observer
+        liveData.observe(this, observer)
+    }
+
+    private fun sendCameraZoomInfo(zoomState: ZoomState) {
+        wearKit.cameraAbility.setCameraInfo(zoomState.minZoomRatio, zoomState.maxZoomRatio)
+            .onErrorComplete()
+            .subscribe()
     }
 
     private fun observeCameraState(cameraInfo: CameraInfo) {
@@ -908,6 +945,7 @@ class CameraActivity : BaseActivity() {
             stopVideoRecording(notifyDevice = false)
         }
         observeCameraDisposable?.dispose()
+        clearPendingZoomInfoObserver()
         if (isSupportPreview) {
             wearKit.cameraAbility.stopPreview()
         }
