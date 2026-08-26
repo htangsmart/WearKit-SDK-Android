@@ -192,6 +192,23 @@ class OthersActivity : BaseActivity() {
             }
             rawSdk.abMateManager.turnOnCamera(0, onSuccess = {}, onFail = {})
         }
+        viewBind.itemAbmateStartVideo.clickTrigger {
+            val rawSdk = wearKit.getRawSDK() as? AbMateSDK
+            if (rawSdk == null) {
+                toast("Only AbMate device supports this function!")
+                return@clickTrigger
+            }
+            rawSdk.abMateManager.startVideoRecording(onSuccess = {}, onFail = {})
+        }
+        viewBind.itemAbmateStopVideo.clickTrigger {
+            val rawSdk = wearKit.getRawSDK() as? AbMateSDK
+            if (rawSdk == null) {
+                toast("Only AbMate device supports this function!")
+                return@clickTrigger
+            }
+            rawSdk.abMateManager.turnOffCamera(onSuccess = {}, onFail = {})
+        }
+
         viewBind.itemAbmateGetFileNames.clickTrigger {
             val fileAbility = wearKit.fileAbility
             if (!fileAbility.compat.isSupport()) {

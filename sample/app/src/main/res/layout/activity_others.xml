@@ -150,6 +150,16 @@
                 app:preferenceTitle="Create a image file"/>
 
             <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_abmate_start_video"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="Start video"/>
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_abmate_stop_video"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="Stop video"/>
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
                 android:id="@+id/item_abmate_get_file_names"
                 style="@style/Widget.Sample.PreferenceView.Item"
                 app:preferenceTitle="Get file names"/>
