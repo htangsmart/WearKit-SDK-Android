@@ -83,6 +83,7 @@ dependencies {
 dependencies {
     //Required
     implementation("aar/sdk-prototb-adapter-v{latest_version}.aar")
+    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.25")//Use for DanMu GIF animation
 }
 ```
 
