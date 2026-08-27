@@ -172,6 +172,7 @@
         <activity android:name=".ui.dial.style.DialVideoCustomActivity"/>
         <activity android:name=".ui.dial.style.DialMultCustomActivity"/>
         <activity android:name=".ui.dial.style.DialDanMuCustomActivity"/>
+        <activity android:name=".ui.dial.style.DialDanMuAddActivity"/>
         <activity android:name=".ui.dial.base.DialBaseActivity"/>
         <activity android:name=".ui.sport.SportPushActivity"/>
 
