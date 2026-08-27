@@ -50,59 +50,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/dial_custom_style_danmu_text"
-                android:textAppearance="?textAppearanceSubtitle1"/>
-
-            <EditText
-                android:id="@+id/edit_danmu_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:hint="@string/dial_custom_style_danmu_text_hint"
-                android:inputType="text"
-                android:maxLines="2"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/dial_custom_style_danmu_font_style"
+                android:text="@string/dial_custom_style_danmu_list"
                 android:textAppearance="?textAppearanceSubtitle1"/>
 
             <Button
-                android:id="@+id/btn_font_style"
+                android:id="@+id/btn_add_danmu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                tools:text="Bold"/>
+                android:text="@string/dial_custom_style_danmu_add"/>
 
-            <TextView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/danmu_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/dial_custom_style_danmu_font_size"
-                android:textAppearance="?textAppearanceSubtitle1"/>
-
-            <Button
-                android:id="@+id/btn_font_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                tools:text="32"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/dial_custom_style_danmu_walk_speed"
-                android:textAppearance="?textAppearanceSubtitle1"/>
-
-            <Button
-                android:id="@+id/btn_walk_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                tools:text="60 px/s"/>
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"/>
 
             <TextView
                 android:layout_width="match_parent"
