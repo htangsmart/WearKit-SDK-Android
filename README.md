@@ -25,6 +25,9 @@ dependencies{
     implementation("com.topstep.wearkit:sdk-shenju-adapter:$weakit_version")
 	implementation("com.topstep.wearkit:sdk-prototb-adapter:$weakit_version")
     implementation("com.topstep.wearkit:sdk-helper:$weakit_version")
+    // ProtoTb custom video dial. Add exactly one FFmpegKit; SDK does not ship FFmpeg .so.
+    // See FFmpegExecutor for alternatives. Do not mix multiple FFmpeg native libs.
+    implementation("com.antonkarpenko:ffmpeg-kit-min-gpl:2.1.0")
 }
 ```
 

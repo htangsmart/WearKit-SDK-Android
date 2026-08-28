@@ -254,6 +254,7 @@ dependencies {
     //protobuf
     implementation(libs.protobuf)
 
+    // ProtoTb custom video dial. SDK does not ship FFmpeg .so; see FFmpegExecutor.
     implementation("com.antonkarpenko:ffmpeg-kit-min-gpl:2.1.0")
 
     implementation(libs.kilnn.wheelview)
