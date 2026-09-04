@@ -41,8 +41,6 @@ object MyDialStyleProvider {
         if (deviceInfo.type == WKDeviceType.FIT_CLOUD) {
             if (deviceInfo.model.endsWith("4362")) {
                 return Single.just(Optional(forDevice4362()))
-            } else if (deviceInfo.model.endsWith("A000")) {
-                return Single.just(Optional(forDeviceA000()))
             }
         } else if (deviceInfo.type == WKDeviceType.SHEN_JU) {
             if (deviceInfo.model == "OSW-802N") {
