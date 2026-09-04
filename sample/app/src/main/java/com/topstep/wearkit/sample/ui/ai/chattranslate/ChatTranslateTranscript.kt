@@ -68,6 +68,14 @@ object ChatTranslateTranscript {
             translateLocale = translateLocale,
         )
         _inUtterance.value = true
+        // 收尾上一轮可能残留的未完成消息（异常中断时 onSessionEnded 只补最后一条），
+        // 避免下一轮同 index 的流式消息命中历史未完成条目导致"新消息不显示"。
+        val list = _messages.value
+        if (list.any { !it.isComplete }) {
+            _messages.value = list.map {
+                if (it.isComplete) it else it.copy(isComplete = true)
+            }
+        }
     }
 
     fun onSourceText(isSelf: Boolean, text: String, isComplete: Boolean, index: Int) {
@@ -101,7 +109,7 @@ object ChatTranslateTranscript {
     ) {
         val list = _messages.value
         val existingIdx = list.indexOfLast {
-            it.isSelf == isSelf && it.isSource == isSource && it.index == index
+            !it.isComplete && it.isSelf == isSelf && it.isSource == isSource && it.index == index
         }
         _messages.value = if (existingIdx >= 0) {
             list.toMutableList().also { mutable ->
