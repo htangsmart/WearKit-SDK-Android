@@ -775,6 +775,13 @@
     <string name="dial_quality_select">Select dial quality</string>
     <string name="dial_quality_sd">SD</string>
     <string name="dial_quality_lossless">Lossless</string>
+    <string name="dial_install_options">Select space and quality</string>
+    <string name="dial_space_select">Dial space</string>
+    <string name="dial_quality_section">Quality</string>
+    <string name="dial_space_item_title">Space <xliff:g id="index">%1$d</xliff:g></string>
+    <string name="dial_space_item_summary"><xliff:g id="dial">%1$s</xliff:g> · <xliff:g id="free">%2$s</xliff:g></string>
+    <string name="dial_space_empty">Empty</string>
+    <string name="dial_space_unlimited">Unlimited</string>
     <string name="dial_custom_widget">Dial Custom Widget</string>
     <string name="dial_color">Color</string>
     <string name="dial_installing">Dial installing</string>

@@ -85,9 +85,27 @@ class DialBaseCustomActivity : GetPhotoVideoActivity() {
         }
 
         viewBind.btnCreateDial.clickTrigger {
-            chooseDialQuality(wearKit.dialStyleAbility.compat.getQualityLevels()) { quality ->
-                createAndInstall(quality)
+            if (styleConstraint == null || photoUri == null) return@clickTrigger
+            val loading = ProgressDialog(this).apply {
+                setMessage(getString(R.string.action_loading))
+                setCancelable(false)
             }
+            wearKit.dialAbility.requestSpaces()
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { loading.show() }
+                .subscribe({ spaces ->
+                    loading.dismiss()
+                    chooseDialInstallOptions(
+                        spaces = spaces,
+                        qualityLevels = wearKit.dialStyleAbility.compat.getQualityLevels(),
+                    ) { quality, spaceIndex ->
+                        createAndInstall(quality, spaceIndex)
+                    }
+                }, {
+                    Timber.w(it)
+                    loading.dismiss()
+                    toast(R.string.tip_failed)
+                })
         }
     }
 
@@ -103,7 +121,7 @@ class DialBaseCustomActivity : GetPhotoVideoActivity() {
         }
     }
 
-    private fun createAndInstall(quality: WKDialQuality) {
+    private fun createAndInstall(quality: WKDialQuality, spaceIndex: Int?) {
         val constraint = styleConstraint ?: return
         val uri = photoUri ?: return
         val progressDialog = ProgressDialog(this)
@@ -121,7 +139,7 @@ class DialBaseCustomActivity : GetPhotoVideoActivity() {
                 this.quality = quality
             }
         ).flatMapObservable {
-            wearKit.dialAbility.install(it.dialId, it.dialFile)
+            wearKit.dialAbility.install(it.dialId, it.dialFile, spaceIndex)
         }.observeOn(AndroidSchedulers.mainThread()).doOnSubscribe {
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
             progressDialog.setCancelable(false)

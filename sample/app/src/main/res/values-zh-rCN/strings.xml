@@ -776,6 +776,13 @@
     <string name="dial_quality_select">选择表盘质量</string>
     <string name="dial_quality_sd">标清</string>
     <string name="dial_quality_lossless">无损</string>
+    <string name="dial_install_options">选择槽位与质量</string>
+    <string name="dial_space_select">表盘槽位</string>
+    <string name="dial_quality_section">质量</string>
+    <string name="dial_space_item_title">槽位 <xliff:g id="index">%1$d</xliff:g></string>
+    <string name="dial_space_item_summary"><xliff:g id="dial">%1$s</xliff:g> · <xliff:g id="free">%2$s</xliff:g></string>
+    <string name="dial_space_empty">空闲</string>
+    <string name="dial_space_unlimited">不限</string>
     <string name="dial_custom_widget">自定义表盘组件</string>
     <string name="dial_color">颜色</string>
     <string name="dial_installing">表盘安装中</string>
