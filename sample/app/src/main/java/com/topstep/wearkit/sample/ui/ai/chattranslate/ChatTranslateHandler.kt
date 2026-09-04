@@ -53,12 +53,24 @@ class ChatTranslateHandler(
             session.origin, session.source, originalLocale, translateLocale, policy,
         )
         ChatTranslateTranscript.onSessionStarted(session, isSelf, originalLocale, translateLocale)
+        // 新一轮录音开始：先停掉上一轮未播完的 TTS
+        MyAudioPlayer.stop()
         MyAudioPlayer.activate(policy.ttsRoute)
         startAsr()
     }
 
     private fun startAsr() {
-        val source = bindAudioSource()
+        // 设备发 STATE_CLOSE（关流）时 audio() 即 onComplete → 只复位页面 UI（onAudioEndedOnly），
+        // 不 release：asr 订阅保留，等云端 TTS 分片（TranslateTts）全部到达后
+        // asr onComplete/onError 才真正 release（避免 disposables.clear() 提前杀掉 asr 导致没 TTS）。
+        val source = bindAudioSource(
+            onAudioEndedOnly = { err ->
+                if (err == null) {
+                    Timber.tag(tag).i("audio complete → UI reset, keep asr for tts")
+                    ChatTranslateTranscript.onSessionEnded()
+                }
+            },
+        )
         disposables.add(
             aiKit.audio.asr(
                 source,
@@ -110,6 +122,10 @@ class ChatTranslateHandler(
             }, {
                 Timber.tag(tag).w(it, "asr error")
                 release()
+            }, {
+                // asr 流自然结束：云端 TTS 已全部送达（sendFinish 已入队），此刻才真正 release
+                Timber.tag(tag).i("asr complete → release")
+                release()
             })
         )
     }
@@ -122,7 +138,9 @@ class ChatTranslateHandler(
     }
 
     override fun onRelease() {
-        MyAudioPlayer.deactivate()
+        // 仅重置页面 UI 状态，不停止 TTS：
+        // 设备 STATE_CLOSE（关流）触发 release 时，译文 TTS 可能还没播完，
+        // 保留 MyAudioPlayer 继续播放，直到下一次录音开始（onStart 里 stop）才停。
         ChatTranslateTranscript.onSessionEnded()
     }
 

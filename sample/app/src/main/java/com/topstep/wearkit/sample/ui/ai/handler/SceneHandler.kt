@@ -60,24 +60,30 @@ abstract class SceneHandler(
 
     /**
      * @param releaseOnAudioEnd true：音频流 complete/error 时 [release]；
+     * @param onAudioEndedOnly 音频流结束回调（不触发 release，独立于 releaseOnAudioEnd 使用；
+     * 用于"设备关流但业务流（如云端 TTS）仍需继续"的场景，如对话翻译）。
      * @param onFirstAudio 收到首帧音频时回调一次。
      */
     protected fun bindAudioSource(
         releaseOnAudioEnd: Boolean = false,
+        onAudioEndedOnly: ((Throwable?) -> Unit)? = null,
         onFirstAudio: (() -> Unit)? = null,
     ): SessionAudioSource {
         audioSource?.stop()
         return SessionAudioSource(
             context = context,
             session = session,
-            onAudioEnded = if (releaseOnAudioEnd) {
+            onAudioEnded = if (releaseOnAudioEnd || onAudioEndedOnly != null) {
                 { err ->
-                    if (err != null) {
-                        Timber.tag(tag).w(err, "audio ended → release")
-                    } else {
-                        Timber.tag(tag).i("audio complete → release")
+                    onAudioEndedOnly?.invoke(err)
+                    if (releaseOnAudioEnd) {
+                        if (err != null) {
+                            Timber.tag(tag).w(err, "audio ended → release")
+                        } else {
+                            Timber.tag(tag).i("audio complete → release")
+                        }
+                        release()
                     }
-                    release()
                 }
             } else {
                 null
