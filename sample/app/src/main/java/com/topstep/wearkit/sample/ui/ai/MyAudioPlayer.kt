@@ -26,7 +26,7 @@ import timber.log.Timber
  * - [WKSpeechSession.Source.DEVICE_CMD]：PCM → SDK 编码后经指令通道下发设备
  *
  * Chat：注入 [com.topstep.aikit.AiChatAbility.chat] 的 `ttsPlayer`。
- * Translate：由 [TranslateTtsController] 调用 [start]/[sendData]/[sendFinish]/[pause]/[resume]/[stop]。
+ * Translate：由 [com.topstep.wearkit.sample.ui.ai.translate.TranslateTtsController] 调用 [start]/[sendData]/[sendFinish]/[pause]/[resume]/[stop]。
  * [onWrite] 阻塞到该包发送/播放完成。
  */
 object MyAudioPlayer : AiChatTtsPlayer() {

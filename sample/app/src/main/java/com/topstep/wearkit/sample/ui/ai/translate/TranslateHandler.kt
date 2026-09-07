@@ -10,7 +10,6 @@ import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.apis.model.speech.WKTranslateLang
 import com.topstep.wearkit.apis.model.speech.WKTranslatePlayerState
 import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
-import com.topstep.wearkit.sample.ui.ai.TranslateTtsController
 import com.topstep.wearkit.sample.ui.ai.handler.SceneHandler
 import timber.log.Timber
 
