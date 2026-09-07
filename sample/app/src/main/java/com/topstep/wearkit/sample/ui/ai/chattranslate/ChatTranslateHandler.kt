@@ -17,6 +17,10 @@ import timber.log.Timber
  * 独立于普通 Translate：按 [WKChatTranslateMode] + 声源角色决定回传文本与 TTS 路由。
  * 不调用 [WKSpeechAiAbility.Translate.sendTtsReady]，也不处理
  * [com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage.Type.TRANSLATE_PLAYER_STATE]。
+ *
+ * Session 音频结束时只复位页面（[ChatTranslateTranscript.onSessionEnded]），
+ * ASR/TTS 流继续；Observable complete 再 [release]，且不 [MyAudioPlayer.deactivate]，
+ * 让 [MyAudioPlayer.sendFinish] 自然播完。用户停止 / SCENE_EXIT / 出错时才强制停 TTS。
  */
 class ChatTranslateHandler(
     context: Context,
@@ -33,6 +37,10 @@ class ChatTranslateHandler(
     private val policy: Policy
     private val originalLocale: String
     private val translateLocale: String
+
+    /** true：正常收尾，release 时不掐断 TTS。 */
+    @Volatile
+    private var allowTtsDrain = false
 
     init {
         val mode = ChatTranslateTranscript.activeMode ?: WKChatTranslateMode.FACE_TO_FACE
@@ -58,7 +66,14 @@ class ChatTranslateHandler(
     }
 
     private fun startAsr() {
-        val source = bindAudioSource()
+        // Session 音频结束 → 仅复位页面（false 不 release）；ASR/TTS 数据流结束后再 release
+        val source = bindAudioSource(
+            onAudioStop = {
+                Timber.tag(tag).i("audio stop → UI follow session")
+                ChatTranslateTranscript.onSessionEnded()
+                false
+            },
+        )
         disposables.add(
             aiKit.audio.asr(
                 source,
@@ -110,6 +125,10 @@ class ChatTranslateHandler(
             }, {
                 Timber.tag(tag).w(it, "asr error")
                 release()
+            }, {
+                Timber.tag(tag).i("asr/tts complete → release (drain tts)")
+                allowTtsDrain = true
+                release()
             })
         )
     }
@@ -122,7 +141,9 @@ class ChatTranslateHandler(
     }
 
     override fun onRelease() {
-        MyAudioPlayer.deactivate()
+        if (!allowTtsDrain) {
+            MyAudioPlayer.deactivate()
+        }
         ChatTranslateTranscript.onSessionEnded()
     }
 

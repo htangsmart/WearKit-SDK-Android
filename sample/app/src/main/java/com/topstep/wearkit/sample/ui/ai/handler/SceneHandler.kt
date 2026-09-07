@@ -59,30 +59,30 @@ abstract class SceneHandler(
     protected open fun onMessage(msg: WKSpeechAiMessage) {}
 
     /**
-     * @param releaseOnAudioEnd true：音频流 complete/error 时 [release]；
-     * @param onFirstAudio 收到首帧音频时回调一次。
+     * @param onAudioStart 收到首帧音频时回调一次。
+     * @param onAudioStop 音频流结束回调；返回 true 则 [release]，false 则仅处理业务不 release。
      */
     protected fun bindAudioSource(
-        releaseOnAudioEnd: Boolean = false,
-        onFirstAudio: (() -> Unit)? = null,
+        onAudioStart: (() -> Unit)? = null,
+        onAudioStop: ((Throwable?) -> Boolean)? = null,
     ): SessionAudioSource {
         audioSource?.stop()
         return SessionAudioSource(
             context = context,
             session = session,
-            onAudioEnded = if (releaseOnAudioEnd) {
+            onAudioStart = onAudioStart,
+            onAudioStop = onAudioStop?.let { callback ->
                 { err ->
-                    if (err != null) {
-                        Timber.tag(tag).w(err, "audio ended → release")
-                    } else {
-                        Timber.tag(tag).i("audio complete → release")
+                    if (callback(err)) {
+                        if (err != null) {
+                            Timber.tag(tag).w(err, "audio stop → release")
+                        } else {
+                            Timber.tag(tag).i("audio complete → release")
+                        }
+                        release()
                     }
-                    release()
                 }
-            } else {
-                null
             },
-            onFirstAudio = onFirstAudio,
         ).also { audioSource = it }
     }
 

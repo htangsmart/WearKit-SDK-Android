@@ -3,9 +3,7 @@ package com.topstep.wearkit.sample.ui.ai
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioDeviceInfo
-import android.media.AudioFormat
 import android.media.AudioManager
-import android.media.AudioTrack
 import android.media.MediaPlayer
 import android.os.Build
 import androidx.core.content.ContextCompat
@@ -92,17 +90,22 @@ class TranslateTtsController(private val context: Context) {
         }
     }
 
-    fun release() {
-        playerState.set(WKTranslatePlayerState.STOP)
+    /**
+     * @param stopPlayer true：强制停播（中断/退页）；false：仅交还所有权，让 [MyAudioPlayer.sendFinish] 自然播完。
+     */
+    fun release(stopPlayer: Boolean = true) {
         if (writing) {
             writer.finish()
             writing = false
         }
-        stopMediaPlayer()
-        if (playerOwned) {
-            MyAudioPlayer.deactivate()
-            playerOwned = false
+        if (stopPlayer) {
+            playerState.set(WKTranslatePlayerState.STOP)
+            stopMediaPlayer()
+            if (playerOwned) {
+                MyAudioPlayer.deactivate()
+            }
         }
+        playerOwned = false
     }
 
     private fun ensureWriter() {

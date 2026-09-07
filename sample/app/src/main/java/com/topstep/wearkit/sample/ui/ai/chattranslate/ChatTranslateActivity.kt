@@ -9,6 +9,7 @@ import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityChatTranslateBinding
+import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
 import com.topstep.wearkit.sample.ui.ai.SpeechAiManager
 import com.topstep.wearkit.sample.ui.ai.isScoConnected
 import com.topstep.wearkit.sample.ui.base.BaseActivity
@@ -145,6 +146,7 @@ class ChatTranslateActivity : BaseActivity() {
             return
         }
         SpeechAiManager.stopActiveSession()
+        MyAudioPlayer.deactivate()
     }
 
     private fun leaveChatTranslate(finishPage: Boolean) {
@@ -156,6 +158,7 @@ class ChatTranslateActivity : BaseActivity() {
         ) {
             SpeechAiManager.stopActiveSession()
         }
+        MyAudioPlayer.deactivate()
         wearKit.speechAiAbility.translate.stopChatTranslate()
             .onErrorComplete()
             .observeOn(AndroidSchedulers.mainThread())

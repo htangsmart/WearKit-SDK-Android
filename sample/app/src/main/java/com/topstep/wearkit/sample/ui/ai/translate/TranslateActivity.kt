@@ -8,6 +8,7 @@ import com.topstep.wearkit.apis.model.speech.WKTranslatePlayerState
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityTranslateBinding
+import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
 import com.topstep.wearkit.sample.ui.ai.SpeechAiManager
 import com.topstep.wearkit.sample.ui.ai.isDeviceConnected
 import com.topstep.wearkit.sample.ui.ai.isScoConnected
@@ -111,8 +112,10 @@ class TranslateActivity : BaseActivity() {
     }
 
     private fun stopTranslateSession() {
-        if (SpeechAiManager.activeSession.value?.scene != WKSpeechSession.Scene.TRANSLATE) return
-        SpeechAiManager.stopActiveSession()
+        if (SpeechAiManager.activeSession.value?.scene == WKSpeechSession.Scene.TRANSLATE) {
+            SpeechAiManager.stopActiveSession()
+        }
+        MyAudioPlayer.deactivate()
     }
 
     private fun startAppTranslate(source: WKSpeechSession.Source) {

@@ -1,17 +1,18 @@
 package com.topstep.wearkit.sample.ui.ai
 
 import android.content.Context
-import android.media.AudioAttributes
-import android.media.AudioDeviceInfo
-import android.media.AudioFormat
-import android.media.AudioManager
-import android.media.AudioTrack
+import android.media.*
 import android.os.Build
 import com.topstep.aikit.player.AiChatTtsPlayer
 import com.topstep.aikit.player.TtsAudioPlayer
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.sample.MyApplication
+import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer.activate
+import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer.deactivate
+import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer.onWrite
+import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer.pause
+import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer.resume
 import timber.log.Timber
 
 /**
@@ -45,7 +46,11 @@ object MyAudioPlayer : AiChatTtsPlayer() {
 
     override fun tag(): String = TAG
 
+    /**
+     * 绑定播放路由。新会话会抢占：先 [deactivate] 掉上一轮可能仍在 drain 的播放。
+     */
     fun activate(mode: WKSpeechSession.Source) {
+        deactivate()
         this.mode = mode
         sessionActive = true
         // 录音开始前就切到通话路由，AEC 才能在首包 TTS 前完成通路建立

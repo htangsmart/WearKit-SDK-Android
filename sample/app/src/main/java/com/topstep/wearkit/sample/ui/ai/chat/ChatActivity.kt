@@ -7,6 +7,7 @@ import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityChatBinding
+import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
 import com.topstep.wearkit.sample.ui.ai.SpeechAiManager
 import com.topstep.wearkit.sample.ui.ai.isScoConnected
 import com.topstep.wearkit.sample.ui.base.BaseActivity
@@ -78,8 +79,10 @@ class ChatActivity : BaseActivity() {
     }
 
     private fun stopChatSession() {
-        if (SpeechAiManager.activeSession.value?.scene != WKSpeechSession.Scene.CHAT) return
-        SpeechAiManager.stopActiveSession()
+        if (SpeechAiManager.activeSession.value?.scene == WKSpeechSession.Scene.CHAT) {
+            SpeechAiManager.stopActiveSession()
+        }
+        MyAudioPlayer.deactivate()
     }
 
     private fun startAppChat(source: WKSpeechSession.Source) {
