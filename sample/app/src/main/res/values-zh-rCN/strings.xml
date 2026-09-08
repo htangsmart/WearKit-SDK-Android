@@ -304,7 +304,7 @@
     <string name="ds_speech_ct_self_headset">自身(耳机)</string>
     <string name="ds_speech_ct_peer_headset">对方(耳机)</string>
     <string name="ds_speech_ct_peer_phone">对方(手机)</string>
-    <string name="ds_speech_ct_stop_session">停止本轮</string>
+    <string name="ds_speech_ct_hold_hint">长按说话，松手结束</string>
     <string name="ds_speech_ct_role_self">自身</string>
     <string name="ds_speech_ct_role_peer">对方</string>
     <string name="ds_speech_ct_utterance_detail">%1$s… origin=%2$s source=%3$s %4$s→%5$s</string>

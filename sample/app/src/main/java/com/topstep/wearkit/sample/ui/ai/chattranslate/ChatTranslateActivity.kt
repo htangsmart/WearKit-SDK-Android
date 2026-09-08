@@ -1,7 +1,10 @@
 package com.topstep.wearkit.sample.ui.ai.chattranslate
 
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
+import android.widget.Button
 import android.widget.TextView
 import com.topstep.wearkit.apis.model.speech.WKChatTranslateMode
 import com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage
@@ -19,8 +22,8 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
 
 /**
- * Chat-translate page: dual-side source/target text, mode-specific start buttons.
- * Device [WKSpeechAiMessage.Type.SCENE_EXIT] for SELF/PEER finishes this page.
+ * Chat-translate page: dual-side source/target text, mode-specific hold-to-talk buttons.
+ * Device [WKSpeechAiMessage.Type.SCENE_EXIT] for SELF/PEER equals [stopChatTranslate] and finishes this page.
  */
 class ChatTranslateActivity : BaseActivity() {
 
@@ -28,6 +31,12 @@ class ChatTranslateActivity : BaseActivity() {
     private lateinit var viewBind: ActivityChatTranslateBinding
     private val disposables = CompositeDisposable()
     private var leaving = false
+    private var heldButton: View? = null
+
+    @Volatile
+    private var holdDown = false
+    private var pressStarted = false
+    private var pendingStart: Runnable? = null
 
     private val mode: WKChatTranslateMode by lazy {
         val name = intent.getStringExtra(EXTRA_MODE)
@@ -51,29 +60,28 @@ class ChatTranslateActivity : BaseActivity() {
             ChatTranslateTranscript.swapLocales()
             syncLangUi()
         }
-        viewBind.btnSelfPhone.setOnClickListener {
-            startAppUtterance(WKSpeechSession.Scene.CHAT_TRANSLATE_SELF, WKSpeechSession.Source.PHONE_MIC)
-        }
-        viewBind.btnSelfSco.setOnClickListener {
-            if (!wearKit.isScoConnected()) {
-                toast(R.string.device_state_disconnected)
-                return@setOnClickListener
-            }
-            startAppUtterance(WKSpeechSession.Scene.CHAT_TRANSLATE_SELF, WKSpeechSession.Source.DEVICE_SCO)
-        }
-        viewBind.btnPeerSco.setOnClickListener {
-            if (!wearKit.isScoConnected()) {
-                toast(R.string.device_state_disconnected)
-                return@setOnClickListener
-            }
-            startAppUtterance(WKSpeechSession.Scene.CHAT_TRANSLATE_PEER, WKSpeechSession.Source.DEVICE_SCO)
-        }
-        viewBind.btnPeerPhone.setOnClickListener {
-            startAppUtterance(WKSpeechSession.Scene.CHAT_TRANSLATE_PEER, WKSpeechSession.Source.PHONE_MIC)
-        }
-        viewBind.btnStopSession.setOnClickListener {
-            stopCurrentSession()
-        }
+        bindHoldToTalk(
+            viewBind.btnSelfPhone,
+            WKSpeechSession.Scene.CHAT_TRANSLATE_SELF,
+            WKSpeechSession.Source.PHONE_MIC,
+        )
+        bindHoldToTalk(
+            viewBind.btnSelfSco,
+            WKSpeechSession.Scene.CHAT_TRANSLATE_SELF,
+            WKSpeechSession.Source.DEVICE_SCO,
+            requireSco = true,
+        )
+        bindHoldToTalk(
+            viewBind.btnPeerSco,
+            WKSpeechSession.Scene.CHAT_TRANSLATE_PEER,
+            WKSpeechSession.Source.DEVICE_SCO,
+            requireSco = true,
+        )
+        bindHoldToTalk(
+            viewBind.btnPeerPhone,
+            WKSpeechSession.Scene.CHAT_TRANSLATE_PEER,
+            WKSpeechSession.Source.PHONE_MIC,
+        )
         viewBind.btnExit.setOnClickListener {
             leaveChatTranslate(finishPage = true)
         }
@@ -98,7 +106,6 @@ class ChatTranslateActivity : BaseActivity() {
             launch {
                 ChatTranslateTranscript.inUtterance.collect { active ->
                     setStartButtonsEnabled(!active)
-                    viewBind.btnStopSession.isEnabled = active
                     viewBind.btnSwapLang.isEnabled = !active
                     setLangGroupsEnabled(!active)
                     if (!active) {
@@ -138,26 +145,60 @@ class ChatTranslateActivity : BaseActivity() {
         super.onDestroy()
     }
 
-    private fun stopCurrentSession() {
-        val scene = SpeechAiManager.activeSession.value?.scene ?: return
-        if (scene != WKSpeechSession.Scene.CHAT_TRANSLATE_SELF
-            && scene != WKSpeechSession.Scene.CHAT_TRANSLATE_PEER
-        ) {
-            return
+    private fun bindHoldToTalk(
+        button: Button,
+        scene: WKSpeechSession.Scene,
+        source: WKSpeechSession.Source,
+        requireSco: Boolean = false,
+    ) {
+        button.setOnTouchListener { v, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    if (ChatTranslateTranscript.inUtterance.value) return@setOnTouchListener true
+                    if (requireSco && !wearKit.isScoConnected()) {
+                        toast(R.string.device_state_disconnected)
+                        return@setOnTouchListener true
+                    }
+                    heldButton = v
+                    holdDown = true
+                    v.isPressed = true
+                    val start = Runnable {
+                        if (!holdDown) return@Runnable
+                        val ok = startAppUtterance(scene, source)
+                        if (!ok) {
+                            v.isPressed = false
+                            heldButton = null
+                            return@Runnable
+                        }
+                        if (!holdDown) {
+                            SpeechAiManager.endActiveCapture()
+                        } else {
+                            pressStarted = true
+                        }
+                    }
+                    pendingStart = start
+                    v.postDelayed(start, ViewConfiguration.getLongPressTimeout().toLong())
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    holdDown = false
+                    pendingStart?.let { v.removeCallbacks(it) }
+                    pendingStart = null
+                    v.isPressed = false
+                    heldButton = null
+                    if (pressStarted) {
+                        pressStarted = false
+                        SpeechAiManager.endActiveCapture()
+                    }
+                }
+            }
+            true
         }
-        SpeechAiManager.stopActiveSession()
-        MyAudioPlayer.deactivate()
     }
 
     private fun leaveChatTranslate(finishPage: Boolean) {
         if (leaving) return
         leaving = true
-        val scene = SpeechAiManager.activeSession.value?.scene
-        if (scene == WKSpeechSession.Scene.CHAT_TRANSLATE_SELF
-            || scene == WKSpeechSession.Scene.CHAT_TRANSLATE_PEER
-        ) {
-            SpeechAiManager.stopActiveSession()
-        }
+        SpeechAiManager.stopActiveSession()
         MyAudioPlayer.deactivate()
         wearKit.speechAiAbility.translate.stopChatTranslate()
             .onErrorComplete()
@@ -175,24 +216,27 @@ class ChatTranslateActivity : BaseActivity() {
             }
     }
 
-    private fun startAppUtterance(scene: WKSpeechSession.Scene, source: WKSpeechSession.Source) {
+    /** @return true 已开到 session。 */
+    private fun startAppUtterance(scene: WKSpeechSession.Scene, source: WKSpeechSession.Source): Boolean {
         if (SpeechAiManager.state.value != SpeechAiManager.State.READY) {
             toast(R.string.ds_speech_init)
-            return
+            return false
         }
         if (!wearKit.speechAiAbility.session.isSupportAppScene(scene)) {
             toast(R.string.tip_un_support)
-            return
+            return false
         }
         applyUiLocales()
         if (ChatTranslateTranscript.selfLocale == ChatTranslateTranscript.peerLocale) {
             toast(R.string.ds_speech_lang_same)
-            return
+            return false
         }
         val session = SpeechAiManager.createAppSession(scene, source)
         if (session == null) {
             toast(R.string.tip_failed)
+            return false
         }
+        return true
     }
 
     private fun applyModeButtons() {
@@ -216,10 +260,15 @@ class ChatTranslateActivity : BaseActivity() {
     }
 
     private fun setStartButtonsEnabled(enabled: Boolean) {
-        viewBind.btnSelfPhone.isEnabled = enabled
-        viewBind.btnSelfSco.isEnabled = enabled
-        viewBind.btnPeerSco.isEnabled = enabled
-        viewBind.btnPeerPhone.isEnabled = enabled
+        listOf(
+            viewBind.btnSelfPhone,
+            viewBind.btnSelfSco,
+            viewBind.btnPeerSco,
+            viewBind.btnPeerPhone,
+        ).forEach { btn ->
+            if (!enabled && btn === heldButton) return@forEach
+            btn.isEnabled = enabled
+        }
     }
 
     private fun applyUiLocales() {

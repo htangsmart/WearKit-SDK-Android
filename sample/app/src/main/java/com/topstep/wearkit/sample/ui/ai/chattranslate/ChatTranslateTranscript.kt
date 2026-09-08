@@ -78,9 +78,14 @@ object ChatTranslateTranscript {
         onText(isSelf = isSelf, isSource = false, text = text, isComplete = isComplete, index = index)
     }
 
-    fun onSessionEnded() {
+    /** 采集结束：允许再开新一轮，不把进行中的文本标成 complete。 */
+    fun onRecordingEnded() {
         _inUtterance.value = false
         _info.value = null
+    }
+
+    fun onSessionEnded() {
+        onRecordingEnded()
         val list = _messages.value
         if (list.any { !it.isComplete }) {
             _messages.value = list.map {

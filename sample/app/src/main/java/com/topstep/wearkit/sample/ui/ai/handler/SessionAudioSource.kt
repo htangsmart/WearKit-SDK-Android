@@ -14,8 +14,7 @@ import io.reactivex.rxjava3.disposables.Disposable
  * [getFormat] 会在首帧非空数据时由 [AiAudioSource] 调用，勿在订阅前访问。
  *
  * @param onAudioStart 收到首帧音频时回调一次（用于 UI 开始计时等）。
- * @param onAudioStop 设备/会话侧音频流结束（complete 或 error）时回调；
- * 主动 [stop] / dispose 不会触发。
+ * @param onAudioStop 音频流结束（complete / error / 主动 [stop]）时回调一次。
  */
 class SessionAudioSource(
     context: Context,
@@ -54,10 +53,8 @@ class SessionAudioSource(
             saveWavForDebug.write(data)
             sendData(data)
         }, {
-            notifyAudioStop(it)
             stop(it)
         }, {
-            notifyAudioStop(null)
             stop()
         })
     }
@@ -76,5 +73,7 @@ class SessionAudioSource(
             saveWavForDebug.finish()
             debugStarted = false
         }
+        // dispose 之后 session 已自行 release，再通知业务
+        notifyAudioStop(throwable)
     }
 }

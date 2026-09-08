@@ -304,7 +304,7 @@
     <string name="ds_speech_ct_self_headset">Self (headset)</string>
     <string name="ds_speech_ct_peer_headset">Peer (headset)</string>
     <string name="ds_speech_ct_peer_phone">Peer (phone)</string>
-    <string name="ds_speech_ct_stop_session">Stop turn</string>
+    <string name="ds_speech_ct_hold_hint">Hold to talk, release to send</string>
     <string name="ds_speech_ct_role_self">Self</string>
     <string name="ds_speech_ct_role_peer">Peer</string>
     <string name="ds_speech_ct_utterance_detail">%1$s… origin=%2$s source=%3$s %4$s→%5$s</string>

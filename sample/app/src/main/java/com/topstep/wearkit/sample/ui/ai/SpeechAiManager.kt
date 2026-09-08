@@ -12,10 +12,14 @@ import com.topstep.wearkit.apis.model.core.WKConnectorState
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.sample.BuildConfig
 import com.topstep.wearkit.sample.MyApplication
+import com.topstep.wearkit.sample.ui.ai.SpeechAiManager._activeSession
 import com.topstep.wearkit.sample.ui.ai.chat.ChatHandler
 import com.topstep.wearkit.sample.ui.ai.chattranslate.ChatTranslateHandler
 import com.topstep.wearkit.sample.ui.ai.debug.DebugScoStorage
-import com.topstep.wearkit.sample.ui.ai.handler.*
+import com.topstep.wearkit.sample.ui.ai.handler.AskHandler
+import com.topstep.wearkit.sample.ui.ai.handler.DialHandler
+import com.topstep.wearkit.sample.ui.ai.handler.SceneHandler
+import com.topstep.wearkit.sample.ui.ai.handler.TaxiHandler
 import com.topstep.wearkit.sample.ui.ai.record.RecordHandler
 import com.topstep.wearkit.sample.ui.ai.translate.TranslateHandler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -81,11 +85,14 @@ object SpeechAiManager {
 
     /**
      * APP 发起 session，并立刻挂上对应 [SceneHandler]。
+     * 如果当前有激活的[_activeSession],则不重复创建。
+     *
      * @return null：已有活跃会话 / 场景不支持 / SDK 拒绝创建 / AiKit 未就绪
      */
     fun createAppSession(scene: WKSpeechSession.Scene, source: WKSpeechSession.Source? = null): WKSpeechSession? {
-        if (current != null || _activeSession.value != null) {
-            Timber.tag(TAG).w("createAppSession fail: busy scene=%s", _activeSession.value?.scene)
+        val live = _activeSession.value
+        if (live?.isActive() == true || speechAi.session.activeSession() != null) {
+            Timber.tag(TAG).w("createAppSession fail: busy scene=%s", live?.scene)
             return null
         }
         if (!speechAi.session.isSupportAppScene(scene)) {
@@ -113,6 +120,18 @@ object SpeechAiManager {
         Timber.tag(TAG).i("stop session scene=%s", session?.scene)
         handler?.release()
         session?.release()
+        if (_activeSession.value === session) {
+            _activeSession.value = null
+        }
+    }
+
+    /**
+     * 只结束采集，让 session 自行 release；Handler 继续活着。
+     * 用于对话翻译长按松手。幂等。
+     */
+    fun endActiveCapture() {
+        Timber.tag(TAG).i("end capture scene=%s", _activeSession.value?.scene)
+        current?.stopAudio()
     }
 
     private fun startObserveDeviceSession() {

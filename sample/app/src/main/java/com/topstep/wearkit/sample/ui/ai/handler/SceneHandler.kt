@@ -87,6 +87,14 @@ abstract class SceneHandler(
     }
 
     /**
+     * 结束采集。`audio()` dispose 会使 session 自行 [WKSpeechSession.release]；
+     * 不释放 Handler。可重复调用。
+     */
+    fun stopAudio() {
+        audioSource?.stop()
+    }
+
+    /**
      * 销毁本场景资源。可重复调用，仅首次生效。
      */
     fun release() {
