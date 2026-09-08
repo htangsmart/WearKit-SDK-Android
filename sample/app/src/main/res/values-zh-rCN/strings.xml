@@ -25,6 +25,8 @@
     <string name="ds_device_reboot">重启</string>
     <string name="ds_device_shutdown">关机</string>
     <string name="ds_device_reset">恢复出厂设置</string>
+    <string name="ds_device_reset_confirm_msg">确定要恢复出厂设置吗?</string>
+    <string name="ds_others_setting">其他设置</string>
     <string name="ds_set_time">设置时间</string>
     <string name="ds_language_set">设置语言</string>
     <string name="ds_language_follow_system">跟随系统</string>
@@ -287,6 +289,7 @@
     <string name="ds_file">文件</string>
     <string name="ds_file_count">获取数量</string>
     <string name="ds_file_pull">拉取文件</string>
+    <string name="ds_file_clear">清空文件</string>
     <string name="ds_file_count_result">数量：%1$d</string>
     <string name="ds_file_pull_progress">拉取 %1$d/%2$d  %3$d%%</string>
     <string name="ds_file_pull_done">已拉取 %1$d 个文件</string>

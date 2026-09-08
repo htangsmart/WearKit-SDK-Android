@@ -8,6 +8,7 @@ Sample 入口：主界面菜单 → **塞那定制**（`SanagDemoActivity`）。
 * 版本和OTA
 * 文件
 * AI音频
+* 其他（解绑 / 恢复出厂）
 
 ---
 
@@ -132,7 +133,7 @@ wearKit.connector.close()
 
 `close()` 会断开并清除当前设备，不会自动重连。需要保留设备、稍后重连时才考虑 `disconnect()` / `reconnect()`（一般用 `close()` 即可）。
 
-换绑或恢复出厂用 `wearKit.connector.clear(removeBond)`。
+解绑、恢复出厂见 [其他](#其他)。
 
 ---
 
@@ -222,9 +223,9 @@ copyUriToFile(uri)
 
 ## 文件
 
-使用 `wearKit.fileAbility` 管理设备上的媒体文件（列表 / 拉取 / 删除）。
+使用 `wearKit.fileAbility` 管理设备上的媒体文件（列表 / 拉取 / 删除 / 清空）。
 
-调用前先检查 `compat.isSupport()`。`requestFilesCount()`、`deleteFile()` 不需要 WiFi；`requestFiles()` / `pullFiles()` 在 `compat.isRequireWifi()` 为 `true` 时需要 WiFi 权限。
+调用前先检查 `compat.isSupport()`。`requestFilesCount()`、`deleteFile()`、`clearFile()` 不需要 WiFi；`requestFiles()` / `pullFiles()` 在 `compat.isRequireWifi()` 为 `true` 时需要 WiFi 权限。
 
 ### 1. 获取数量
 
@@ -239,6 +240,11 @@ wearKit.fileAbility.requestFilesCount()
 ### 2. 拉取文件
 
 `pullFiles(saveDir)`：`saveDir` 为 `null` 时保存到 `Context.getExternalCacheDir()`。每拉完一个文件会删除设备上的原文件。
+
+部分机型支持录音标记，标记写在 `OnFileCompleted.extraJson`：
+
+- 该文件有非空标记：`{"marks":[10,20]}`，数组为相对录音开始的秒数
+- 无配置、或该文件没有非空标记：`null`（不会下发 `{"marks":[]}`）
 
 ```kotlin
 fun ensureFileWifiReady(fileAbility: WKFileAbility, onReady: () -> Unit) {
@@ -260,7 +266,7 @@ ensureFileWifiReady(wearKit.fileAbility) {
                     // event.index / event.count / event.progress
                 }
                 is WKFileTransferEvent.OnFileCompleted -> {
-                    // event.devicePath / event.savePath
+                    // event.devicePath / event.savePath / event.extraJson
                 }
                 is WKFileTransferEvent.OnAllCompleted -> {
                     // event.savePaths
@@ -274,6 +280,26 @@ ensureFileWifiReady(wearKit.fileAbility) {
 
 - 必须已连接（`WKConnectorState.CONNECTED`）。
 - `isRequireWifi() == true` 时需声明 `ACCESS_WIFI_STATE`、`CHANGE_WIFI_STATE`，并申请 `NEARBY_WIFI_DEVICES`（API 33+）或 `ACCESS_FINE_LOCATION`。
+
+### 3. 清空文件
+
+`clearFile()`：清空设备上的全部录音文件。不需要 WiFi。
+
+与 `deleteFile(path)` 的区别：后者按路径删单个文件；`clearFile()` 一次清掉全部。Demo 清空成功后会再调 `requestFilesCount()` 刷新数量。
+
+```kotlin
+wearKit.fileAbility.clearFile()
+    .observeOn(AndroidSchedulers.mainThread())
+    .subscribe({
+        // 设备录音已清空，可再 requestFilesCount() 确认
+    }, { Timber.w(it) })
+```
+
+注意：
+
+- 必须已连接（`WKConnectorState.CONNECTED`）。
+- 调用前检查 `compat.isSupport()`。
+- 不可恢复，建议先让用户确认。
 
 ---
 
@@ -371,3 +397,58 @@ speechAi.observeMessage().subscribe({ msg ->
 ```
 
 也可主动 `session.release(WKSpeechSession.Reason.NONE)`。
+
+---
+
+## 其他
+
+入口：塞那 Demo → **其他设置**（`SanagOthersSettingFeature`）。解绑和恢复出厂都要求已连接（`WKConnectorState.CONNECTED`），且不可恢复，调用前必须让用户确认。
+
+| 操作     | API                                      | 作用                                      |
+|--------|------------------------------------------|-----------------------------------------|
+| 解绑     | `wearKit.connector.clear(removeBond)`    | 清除设备授权，可选移除系统 BLE 配对，再 `close()`        |
+| 恢复出厂   | `wearKit.deviceAbility.reset()`          | 设备恢复出厂；完成后会断开，再 `close()`               |
+
+两者不要混用：解绑只解除 App 与设备的绑定；恢复出厂会抹掉设备上的用户数据和配置。
+
+### 1. 解绑
+
+`clear(removeBond)` 依次：
+
+1. 清除设备上的绑定 / 授权信息
+2. 若 `removeBond == true` 且已 BLE 配对，则移除系统配对
+3. 再执行 `close()`
+
+塞那 Demo 传 `true`。解绑后需重新扫描绑定；App 侧也应清掉本地保存的设备信息（Demo 调 `SanagPreferencesStorage.clearLastDevice()`）。
+
+```kotlin
+wearKit.connector.clear(true)
+    .observeOn(AndroidSchedulers.mainThread())
+    .subscribe({
+        // 清本地已保存的设备，更新「未连接」UI
+    }, { Timber.w(it) })
+```
+
+注意：
+
+- 必须已连接。
+- `close()` 只断开、不解除绑定；换账号或彻底不用这台设备时才用 `clear()`。
+- 解绑后用原来的 `userId` 再连，会走首次绑定流程。
+
+### 2. 恢复出厂
+
+`wearKit.deviceAbility.reset()` 让设备恢复出厂。指令发出后设备会重启或断开，Demo 在成功回调里再 `close()`。
+
+```kotlin
+wearKit.deviceAbility.reset()
+    .observeOn(AndroidSchedulers.mainThread())
+    .subscribe({
+        wearKit.connector.close()
+    }, { Timber.w(it) })
+```
+
+注意：
+
+- 必须已连接。
+- 设备上的绑定、配置、录音等都会被清掉。
+- 过程中断开属正常现象；完成后需重新扫描绑定。
