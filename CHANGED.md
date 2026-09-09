@@ -1,3 +1,25 @@
+# v3.0.2.6
+
+2026-09-09
+
+1. ADD: Add `UGreenAbility` for customized ability (b2b)
+2. ADD: Add new vendor id in `WKProductType`
+3. ADD: Add offline map feature in FitCloud, including map size and device free space in `WKLocationMapAbility`
+4. ADD: Add camera zoom command in sdk-prototb-adapter
+5. CHANGE: sdk-prototb-adapter danmu dial now supports multiple danmu and trigger animation
+6. ADD: Add more notification type support in sdk-prototb-adapter
+7. FIX: Fix wrong package name for Drive/Gpay in `CommonAppPackage`
+8. ADD: Add more `FcShape` values (47, 48) in sdk-fitcloud
+9. ADD: Add custom dial id support
+10. ADD: Add audio scene translation (dialog translation)
+11. ADD: Add opus bitrate setting for recording (FitCloud only currently)
+12. FIX: Fix abnormal TTS stop during translation
+13. FIX: Fix lost `.mp3` suffix for long music file names
+14. FIX: Preserve weight one-decimal-place protocol data (ONES#199825)
+15. FIX: Hide Snapchat/Messenger business card types on FitCloud platform
+16. FIX: AI dial preview image now masked to device shape
+17. CHANGE: `WKDialQuality` HD level renamed to SD (due to video compression quality gap)
+
 # v3.0.2.5
 
 2026-08-12
