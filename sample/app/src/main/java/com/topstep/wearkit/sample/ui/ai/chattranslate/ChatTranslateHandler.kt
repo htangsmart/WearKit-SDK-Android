@@ -7,7 +7,6 @@ import com.topstep.aikit.model.AiAsrResult
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
 import com.topstep.wearkit.apis.model.speech.WKChatTranslateMode
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
-import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
 import com.topstep.wearkit.sample.ui.ai.handler.SceneHandler
 import timber.log.Timber
 
@@ -17,6 +16,10 @@ import timber.log.Timber
  * 独立于普通 Translate：按 [WKChatTranslateMode] + 声源角色决定回传文本与 TTS 路由。
  * 不调用 [WKSpeechAiAbility.Translate.sendTtsReady]，也不处理
  * [com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage.Type.TRANSLATE_PLAYER_STATE]。
+ *
+ * 先录完再播：录音期交给 [ChatTranslateReplay] 缓存；ASR Observable complete 后再更新页面、下发并播放
+ *（[autoStop] 为 false，complete 发生在停采之后）。
+ * Session 自行 release 后 Handler 仍可交付；新 session attach 会 [release] 本 Handler。
  */
 class ChatTranslateHandler(
     context: Context,
@@ -33,10 +36,18 @@ class ChatTranslateHandler(
     private val policy: Policy
     private val originalLocale: String
     private val translateLocale: String
+    private val replay: ChatTranslateReplay
 
     init {
         val mode = ChatTranslateTranscript.activeMode ?: WKChatTranslateMode.FACE_TO_FACE
         policy = Policy.resolve(mode, isSelf)
+        replay = ChatTranslateReplay(
+            speechAi = speechAi,
+            ttsRoute = policy.ttsRoute,
+            isSelf = isSelf,
+            sendSource = policy.sendSource,
+            sendTarget = policy.sendTarget,
+        )
         if (isSelf) {
             originalLocale = ChatTranslateTranscript.selfLocale
             translateLocale = ChatTranslateTranscript.peerLocale
@@ -53,12 +64,17 @@ class ChatTranslateHandler(
             session.origin, session.source, originalLocale, translateLocale, policy,
         )
         ChatTranslateTranscript.onSessionStarted(session, isSelf, originalLocale, translateLocale)
-        MyAudioPlayer.activate(policy.ttsRoute)
         startAsr()
     }
 
     private fun startAsr() {
-        val source = bindAudioSource()
+        val source = bindAudioSource(
+            onAudioStop = {
+                Timber.tag(tag).i("audio stop → UI follow session")
+                ChatTranslateTranscript.onRecordingEnded()
+                false
+            },
+        )
         disposables.add(
             aiKit.audio.asr(
                 source,
@@ -76,33 +92,18 @@ class ChatTranslateHandler(
                             "source[%d]: %s complete=%s",
                             result.index, result.text, result.isComplete,
                         )
-                        ChatTranslateTranscript.onSourceText(isSelf, result.text, result.isComplete, result.index)
-                        if (policy.sendSource) {
-                            speechAi.translate
-                                .sendTextSource(result.text, result.isComplete)
-                                .onErrorComplete().subscribe()
-                        }
+                        replay.cacheSource(result.text, result.isComplete, result.index)
                     }
                     is AiAsrResult.TranslateText -> {
                         Timber.tag(tag).i(
                             "target[%d]: %s complete=%s",
                             result.index, result.text, result.isComplete,
                         )
-                        ChatTranslateTranscript.onTargetText(isSelf, result.text, result.isComplete, result.index)
-                        if (policy.sendTarget) {
-                            speechAi.translate
-                                .sendTextTarget(result.text, result.isComplete)
-                                .onErrorComplete().subscribe()
-                        }
+                        replay.cacheTarget(result.text, result.isComplete, result.index)
                     }
                     is AiAsrResult.TranslateTts -> {
                         if (!result.isComplete) {
-                            ensureTtsStarted()
-                            if (result.bytes.isNotEmpty()) {
-                                MyAudioPlayer.sendData(result.bytes.copyOf())
-                            }
-                        } else if (MyAudioPlayer.isStarted()) {
-                            MyAudioPlayer.sendFinish()
+                            replay.cacheTts(result.bytes)
                         }
                     }
                     else -> {}
@@ -110,19 +111,22 @@ class ChatTranslateHandler(
             }, {
                 Timber.tag(tag).w(it, "asr error")
                 release()
+            }, {
+                Timber.tag(tag).i("asr/tts complete → deliver")
+                disposables.add(
+                    replay.deliver().subscribe({
+                        release()
+                    }, {
+                        Timber.tag(tag).w(it, "deliver error")
+                        release()
+                    })
+                )
             })
         )
     }
 
-    private fun ensureTtsStarted() {
-        if (!MyAudioPlayer.isStarted()) {
-            MyAudioPlayer.activate(policy.ttsRoute)
-            MyAudioPlayer.start()
-        }
-    }
-
     override fun onRelease() {
-        MyAudioPlayer.deactivate()
+        replay.abort()
         ChatTranslateTranscript.onSessionEnded()
     }
 

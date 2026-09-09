@@ -31,8 +31,8 @@ class RecordHandler(
         RecordTranscript.onSessionStarted(session, localeLabel)
 
         val source = bindAudioSource(
-            releaseOnAudioEnd = true,
-            onFirstAudio = { RecordTranscript.onAudioStarted() },
+            onAudioStart = { RecordTranscript.onAudioStarted() },
+            onAudioStop = { true },
         )
         disposables.add(
             aiKit.audio.asr(

@@ -167,6 +167,13 @@
                     android:layout_marginStart="8dp"
                     android:text="@string/ds_file_pull"/>
 
+                <Button
+                    android:id="@+id/btn_file_clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/ds_file_clear"/>
+
             </LinearLayout>
 
             <TextView
@@ -192,6 +199,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ds_speech_chat"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ds_others_setting"
+                android:textAppearance="?textAppearanceHeadline6"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btn_others_reset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ds_device_reset"/>
+
+                <Button
+                    android:id="@+id/btn_others_unbind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/device_unbind"/>
+
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

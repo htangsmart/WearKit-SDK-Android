@@ -25,6 +25,8 @@
     <string name="ds_device_reboot">Device Reboot</string>
     <string name="ds_device_shutdown">Device Shutdown</string>
     <string name="ds_device_reset">Device Reset</string>
+    <string name="ds_device_reset_confirm_msg">Are you sure to restore factory settings?</string>
+    <string name="ds_others_setting">Others Setting</string>
     <string name="ds_set_time">Set time</string>
     <string name="ds_language_set">Set language</string>
     <string name="ds_language_follow_system">Follow system</string>
@@ -287,6 +289,7 @@
     <string name="ds_file">Files</string>
     <string name="ds_file_count">Get count</string>
     <string name="ds_file_pull">Pull files</string>
+    <string name="ds_file_clear">Clear files</string>
     <string name="ds_file_count_result">Count: %1$d</string>
     <string name="ds_file_pull_progress">Pulling %1$d/%2$d  %3$d%%</string>
     <string name="ds_file_pull_done">Pulled %1$d files</string>
@@ -304,7 +307,7 @@
     <string name="ds_speech_ct_self_headset">Self (headset)</string>
     <string name="ds_speech_ct_peer_headset">Peer (headset)</string>
     <string name="ds_speech_ct_peer_phone">Peer (phone)</string>
-    <string name="ds_speech_ct_stop_session">Stop turn</string>
+    <string name="ds_speech_ct_hold_hint">Hold to talk, release to send</string>
     <string name="ds_speech_ct_role_self">Self</string>
     <string name="ds_speech_ct_role_peer">Peer</string>
     <string name="ds_speech_ct_utterance_detail">%1$s… origin=%2$s source=%3$s %4$s→%5$s</string>

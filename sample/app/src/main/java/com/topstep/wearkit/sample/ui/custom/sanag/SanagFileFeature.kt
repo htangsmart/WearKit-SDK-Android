@@ -21,6 +21,7 @@ internal class SanagFileFeature(
     private val wearKit = MyApplication.wearKit
     private var countDisposable: Disposable? = null
     private var pullDisposable: Disposable? = null
+    private var clearDisposable: Disposable? = null
 
     override fun onCreate() {
         viewBind.btnFileCount.setOnClickListener {
@@ -53,6 +54,34 @@ internal class SanagFileFeature(
                 startPull(fileAbility)
             }
         }
+
+        viewBind.btnFileClear.setOnClickListener {
+            if (!activity.requireDeviceConnected()) return@setOnClickListener
+            val fileAbility = wearKit.fileAbility
+            if (!fileAbility.compat.isSupport()) {
+                activity.toast(R.string.tip_un_support)
+                return@setOnClickListener
+            }
+            clearDisposable?.dispose()
+            countDisposable?.dispose()
+            clearDisposable = fileAbility.clearFile()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    activity.toast(R.string.tip_success)
+                    countDisposable = fileAbility.requestFilesCount()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            viewBind.tvFileState.text = activity.getString(R.string.ds_file_count_result, it)
+                        }, {
+                            Timber.w(it)
+                            viewBind.tvFileState.text = it.message ?: activity.getString(R.string.tip_failed)
+                        })
+                }, {
+                    Timber.w(it)
+                    viewBind.tvFileState.text = it.message ?: activity.getString(R.string.tip_failed)
+                    activity.toast(R.string.tip_failed)
+                })
+        }
     }
 
     override fun onDestroy() {
@@ -60,6 +89,8 @@ internal class SanagFileFeature(
         countDisposable = null
         pullDisposable?.dispose()
         pullDisposable = null
+        clearDisposable?.dispose()
+        clearDisposable = null
     }
 
     private fun startPull(fileAbility: WKFileAbility) {
@@ -81,6 +112,7 @@ internal class SanagFileFeature(
                     }
                     is WKFileTransferEvent.OnFileCompleted -> {
                         Timber.i("pull file completed: %s -> %s", event.devicePath, event.savePath)
+                        activity.toast("pull file:" + event.devicePath + "\n" + event.extraJson)
                     }
                     is WKFileTransferEvent.OnAllCompleted -> {
                         viewBind.tvFileState.text = activity.getString(

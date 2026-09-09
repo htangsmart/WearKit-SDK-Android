@@ -78,13 +78,19 @@ object ChatTranslateTranscript {
         onText(isSelf = isSelf, isSource = false, text = text, isComplete = isComplete, index = index)
     }
 
-    fun onSessionEnded() {
+    /** 采集结束：允许再开新一轮，不把进行中的文本标成 complete。 */
+    fun onRecordingEnded() {
         _inUtterance.value = false
         _info.value = null
+    }
+
+    fun onSessionEnded() {
+        onRecordingEnded()
         val list = _messages.value
-        val last = list.lastOrNull() ?: return
-        if (!last.isComplete) {
-            _messages.value = list.dropLast(1) + last.copy(isComplete = true)
+        if (list.any { !it.isComplete }) {
+            _messages.value = list.map {
+                if (it.isComplete) it else it.copy(isComplete = true)
+            }
         }
     }
 
@@ -101,11 +107,15 @@ object ChatTranslateTranscript {
     ) {
         val list = _messages.value
         val existingIdx = list.indexOfLast {
-            it.isSelf == isSelf && it.isSource == isSource && it.index == index
+            it.isSelf == isSelf && it.isSource == isSource && !it.isComplete
         }
         _messages.value = if (existingIdx >= 0) {
             list.toMutableList().also { mutable ->
-                mutable[existingIdx] = list[existingIdx].copy(text = text, isComplete = isComplete)
+                mutable[existingIdx] = list[existingIdx].copy(
+                    index = index,
+                    text = text,
+                    isComplete = isComplete,
+                )
             }
         } else {
             list + ChatTranslateMessage(

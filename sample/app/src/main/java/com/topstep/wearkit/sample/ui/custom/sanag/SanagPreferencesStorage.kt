@@ -29,4 +29,11 @@ object SanagPreferencesStorage {
         return SanagDeviceInfo(address, name)
     }
 
+    fun clearLastDevice() {
+        sharedPreferences.edit {
+            remove(KEY_DEVICE_ADDRESS)
+            remove(KEY_DEVICE_NAME)
+        }
+    }
+
 }

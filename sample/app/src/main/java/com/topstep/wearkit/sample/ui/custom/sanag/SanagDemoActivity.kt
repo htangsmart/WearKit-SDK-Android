@@ -55,5 +55,6 @@ class SanagDemoActivity : BaseActivity() {
         SanagVersionOtaFeature(this, viewBind),
         SanagFileFeature(this, viewBind),
         SanagSpeechFeature(this, viewBind),
+        SanagOthersSettingFeature(this, viewBind),
     )
 }

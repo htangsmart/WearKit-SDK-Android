@@ -15,7 +15,8 @@ import timber.log.Timber
  * 与 Ask 不同：Chat 文本无需确认，ASR / LLM 结果可直接 [WKSpeechAiAbility.Chat.sendTextQuestion] / [WKSpeechAiAbility.Chat.sendTextAnswer]。
  * 发送前用 [WKSpeechAiAbility.Chat.isSupportText] 判断设备是否支持展示文本。
  *
- * 离场：CHAT 为持续音频流。因此在音频流结束时即 [release]；若随后仍收到 EXIT，[release] 幂等。
+ * 音频结束只复位 UI；等 chat Observable complete 再 [release]，正常收尾不 [MyAudioPlayer.deactivate]，
+ * 让回答 TTS 播完。用户停止 / SCENE_EXIT / 出错时才强制停。
  */
 class ChatHandler(
     context: Context,
@@ -29,6 +30,10 @@ class ChatHandler(
     override val tag = "ChatHandler"
 
     private var supportText = false
+
+    /** true：正常收尾，release 时不掐断 TTS。 */
+    @Volatile
+    private var allowTtsDrain = false
 
     override fun onStart() {
         supportText = speechAi.chat.isSupportText()
@@ -46,7 +51,13 @@ class ChatHandler(
             session.source
         }
         MyAudioPlayer.activate(mode)
-        val source = bindAudioSource(releaseOnAudioEnd = true)
+        val source = bindAudioSource(
+            onAudioStop = {
+                Timber.tag(tag).i("audio stop → UI follow session")
+                ChatTranscript.onSessionEnded()
+                false
+            },
+        )
         disposables.add(
             aiKit.chat.chat(
                 audioSource = source,
@@ -63,6 +74,10 @@ class ChatHandler(
                 }
             }, {
                 Timber.tag(tag).w(it)
+                release()
+            }, {
+                Timber.tag(tag).i("chat complete → release (drain tts)")
+                allowTtsDrain = true
                 release()
             })
         )
@@ -96,7 +111,9 @@ class ChatHandler(
     }
 
     override fun onRelease() {
-        MyAudioPlayer.deactivate()
+        if (!allowTtsDrain) {
+            MyAudioPlayer.deactivate()
+        }
         ChatTranscript.onSessionEnded()
     }
 }

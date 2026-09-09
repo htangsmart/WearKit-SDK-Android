@@ -10,7 +10,6 @@ import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.apis.model.speech.WKTranslateLang
 import com.topstep.wearkit.apis.model.speech.WKTranslatePlayerState
 import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
-import com.topstep.wearkit.sample.ui.ai.TranslateTtsController
 import com.topstep.wearkit.sample.ui.ai.handler.SceneHandler
 import timber.log.Timber
 
@@ -20,6 +19,8 @@ import timber.log.Timber
  * - 调 AiKit ASR/翻译，原文/译文回传设备并写入 [TranslateTranscript]
  * - TTS 默认手机外放，响应设备 [WKSpeechAiMessage.Type.TRANSLATE_PLAYER_STATE]
  * - APP 语言来自 [TranslateTranscript]；设备语言来自 [WKSpeechAiAbility.Translate.getLang]
+ *
+ * 音频结束只复位 UI；ASR Observable complete 再 [release]，正常收尾不强制停 TTS。
  */
 class TranslateHandler(
     context: Context,
@@ -36,6 +37,10 @@ class TranslateHandler(
 
     private val originalLocale: String
     private val translateLocale: String
+
+    /** true：正常收尾，release 时不掐断 TTS。 */
+    @Volatile
+    private var allowTtsDrain = false
 
     init {
         val pair = resolveLocales()
@@ -73,7 +78,13 @@ class TranslateHandler(
     }
 
     private fun startAsr() {
-        val source = bindAudioSource()
+        val source = bindAudioSource(
+            onAudioStop = {
+                Timber.tag(tag).i("audio stop → UI follow session")
+                TranslateTranscript.onSessionEnded()
+                false
+            },
+        )
         disposables.add(
             aiKit.audio.asr(
                 source,
@@ -122,6 +133,10 @@ class TranslateHandler(
             }, {
                 Timber.tag(tag).w(it, "asr error")
                 release()
+            }, {
+                Timber.tag(tag).i("asr/tts complete → release (drain tts)")
+                allowTtsDrain = true
+                release()
             })
         )
     }
@@ -141,8 +156,7 @@ class TranslateHandler(
     }
 
     override fun onRelease() {
-        ttsController.release()
-        MyAudioPlayer.deactivate()
+        ttsController.release(stopPlayer = !allowTtsDrain)
         TranslateTranscript.onSessionEnded()
     }
 

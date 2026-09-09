@@ -1,17 +1,16 @@
-package com.topstep.wearkit.sample.ui.ai
+package com.topstep.wearkit.sample.ui.ai.translate
 
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioDeviceInfo
-import android.media.AudioFormat
 import android.media.AudioManager
-import android.media.AudioTrack
 import android.media.MediaPlayer
 import android.os.Build
 import androidx.core.content.ContextCompat
 import com.topstep.aikit.model.AiAudioFormat
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.apis.model.speech.WKTranslatePlayerState
+import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
 import com.topstep.wearkit.sample.ui.ai.wav.WavFileWriter
 import timber.log.Timber
 import java.io.File
@@ -21,7 +20,7 @@ import java.util.Locale
 import java.util.concurrent.atomic.AtomicReference
 
 /**
- * 翻译 TTS 控制器：落盘 + 设备播放状态；PCM 出声交给 [MyAudioPlayer]（默认手机扬声器）。
+ * 翻译 TTS 控制器：落盘 + 设备播放状态；PCM 出声交给 [com.topstep.wearkit.sample.ui.ai.MyAudioPlayer]（默认手机扬声器）。
  *
  * PCM：16k / mono / 16-bit（与 AiKit TranslateTts 一致）。
  */
@@ -92,17 +91,22 @@ class TranslateTtsController(private val context: Context) {
         }
     }
 
-    fun release() {
-        playerState.set(WKTranslatePlayerState.STOP)
+    /**
+     * @param stopPlayer true：强制停播（中断/退页）；false：仅交还所有权，让 [com.topstep.aikit.player.AiChatTtsPlayer.sendFinish] 自然播完。
+     */
+    fun release(stopPlayer: Boolean = true) {
         if (writing) {
             writer.finish()
             writing = false
         }
-        stopMediaPlayer()
-        if (playerOwned) {
-            MyAudioPlayer.deactivate()
-            playerOwned = false
+        if (stopPlayer) {
+            playerState.set(WKTranslatePlayerState.STOP)
+            stopMediaPlayer()
+            if (playerOwned) {
+                MyAudioPlayer.deactivate()
+            }
         }
+        playerOwned = false
     }
 
     private fun ensureWriter() {

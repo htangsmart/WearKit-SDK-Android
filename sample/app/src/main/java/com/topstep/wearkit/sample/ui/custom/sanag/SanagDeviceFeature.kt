@@ -41,7 +41,7 @@ internal class SanagDeviceFeature(
             scanLauncher.launch(Intent(activity, SanagScanActivity::class.java))
         }
         viewBind.btnConnect.setOnClickListener {
-            val device = lastDevice
+            val device = SanagPreferencesStorage.getLastDevice().also { lastDevice = it }
             if (device == null) {
                 activity.toast(R.string.device_state_no_device)
                 return@setOnClickListener
