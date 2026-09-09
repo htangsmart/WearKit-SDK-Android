@@ -3,7 +3,6 @@ package com.topstep.wearkit.sample.ui.ai.record
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.SystemClock
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
@@ -22,15 +21,14 @@ import java.util.concurrent.TimeUnit
 class RecordActivity : BaseActivity() {
 
     private val wearKit = MyApplication.wearKit
+    private val record = wearKit.speechAiAbility.record
     private lateinit var viewBind: ActivityRecordBinding
     private val uiHandler = Handler(Looper.getMainLooper())
 
     private val durationTicker = object : Runnable {
         override fun run() {
-            val info = RecordTranscript.info.value
-            val started = info?.audioStartedElapsedMs ?: 0L
-            if (!RecordTranscript.recording.value || started == 0L) return
-            updateDuration(started)
+            if (!RecordTranscript.recording.value) return
+            refreshProgress()
             uiHandler.postDelayed(this, 200L)
         }
     }
@@ -58,6 +56,12 @@ class RecordActivity : BaseActivity() {
             }
             startAppRecord(WKSpeechSession.Source.DEVICE_CMD)
         }
+        viewBind.btnRecordPause.setOnClickListener {
+            record.pause().onErrorComplete().subscribe()
+        }
+        viewBind.btnRecordResume.setOnClickListener {
+            record.resume().onErrorComplete().subscribe()
+        }
         viewBind.btnRecordExit.setOnClickListener {
             stopRecordSession()
         }
@@ -73,29 +77,21 @@ class RecordActivity : BaseActivity() {
                     for (i in 0 until viewBind.rgRecordLang.childCount) {
                         viewBind.rgRecordLang.getChildAt(i).isEnabled = !recording
                     }
-                    if (!recording) {
+                    if (recording) {
+                        uiHandler.removeCallbacks(durationTicker)
+                        uiHandler.post(durationTicker)
+                    } else {
                         uiHandler.removeCallbacks(durationTicker)
                         viewBind.tvRecordDuration.setText(R.string.ds_speech_duration_idle)
                         viewBind.tvRecordState.setText(R.string.ds_speech_ready)
+                        refreshPauseButtons(recording = false, paused = false)
                     }
                 }
             }
             launch {
                 RecordTranscript.info.collect { info ->
                     if (info == null) return@collect
-                    viewBind.tvRecordState.text = getString(
-                        R.string.ds_speech_recording_detail,
-                        info.origin.name,
-                        info.source.name,
-                        info.localeLabel,
-                    )
-                    uiHandler.removeCallbacks(durationTicker)
-                    if (info.audioStartedElapsedMs == 0L) {
-                        viewBind.tvRecordDuration.setText(R.string.ds_speech_duration_connecting)
-                    } else {
-                        updateDuration(info.audioStartedElapsedMs)
-                        uiHandler.post(durationTicker)
-                    }
+                    refreshProgress()
                 }
             }
             launch {
@@ -146,10 +142,30 @@ class RecordActivity : BaseActivity() {
         }
     }
 
-    private fun updateDuration(startedElapsedMs: Long) {
-        val elapsedMs = (SystemClock.elapsedRealtime() - startedElapsedMs).coerceAtLeast(0L)
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(elapsedMs)
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(elapsedMs) % 60
+    private fun refreshProgress() {
+        val info = RecordTranscript.info.value ?: return
+        val paused = record.isPaused()
+        val durationMs = record.getDurationMs()
+        val stateRes = if (paused) {
+            R.string.ds_speech_paused_detail
+        } else {
+            R.string.ds_speech_recording_detail
+        }
+        viewBind.tvRecordState.text = getString(
+            stateRes,
+            info.origin.name,
+            info.source.name,
+            info.localeLabel,
+        )
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(durationMs)
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(durationMs) % 60
         viewBind.tvRecordDuration.text = getString(R.string.ds_speech_duration, minutes, seconds)
+        refreshPauseButtons(recording = true, paused = paused)
+    }
+
+    private fun refreshPauseButtons(recording: Boolean, paused: Boolean) {
+        val support = recording && record.isSupportPause()
+        viewBind.btnRecordPause.isEnabled = support && !paused
+        viewBind.btnRecordResume.isEnabled = support && paused
     }
 }

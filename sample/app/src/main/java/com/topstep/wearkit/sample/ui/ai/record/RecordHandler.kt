@@ -27,11 +27,14 @@ class RecordHandler(
     override fun onStart() {
         val locale = resolveLocale()
         val localeLabel = if (locale == "en-US") "en" else "zh"
-        Timber.tag(tag).i("start scene=%s origin=%s source=%s locale=%s", scene, session.origin, session.source, locale)
+        val sendText = session.source == WKSpeechSession.Source.DEVICE_CMD && speechAi.record.isSupportText()
+        Timber.tag(tag).i(
+            "start scene=%s origin=%s source=%s locale=%s sendText=%s",
+            scene, session.origin, session.source, locale, sendText,
+        )
         RecordTranscript.onSessionStarted(session, localeLabel)
 
         val source = bindAudioSource(
-            onAudioStart = { RecordTranscript.onAudioStarted() },
             onAudioStop = { true },
         )
         disposables.add(
@@ -52,6 +55,11 @@ class RecordHandler(
                             result.index, result.text, result.isComplete,
                         )
                         RecordTranscript.onAsrText(result.text, result.isComplete)
+                        if (sendText) {
+                            speechAi.record
+                                .sendTextSource(result.text, result.isComplete)
+                                .onErrorComplete().subscribe()
+                        }
                     }
                     else -> {}
                 }

@@ -1,6 +1,5 @@
 package com.topstep.wearkit.sample.ui.ai.record
 
-import android.os.SystemClock
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -10,8 +9,6 @@ data class RecordInfo(
     val source: WKSpeechSession.Source,
     val scene: WKSpeechSession.Scene,
     val localeLabel: String,
-    /** [SystemClock.elapsedRealtime] when first audio frame arrived; 0 if not yet. */
-    val audioStartedElapsedMs: Long = 0L,
 )
 
 /**
@@ -43,12 +40,6 @@ object RecordTranscript {
             localeLabel = localeLabel,
         )
         _recording.value = true
-    }
-
-    fun onAudioStarted() {
-        val current = _info.value ?: return
-        if (current.audioStartedElapsedMs != 0L) return
-        _info.value = current.copy(audioStartedElapsedMs = SystemClock.elapsedRealtime())
     }
 
     fun onAsrText(text: String, isComplete: Boolean) {

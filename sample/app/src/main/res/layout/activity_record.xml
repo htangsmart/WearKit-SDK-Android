@@ -89,6 +89,30 @@
             android:text="@string/ds_speech_start_device"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_record_pause"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:text="@string/ds_speech_pause"/>
+
+        <Button
+            android:id="@+id/btn_record_resume"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:text="@string/ds_speech_resume"/>
+    </LinearLayout>
+
     <Button
         android:id="@+id/btn_record_exit"
         android:layout_width="match_parent"

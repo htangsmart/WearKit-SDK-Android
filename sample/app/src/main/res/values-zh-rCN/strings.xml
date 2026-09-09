@@ -325,6 +325,7 @@
     <string name="ds_speech_chatting">对话中…</string>
     <string name="ds_speech_recording">录音中…</string>
     <string name="ds_speech_recording_detail">录音中… origin=%1$s source=%2$s lang=%3$s</string>
+    <string name="ds_speech_paused_detail">已暂停… origin=%1$s source=%2$s lang=%3$s</string>
     <string name="ds_speech_translating_detail">翻译中… origin=%1$s source=%2$s %3$s→%4$s</string>
     <string name="ds_speech_aikit_ready">AiKit 已就绪</string>
     <string name="ds_speech_question">问</string>
@@ -338,6 +339,8 @@
     <string name="ds_speech_start_auto">开启(自动)</string>
     <string name="ds_speech_start_device">开启(设备)</string>
     <string name="ds_speech_exit">退出</string>
+    <string name="ds_speech_pause">暂停</string>
+    <string name="ds_speech_resume">继续</string>
     <string name="ds_speech_lang">语言</string>
     <string name="ds_speech_lang_source">源语言</string>
     <string name="ds_speech_lang_target">目标语言</string>

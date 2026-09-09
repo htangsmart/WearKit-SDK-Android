@@ -325,6 +325,7 @@
     <string name="ds_speech_chatting">Chatting…</string>
     <string name="ds_speech_recording">Recording…</string>
     <string name="ds_speech_recording_detail">Recording… origin=%1$s source=%2$s lang=%3$s</string>
+    <string name="ds_speech_paused_detail">Paused… origin=%1$s source=%2$s lang=%3$s</string>
     <string name="ds_speech_translating_detail">Translating… origin=%1$s source=%2$s %3$s→%4$s</string>
     <string name="ds_speech_aikit_ready">AiKit ready</string>
     <string name="ds_speech_question">Q</string>
@@ -338,6 +339,8 @@
     <string name="ds_speech_start_auto">Start (auto)</string>
     <string name="ds_speech_start_device">Start (device)</string>
     <string name="ds_speech_exit">Exit</string>
+    <string name="ds_speech_pause">Pause</string>
+    <string name="ds_speech_resume">Resume</string>
     <string name="ds_speech_lang">Language</string>
     <string name="ds_speech_lang_source">Source language</string>
     <string name="ds_speech_lang_target">Target language</string>
