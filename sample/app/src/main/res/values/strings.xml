@@ -299,6 +299,10 @@
     <string name="ds_speech_record">Record</string>
     <string name="ds_speech_translate">Translate</string>
     <string name="ds_speech_chat_translate">Chat Translate</string>
+    <string name="ds_speech_ask">Ask</string>
+    <string name="ds_speech_asking">Asking…</string>
+    <string name="ds_speech_answering">Answering…</string>
+    <string name="ds_speech_ask_empty">No Q&amp;A yet.</string>
     <string name="ds_speech_chat_translate_empty">No chat translate yet.</string>
     <string name="ds_speech_ct_mode_face">Face-to-face (phone + case)</string>
     <string name="ds_speech_ct_mode_private">Private (headset + case)</string>

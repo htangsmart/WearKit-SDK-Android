@@ -44,6 +44,13 @@
             android:layout_marginTop="8dp"
             android:text="@string/ds_speech_chat_translate"/>
 
+        <Button
+            android:id="@+id/btn_ask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/ds_speech_ask"/>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

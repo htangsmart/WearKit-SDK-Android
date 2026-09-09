@@ -1,4 +1,4 @@
-package com.topstep.wearkit.sample.ui.ai.handler
+package com.topstep.wearkit.sample.ui.ai.ask
 
 import android.content.Context
 import com.topstep.aikit.AiKit
@@ -6,6 +6,8 @@ import com.topstep.aikit.model.AiChatResult
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
 import com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
+import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
+import com.topstep.wearkit.sample.ui.ai.handler.SceneHandler
 import timber.log.Timber
 
 /**
@@ -14,6 +16,10 @@ import timber.log.Timber
  * - ASR 问题文本：流式 [sendTextQuestion] 给设备
  * - LLM 回答：等 [ASK_GENERATE_ANSWER] 后再 [sendTextAnswer]
  *   （部分设备需用户确认问题；无确认需求时 SDK 会在问题发完后自动发出该消息）
+ * - TTS：与录音 source 对齐（PHONE_MIC → 手机扬声器；DEVICE_SCO → SCO；DEVICE_CMD 优先设备播放）
+ *
+ * 音频结束只复位「采集中」UI；等 chat Observable complete 再 [release]，
+ * 正常收尾不 [MyAudioPlayer.deactivate]，让回答 TTS 播完。
  */
 class AskHandler(
     context: Context,
@@ -37,10 +43,34 @@ class AskHandler(
     @Volatile
     private var pendingAnswer: Pair<String, Boolean>? = null
 
+    /** true：正常收尾，release 时不掐断 TTS。 */
+    @Volatile
+    private var allowTtsDrain = false
+
     override fun onStart() {
         canSendAnswer = false
         pendingAnswer = null
-        val source = bindAudioSource()
+        allowTtsDrain = false
+        AskTranscript.onSessionStarted()
+
+        val mode = if (session.source == WKSpeechSession.Source.DEVICE_CMD) {
+            if (speechAi.player.isSupport(session.scene)) {
+                WKSpeechSession.Source.DEVICE_CMD
+            } else {
+                WKSpeechSession.Source.PHONE_MIC
+            }
+        } else {
+            session.source
+        }
+        MyAudioPlayer.activate(mode)
+
+        val source = bindAudioSource(
+            onAudioStop = {
+                Timber.tag(tag).i("audio stop → UI follow session")
+                AskTranscript.onRecordingEnded()
+                false
+            },
+        )
         disposables.add(
             aiKit.chat.chat(
                 audioSource = source,
@@ -49,6 +79,7 @@ class AskHandler(
                 vadEnabled = false,
                 multiModeEnabled = false,
                 isSupportEcho = true,
+                ttsPlayer = MyAudioPlayer,
             ).subscribe({
                 when (it) {
                     is AiChatResult.OnText -> handleChatText(it)
@@ -57,18 +88,25 @@ class AskHandler(
             }, {
                 Timber.tag(tag).w(it)
                 release()
+            }, {
+                Timber.tag(tag).i("ask complete → release (drain tts)")
+                allowTtsDrain = true
+                release()
             })
         )
     }
 
     private fun handleChatText(result: AiChatResult.OnText) {
         val text = result.text.orEmpty()
+        AskTranscript.onText(isQuestion = result.isAsr, text = text, isComplete = result.isComplete)
         if (result.isAsr) {
             Timber.tag(tag).i("question: %s complete=%s", text, result.isComplete)
-            speechAi.ask
-                .sendTextQuestion(text, result.isComplete)
-                .onErrorComplete()
-                .subscribe()
+            disposables.add(
+                speechAi.ask
+                    .sendTextQuestion(text, result.isComplete)
+                    .onErrorComplete()
+                    .subscribe()
+            )
             return
         }
 
@@ -97,18 +135,25 @@ class AskHandler(
             WKSpeechAiMessage.Type.ASK_SWITCH_MODEL -> {
                 Timber.tag(tag).i("ASK_SWITCH_MODEL: %s", msg.data)
             }
+            else -> {}
         }
     }
 
     private fun sendAnswer(text: String, isComplete: Boolean) {
-        speechAi.ask
-            .sendTextAnswer(text, isComplete)
-            .onErrorComplete()
-            .subscribe()
+        disposables.add(
+            speechAi.ask
+                .sendTextAnswer(text, isComplete)
+                .onErrorComplete()
+                .subscribe()
+        )
     }
 
     override fun onRelease() {
         canSendAnswer = false
         pendingAnswer = null
+        if (!allowTtsDrain) {
+            MyAudioPlayer.deactivate()
+        }
+        AskTranscript.onSessionEnded()
     }
 }

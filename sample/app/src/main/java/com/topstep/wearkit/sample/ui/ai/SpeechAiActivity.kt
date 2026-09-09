@@ -11,6 +11,7 @@ import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivitySpeechAiBinding
+import com.topstep.wearkit.sample.ui.ai.ask.AskActivity
 import com.topstep.wearkit.sample.ui.ai.chat.ChatActivity
 import com.topstep.wearkit.sample.ui.ai.chattranslate.ChatTranslateActivity
 import com.topstep.wearkit.sample.ui.ai.chattranslate.ChatTranslateTranscript
@@ -101,6 +102,18 @@ class SpeechAiActivity : BaseActivity() {
             showChatTranslateModeDialog()
         }
 
+        viewBind.btnAsk.setOnClickListener {
+            if (!speechAi.session.isSupportDeviceScene(WKSpeechSession.Scene.ASK)
+                && !speechAi.session.isSupportAppScene(WKSpeechSession.Scene.ASK)
+            ) {
+                toast(R.string.tip_un_support)
+                return@setOnClickListener
+            }
+            if (SpeechAiManager.state.value == SpeechAiManager.State.READY) {
+                startActivity(Intent(this, AskActivity::class.java))
+            }
+        }
+
         viewBind.btnPlayLastAudio.setOnClickListener {
             if (mediaPlayer?.isPlaying == true) {
                 stopPlayback()
@@ -130,9 +143,9 @@ class SpeechAiActivity : BaseActivity() {
 
     private fun isChatTranslateSupported(session: com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility.Session): Boolean {
         return session.isSupportAppScene(WKSpeechSession.Scene.CHAT_TRANSLATE_SELF)
-            || session.isSupportDeviceScene(WKSpeechSession.Scene.CHAT_TRANSLATE_SELF)
-            || session.isSupportAppScene(WKSpeechSession.Scene.CHAT_TRANSLATE_PEER)
-            || session.isSupportDeviceScene(WKSpeechSession.Scene.CHAT_TRANSLATE_PEER)
+                || session.isSupportDeviceScene(WKSpeechSession.Scene.CHAT_TRANSLATE_SELF)
+                || session.isSupportAppScene(WKSpeechSession.Scene.CHAT_TRANSLATE_PEER)
+                || session.isSupportDeviceScene(WKSpeechSession.Scene.CHAT_TRANSLATE_PEER)
     }
 
     private fun showChatTranslateModeDialog() {

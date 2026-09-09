@@ -13,10 +13,10 @@ import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.sample.BuildConfig
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.ui.ai.SpeechAiManager._activeSession
+import com.topstep.wearkit.sample.ui.ai.ask.AskHandler
 import com.topstep.wearkit.sample.ui.ai.chat.ChatHandler
 import com.topstep.wearkit.sample.ui.ai.chattranslate.ChatTranslateHandler
 import com.topstep.wearkit.sample.ui.ai.debug.DebugScoStorage
-import com.topstep.wearkit.sample.ui.ai.handler.AskHandler
 import com.topstep.wearkit.sample.ui.ai.handler.DialHandler
 import com.topstep.wearkit.sample.ui.ai.handler.SceneHandler
 import com.topstep.wearkit.sample.ui.ai.handler.TaxiHandler
@@ -127,7 +127,7 @@ object SpeechAiManager {
 
     /**
      * 只结束采集，让 session 自行 release；Handler 继续活着。
-     * 用于对话翻译长按松手。幂等。
+     * 用于对话翻译 / 问答长按松手。幂等。
      */
     fun endActiveCapture() {
         Timber.tag(TAG).i("end capture scene=%s", _activeSession.value?.scene)

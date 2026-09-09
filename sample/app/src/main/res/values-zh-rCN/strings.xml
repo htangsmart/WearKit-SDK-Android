@@ -299,6 +299,10 @@
     <string name="ds_speech_record">录音</string>
     <string name="ds_speech_translate">翻译</string>
     <string name="ds_speech_chat_translate">对话翻译</string>
+    <string name="ds_speech_ask">问答</string>
+    <string name="ds_speech_asking">提问中…</string>
+    <string name="ds_speech_answering">回答中…</string>
+    <string name="ds_speech_ask_empty">暂无问答</string>
     <string name="ds_speech_chat_translate_empty">暂无对话翻译</string>
     <string name="ds_speech_ct_mode_face">面对面（手机+充电仓）</string>
     <string name="ds_speech_ct_mode_private">私密听译（耳机+充电仓）</string>

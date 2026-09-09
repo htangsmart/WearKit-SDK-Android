@@ -200,6 +200,7 @@
         <activity android:name=".ui.ai.record.RecordActivity"/>
         <activity android:name=".ui.ai.translate.TranslateActivity"/>
         <activity android:name=".ui.ai.chattranslate.ChatTranslateActivity"/>
+        <activity android:name=".ui.ai.ask.AskActivity"/>
         <activity android:name=".ui.ai.debug.SettingDebugScoActivity"/>
 
         <activity android:name=".ui.custom.sanag.SanagDemoActivity"/>
