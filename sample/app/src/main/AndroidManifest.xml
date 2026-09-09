@@ -191,6 +191,7 @@
         <activity android:name=".ui.others.HsdGameActivity"/>
 
         <activity android:name=".ui.others.TitanQrCodeActivity"/>
+        <activity android:name=".ui.others.UGreenActivity"/>
 
         <activity android:name=".ui.raw.RawFcSdkActivity"/>
         <activity android:name=".ui.raw.TaxiActivity"/>

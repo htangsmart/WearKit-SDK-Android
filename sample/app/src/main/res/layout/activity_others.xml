@@ -84,19 +84,9 @@
             android:paddingStart="24dp">
 
             <com.github.kilnn.tool.widget.item.PreferenceItem
-                android:id="@+id/item_ugreen_add_mine"
+                android:id="@+id/item_ugreen"
                 style="@style/Widget.Sample.PreferenceView.Item"
-                app:preferenceTitle="Add Mine DanMu"/>
-
-            <com.github.kilnn.tool.widget.item.PreferenceItem
-                android:id="@+id/item_ugreen_add_friend"
-                style="@style/Widget.Sample.PreferenceView.Item"
-                app:preferenceTitle="Add Friend DanMu"/>
-
-            <com.github.kilnn.tool.widget.item.PreferenceItem
-                android:id="@+id/item_ugreen_clear_all"
-                style="@style/Widget.Sample.PreferenceView.Item"
-                app:preferenceTitle="Clear All"/>
+                app:preferenceTitle="UGreen"/>
 
         </LinearLayout>
 

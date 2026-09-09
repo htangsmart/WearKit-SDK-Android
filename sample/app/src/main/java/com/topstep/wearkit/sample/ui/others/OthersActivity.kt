@@ -1,13 +1,11 @@
 package com.topstep.wearkit.sample.ui.others
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.topstep.wearkit.abmate.apis.AbMateSDK
 import com.topstep.wearkit.apis.ability.file.WKFileAbility
-import com.topstep.wearkit.apis.model.b2b.UGreenDanMu
 import com.topstep.wearkit.apis.model.core.WKConnectorState
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
@@ -28,7 +26,6 @@ class OthersActivity : BaseActivity() {
     private var pushOfflineMapDisposable: Disposable? = null
     private var listOfflineMapDisposable: Disposable? = null
     private var deleteOfflineMapDisposable: Disposable? = null
-    private var ugreenDanMuDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,16 +97,8 @@ class OthersActivity : BaseActivity() {
             }
         }
 
-        viewBind.itemUgreenAddMine.clickTrigger {
-            addUGreenDanMu(UGreenDanMu.Type.MINE)
-        }
-        viewBind.itemUgreenAddFriend.clickTrigger {
-            addUGreenDanMu(UGreenDanMu.Type.FRIEND)
-        }
-        viewBind.itemUgreenClearAll.clickTrigger {
-            executeUGreenDanMu("Clear all danmu") {
-                wearKit.b2b.ugreenAbility.clearDanMu(UGreenDanMu.Clear.ALL)
-            }
+        viewBind.itemUgreen.clickTrigger {
+            startActivity(Intent(this, UGreenActivity::class.java))
         }
 
         viewBind.itemPushOfflineMap.clickTrigger {
@@ -292,38 +281,6 @@ class OthersActivity : BaseActivity() {
         }
     }
 
-    private fun addUGreenDanMu(@UGreenDanMu.Type type: Int) {
-        val isMine = type == UGreenDanMu.Type.MINE
-        val item = UGreenDanMu(
-            type = type,
-            text = if (isMine) "我的弹幕" else "好友弹幕",
-            color = if (isMine) Color.CYAN else Color.MAGENTA,
-            fontSizePx = 32,
-            animation = if (isMine) UGreenDanMu.Animation.HEART else UGreenDanMu.Animation.NONE,
-            walkSpeedPxPerSec = 60,
-        )
-        val successMsg = if (isMine) "Add mine danmu" else "Add friend danmu"
-        executeUGreenDanMu(successMsg) {
-            wearKit.b2b.ugreenAbility.addDanMu(listOf(item))
-        }
-    }
-
-    private fun executeUGreenDanMu(successMsg: String, action: () -> Completable) {
-        if (!wearKit.b2b.ugreenAbility.compat.isSupportDanMu()) {
-            toast(R.string.tip_un_support)
-            return
-        }
-        ugreenDanMuDisposable?.dispose()
-        ugreenDanMuDisposable = action()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                toast(successMsg)
-            }, {
-                Timber.w(it)
-                toast(it.stackTraceToString())
-            })
-    }
-
     private fun showRadiusChoiceDialog(onSelected: (radius: Int) -> Unit) {
         val items = Array(10) { "${it + 1} km" }
         MaterialAlertDialogBuilder(this)
@@ -339,7 +296,6 @@ class OthersActivity : BaseActivity() {
         pushOfflineMapDisposable?.dispose()
         listOfflineMapDisposable?.dispose()
         deleteOfflineMapDisposable?.dispose()
-        ugreenDanMuDisposable?.dispose()
         getFileNamesDisposable?.dispose()
         pullFilesDisposable?.dispose()
     }
