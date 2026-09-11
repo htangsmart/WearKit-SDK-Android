@@ -137,11 +137,17 @@ object PermissionHelper {
     }
 
     fun requestLocation(fragment: Fragment, grantResult: ((Boolean) -> Unit)) {
-        requestPermission(
-            fragment, arrayListOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-            ), grantResult
+        requestPermission(fragment, locationPermissions(), grantResult)
+    }
+
+    fun requestLocation(activity: FragmentActivity, grantResult: ((Boolean) -> Unit)? = null) {
+        requestPermission(activity, locationPermissions(), grantResult)
+    }
+
+    private fun locationPermissions(): ArrayList<String> {
+        return arrayListOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
         )
     }
 

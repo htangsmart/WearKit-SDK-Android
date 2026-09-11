@@ -77,11 +77,14 @@ class DeviceActivity : BaseActivity() {
             }
         }
 
-        //Ensure has permission
-        PermissionHelper.requestBle(this)
-
-        //Connect device
-        connect(UserManager.flowAuthedUser.value)
+        //BLE + 定位权限弹完再连接，避免设备立刻要 GPS 时权限还没批
+        PermissionHelper.requestBle(this) {
+            if (isDestroyed) return@requestBle
+            PermissionHelper.requestLocation(this) {
+                if (isDestroyed) return@requestLocation
+                connect(UserManager.flowAuthedUser.value)
+            }
+        }
 
         viewBind.itemBasic.clickTrigger {
             startActivity(Intent(this, DeviceBasicActivity::class.java))

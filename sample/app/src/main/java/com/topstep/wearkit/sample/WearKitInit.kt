@@ -11,6 +11,7 @@ import com.topstep.wearkit.core.buildWKWearKit
 import com.topstep.wearkit.fitcloud.WKFitCloudKit
 import com.topstep.wearkit.flywear.WKFlyWearKit
 import com.topstep.wearkit.prototb.WKProtoTbKit
+import com.topstep.wearkit.sample.location.SampleLocationProvider
 import com.topstep.wearkit.sample.utils.log.AppLogger
 import com.topstep.wearkit.shenju.WKShenJuKit
 import io.reactivex.rxjava3.exceptions.CompositeException
@@ -68,6 +69,8 @@ fun wearKitInit(application: Application, rxBleClient: RxBleClient): WKWearKit {
         )
     }
     val wearKit = buildWKWearKit(builders)
+    //注册定位 provider，覆盖 EPO / 设备主动请求（含持续 GPS）在连接前到达的场景
+    wearKit.locationMapAbility.setLocation(SampleLocationProvider(application))
 
     /**
      * ToNote:

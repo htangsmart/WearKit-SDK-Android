@@ -4,6 +4,10 @@
     <!--用于网络访问-->
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!-- GPS：EPO / 设备持续定位请求 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
     <!--用于监听短信电话时候根据号码查询联系人名称-->
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
