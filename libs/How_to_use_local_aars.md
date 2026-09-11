@@ -83,7 +83,7 @@ dependencies {
 dependencies {
     //Required
     implementation("aar/sdk-prototb-adapter-v{latest_version}.aar")
-    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.25")//Use for DanMu GIF animation
+    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.32")//Use for DanMu GIF animation
 
     //Optional, but required for custom video watch faces.
     //Add exactly one FFmpegKit. Do not mix multiple FFmpeg native libs. See FFmpegExecutor.
