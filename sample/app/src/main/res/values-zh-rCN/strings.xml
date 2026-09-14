@@ -732,6 +732,12 @@
     <string name="dial_custom_style_base">基础背景表盘</string>
     <string name="dial_custom_style_video">视频背景表盘</string>
     <string name="dial_custom_style_video_duration">视频时长</string>
+    <string name="dial_video_pack_single">选择质量后打包</string>
+    <string name="dial_video_pack_all">并行打包全部质量</string>
+    <string name="dial_video_pack_running">正在打包…</string>
+    <string name="dial_video_pack_elapsed">打包耗时 %1$.1f 秒</string>
+    <string name="dial_video_pack_choice">选择要安装的质量</string>
+    <string name="dial_video_pack_choice_item">%1$s - %2$s</string>
     <string name="dial_custom_style_multiple">多图背景表盘</string>
     <string name="dial_custom_style_multiple_count">已选择背景图：%1$d 张</string>
     <string name="dial_custom_style_multiple_interval">自动播放间隔</string>

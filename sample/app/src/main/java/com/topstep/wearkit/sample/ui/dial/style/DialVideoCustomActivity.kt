@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,7 @@ import com.topstep.wearkit.apis.ability.dial.WKDialStyleAbility
 import com.topstep.wearkit.apis.model.dial.WKDialQuality
 import com.topstep.wearkit.apis.model.dial.WKDialStyleConstraint
 import com.topstep.wearkit.apis.model.dial.WKDialStyleResources
+import com.topstep.wearkit.prototb.internal.ability.dial.DialCreateLocalize
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.MyDialStyleProvider
 import com.topstep.wearkit.sample.R
@@ -33,8 +35,10 @@ import com.topstep.wearkit.sample.ui.dialog.SelectIntDialogFragment
 import com.topstep.wearkit.sample.widget.ColorPickerView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.disposables.Disposable
 import timber.log.Timber
 import java.io.File
+import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
 
@@ -50,6 +54,8 @@ class DialVideoCustomActivity : GetPhotoVideoActivity(), SelectIntDialogFragment
     private val positionAdapter = DialPositionSelectAdapter()
     private var selectedColor = Color.BLACK
     private var videoDurationMillis = DEFAULT_DURATION_MILLIS
+    private var packDisposable: Disposable? = null
+    private var installDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,13 +88,6 @@ class DialVideoCustomActivity : GetPhotoVideoActivity(), SelectIntDialogFragment
         viewBind.styleRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         viewBind.styleRecyclerView.adapter = styleAdapter
-        styleAdapter.listener = object : DialStyleSelectAdapter.Listener {
-            override fun onItemSelect(position: Int, item: WKDialStyleConstraint.Style) {
-                val templateSize = styleConstraint?.getTemplate(position)?.size ?: 0
-                viewBind.btnCreateDial.text =
-                    getString(R.string.ds_dial_create, "${templateSize / 1024}KB")
-            }
-        }
 
         viewBind.positionRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -98,11 +97,21 @@ class DialVideoCustomActivity : GetPhotoVideoActivity(), SelectIntDialogFragment
             selectColor()
         }
 
-        viewBind.btnCreateDial.clickTrigger {
-            chooseDialQuality(wearKit.dialStyleAbility.compat.getQualityLevels()) { quality ->
-                createAndInstall(quality)
+        viewBind.btnCreateSingle.clickTrigger {
+            chooseDialQuality(qualityLevels()) { quality ->
+                packSingle(quality)
             }
         }
+
+        viewBind.btnCreateAll.clickTrigger {
+            packAllThenChoose()
+        }
+    }
+
+    override fun onDestroy() {
+        packDisposable?.dispose()
+        installDisposable?.dispose()
+        super.onDestroy()
     }
 
     private fun getDialStyleResources(): Single<WKDialStyleResources> {
@@ -117,45 +126,176 @@ class DialVideoCustomActivity : GetPhotoVideoActivity(), SelectIntDialogFragment
         }
     }
 
-    private fun createAndInstall(quality: WKDialQuality) {
-        val constraint = styleConstraint ?: return
-        val uri = videoUri ?: return
-        val progressDialog = ProgressDialog(this)
+    private fun qualityLevels(): List<WKDialQuality> {
+        val levels = wearKit.dialStyleAbility.compat.getQualityLevels()
+        return levels.ifEmpty { listOf(WKDialQuality.SD) }
+    }
 
-        wearKit.dialStyleAbility.createCustom(
-            constraint = constraint,
-            input = WKDialStyleAbility.CreateInput.video(
-                backgroundUri = uri,
-                style = WKDialStyleAbility.StyleConfig(
-                    styleIndex = styleAdapter.selectPosition,
-                    positionIndex = positionAdapter.selectPosition,
-                    colorTint = selectedColor,
-                ),
-                videoDurationMillis = videoDurationMillis,
-            ).apply {
-                this.quality = quality
+    private fun packSingle(quality: WKDialQuality) {
+        val constraint = styleConstraint ?: return
+        if (!ensureVideoSelected()) return
+        val startMs = SystemClock.elapsedRealtime()
+        subscribePack(wearKit.dialStyleAbility.createCustom(constraint, newCreateInput(quality))) { output ->
+            toastElapsed(startMs)
+            installDial(output)
+        }
+    }
+
+    private fun packAllThenChoose() {
+        val constraint = styleConstraint ?: return
+        if (!ensureVideoSelected()) return
+        val qualities = qualityLevels()
+        val startMs = SystemClock.elapsedRealtime()
+        subscribePack(
+            DialCreateLocalize.make(this, constraint, newCreateInput(qualities.first())).flatMap { local ->
+                val sources = qualities.map { quality ->
+                    wearKit.dialStyleAbility.createCustom(
+                        local.constraint,
+                        copyLocalizedInput(local.input, quality),
+                    ).map { PackedDial(quality, it) }
+                }
+                Single.zip(sources) { array ->
+                    array.map { it as PackedDial }
+                }
             }
-        ).flatMapObservable {
-            wearKit.dialAbility.install(it.dialId, it.dialFile)
-        }.observeOn(AndroidSchedulers.mainThread()).doOnSubscribe {
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
-            progressDialog.setCancelable(false)
-            progressDialog.setTitle(R.string.dial_installing)
-            progressDialog.show()
-        }.subscribe({
-            progressDialog.progress = it
-        }, {
-            Timber.w(it)
-            progressDialog.dismiss()
-            toast(R.string.tip_failed)
-        }, {
-            progressDialog.dismiss()
-        })
+        ) { packed ->
+            toastElapsed(startMs)
+            showPackedChoice(packed)
+        }
+    }
+
+    private fun <T : Any> subscribePack(source: Single<T>, onSuccess: (T) -> Unit) {
+        packDisposable?.dispose()
+        setPackButtonsEnabled(false)
+        val progressDialog = ProgressDialog(this).apply {
+            setMessage(getString(R.string.dial_video_pack_running))
+            setCancelable(false)
+            show()
+        }
+        packDisposable = source
+            .observeOn(AndroidSchedulers.mainThread())
+            .doFinally {
+                dismissDialog(progressDialog)
+                if (isUiAlive()) setPackButtonsEnabled(true)
+            }
+            .subscribe({ result ->
+                if (isUiAlive()) onSuccess(result)
+            }, {
+                Timber.w(it)
+                if (isUiAlive()) toast(R.string.tip_failed)
+            })
+    }
+
+    private fun showPackedChoice(packed: List<PackedDial>) {
+        if (!isUiAlive()) return
+        val labels = packed.map {
+            getString(
+                R.string.dial_video_pack_choice_item,
+                qualityLabel(it.quality),
+                formatFileSize(it.output.dialFile.length()),
+            )
+        }.toTypedArray()
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.dial_video_pack_choice)
+            .setItems(labels) { _, which ->
+                installDial(packed[which].output)
+            }
+            .show()
+    }
+
+    private fun installDial(output: WKDialStyleAbility.CreateOutput) {
+        if (!isUiAlive()) return
+        installDisposable?.dispose()
+        val progressDialog = ProgressDialog(this)
+        installDisposable = wearKit.dialAbility.install(output.dialId, output.dialFile)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
+                progressDialog.setCancelable(false)
+                progressDialog.setTitle(R.string.dial_installing)
+                progressDialog.show()
+            }
+            .doFinally {
+                dismissDialog(progressDialog)
+            }
+            .subscribe({
+                if (isUiAlive()) progressDialog.progress = it
+            }, {
+                Timber.w(it)
+                if (isUiAlive()) toast(R.string.tip_failed)
+            })
+    }
+
+    private fun isUiAlive(): Boolean {
+        return !isFinishing && !isDestroyed
+    }
+
+    private fun dismissDialog(dialog: ProgressDialog) {
+        if (dialog.isShowing) {
+            dialog.dismiss()
+        }
+    }
+
+    private fun chooseDialQuality(
+        levels: List<WKDialQuality>,
+        onChosen: (WKDialQuality) -> Unit,
+    ) {
+        when {
+            levels.size <= 1 -> onChosen(levels.firstOrNull() ?: WKDialQuality.SD)
+            else -> {
+                val labels = levels.map { qualityLabel(it) }.toTypedArray()
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.dial_quality_select)
+                    .setItems(labels) { _, which -> onChosen(levels[which]) }
+                    .show()
+            }
+        }
+    }
+
+    private fun newCreateInput(quality: WKDialQuality): WKDialStyleAbility.CreateInput {
+        val uri = videoUri ?: error("videoUri required")
+        return WKDialStyleAbility.CreateInput.video(
+            backgroundUri = uri,
+            style = WKDialStyleAbility.StyleConfig(
+                styleIndex = styleAdapter.selectPosition,
+                positionIndex = positionAdapter.selectPosition,
+                colorTint = selectedColor,
+            ),
+            videoDurationMillis = videoDurationMillis,
+        ).apply {
+            this.quality = quality
+        }
+    }
+
+    /**
+     * 并行打包时为每个质量复制一份 input。
+     * 1. subscribe 后不要再改这份 input
+     * 2. 不要使用相同的 output 路径（可为 null，SDK 会生成唯一路径）
+     */
+    private fun copyLocalizedInput(
+        source: WKDialStyleAbility.CreateInput,
+        quality: WKDialQuality,
+    ): WKDialStyleAbility.CreateInput {
+        return WKDialStyleAbility.CreateInput().apply {
+            styleIndex = source.styleIndex
+            positionIndex = source.positionIndex
+            colorTint = source.colorTint
+            backgroundUri = source.backgroundUri
+            videoRect = source.videoRect
+            videoOffsetMillis = source.videoOffsetMillis
+            videoDurationMillis = source.videoDurationMillis
+            inputs = source.inputs
+            danMuConfig = source.danMuConfig
+            multiplePlayIntervalMillis = source.multiplePlayIntervalMillis
+            customDialId = source.customDialId
+            this.quality = quality
+            outputDialFile = source.outputDialFile
+            outputPreviewFile = source.outputPreviewFile
+        }
     }
 
     private fun updateUI(constraint: WKDialStyleConstraint) {
         viewBind.viewBackground.shape = wearKit.deviceAbility.getDeviceInfo().shape
-        viewBind.btnCreateDial.text = getString(R.string.ds_dial_create, "${constraint.templates.first().size / 1024}KB")
 
         styleAdapter.items = constraint.styles
         styleAdapter.notifyDataSetChanged()
@@ -272,6 +412,39 @@ class DialVideoCustomActivity : GetPhotoVideoActivity(), SelectIntDialogFragment
                 }
             })
     }
+
+    private fun ensureVideoSelected(): Boolean {
+        if (videoUri != null) return true
+        toast(R.string.action_select)
+        return false
+    }
+
+    private fun toastElapsed(startMs: Long): Double {
+        val seconds = (SystemClock.elapsedRealtime() - startMs) / 1000.0
+        toast(getString(R.string.dial_video_pack_elapsed, seconds))
+        return seconds
+    }
+
+    private fun setPackButtonsEnabled(enabled: Boolean) {
+        viewBind.btnCreateSingle.isEnabled = enabled
+        viewBind.btnCreateAll.isEnabled = enabled
+    }
+
+    private fun qualityLabel(quality: WKDialQuality): String {
+        return when (quality) {
+            WKDialQuality.SD -> getString(R.string.dial_quality_sd)
+            WKDialQuality.LOSSLESS -> getString(R.string.dial_quality_lossless)
+        }
+    }
+
+    private fun formatFileSize(bytes: Long): String {
+        return String.format(Locale.US, "%dKB", bytes / 1024)
+    }
+
+    private data class PackedDial(
+        val quality: WKDialQuality,
+        val output: WKDialStyleAbility.CreateOutput,
+    )
 
     companion object {
         private const val DIALOG_VIDEO_DURATION = "video_duration"

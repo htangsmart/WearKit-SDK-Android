@@ -731,6 +731,12 @@
     <string name="dial_custom_style_base">Base Background</string>
     <string name="dial_custom_style_video">Video Background</string>
     <string name="dial_custom_style_video_duration">Video duration</string>
+    <string name="dial_video_pack_single">Pack after selecting quality</string>
+    <string name="dial_video_pack_all">Pack all qualities in parallel</string>
+    <string name="dial_video_pack_running">Packing…</string>
+    <string name="dial_video_pack_elapsed">Packed in %1$.1fs</string>
+    <string name="dial_video_pack_choice">Select quality to install</string>
+    <string name="dial_video_pack_choice_item">%1$s - %2$s</string>
     <string name="dial_custom_style_multiple">Multiple Background</string>
     <string name="dial_custom_style_multiple_count">Selected backgrounds: %1$d</string>
     <string name="dial_custom_style_multiple_interval">Auto play interval</string>
