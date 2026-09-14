@@ -21,7 +21,7 @@ import com.topstep.wearkit.apis.ability.dial.WKDialStyleAbility
 import com.topstep.wearkit.apis.model.dial.WKDialQuality
 import com.topstep.wearkit.apis.model.dial.WKDialStyleConstraint
 import com.topstep.wearkit.apis.model.dial.WKDialStyleResources
-import com.topstep.wearkit.prototb.internal.ability.dial.DialCreateLocalize
+import com.topstep.wearkit.apis.util.dial.DialCreateLocalize
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.MyDialStyleProvider
 import com.topstep.wearkit.sample.R
