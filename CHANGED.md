@@ -1,3 +1,27 @@
+# v3.0.2.7
+
+2026-09-17
+
+1. ADD: Add ASR text send for recording in `WKSpeechAiAbility.Record.sendTextSource`
+2. ADD: Add pause / resume / duration APIs in `WKSpeechAiAbility.Record`
+3. ADD: Add `UGreenAbility.requestConfig` / `setConfig` with `UGreenConfig`
+4. ADD: Add continuous location in `WKLocationProvider.observeLocation` (sdk-prototb-adapter)
+5. ADD: Add third-party data exchange in `WKDeviceAbility` (`observeThirdPartyData` / `sendThirdPartyData`), currently `WKThirdPartyData.Type.STAR_BURST`
+6. ADD: sdk-abmate-adapter now implements `WKSpeechAiAbility`
+7. CHANGE: sdk-prototb-adapter `WKDialStyleAbility.createCustom` now supports concurrent packing
+8. CHANGE: Optimize W30 video dial frame extraction
+9. CHANGE: Improve `WKSpeechAiMessage.Type.ASK_SWITCH_MODEL` AI model naming
+10. CHANGE: Optimize sdk-abmate-adapter packet parsing to reduce sticky-packet issues
+11. FIX: Fix ProtoTB remote camera preview backlog and packet pacing
+12. FIX: Prevent ProtoTB stale preview start callback from stopping a new session
+13. FIX: Drop duplicate device frames by sequence to fix sync failure during calls (ONES#200945)
+14. FIX: Fix weather hourly encoding for firmware that parses a fixed 14-byte item
+15. FIX: Fix AbMate missing default `WKLocationMapAbility` causing crash
+16. FIX: Fix wrong `DIAL_COMPONENT` feature flag on 8AA9 project
+17. FIX: Update android-gif-drawable for 16k page-size support
+18. FIX: Fix Station mode missing BSSID causing repeated system popups
+19. FIX: Sport detail v2.0 unknown type no longer fails the entire parse
+
 # v3.0.2.6
 
 2026-09-09
