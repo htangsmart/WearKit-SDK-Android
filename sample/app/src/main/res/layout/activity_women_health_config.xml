@@ -10,69 +10,69 @@
         android:orientation="vertical">
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_function_config"
+            android:id="@+id/item_mode"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_function_config"/>
+            app:preferenceTitle="@string/ds_women_health_mode"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_unit_config"
+            android:id="@+id/item_remind_time"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_unit_config"/>
+            app:preferenceTitle="@string/ds_women_health_remind_time"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_goal_config"
+            android:id="@+id/item_remind_advance"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/activity_goal"/>
+            app:preferenceTitle="@string/ds_women_health_remind_advance"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_dnd_config"
+            android:id="@+id/item_remind_type"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_dnd_config"/>
+            app:preferenceTitle="@string/ds_women_health_remind_type"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_raisewakeup_config"
+            android:id="@+id/item_cycle"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_raisewakeup_config"/>
+            app:preferenceTitle="@string/ds_women_health_cycle"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_heart_rate_config"
+            android:id="@+id/item_duration"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_heart_rate_config"/>
+            app:preferenceTitle="@string/ds_women_health_duration"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_pressure_config"
+            android:id="@+id/item_latest"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_pressure_config"/>
+            app:preferenceTitle="@string/ds_women_health_latest"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_blood_oxygen_config"
+            android:id="@+id/item_menstruation_end"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_blood_oxygen_config"/>
+            app:preferenceTitle="@string/ds_women_health_menstruation_end"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_blood_pressure_config"
-            style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_blood_pressure_config"/>
+            android:id="@+id/item_flag_period_start"
+            style="@style/Widget.Sample.PreferenceView.Item.Switch"
+            app:preferenceTitle="@string/ds_women_health_flag_period_start"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_notification_config"
-            style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_notification_config"/>
+            android:id="@+id/item_flag_period_end"
+            style="@style/Widget.Sample.PreferenceView.Item.Switch"
+            app:preferenceTitle="@string/ds_women_health_flag_period_end"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_women_health_config"
-            style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="@string/ds_women_health_config"/>
+            android:id="@+id/item_flag_fertile_start"
+            style="@style/Widget.Sample.PreferenceView.Item.Switch"
+            app:preferenceTitle="@string/ds_women_health_flag_fertile_start"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_pb_test_get_all"
-            style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="获取所有配置"/>
+            android:id="@+id/item_flag_fertile_end"
+            style="@style/Widget.Sample.PreferenceView.Item.Switch"
+            app:preferenceTitle="@string/ds_women_health_flag_fertile_end"/>
 
         <com.github.kilnn.tool.widget.item.PreferenceItem
-            android:id="@+id/item_pb_test_get_device_info"
+            android:id="@+id/item_pb_test_get_config"
             style="@style/Widget.Sample.PreferenceView.Item.Text"
-            app:preferenceTitle="获取设备信息"/>
+            app:preferenceTitle="获取女性健康配置"/>
 
         <TextView
             android:id="@+id/tv_tips"

@@ -266,6 +266,26 @@
 
     <string name="ds_dnd_config">勿扰配置</string>
 
+    <string name="ds_women_health_config">女性健康配置</string>
+    <string name="ds_women_health_mode">模式</string>
+    <string name="ds_women_health_mode_none">关闭</string>
+    <string name="ds_women_health_mode_menstruation">经期</string>
+    <string name="ds_women_health_mode_pregnancy_prepare">备孕</string>
+    <string name="ds_women_health_mode_pregnancy">怀孕</string>
+    <string name="ds_women_health_remind_time">提醒时间</string>
+    <string name="ds_women_health_remind_advance">提前提醒</string>
+    <string name="ds_women_health_remind_type">怀孕提醒类型</string>
+    <string name="ds_women_health_remind_type_pregnancy">怀孕天数</string>
+    <string name="ds_women_health_remind_type_due">距离预产期天数</string>
+    <string name="ds_women_health_cycle">周期长度</string>
+    <string name="ds_women_health_duration">经期长度</string>
+    <string name="ds_women_health_latest">最近一次经期</string>
+    <string name="ds_women_health_menstruation_end">经期结束日</string>
+    <string name="ds_women_health_flag_period_start">经期开始提醒</string>
+    <string name="ds_women_health_flag_period_end">经期结束提醒</string>
+    <string name="ds_women_health_flag_fertile_start">易孕期开始提醒</string>
+    <string name="ds_women_health_flag_fertile_end">易孕期结束提醒</string>
+
     <string name="ds_screen_vibrate">屏幕和震动配置</string>
     <string name="ds_vibration_intensity">震动强度</string>
     <string name="ds_screen_brightness">屏幕亮度</string>
@@ -718,6 +738,23 @@
     <string name="target_consume">消耗</string>
     <string name="activity_target">活动目标</string>
     <string name="Activity_duration">活动时长</string>
+
+    <string name="user_info">个人信息</string>
+    <string name="user_info_tips">用于连接设备时的用户参数。保存写入 SharedPreferences；已连接时可同步到设备（syncUserInfo）。</string>
+    <string name="user_info_id">用户 ID</string>
+    <string name="user_info_name">昵称</string>
+    <string name="user_info_sex">性别</string>
+    <string name="user_info_sex_male">男</string>
+    <string name="user_info_sex_female">女</string>
+    <string name="user_info_age">年龄</string>
+    <string name="user_info_height">身高 (cm)</string>
+    <string name="user_info_weight">体重 (kg)</string>
+    <string name="user_info_birthday">生日</string>
+    <string name="user_info_birthday_hint">点击选择生日</string>
+    <string name="user_info_sync">保存并同步到设备</string>
+    <string name="user_info_invalid">请输入有效的个人信息</string>
+    <string name="user_info_not_connected">已本地保存。请先连接设备再同步。</string>
+    <string name="user_info_sync_from_device">设备侧信息更新，已回写本地缓存</string>
 
     <!--lock-->
     <string name="screen_lock">屏幕锁</string>

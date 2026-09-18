@@ -215,6 +215,12 @@
             android:text="@string/activity_target"/>
 
         <Button
+            android:id="@+id/btn_user_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/user_info"/>
+
+        <Button
             android:id="@+id/btn_screen_lock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -151,6 +151,10 @@ class DeviceBasicActivity : BaseActivity() {
             startActivity(Intent(this, SportTargetActivity::class.java))
         }
 
+        viewBind.btnUserInfo.clickTrigger {
+            startActivity(Intent(this, UserInfoActivity::class.java))
+        }
+
         viewBind.btnScreenLock.clickTrigger {
             if (wearKit.lockAbility.compat.isSupportScreenLock()) {
                 startActivity(Intent(this, ScreenLockActivity::class.java))

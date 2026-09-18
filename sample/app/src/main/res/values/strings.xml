@@ -266,6 +266,26 @@
 
     <string name="ds_dnd_config">DND Config</string>
 
+    <string name="ds_women_health_config">Women Health Config</string>
+    <string name="ds_women_health_mode">Mode</string>
+    <string name="ds_women_health_mode_none">None</string>
+    <string name="ds_women_health_mode_menstruation">Menstruation</string>
+    <string name="ds_women_health_mode_pregnancy_prepare">Pregnancy prepare</string>
+    <string name="ds_women_health_mode_pregnancy">Pregnancy</string>
+    <string name="ds_women_health_remind_time">Remind time</string>
+    <string name="ds_women_health_remind_advance">Remind advance</string>
+    <string name="ds_women_health_remind_type">Pregnancy remind type</string>
+    <string name="ds_women_health_remind_type_pregnancy">Pregnancy days</string>
+    <string name="ds_women_health_remind_type_due">Due days</string>
+    <string name="ds_women_health_cycle">Cycle</string>
+    <string name="ds_women_health_duration">Duration</string>
+    <string name="ds_women_health_latest">Latest menstruation</string>
+    <string name="ds_women_health_menstruation_end">Menstruation end day</string>
+    <string name="ds_women_health_flag_period_start">Menstruation start reminder</string>
+    <string name="ds_women_health_flag_period_end">Menstruation end reminder</string>
+    <string name="ds_women_health_flag_fertile_start">Fertile period start reminder</string>
+    <string name="ds_women_health_flag_fertile_end">Fertile period end reminder</string>
+
     <string name="ds_screen_vibrate">Screen And Vibrate Config</string>
     <string name="ds_vibration_intensity">Vibration strength</string>
     <string name="ds_screen_brightness">Screen Brightness</string>
@@ -717,6 +737,23 @@
     <string name="activity_target">activity target</string>
     <string name="target_consume">consume</string>
     <string name="Activity_duration">Activity duration</string>
+
+    <string name="user_info">User info</string>
+    <string name="user_info_tips">Used when connecting the device. Save to SharedPreferences; Sync writes to device via syncUserInfo when connected.</string>
+    <string name="user_info_id">User ID</string>
+    <string name="user_info_name">Name</string>
+    <string name="user_info_sex">Sex</string>
+    <string name="user_info_sex_male">Male</string>
+    <string name="user_info_sex_female">Female</string>
+    <string name="user_info_age">Age</string>
+    <string name="user_info_height">Height (cm)</string>
+    <string name="user_info_weight">Weight (kg)</string>
+    <string name="user_info_birthday">Birthday</string>
+    <string name="user_info_birthday_hint">Tap to select birthday</string>
+    <string name="user_info_sync">Save and sync to device</string>
+    <string name="user_info_invalid">Please enter valid user info</string>
+    <string name="user_info_not_connected">Saved locally. Connect device to sync.</string>
+    <string name="user_info_sync_from_device">Device had newer info; local cache updated</string>
 
     <!--lock-->
     <string name="screen_lock">Screen Lock</string>

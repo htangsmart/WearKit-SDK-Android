@@ -63,6 +63,14 @@ class DeviceConfigActivity : BaseActivity() {
             startActivity(Intent(this, NotificationConfigActivity::class.java))
         }
 
+        viewBind.itemWomenHealthConfig.setOnClickListener {
+            if (!wearKit.womenHealthAbility.compat.isSupport()) {
+                toast(R.string.tip_un_support)
+            } else {
+                startActivity(Intent(this, WomenHealthConfigActivity::class.java))
+            }
+        }
+
         //for test sdk-prototb-adapter. Developer can ignore it.
         if (wearKit.getRawSDK() is PbSDK) {
             viewBind.itemPbTestGetAll.isVisible = true

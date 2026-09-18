@@ -55,8 +55,8 @@ class MyApplication : MultiDexApplication() {
         FwSDK.BLE_CONNECTION = getConnectionMethod()
         //Init
         rxBleClient = RxBleClient.create(this)
-        wearKit = wearKitInit(this, rxBleClient)
         PreferencesStorage.init(this)
+        wearKit = wearKitInit(this, rxBleClient)
         SpeechAiManager.init(this)
         myMediaController = MyMediaController(this, wearKit)
     }

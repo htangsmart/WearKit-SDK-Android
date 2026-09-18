@@ -126,6 +126,8 @@
 
         <activity android:name=".ui.config.NotificationConfigActivity"/>
 
+        <activity android:name=".ui.config.WomenHealthConfigActivity"/>
+
         <activity android:name=".ui.contacts.ContactsHomeActivity"/>
 
         <activity android:name=".ui.contacts.ContactsActivity"/>
@@ -167,6 +169,7 @@
         <activity android:name=".ui.music.AddMusicActivity"/>
         <activity android:name=".ui.basic.TimeFormatActivity"/>
         <activity android:name=".ui.basic.SportTargetActivity"/>
+        <activity android:name=".ui.basic.UserInfoActivity"/>
 
         <activity
             android:name=".ui.file.RtspPlayerActivity"
