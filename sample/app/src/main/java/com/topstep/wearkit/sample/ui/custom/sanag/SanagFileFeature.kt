@@ -1,7 +1,10 @@
 package com.topstep.wearkit.sample.ui.custom.sanag
 
+import android.annotation.SuppressLint
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.topstep.wearkit.apis.ability.file.WKFileAbility
 import com.topstep.wearkit.apis.model.file.WKFileTransferEvent
+import com.topstep.wearkit.base.DebugFlags
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivitySanagDemoBinding
@@ -13,6 +16,7 @@ import timber.log.Timber
 /**
  * Request file count and pull files from device.
  */
+@SuppressLint("RestrictedApi")
 internal class SanagFileFeature(
     private val activity: SanagDemoActivity,
     private val viewBind: ActivitySanagDemoBinding,
@@ -24,6 +28,7 @@ internal class SanagFileFeature(
     private var clearDisposable: Disposable? = null
 
     override fun onCreate() {
+        refreshPullTypeButton()
         viewBind.btnFileCount.setOnClickListener {
             if (!activity.requireDeviceConnected()) return@setOnClickListener
             val fileAbility = wearKit.fileAbility
@@ -82,9 +87,14 @@ internal class SanagFileFeature(
                     activity.toast(R.string.tip_failed)
                 })
         }
+
+        viewBind.btnFilePullType.setOnClickListener {
+            showPullTypeDialog()
+        }
     }
 
     override fun onDestroy() {
+        DebugFlags.debugPullType = DebugFlags.DEBUG_PULL_TYPE_DEFAULT
         countDisposable?.dispose()
         countDisposable = null
         pullDisposable?.dispose()
@@ -129,8 +139,52 @@ internal class SanagFileFeature(
             })
     }
 
+    private fun showPullTypeDialog() {
+        val types = intArrayOf(
+            DebugFlags.DEBUG_PULL_TYPE_DEFAULT,
+            DebugFlags.DEBUG_PULL_TYPE_BLE,
+            DebugFlags.DEBUG_PULL_TYPE_P2P,
+            DebugFlags.DEBUG_PULL_TYPE_AP,
+            DebugFlags.DEBUG_PULL_TYPE_STATION,
+        )
+        val items = arrayOf(
+            activity.getString(R.string.ds_file_pull_type_default),
+            activity.getString(R.string.ds_file_pull_type_ble),
+            activity.getString(R.string.ds_file_pull_type_p2p),
+            activity.getString(R.string.ds_file_pull_type_ap),
+            activity.getString(R.string.ds_file_pull_type_station),
+        )
+        val checked = types.indexOf(DebugFlags.debugPullType).coerceAtLeast(0)
+        MaterialAlertDialogBuilder(activity)
+            .setTitle(R.string.ds_file_pull_type)
+            .setSingleChoiceItems(items, checked) { dialog, which ->
+                DebugFlags.debugPullType = types[which]
+                refreshPullTypeButton()
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun refreshPullTypeButton() {
+        val label = when (DebugFlags.debugPullType) {
+            DebugFlags.DEBUG_PULL_TYPE_BLE -> activity.getString(R.string.ds_file_pull_type_ble)
+            DebugFlags.DEBUG_PULL_TYPE_P2P -> activity.getString(R.string.ds_file_pull_type_p2p)
+            DebugFlags.DEBUG_PULL_TYPE_AP -> activity.getString(R.string.ds_file_pull_type_ap)
+            DebugFlags.DEBUG_PULL_TYPE_STATION -> activity.getString(R.string.ds_file_pull_type_station)
+            else -> activity.getString(R.string.ds_file_pull_type_default)
+        }
+        viewBind.btnFilePullType.text = activity.getString(R.string.ds_file_pull_type) + "：" + label
+    }
+
     private fun ensureFileWifiReady(fileAbility: WKFileAbility, onReady: () -> Unit) {
-        if (!fileAbility.compat.isRequireWifi()) {
+        val requireWifi = when (DebugFlags.debugPullType) {
+            DebugFlags.DEBUG_PULL_TYPE_BLE -> false
+            DebugFlags.DEBUG_PULL_TYPE_P2P,
+            DebugFlags.DEBUG_PULL_TYPE_AP,
+            DebugFlags.DEBUG_PULL_TYPE_STATION -> true
+            else -> fileAbility.compat.isRequireWifi()
+        }
+        if (!requireWifi) {
             onReady()
             return
         }

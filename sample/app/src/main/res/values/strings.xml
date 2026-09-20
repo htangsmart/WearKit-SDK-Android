@@ -314,6 +314,12 @@
     <string name="ds_file_pull_progress">Pulling %1$d/%2$d  %3$d%%</string>
     <string name="ds_file_pull_done">Pulled %1$d files</string>
     <string name="ds_file_wifi_denied">Wifi permissions denied</string>
+    <string name="ds_file_pull_type">Pull type</string>
+    <string name="ds_file_pull_type_default">Default (original)</string>
+    <string name="ds_file_pull_type_ble">BLE</string>
+    <string name="ds_file_pull_type_p2p">P2P</string>
+    <string name="ds_file_pull_type_ap">AP (phone hotspot)</string>
+    <string name="ds_file_pull_type_station">Station (device hotspot)</string>
     <string name="ds_speech">Audio</string>
     <string name="ds_speech_chat">Chat</string>
     <string name="ds_speech_record">Record</string>
