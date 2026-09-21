@@ -191,6 +191,11 @@
                 style="@style/Widget.Sample.PreferenceView.Item.Text"
                 app:preferenceTitle="RTSP Stream"/>
 
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_abmate_live"
+                style="@style/Widget.Sample.PreferenceView.Item.Text"
+                app:preferenceTitle="Live Stream"/>
+
         </LinearLayout>
 
     </LinearLayout>

@@ -265,6 +265,17 @@ class OthersActivity : BaseActivity() {
                 RtspPlayerActivity.start(this)
             }
         }
+        viewBind.itemAbmateLive.clickTrigger {
+            if (!wearKit.cameraAbility.compat.isSupportLive()) {
+                toast(R.string.tip_un_support)
+                return@clickTrigger
+            }
+            if (wearKit.connector.getConnectorState() != WKConnectorState.CONNECTED) {
+                toast("Device not connected!")
+                return@clickTrigger
+            }
+            LiveActivity.start(this)
+        }
     }
 
     private fun ensureFileWifiReady(fileAbility: WKFileAbility, onReady: () -> Unit) {
