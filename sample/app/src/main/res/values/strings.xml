@@ -349,6 +349,9 @@
     <string name="ds_speech_debug_sco_none">None (use connected device)</string>
     <string name="ds_speech_debug_sco_bonded">Paired devices</string>
     <string name="ds_speech_debug_sco_empty">No paired devices</string>
+    <string name="ds_speech_ai_select">Select AI</string>
+    <string name="ds_speech_ai_starburst">火山AI</string>
+    <string name="ds_speech_ai_eyeear">骆AI</string>
     <string name="ds_speech_init">Initializing…</string>
     <string name="ds_speech_init_fail">Init failed</string>
     <string name="ds_speech_ready">Ready</string>

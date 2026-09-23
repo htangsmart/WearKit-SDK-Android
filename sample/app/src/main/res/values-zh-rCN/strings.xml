@@ -349,6 +349,9 @@
     <string name="ds_speech_debug_sco_none">未选择（使用已连接设备）</string>
     <string name="ds_speech_debug_sco_bonded">已配对设备</string>
     <string name="ds_speech_debug_sco_empty">没有已配对设备</string>
+    <string name="ds_speech_ai_select">选择 AI</string>
+    <string name="ds_speech_ai_starburst">火山AI</string>
+    <string name="ds_speech_ai_eyeear">骆AI</string>
     <string name="ds_speech_init">初始化中…</string>
     <string name="ds_speech_init_fail">初始化失败</string>
     <string name="ds_speech_ready">已就绪</string>

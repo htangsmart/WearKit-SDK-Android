@@ -16,6 +16,7 @@ import com.topstep.wearkit.sample.databinding.ActivityDeviceBinding
 import com.topstep.wearkit.sample.model.DeviceInfo
 import com.topstep.wearkit.sample.model.UserInfo
 import com.topstep.wearkit.sample.ui.ai.SpeechAiActivity
+import com.topstep.wearkit.sample.ui.ai.SpeechAiManager
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.ui.basic.DeviceBasicActivity
 import com.topstep.wearkit.sample.ui.config.DeviceConfigActivity
@@ -221,7 +222,7 @@ class DeviceActivity : BaseActivity() {
         }
 
         viewBind.itemSpeechAi.clickTrigger {
-            startActivity(Intent(this, SpeechAiActivity::class.java))
+            showSpeechAiDialog()
         }
     }
 
@@ -236,6 +237,20 @@ class DeviceActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         pullLogDisposable?.dispose()
+    }
+
+    private fun showSpeechAiDialog() {
+        val options = arrayOf(
+            getString(R.string.ds_speech_ai_starburst) to SpeechAiManager.Vendor.STAR_BURST,
+            getString(R.string.ds_speech_ai_eyeear) to SpeechAiManager.Vendor.EYE_EAR,
+        )
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.ds_speech_ai_select)
+            .setItems(options.map { it.first }.toTypedArray()) { _, which ->
+                SpeechAiManager.select(options[which].second)
+                startActivity(Intent(this, SpeechAiActivity::class.java))
+            }
+            .show()
     }
 
     private fun showDialCustomStyleDialog() {

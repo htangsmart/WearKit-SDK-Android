@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothHeadset
 import android.bluetooth.BluetoothProfile
 import android.content.Context
 import com.topstep.aikit.AiKit
+import com.topstep.aikit.eyeear.EyeEarKit
 import com.topstep.aikit.starburst.StarBurstKit
 import com.topstep.wearkit.apis.WKWearKit
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
@@ -51,6 +52,11 @@ object SpeechAiManager {
         FAILED,
     }
 
+    enum class Vendor {
+        STAR_BURST,
+        EYE_EAR,
+    }
+
     private val _state = MutableStateFlow(State.IDLE)
     val state: StateFlow<State> = _state
 
@@ -75,6 +81,7 @@ object SpeechAiManager {
     private var sessionObserving = false
     private var connectionObserving = false
     private var thirdPartyDisposable: Disposable? = null
+    private var vendor: Vendor? = null
 
     @Volatile
     private var headsetProxy: BluetoothHeadset? = null
@@ -84,13 +91,34 @@ object SpeechAiManager {
 
     /**
      * 初始化 [SpeechAiManager]：开始监听 device session 和设备连接状态。
-     * 设备连接后再初始化 [AiKit]；断开后释放，下次连接再初始化。
+     * 用户通过 [select] 选定 AI SDK，且设备已连接后，再初始化 [AiKit]。
+     * 断开后释放，下次连接用上次选择的 SDK 再初始化。
      */
     fun init(context: Context) {
         appContext = context.applicationContext
         startObserveDeviceSession()
         startObserveConnection()
         bindHeadsetProxy()
+    }
+
+    /**
+     * 选择本次使用的 AI SDK。
+     * 设备已连接时立即初始化；未连接则记下选择，等连接后再初始化。
+     * 换一个 SDK 会先释放当前实例。
+     */
+    fun select(vendor: Vendor) {
+        if (this.vendor == vendor &&
+            (_state.value == State.INITIALIZING || _state.value == State.READY)
+        ) {
+            return
+        }
+        this.vendor = vendor
+        if (aiKit != null) {
+            releaseAiKit()
+        }
+        if (wearKit.isDeviceConnected()) {
+            startAiKit()
+        }
     }
 
     /**
@@ -275,19 +303,25 @@ object SpeechAiManager {
     }
 
     private fun startAiKit() {
+        val vendor = vendor ?: return
         if (_state.value == State.INITIALIZING || _state.value == State.READY) return
         val generation = ++initGeneration
         _state.value = State.INITIALIZING
-        val kit: AiKit = StarBurstKit(appContext)
+        val kit: AiKit = when (vendor) {
+            Vendor.STAR_BURST -> StarBurstKit(appContext)
+            Vendor.EYE_EAR -> EyeEarKit(appContext)
+        }
         aiKit = kit
-        thirdPartyDisposable?.dispose()
-        thirdPartyDisposable = wearKit.deviceAbility.observeThirdPartyData()
-            .filter { it.type == WKThirdPartyData.Type.STAR_BURST }
-            .subscribe({
-                kit.sendInitData(it.data)
-            }, {
-                Timber.tag(TAG).w(it, "observeThirdPartyData")
-            })
+        if (vendor == Vendor.STAR_BURST) {
+            thirdPartyDisposable?.dispose()
+            thirdPartyDisposable = wearKit.deviceAbility.observeThirdPartyData()
+                .filter { it.type == WKThirdPartyData.Type.STAR_BURST }
+                .subscribe({
+                    kit.sendInitData(it.data)
+                }, {
+                    Timber.tag(TAG).w(it, "observeThirdPartyData")
+                })
+        }
         kit.init(
             params = AiKit.InitParams(
                 channel = BuildConfig.AIKIT_CHANNEL,
