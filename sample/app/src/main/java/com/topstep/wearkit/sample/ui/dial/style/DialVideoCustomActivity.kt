@@ -56,6 +56,7 @@ class DialVideoCustomActivity : GetPhotoVideoActivity(), SelectIntDialogFragment
     private var videoDurationMillis = DEFAULT_DURATION_MILLIS
     private var packDisposable: Disposable? = null
     private var installDisposable: Disposable? = null
+    private var spaceDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,6 +112,7 @@ class DialVideoCustomActivity : GetPhotoVideoActivity(), SelectIntDialogFragment
     override fun onDestroy() {
         packDisposable?.dispose()
         installDisposable?.dispose()
+        spaceDisposable?.dispose()
         super.onDestroy()
     }
 
@@ -205,9 +207,34 @@ class DialVideoCustomActivity : GetPhotoVideoActivity(), SelectIntDialogFragment
 
     private fun installDial(output: WKDialStyleAbility.CreateOutput) {
         if (!isUiAlive()) return
+        spaceDisposable?.dispose()
+        val loading = ProgressDialog(this).apply {
+            setMessage(getString(R.string.action_loading))
+            setCancelable(false)
+        }
+        spaceDisposable = wearKit.dialAbility.requestSpaces()
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { if (isUiAlive()) loading.show() }
+            .doFinally { dismissDialog(loading) }
+            .subscribe({ spaces ->
+                if (!isUiAlive()) return@subscribe
+                chooseDialInstallOptions(
+                    spaces = spaces,
+                    qualityLevels = emptyList(),
+                ) { _, spaceIndex ->
+                    startInstall(output, spaceIndex)
+                }
+            }, {
+                Timber.w(it)
+                if (isUiAlive()) toast(R.string.tip_failed)
+            })
+    }
+
+    private fun startInstall(output: WKDialStyleAbility.CreateOutput, spaceIndex: Int?) {
+        if (!isUiAlive()) return
         installDisposable?.dispose()
         val progressDialog = ProgressDialog(this)
-        installDisposable = wearKit.dialAbility.install(output.dialId, output.dialFile)
+        installDisposable = wearKit.dialAbility.install(output.dialId, output.dialFile, spaceIndex)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)

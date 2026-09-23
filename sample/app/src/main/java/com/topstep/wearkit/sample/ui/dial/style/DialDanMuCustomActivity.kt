@@ -93,9 +93,27 @@ class DialDanMuCustomActivity : BaseActivity() {
                 toast(R.string.dial_custom_style_danmu_empty)
                 return@clickTrigger
             }
-            chooseDialQuality(wearKit.dialStyleAbility.compat.getQualityLevels()) { quality ->
-                createAndInstall(quality, drafts.toList())
+            if (styleConstraint == null) return@clickTrigger
+            val loading = ProgressDialog(this).apply {
+                setMessage(getString(R.string.action_loading))
+                setCancelable(false)
             }
+            val disposable = wearKit.dialAbility.requestSpaces()
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { loading.show() }
+                .doFinally { loading.dismiss() }
+                .subscribe({ spaces ->
+                    chooseDialInstallOptions(
+                        spaces = spaces,
+                        qualityLevels = wearKit.dialStyleAbility.compat.getQualityLevels(),
+                    ) { quality, spaceIndex ->
+                        createAndInstall(quality, drafts.toList(), spaceIndex)
+                    }
+                }, {
+                    Timber.w(it)
+                    toast(R.string.tip_failed)
+                })
+            disposables.add(disposable)
         }
 
         viewBind.danmuRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -244,7 +262,7 @@ class DialDanMuCustomActivity : BaseActivity() {
         }
     }
 
-    private fun createAndInstall(quality: WKDialQuality, items: List<DanMuDraft>) {
+    private fun createAndInstall(quality: WKDialQuality, items: List<DanMuDraft>, spaceIndex: Int?) {
         val constraint = styleConstraint ?: return
         if (items.isEmpty()) {
             toast(R.string.dial_custom_style_danmu_empty)
@@ -261,7 +279,7 @@ class DialDanMuCustomActivity : BaseActivity() {
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ (input, directory) ->
-                createAndInstall(constraint, input) {
+                createAndInstall(constraint, input, spaceIndex) {
                     directory.deleteRecursively()
                 }
             }, {
@@ -340,6 +358,7 @@ class DialDanMuCustomActivity : BaseActivity() {
     private fun createAndInstall(
         constraint: WKDialStyleConstraint,
         input: WKDialStyleAbility.CreateInput,
+        spaceIndex: Int?,
         cleanup: () -> Unit = {},
     ) {
         val progressDialog = ProgressDialog(this)
@@ -347,7 +366,7 @@ class DialDanMuCustomActivity : BaseActivity() {
             constraint = constraint,
             input = input,
         ).flatMapObservable {
-            wearKit.dialAbility.install(it.dialId, it.dialFile)
+            wearKit.dialAbility.install(it.dialId, it.dialFile, spaceIndex)
         }.observeOn(AndroidSchedulers.mainThread()).doOnSubscribe {
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
             progressDialog.setCancelable(false)

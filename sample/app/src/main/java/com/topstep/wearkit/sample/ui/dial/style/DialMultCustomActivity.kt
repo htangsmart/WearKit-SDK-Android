@@ -111,9 +111,27 @@ class DialMultCustomActivity : GetPhotoVideoActivity(), SelectIntDialogFragment.
         }
 
         viewBind.btnCreateDial.clickTrigger {
-            chooseDialQuality(wearKit.dialStyleAbility.compat.getQualityLevels()) { quality ->
-                createAndInstall(quality)
+            if (styleConstraint == null || backgrounds.isEmpty()) return@clickTrigger
+            val loading = ProgressDialog(this).apply {
+                setMessage(getString(R.string.action_loading))
+                setCancelable(false)
             }
+            wearKit.dialAbility.requestSpaces()
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { loading.show() }
+                .subscribe({ spaces ->
+                    loading.dismiss()
+                    chooseDialInstallOptions(
+                        spaces = spaces,
+                        qualityLevels = wearKit.dialStyleAbility.compat.getQualityLevels(),
+                    ) { quality, spaceIndex ->
+                        createAndInstall(quality, spaceIndex)
+                    }
+                }, {
+                    Timber.w(it)
+                    loading.dismiss()
+                    toast(R.string.tip_failed)
+                })
         }
 
         refreshBackgroundSection()
@@ -131,7 +149,7 @@ class DialMultCustomActivity : GetPhotoVideoActivity(), SelectIntDialogFragment.
         }
     }
 
-    private fun createAndInstall(quality: WKDialQuality) {
+    private fun createAndInstall(quality: WKDialQuality, spaceIndex: Int?) {
         val constraint = styleConstraint ?: return
         if (backgrounds.isEmpty()) return
         val progressDialog = ProgressDialog(this)
@@ -152,7 +170,7 @@ class DialMultCustomActivity : GetPhotoVideoActivity(), SelectIntDialogFragment.
                 this.quality = quality
             }
         ).flatMapObservable {
-            wearKit.dialAbility.install(it.dialId, it.dialFile)
+            wearKit.dialAbility.install(it.dialId, it.dialFile, spaceIndex)
         }.observeOn(AndroidSchedulers.mainThread()).doOnSubscribe {
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
             progressDialog.setCancelable(false)
