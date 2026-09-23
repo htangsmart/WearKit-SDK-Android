@@ -1,6 +1,8 @@
 package com.topstep.wearkit.sample.ui.ai.ask
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import com.topstep.aikit.AiKit
 import com.topstep.aikit.model.AiChatResult
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
@@ -18,7 +20,8 @@ import timber.log.Timber
  *   （部分设备需用户确认问题；无确认需求时 SDK 会在问题发完后自动发出该消息）
  * - TTS：与录音 source 对齐（PHONE_MIC → 手机扬声器；DEVICE_SCO → SCO；DEVICE_CMD 优先设备播放）
  *
- * 音频结束只复位「采集中」UI；等 chat Observable complete 再 [release]，
+ * 音频结束只复位「采集中」UI。识别失败（如 6400）不会结束 chat Observable，
+ * 采集结束后若迟迟没有问题/回答，自行 [release]，避免页面停在「回答中」。
  * 正常收尾不 [MyAudioPlayer.deactivate]，让回答 TTS 播完。
  */
 class AskHandler(
@@ -47,6 +50,15 @@ class AskHandler(
     @Volatile
     private var allowTtsDrain = false
 
+    private val mainHandler = Handler(Looper.getMainLooper())
+    private var captureEnded = false
+    private var questionReady = false
+    private var sawAnswer = false
+    private val giveUp = Runnable {
+        Timber.tag(tag).i("no chat result after capture end → release")
+        release()
+    }
+
     override fun onStart() {
         canSendAnswer = false
         pendingAnswer = null
@@ -68,6 +80,8 @@ class AskHandler(
             onAudioStop = {
                 Timber.tag(tag).i("audio stop → UI follow session")
                 AskTranscript.onRecordingEnded()
+                captureEnded = true
+                armGiveUp()
                 false
             },
         )
@@ -83,6 +97,7 @@ class AskHandler(
             ).subscribe({
                 when (it) {
                     is AiChatResult.OnText -> handleChatText(it)
+                    is AiChatResult.OnTtsPlayComplete -> onTtsPlayComplete()
                     else -> {}
                 }
             }, {
@@ -98,6 +113,12 @@ class AskHandler(
 
     private fun handleChatText(result: AiChatResult.OnText) {
         val text = result.text.orEmpty()
+        if (result.isAsr) {
+            if (result.isComplete) questionReady = true
+        } else if (text.isNotEmpty()) {
+            sawAnswer = true
+        }
+        if (captureEnded) armGiveUp()
         AskTranscript.onText(dialogId = result.dialogId, isQuestion = result.isAsr, text = text, isComplete = result.isComplete)
         if (result.isAsr) {
             Timber.tag(tag).i("question: %s complete=%s", text, result.isComplete)
@@ -148,12 +169,32 @@ class AskHandler(
         )
     }
 
+    private fun onTtsPlayComplete() {
+        if (!captureEnded || !sawAnswer) return
+        Timber.tag(tag).i("tts complete after capture end → release")
+        allowTtsDrain = true
+        release()
+    }
+
+    /** 识别失败不会结束 chat。没识别出问题就短等，已有问题或回答则留给生成和播报。 */
+    private fun armGiveUp() {
+        val delay = if (questionReady || sawAnswer) ANSWER_WAIT_MS else RECOGNIZE_WAIT_MS
+        mainHandler.removeCallbacks(giveUp)
+        mainHandler.postDelayed(giveUp, delay)
+    }
+
     override fun onRelease() {
+        mainHandler.removeCallbacks(giveUp)
         canSendAnswer = false
         pendingAnswer = null
         if (!allowTtsDrain) {
             MyAudioPlayer.deactivate()
         }
         AskTranscript.onSessionEnded()
+    }
+
+    private companion object {
+        const val RECOGNIZE_WAIT_MS = 5_000L
+        const val ANSWER_WAIT_MS = 25_000L
     }
 }
