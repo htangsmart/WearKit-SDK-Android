@@ -6,6 +6,8 @@ import java.util.concurrent.atomic.AtomicLong
 
 data class AskMessage(
     val id: Long,
+    /** 本次会话内的轮次。下次开启会重新计数，具体从几开始不影响归并。 */
+    val dialogId: Int,
     val isQuestion: Boolean,
     val text: String,
     val isComplete: Boolean,
@@ -17,6 +19,10 @@ data class AskMessage(
 object AskTranscript {
 
     private val nextId = AtomicLong(0)
+
+    /** 本轮会话开始前已分配的最大 id。dialogId 跨会话会重复，只在此之后的消息里按它归并。 */
+    private var sessionFloorId = 0L
+
     private val _messages = MutableStateFlow<List<AskMessage>>(emptyList())
     val messages: StateFlow<List<AskMessage>> = _messages
 
@@ -29,6 +35,7 @@ object AskTranscript {
     val sessionActive: StateFlow<Boolean> = _sessionActive
 
     fun onSessionStarted() {
+        sessionFloorId = nextId.get()
         _sessionActive.value = true
         _inUtterance.value = true
     }
@@ -41,21 +48,28 @@ object AskTranscript {
     fun onSessionEnded() {
         _inUtterance.value = false
         _sessionActive.value = false
+        val floor = sessionFloorId
         val list = _messages.value
-        val last = list.lastOrNull() ?: return
-        if (!last.isComplete) {
-            _messages.value = list.dropLast(1) + last.copy(isComplete = true)
+        if (list.none { it.id > floor && !it.isComplete }) return
+        _messages.value = list.map { msg ->
+            if (msg.id > floor && !msg.isComplete) msg.copy(isComplete = true) else msg
         }
     }
 
-    fun onText(isQuestion: Boolean, text: String, isComplete: Boolean) {
+    fun onText(dialogId: Int, isQuestion: Boolean, text: String, isComplete: Boolean) {
+        val floor = sessionFloorId
         val list = _messages.value
-        val last = list.lastOrNull()
-        _messages.value = if (last != null && last.isQuestion == isQuestion && !last.isComplete) {
-            list.dropLast(1) + last.copy(text = text, isComplete = isComplete)
+        val existingIdx = list.indexOfLast {
+            it.id > floor && it.dialogId == dialogId && it.isQuestion == isQuestion
+        }
+        _messages.value = if (existingIdx >= 0) {
+            list.toMutableList().also { mutable ->
+                mutable[existingIdx] = list[existingIdx].copy(text = text, isComplete = isComplete)
+            }
         } else {
             list + AskMessage(
                 id = nextId.incrementAndGet(),
+                dialogId = dialogId,
                 isQuestion = isQuestion,
                 text = text,
                 isComplete = isComplete,

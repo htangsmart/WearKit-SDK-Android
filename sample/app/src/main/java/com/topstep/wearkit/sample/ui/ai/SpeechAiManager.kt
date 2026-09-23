@@ -5,14 +5,16 @@ import android.bluetooth.BluetoothHeadset
 import android.bluetooth.BluetoothProfile
 import android.content.Context
 import com.topstep.aikit.AiKit
-import com.topstep.aikit.eyeear.EyeEarKit
+import com.topstep.aikit.starburst.StarBurstKit
 import com.topstep.wearkit.apis.WKWearKit
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
+import com.topstep.wearkit.apis.model.WKThirdPartyData
 import com.topstep.wearkit.apis.model.core.WKConnectorState
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.sample.BuildConfig
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.ui.ai.SpeechAiManager._activeSession
+import com.topstep.wearkit.sample.ui.ai.SpeechAiManager.startAiKit
 import com.topstep.wearkit.sample.ui.ai.ask.AskHandler
 import com.topstep.wearkit.sample.ui.ai.chat.ChatHandler
 import com.topstep.wearkit.sample.ui.ai.chattranslate.ChatTranslateHandler
@@ -22,7 +24,9 @@ import com.topstep.wearkit.sample.ui.ai.handler.SceneHandler
 import com.topstep.wearkit.sample.ui.ai.handler.TaxiHandler
 import com.topstep.wearkit.sample.ui.ai.record.RecordHandler
 import com.topstep.wearkit.sample.ui.ai.translate.TranslateHandler
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import timber.log.Timber
@@ -58,13 +62,19 @@ object SpeechAiManager {
         private set
 
     private lateinit var appContext: Context
+    private val wearKit: WKWearKit
+        get() = MyApplication.wearKit
     private val speechAi: WKSpeechAiAbility
-        get() = MyApplication.wearKit.speechAiAbility
+        get() = wearKit.speechAiAbility
 
     private val disposables = CompositeDisposable()
     private var current: SceneHandler? = null
+
+    @Volatile
     private var initGeneration = 0
     private var sessionObserving = false
+    private var connectionObserving = false
+    private var thirdPartyDisposable: Disposable? = null
 
     @Volatile
     private var headsetProxy: BluetoothHeadset? = null
@@ -73,14 +83,14 @@ object SpeechAiManager {
     fun requireAiKit(): AiKit? = aiKit.takeIf { _state.value == State.READY }
 
     /**
-     * 幂等。首次调用开始监听 device session 并初始化 AiKit；
-     * AiKit 处于 [State.IDLE] / [State.FAILED] 时再次调用会重试初始化。
+     * 初始化 [SpeechAiManager]：开始监听 device session 和设备连接状态。
+     * 设备连接后再初始化 [AiKit]；断开后释放，下次连接再初始化。
      */
     fun init(context: Context) {
         appContext = context.applicationContext
         startObserveDeviceSession()
+        startObserveConnection()
         bindHeadsetProxy()
-        startAiKit()
     }
 
     /**
@@ -148,6 +158,28 @@ object SpeechAiManager {
         )
     }
 
+    private fun startObserveConnection() {
+        if (connectionObserving) return
+        connectionObserving = true
+        disposables.add(
+            wearKit.connector.observeConnectorState()
+                .startWithItem(wearKit.connector.getConnectorState())
+                .map { it == WKConnectorState.CONNECTED }
+                .distinctUntilChanged()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ connected ->
+                    if (connected) {
+                        startAiKit()
+                    } else {
+                        releaseAiKit()
+                    }
+                }, {
+                    Timber.tag(TAG).w(it, "observeConnectorState error")
+                    connectionObserving = false
+                })
+        )
+    }
+
     private fun attachSession(session: WKSpeechSession) {
         val previous = current
         if (previous != null) {
@@ -210,7 +242,7 @@ object SpeechAiManager {
      */
     private fun bindHeadsetProxy() {
         if (headsetProxyBound) return
-        val adapter = MyApplication.wearKit.bluetoothAdapter ?: return
+        val adapter = wearKit.bluetoothAdapter ?: return
         headsetProxyBound = adapter.getProfileProxy(
             appContext,
             object : BluetoothProfile.ServiceListener {
@@ -246,7 +278,16 @@ object SpeechAiManager {
         if (_state.value == State.INITIALIZING || _state.value == State.READY) return
         val generation = ++initGeneration
         _state.value = State.INITIALIZING
-        val kit = EyeEarKit(appContext)
+        val kit: AiKit = StarBurstKit(appContext)
+        aiKit = kit
+        thirdPartyDisposable?.dispose()
+        thirdPartyDisposable = wearKit.deviceAbility.observeThirdPartyData()
+            .filter { it.type == WKThirdPartyData.Type.STAR_BURST }
+            .subscribe({
+                kit.sendInitData(it.data)
+            }, {
+                Timber.tag(TAG).w(it, "observeThirdPartyData")
+            })
         kit.init(
             params = AiKit.InitParams(
                 channel = BuildConfig.AIKIT_CHANNEL,
@@ -256,27 +297,55 @@ object SpeechAiManager {
             handler = object : AiKit.InitHandler {
                 override fun onInitFail() {
                     Timber.tag(TAG).w("AiKit init fail")
-                    kit.release()
-                    if (generation != initGeneration) return
-                    aiKit = null
-                    _state.value = State.FAILED
+                    AndroidSchedulers.mainThread().scheduleDirect {
+                        if (generation != initGeneration) return@scheduleDirect
+                        clearThirdPartyBridge()
+                        aiKit = null
+                        _state.value = State.FAILED
+                        kit.release()
+                    }
                 }
 
                 override fun onInitSuccess() {
-                    if (generation != initGeneration) {
-                        kit.release()
-                        return
+                    AndroidSchedulers.mainThread().scheduleDirect {
+                        if (generation != initGeneration) {
+                            kit.release()
+                            return@scheduleDirect
+                        }
+                        Timber.tag(TAG).i("AiKit init success")
+                        _state.value = State.READY
                     }
-                    Timber.tag(TAG).i("AiKit init success")
-                    aiKit = kit
-                    _state.value = State.READY
                 }
 
+                @SuppressLint("CheckResult")
                 override fun receiveInitData(bytes: ByteArray) {
-                    // do nothing
+                    if (generation != initGeneration) return
+                    wearKit.deviceAbility.sendThirdPartyData(
+                        WKThirdPartyData(
+                            type = WKThirdPartyData.Type.STAR_BURST,
+                            data = bytes,
+                        )
+                    ).subscribe({}, {
+                        Timber.tag(TAG).w(it, "sendThirdPartyData")
+                    })
                 }
             },
         )
+    }
+
+    /** 断开连接时释放当前 kit，下次连接由 [startAiKit] 重新握手。 */
+    private fun releaseAiKit() {
+        val kit = aiKit ?: return
+        initGeneration++
+        clearThirdPartyBridge()
+        aiKit = null
+        _state.value = State.IDLE
+        kit.release()
+    }
+
+    private fun clearThirdPartyBridge() {
+        thirdPartyDisposable?.dispose()
+        thirdPartyDisposable = null
     }
 
 }

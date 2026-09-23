@@ -98,7 +98,7 @@ class AskHandler(
 
     private fun handleChatText(result: AiChatResult.OnText) {
         val text = result.text.orEmpty()
-        AskTranscript.onText(isQuestion = result.isAsr, text = text, isComplete = result.isComplete)
+        AskTranscript.onText(dialogId = result.dialogId, isQuestion = result.isAsr, text = text, isComplete = result.isComplete)
         if (result.isAsr) {
             Timber.tag(tag).i("question: %s complete=%s", text, result.isComplete)
             disposables.add(

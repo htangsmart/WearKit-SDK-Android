@@ -85,9 +85,9 @@ class ChatHandler(
 
     private fun handleChatText(result: AiChatResult.OnText) {
         val text = result.text.orEmpty()
-        ChatTranscript.onText(isQuestion = result.isAsr, text = text, isComplete = result.isComplete)
+        ChatTranscript.onText(dialogId = result.dialogId, isQuestion = result.isAsr, text = text, isComplete = result.isComplete)
         if (result.isAsr) {
-            Timber.tag(tag).i("question: %s complete=%s", text, result.isComplete)
+            Timber.tag(tag).i("question: %s complete=%s id:%d", text, result.isComplete, result.dialogId)
             if (supportText) {
                 disposables.add(
                     speechAi.chat
@@ -99,7 +99,7 @@ class ChatHandler(
             return
         }
 
-        Timber.tag(tag).i("answer: %s complete=%s", text, result.isComplete)
+        Timber.tag(tag).i("answer: %s complete=%s id:%d", text, result.isComplete, result.dialogId)
         if (supportText) {
             disposables.add(
                 speechAi.chat
