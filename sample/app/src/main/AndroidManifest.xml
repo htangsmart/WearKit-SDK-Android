@@ -195,6 +195,8 @@
         <activity android:name=".ui.others.EpoActivity"/>
         <activity android:name=".ui.others.HsdIceActivity"/>
         <activity android:name=".ui.others.HsdParentalModeActivity"/>
+        <activity android:name=".ui.others.HsdParentalControlActivity"/>
+        <activity android:name=".ui.others.HsdParentalControlAddActivity"/>
         <activity android:name=".ui.others.HsdClassRoomModeActivity"/>
         <activity android:name=".ui.others.HsdTaskActivity"/>
         <activity android:name=".ui.others.HsdHabitActivity"/>

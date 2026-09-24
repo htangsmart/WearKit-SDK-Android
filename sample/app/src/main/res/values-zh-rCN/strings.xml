@@ -860,4 +860,24 @@
     <string name="qr_code_ability_tips">点击条目可将演示 QR 码内容推送到设备。</string>
     <string name="qr_code_ability_demo_content">这是 %1$s 演示 QR 码</string>
 
+    <string-array name="hsd_parental_control_ids">
+        <item>长按换表盘</item>
+        <item>进入游戏</item>
+        <item>进入计算器</item>
+        <item>进入任务</item>
+        <item>进入时间日期</item>
+        <item>进入音乐控制</item>
+        <item>进入设置</item>
+        <item>修改闹钟</item>
+    </string-array>
+
+    <string-array name="hsd_parental_control_modes">
+        <item>时段内禁用</item>
+        <item>时段内允许</item>
+    </string-array>
+
+    <string name="hsd_parental_control_add">添加功能</string>
+    <string name="hsd_parental_control_edit">编辑功能</string>
+    <string name="hsd_parental_control_add_period">添加时段</string>
+
 </resources>

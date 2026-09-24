@@ -866,4 +866,24 @@
         <item>Sleep</item>
     </string-array>
 
+    <string-array name="hsd_parental_control_ids">
+        <item>MODIFY_DIAL</item>
+        <item>ENTER_GAME</item>
+        <item>ENTER_CALCULATOR</item>
+        <item>ENTER_TASK</item>
+        <item>ENTER_DATE_TIME</item>
+        <item>ENTER_MUSIC</item>
+        <item>ENTER_SETTINGS</item>
+        <item>MODIFY_ALARM</item>
+    </string-array>
+
+    <string-array name="hsd_parental_control_modes">
+        <item>BLOCK</item>
+        <item>ALLOW</item>
+    </string-array>
+
+    <string name="hsd_parental_control_add">Add Item</string>
+    <string name="hsd_parental_control_edit">Edit Item</string>
+    <string name="hsd_parental_control_add_period">Add Period</string>
+
 </resources>

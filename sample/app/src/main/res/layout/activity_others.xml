@@ -30,6 +30,11 @@
                 app:preferenceTitle="Parental Mode"/>
 
             <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_parental_control"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="Parental Control"/>
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
                 android:id="@+id/item_class_room_mode"
                 style="@style/Widget.Sample.PreferenceView.Item"
                 app:preferenceTitle="ClassRoom Mode"/>

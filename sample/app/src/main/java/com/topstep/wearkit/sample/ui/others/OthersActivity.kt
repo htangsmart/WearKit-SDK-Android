@@ -49,6 +49,14 @@ class OthersActivity : BaseActivity() {
             }
         }
 
+        viewBind.itemParentalControl.clickTrigger {
+            if (wearKit.b2b.hsdAbility.compat.isSupportParentalControl()) {
+                startActivity(Intent(this, HsdParentalControlActivity::class.java))
+            } else {
+                toast(R.string.tip_un_support)
+            }
+        }
+
         viewBind.itemClassRoomMode.clickTrigger {
             if (wearKit.b2b.hsdAbility.compat.isSupportClassRoomMode()) {
                 startActivity(Intent(this, HsdClassRoomModeActivity::class.java))
