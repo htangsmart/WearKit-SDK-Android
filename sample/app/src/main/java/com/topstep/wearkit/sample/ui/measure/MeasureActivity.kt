@@ -5,6 +5,7 @@ import com.github.kilnn.tool.widget.ktx.clickTrigger
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityMeasureBinding
 import com.topstep.wearkit.sample.ui.base.BaseActivity
+import com.topstep.wearkit.sample.ui.ecg.EcgMeasureActivity
 
 class MeasureActivity : BaseActivity() {
 
@@ -28,6 +29,11 @@ class MeasureActivity : BaseActivity() {
         //pressure measure
         viewBind.itemPressure.clickTrigger {
             HealthMeasureActivity.startActivity(this, 3)
+        }
+
+        // ECG measure
+        viewBind.itemEcgMeasure.clickTrigger {
+            EcgMeasureActivity.start(this)
         }
     }
 }

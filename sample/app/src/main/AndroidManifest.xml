@@ -158,6 +158,9 @@
         <activity android:name=".ui.music.MediaControlActivity"/>
         <activity android:name=".ui.measure.MeasureActivity"/>
         <activity android:name=".ui.measure.HealthMeasureActivity"/>
+        <activity
+            android:name=".ui.ecg.EcgMeasureActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.sync.SyncDataActivity"/>
         <activity android:name=".ui.sync.StepActivity"/>
         <activity android:name=".ui.sync.SportActivity"/>

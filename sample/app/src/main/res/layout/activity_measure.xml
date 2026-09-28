@@ -22,4 +22,9 @@
         style="@style/Widget.Sample.PreferenceView.Item.Text"
         app:preferenceTitle="@string/pressure_measure"/>
 
+    <com.github.kilnn.tool.widget.item.PreferenceItem
+        android:id="@+id/item_ecg_measure"
+        style="@style/Widget.Sample.PreferenceView.Item.Text"
+        app:preferenceTitle="@string/ecg_measure_entry"/>
+
 </LinearLayout>
