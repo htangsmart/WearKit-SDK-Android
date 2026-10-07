@@ -4,6 +4,16 @@
     <!--用于网络访问-->
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!-- BLE scan / connect. Runtime request is PermissionHelper.requestBle. -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30"/>
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
+
     <!-- GPS：EPO / 设备持续定位请求 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>

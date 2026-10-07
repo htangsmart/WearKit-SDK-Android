@@ -8,6 +8,7 @@ import com.topstep.wearkit.abmate.apis.AbMateSDK
 import com.topstep.wearkit.apis.WKWearKit
 import com.topstep.wearkit.prototb.apis.PbSDK
 import com.topstep.wearkit.sample.data.PreferencesStorage
+import com.topstep.wearkit.sample.location.SampleLocationProvider
 import com.topstep.wearkit.sample.ui.music.MyMediaController
 import com.topstep.wearkit.sample.ui.ai.SpeechAiManager
 import com.topstep.wearkit.sample.utils.log.AppLogger
@@ -48,17 +49,28 @@ class MyApplication : MultiDexApplication() {
     }
 
     private fun initMainProcess() {
-        //Only for test. Developer should not use this
+        applySampleOnlyVendorTestFlags()
+
+        rxBleClient = RxBleClient.create(this)
+        PreferencesStorage.init(this)
+        // Minimum WearKit setup. See wearKitInit.
+        wearKit = wearKitInit(this, rxBleClient)
+
+        // Optional. EPO / device-requested GPS before UI is ready. Not required for scan/connect.
+        wearKit.locationMapAbility.setLocation(SampleLocationProvider(this))
+
+        SpeechAiManager.init(this)
+        myMediaController = MyMediaController(this, wearKit)
+    }
+
+    /**
+     * Sample-only vendor test switches. Host apps must not copy this into production.
+     */
+    private fun applySampleOnlyVendorTestFlags() {
         PbSDK.COMPANY_ID_ALL = true
         AbMateSDK.BLE_CONNECTION = getConnectionMethod()
         PbSDK.BLE_CONNECTION = getConnectionMethod()
         FwSDK.BLE_CONNECTION = getConnectionMethod()
-        //Init
-        rxBleClient = RxBleClient.create(this)
-        PreferencesStorage.init(this)
-        wearKit = wearKitInit(this, rxBleClient)
-        SpeechAiManager.init(this)
-        myMediaController = MyMediaController(this, wearKit)
     }
 
 }

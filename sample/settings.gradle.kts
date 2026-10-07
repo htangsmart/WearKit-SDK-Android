@@ -22,7 +22,7 @@ dependencyResolutionManagement {
         maven {
             url = uri("https://maven.topstepht.com/repository/maven-public/")
         }
-        //骆方案sdk(com.artillery.pay:paycertification)
+        //骆ai-sdk
         maven {
             credentials {
                 username = "5ff28ca9ed01613630f9d551"
@@ -30,11 +30,11 @@ dependencyResolutionManagement {
             }
             url = uri("https://packages.aliyun.com/6718aa5c2c78927f26d82a35/maven/mltcloudai")
         }
-        //火山sdk
+        //火山ai-sdk
         maven {
             setUrl("https://artifact.bytedance.com/repository/encop_and_sol_ai_product/")
         }
-        //骆sdk引用QQ音乐sdk
+        //骆ai-sdk引用QQ音乐sdk
         maven {
             credentials {
                 username = "tvsdk_client"

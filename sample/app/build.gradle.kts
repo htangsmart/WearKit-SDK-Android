@@ -163,7 +163,6 @@ dependencies {
         implementation("com.topstep.wearkit:sdk-shenju-adapter:$wearkitVersion") { isChanging = wearkitChanging }
         implementation("com.topstep.wearkit:sdk-prototb-adapter:$wearkitVersion") { isChanging = wearkitChanging }
         implementation("com.topstep.wearkit:sdk-abmate-adapter:$wearkitVersion") { isChanging = wearkitChanging }
-        implementation("com.topstep.wearkit:sdk-helper:$wearkitVersion") { isChanging = wearkitChanging }
     } else {
         //For author environment, use local project
         implementation(project(":sdk-core"))
@@ -171,18 +170,12 @@ dependencies {
         implementation(project(":sdk-fitcloud-adapter"))
         implementation(project(":sdk-shenju-adapter"))
         implementation(project(":sdk-prototb-adapter"))
-        if (hasSubmoduleAbMate()) {
-            implementation(project(":sdk-abmate-adapter"))
-        } else {
-            implementation("com.topstep.wearkit:sdk-abmate-adapter:$wearkitVersion") { isChanging = wearkitChanging }
-        }
-        implementation(project(":sdk-helper"))
+        implementation(project(":sdk-abmate-adapter"))
     }
     implementation(libs.timber)
     implementation(libs.rxjava)
     implementation(libs.rxandroid)
     implementation(libs.rxandroidble)
-    implementation(libs.androidx.media)
 
     //RTSP playback - libVLC（Media3 RTSP 对非标 SDP 容错差，换 libVLC）
     implementation("org.videolan.android:libvlc-all:3.6.0")
@@ -269,11 +262,6 @@ fun wearkitRootDir(): File? {
     val index = project.projectDir.path.indexOf("android-sdk-wearkit")
     if (index == -1) return null
     return File(project.projectDir.path.take(index + "android-sdk-wearkit".length))
-}
-
-fun hasSubmoduleAbMate(): Boolean {
-    val parent = wearkitRootDir() ?: return false
-    return File(parent, "sdk-abmate-adapter/build.gradle.kts").exists()
 }
 
 fun loadAikitLocalProperties(): Properties {
