@@ -81,6 +81,8 @@ android {
         jniLibs.pickFirsts.add("**/libonnxruntime.so")
         //解决多个"META-INF/INDEX.LIST"文件的问题
         resources.excludes.add("META-INF/INDEX.LIST")
+        //各 Netty 模块都带一份版本属性，键互不冲突，合并后保留
+        resources.merges.add("META-INF/io.netty.versions.properties")
     }
 
     buildTypes {
@@ -236,11 +238,11 @@ dependencies {
     implementation(libs.androidx.window)
 
     //aikit
-    val aikitVersion = "0.3.0-SNAPSHOT"
+    val aikitVersion = "1.0.2-SNAPSHOT"
     val aikitChanging = aikitVersion.contains("SNAPSHOT")
-    implementation("com.topstep.aikit:base:$aikitVersion") { isChanging = aikitChanging }
-    implementation("com.topstep.aikit:starburst:$aikitVersion") { isChanging = aikitChanging }
-    implementation("com.topstep.aikit:eyeear:$aikitVersion") { isChanging = aikitChanging }
+    implementation("com.topstep.aikit:aikit-base:$aikitVersion") { isChanging = aikitChanging }
+    implementation("com.topstep.aikit:aikit-starburst:$aikitVersion") { isChanging = aikitChanging }
+    implementation("com.topstep.aikit:aikit-eyeear:$aikitVersion") { isChanging = aikitChanging }
     // Opus decode use for SaveWavForDebug
     implementation("com.topstep.opus:lib-opustool:1.0.8")
 
