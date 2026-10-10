@@ -31,7 +31,7 @@ androidx-media3 = "1.4.1"
 #Common
 timber = "5.0.1"
 permissionx = "1.7.1"
-mars-xlog = "1.2.5"
+mars-xlog = "1.2.6"
 kilnn-toolkit = "1.0.2"
 kilnn-wheelview = "1.0.2"
 leakcanary = "2.12"
@@ -56,6 +56,9 @@ espresso-core = "3.5.1"
 robolectric = "4.9"
 mockito = "4.9.0"
 mockk = "1.12.5"
+# 骆方案认证 sdk,主要用于sdk-fitcloud的微信支付认证功能，sdk-abmate-adapter的离线语音认证功能。升版本后执行 ./gradlew publishArtilleryPay，
+# 否则 publishAllPublicationsToTopstepRepository 会失败提醒。
+artillery-pay = "leadingSmart_1.0.54"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle" }
@@ -147,3 +150,4 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockito" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+artillery-pay = { module = "com.artillery.pay:paycertification", version.ref = "artillery-pay" }
