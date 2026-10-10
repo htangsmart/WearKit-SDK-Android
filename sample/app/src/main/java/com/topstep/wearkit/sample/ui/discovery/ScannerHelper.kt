@@ -149,7 +149,7 @@ class ScannerHelper(
         val deviceType = type
         return if (deviceType != null) {
             // Keep legacy duration arg used by DeviceScanActivity
-            wearKit.scanner.scan(deviceType, 120 * 1000, checkLocationService = false, acceptEmptyName = true)
+            wearKit.scanner.scan(deviceType, 120, checkLocationService = false, acceptEmptyName = true)
         } else {
             val scanSettings = ScanSettings.Builder()
                 .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
@@ -158,7 +158,7 @@ class ScannerHelper(
                 .build()
             val hasConnectPermission = MyApplication.rxBleClient.isConnectRuntimePermissionGranted
             MyApplication.rxBleClient.scanBleDevices(scanSettings)
-                .take(120 * 1000, TimeUnit.SECONDS)
+                .take(120, TimeUnit.SECONDS)
                 .map { result ->
                     WKScanResult(
                         device = result.bleDevice.bluetoothDevice,
