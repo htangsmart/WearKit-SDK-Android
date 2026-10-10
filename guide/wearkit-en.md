@@ -342,7 +342,7 @@ The WearKit sample’s `ACCESS_COARSE_LOCATION` / `ACCESS_FINE_LOCATION` setup d
 | Config | `dndAbility` | Do-not-disturb periods |
 | Config | `raiseWakeupAbility` | Raise-to-wake |
 | Config | `womenHealthAbility` | Women’s health (period reminders, etc.) |
-| Data | `activityAbility` | Activity goals (steps / calorie goals) |
+| Data | `activityAbility` | Activity goals; some devices push today’s activity totals |
 | Data | `heartRateAbility` | Heart-rate realtime measure / monitor / alarm / HRV config |
 | Data | `bloodOxygenAbility` | SpO2 measure / monitor |
 | Data | `pressureAbility` | Stress measure / monitor |
@@ -496,7 +496,13 @@ Per-ability differences:
 - **WKBloodOxygenAbility / WKPressureAbility**: measure + monitor config
 - **WKBloodPressureAbility**: `measureRealtime : Observable<WKBloodPressureItem>` (systolic / diastolic / pulse)
 - **WKTemperatureAbility**: `measureRealtime : Observable<WKTemperatureItem>`
-- **WKActivityAbility — activity goals**: `getGoalConfig()/setGoalConfig()/syncGoalConfig()/observeGoalConfig()`; `compat.getActivityAttributes()` (which metrics the device activity page shows, and thus which goals can be set); `compat.isSupportDisabledReminds()` (goal-reached remind can be turned off)
+- **WKActivityAbility — activity goals / today’s activity push**:
+  - Goals: `getGoalConfig()/setGoalConfig()/syncGoalConfig()/observeGoalConfig()`; `compat.getActivityAttributes()` (which metrics the device activity page shows, and thus which goals can be set); `compat.isSupportDisabledReminds()` (goal-reached remind can be turned off)
+  - Today’s activity totals push (UI refresh): `observeActivityChange() : Observable<WKActivityItem>`; This is device-pushed, not a pull API; for historical or once-off totals use chapter 5 `syncData`. `WKActivityItem` units: steps, distance (meters), calories (kcal), activity/sport duration (seconds), activity count
+  ```kotlin
+  activityAbility.observeActivityChange()
+      .subscribe { item -> /* steps / distance / calories / duration ... */ }
+  ```
 - **WKSportAbility — sport state**: `requestSportState()/observeSportState()` (in sport / sport type); `compat.isSupportSportState()`
 
 ### 4.4 File & push abilities (file)
@@ -670,6 +676,7 @@ deviceAbility.syncData(timeProvider, WKSyncData.Type.ACTIVITY, WKSyncData.Type.H
 - `getSyncTypes()` returns types the device supports; `observeSyncState()` observes sync state
 - Model classes: `WKSleepItem/WKSleepSegment/WKActivityItem/WKHRVDaily/WKSportRecord...`
 - In `sdk-apis`, `SleepAlgorithm` / `SleepCalcSegment` can compute sleep stages
+- Realtime today’s activity refresh uses `activityAbility.observeActivityChange()` (see 4.3), not this historical sync
 
 ---
 

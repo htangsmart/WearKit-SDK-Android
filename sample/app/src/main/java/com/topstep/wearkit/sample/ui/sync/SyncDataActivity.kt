@@ -15,6 +15,7 @@ import com.topstep.wearkit.sample.entity.*
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.utils.AppUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -26,6 +27,7 @@ class SyncDataActivity : BaseActivity() {
     private val wearKit = MyApplication.wearKit
     private lateinit var viewBind: ActivitySyncBinding
     private lateinit var appDatabase: AppDatabase
+    private var observeActivityDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,12 @@ class SyncDataActivity : BaseActivity() {
         appDatabase = AppDatabase.getInstance(this)
         initView()
         initData()
+        observeActivityChange()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        observeActivityDisposable?.dispose()
     }
 
     private fun initView() {
@@ -69,6 +77,24 @@ class SyncDataActivity : BaseActivity() {
                     toast(R.string.tip_success)
                 })
         }
+    }
+
+    private fun observeActivityChange() {
+        observeActivityDisposable = wearKit.activityAbility.observeActivityChange()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                viewBind.tvActivityRealtime.text = buildString {
+                    append("Activity realtime:\n")
+                    append("steps=${it.steps}")
+                    append("  calories=${"%.1f".format(it.calories)}")
+                    append("  distance=${"%.1f".format(it.distance)}\n")
+                    append("duration=${it.duration / 60}min")
+                    append("  sport=${it.sportDuration / 60}min")
+                    append("  number=${it.number}")
+                }
+            }, {
+                Timber.w(it)
+            })
     }
 
     private fun saveSyncData(data: WKSyncData, timeProvider: SyncTimeProviderIncremental) {

@@ -25,6 +25,16 @@
                 android:text="@string/sync_state_idle"
                 android:paddingBottom="4dp"/>
 
+            <TextView
+                android:id="@+id/tv_activity_realtime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:textSize="14sp"/>
+
             <com.github.kilnn.tool.widget.item.PreferenceItem
                 android:id="@+id/item_step"
                 style="@style/Widget.Sample.PreferenceView.Item.Text"

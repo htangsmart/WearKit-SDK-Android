@@ -342,7 +342,7 @@ WearKit sample 的 `ACCESS_COARSE_LOCATION`、`ACCESS_FINE_LOCATION` 与上面�
 | 配置 | `dndAbility` | 勿扰时段 |
 | 配置 | `raiseWakeupAbility` | 抬腕亮屏 |
 | 配置 | `womenHealthAbility` | 女性健康（经期提醒等） |
-| 数据 | `activityAbility` | 活动目标（步数/卡路里目标设置） |
+| 数据 | `activityAbility` | 活动目标；部分设备支持当日活动总量推送 |
 | 数据 | `heartRateAbility` | 心率实时测量/监测/报警/HRV 配置 |
 | 数据 | `bloodOxygenAbility` | 血氧测量/监测 |
 | 数据 | `pressureAbility` | 压力测量/监测 |
@@ -496,7 +496,13 @@ heartRateAbility.compat.isSupportMonitorConfig()  // 是否支持自动监测配
 - **WKBloodOxygenAbility / WKPressureAbility**：measure + 监测配置
 - **WKBloodPressureAbility**：`measureRealtime : Observable<WKBloodPressureItem>`（含高压/低压/脉搏）
 - **WKTemperatureAbility**：`measureRealtime : Observable<WKTemperatureItem>`
-- **WKActivityAbility 活动目标**：`getGoalConfig()/setGoalConfig()/syncGoalConfig()/observeGoalConfig()`；`compat.getActivityAttributes()`（设备活动页展示哪些指标，也决定目标设置项）；`compat.isSupportDisabledReminds()`（目标达成提醒可关闭）
+- **WKActivityAbility 活动目标 / 当日活动推送**：
+  - 目标：`getGoalConfig()/setGoalConfig()/syncGoalConfig()/observeGoalConfig()`；`compat.getActivityAttributes()`（设备活动页展示哪些指标，也决定目标设置项）；`compat.isSupportDisabledReminds()`（目标达成提醒可关闭）
+  - 当日活动总量推送（刷新 UI）：`observeActivityChange() : Observable<WKActivityItem>`；这是设备主动上报，不是拉取接口；历史或一次性总量请用第 5 章 `syncData`。`WKActivityItem` 字段单位：步数、距离（米）、卡路里（千卡）、活动/运动时长（秒）、活动次数
+  ```kotlin
+    activityAbility.observeActivityChange()
+        .subscribe { item -> /* steps / distance / calories / duration ... */ }
+  ```
 - **WKSportAbility 运动状态**：`requestSportState()/observeSportState()`（是否运动中/运动类型）；`compat.isSupportSportState()`
 
 ### 4.4 文件与推送能力（file）
@@ -670,6 +676,7 @@ deviceAbility.syncData(timeProvider, WKSyncData.Type.ACTIVITY, WKSyncData.Type.H
 - `getSyncTypes()` 返回设备支持的类型；`observeSyncState()` 观察同步状态
 - 模型类：`WKSleepItem/WKSleepSegment/WKActivityItem/WKHRVDaily/WKSportRecord...`
 - `sdk-apis` 内 `SleepAlgorithm` / `SleepCalcSegment` 可算睡眠分期
+- 当日活动实时刷新走 `activityAbility.observeActivityChange()`（见 4.3），与本处历史同步不同
 
 ---
 
