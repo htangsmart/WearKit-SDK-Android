@@ -11,6 +11,7 @@ import com.topstep.wearkit.apis.WKWearKit
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
 import com.topstep.wearkit.apis.model.WKThirdPartyData
 import com.topstep.wearkit.apis.model.core.WKConnectorState
+import com.topstep.wearkit.apis.model.speech.WKSpeechAiSDK
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.sample.BuildConfig
 import com.topstep.wearkit.sample.MyApplication
@@ -337,6 +338,7 @@ object SpeechAiManager {
                         aiKit = null
                         _state.value = State.FAILED
                         kit.release()
+                        reportAiSdkInitResult(success = false, vendor)
                     }
                 }
 
@@ -348,6 +350,7 @@ object SpeechAiManager {
                         }
                         Timber.tag(TAG).i("AiKit init success")
                         _state.value = State.READY
+                        reportAiSdkInitResult(success = true, vendor)
                     }
                 }
 
@@ -380,6 +383,19 @@ object SpeechAiManager {
     private fun clearThirdPartyBridge() {
         thirdPartyDisposable?.dispose()
         thirdPartyDisposable = null
+    }
+
+    @SuppressLint("CheckResult")
+    private fun reportAiSdkInitResult(success: Boolean, vendor: Vendor) {
+        speechAi.setAiSDKInitResult(success, vendor.toWKSpeechAiSDK())
+            .subscribe({}, {
+                Timber.tag(TAG).w(it, "setAiSDKInitResult")
+            })
+    }
+
+    private fun Vendor.toWKSpeechAiSDK(): WKSpeechAiSDK = when (this) {
+        Vendor.STAR_BURST -> WKSpeechAiSDK.STAR_BURST
+        Vendor.EYE_EAR -> WKSpeechAiSDK.EYE_EAR
     }
 
 }
