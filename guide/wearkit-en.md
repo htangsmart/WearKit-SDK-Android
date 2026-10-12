@@ -24,6 +24,8 @@ Registering an adapter **does not** mean every device on that platform supports 
 
 ---
 
+<a id="2-quick-integration"></a>
+
 ## 2. Quick Integration
 
 > - Android application module, Kotlin, Java 8 language level.
@@ -378,9 +380,8 @@ Data sync: historical data (steps / heart rate / sleep / sport, etc.) goes throu
 
 #### WKDeviceAbility — device management & data sync
 - `shutdown()` power off / `reset()` factory reset / `reboot()` reboot
-- `syncItem(type, start, end)` sync a single data type (deprecated; use syncData)
 - `getSyncTypes()` supported sync data types
-- `syncData(timeProvider, vararg types)` sync specified types in one call (**recommended**; efficient ordered sync internally)
+- `syncData(timeProvider, vararg types)` sync specified types in one call (efficient ordered sync internally)
 - `syncData(timeProvider)` sync all types
 - `observeSyncState()` / `isSyncing()` sync state
 - `getDeviceInfo()` / `observeDeviceInfo(replay)` basic device info (model / firmware / serial, etc.)
@@ -423,7 +424,7 @@ Data sync: historical data (steps / heart rate / sleep / sport, etc.) goes throu
 - `sendCameraMessage(message)` send capture / lens-switch commands (see `WKCameraMessage`)
 - `observeCameraMessage()` device requests for photo / video
 - `startPreview(quality)` start preview stream (push App camera frames to the device display)
-- `updatePreview(type, data)` / `updatePreview(image: WKImageProxy)` send preview frames (WKImageProxy recommended; the former is `@Deprecated`)
+- `updatePreview(image: WKImageProxy)` send preview frames
 - `stopPreview()` stop preview and release encoder
 - `setCameraInfo(zoomRatioMin, zoomRatioMax)` tell the device the camera zoom range
 - `compat`: `isSupportPreview()` / `isSupportVideo()` / `getPreviewSize()`
@@ -536,6 +537,8 @@ Common pattern: `requestDirSpace()` (space) / `requestFiles()` (list) / `addFile
   - `rtsp(quality)` establish WiFi and return an RTSP stream URL (live view); `compat.isSupportRtsp()`
   - `compat.isSupport()/isRequireWifi()`
 
+<a id="4-5-dial"></a>
+
 ### 4.5 Dial abilities (dial)
 
 **WKDialAbility — basic dial management**
@@ -570,25 +573,26 @@ Common pattern: `requestDirSpace()` (space) / `requestFiles()` (list) / `addFile
 - **WKBusinessCardAbility — business card**: `request()` query; `set(map)` set (fields in `WKBusinessCard`); `compat.isSupport()`
 - **WKPaymentCodeAbility — payment code**: `request()/set(map)` same pattern; `compat.isSupport()`
 - **WKLockAbility — locks**: `setScreenLock(lock)/requestScreenLock()` screen lock; `setGameLock(lock)` game lock (anti-addiction periods); `compat.isSupportScreenLock()/isSupportGameLock()/getPasswordLength()`
-- **WKMuslimAbility — Muslim** (formerly `prayerAbility`, renamed): `requestPrayerSwitch()/setPrayer(info)/observePrayerSwitch()` prayer; `setHijri(current, holidays)` Hijri calendar; `setQibla(degrees, distance)` Qibla; `observeMuslimMessage()`; `compat.isSupportPrayer()/isSupportQibla()/isSupportHijri()`
+- **WKMuslimAbility — Muslim**: `requestPrayerSwitch()/setPrayer(info)/observePrayerSwitch()` prayer; `setHijri(current, holidays)` Hijri calendar; `setQibla(degrees, distance)` Qibla; `observeMuslimMessage()`; `compat.isSupportPrayer()/isSupportQibla()/isSupportHijri()`
 - **WKWorldClockAbility — world clock**: `setClocks(list)/requestClocks()`; `compat.isSupport()/getWorldClockMaxNumber()`
 
 <a id="4-7-speech-ai"></a>
 
 ### 4.7 Speech AI abilities (speech)
 
-**WKSpeechAiAbility** is the speech-AI core (including platforms that implement this ability such as FitCloud / ProtoTb / AbMate). Overall model:
+**WKSpeechAiAbility** is the speech-AI core (including platforms that implement this ability such as FitCloud / ProtoTb / AbMate). Core flow:
 
 ```
-Device (earbuds/watch) mic audio → WKSpeechSession.audio() → App runs ASR/LLM/translate
-App results → Chat.sendTextQuestion/sendTextAnswer etc. push back to the device display
-Device TTS playback → Player.start/write pushes PCM to the device speaker
+1. Get a session: session.observeDeviceSession() (device-initiated) or session.createAppSession(...) (App-initiated)
+2. Subscribe to audio: WKSpeechSession.audio() to open the session audio stream
+3. App processing: send audio to your AI APIs for ASR / LLM / translate
+4. Push back to the device: send results or errors (scene sub-abilities below)
 ```
 
 **Prerequisites**
 - `isSupport()` whether the device supports speech AI
 - `getSuggestAiSDKs()` recommended AI SDKs (internal; **customer apps choosing their own AI SDK can ignore**)
-- `setAiSDKInitResult(success, aiSDK?)` after connect, tell the device the App-side AI SDK init result; `aiSDK` may be null (when not using the `WKSpeechAiSDK` enum). Old parameter order `(aiSDK, success)` is `@Deprecated`
+- `setAiSDKInitResult(success, aiSDK?)` after connect, tell the device the App-side AI SDK init result; `aiSDK` may be null (when not using the `WKSpeechAiSDK` enum)
 
 **Session model**
 - Scene `WKSpeechSession.Scene`: `CHAT(0)` AI chat / `RECORD(1)` recording / `CALL_RECORD(2)` call recording / `TRANSLATE(3)` simultaneous interpretation / `TAXI(4)` / `DIAL(5)` AI dial / `ASK(6)` Q&A / `CHAT_TRANSLATE_SELF(7)` chat-translate self / `CHAT_TRANSLATE_PEER(8)` chat-translate peer
@@ -642,7 +646,7 @@ Device TTS playback → Player.start/write pushes PCM to the device speaker
 - `write(pcm, isFinal)` blocking PCM write (isFinal flushes and waits until playback finishes)
 - `stop()` end
 
-> App-side samples for each scene (record / translate / chat-translate / AI chat) are under WearKit-SDK-Android sample `ui/ai` (RecordHandler/TranslateHandler/ChatTranslateHandler/ChatHandler, etc.). Wiring audio to a third-party AI SDK (ASR/LLM) is the customer’s responsibility.
+> App-side samples for each scene (record / translate / chat-translate / AI chat) are under WearKit-SDK-Android sample `ui/ai` (RecordHandler/TranslateHandler/ChatTranslateHandler/ChatHandler, etc.). Wiring audio to a third-party AI SDK (ASR/LLM) is the customer’s responsibility; for TopStep AiKit (`com.topstep.aikit`), see the [AiKit guide](aikit-en.md).
 
 ### 4.8 B2B custom abilities (b2b)
 
@@ -701,7 +705,7 @@ Common package constants (`CommonAppPackage` in sdk-base): SMS/EMAIL/QQ/WECHAT/F
 
 > When integrating AbMate: complete scan/connect with `scanner`/`connector`; use shared abilities (including chat/record/translate) via `WK*Ability`; call only glasses-specific APIs through `AbMateSDK.abMateManager` (`wearKit.getRawSDK() as AbMateSDK`).
 >
-> **For speech AI, use [4.7 Speech AI abilities](#4-7-speech-ai)** (`wearKit.speechAiAbility`). AbMate implements this ability—**do not** use legacy `abMateManager` APIs such as `sendAIChatState` / `setAIRecordState` / `aIRecordData` / `stateAIChat`. See sample `ui/ai`.
+> **For speech AI, use [4.7 Speech AI abilities](#4-7-speech-ai)** (`wearKit.speechAiAbility`). AbMate implements this ability. See sample `ui/ai`.
 
 ### 7.1 Build & connect
 
@@ -830,7 +834,7 @@ manager.sendAppRecordState(state)                 // Speaker recording on/off
 1. **Ability does nothing**: check `compat.isSupport()` first. Judge all `isSupport*` methods before calling; unsupported calls throw `WKUnsupportedException`.
 2. **RxJava crashes**: you must set `RxJavaPlugins.setErrorHandler` as in 2.3 and ignore the exception set from `wearKit.rxJavaPluginsIgnoreExceptions()`.
 3. **Missing notification categories** (e.g. Messenger/WhatsApp absent from the main list): if an App’s notification switch is missing from the main list, the category is usually **not enabled in the notification support bitmap from device firmware** (device capability config, not an App bug). You can still enable that App via the “More apps” generic channel.
-4. **Slow data sync**: use `syncData(timeProvider, vararg types)` to sync multiple types at once; avoid calling `syncItem` one by one.
+4. **Slow data sync**: use `syncData(timeProvider, vararg types)` to sync multiple types at once.
 5. **Permissions**: for scan and connect, request Bluetooth permissions as in [2.7 Permissions](#2-7-permission) (on API 31+ with `BLUETOOTH_SCAN` + `neverForLocation`, scanning itself does not require location). Camera preview needs camera permission; WiFi-mode `fileAbility` pull follows `compat.isRequireWifi()`. If the app uses EPO or continuous device location, request location permissions for that business (see the sample note in 2.7).
 6. **Recording file pull**: `fileAbility.pullFiles()` deletes device originals after a successful pull; only some platforms/devices support it (`isSupport()`).
 7. **Protocol questions**: follow this guide plus public APIs and the sample; contact TopStep for unpublished protocol documents.

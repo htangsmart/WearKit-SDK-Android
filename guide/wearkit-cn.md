@@ -24,6 +24,8 @@ WearKit 是面向可穿戴设备的统一 SDK（`com.topstep.wearkit`）。**扫
 
 ---
 
+<a id="2-quick-integration"></a>
+
 ## 2. 快速集成
 
 > - Android 应用模块、Kotlin、Java 8 语言级别。
@@ -378,9 +380,8 @@ WearKit sample 的 `ACCESS_COARSE_LOCATION`、`ACCESS_FINE_LOCATION` 与上面�
 
 #### WKDeviceAbility 设备管理 & 数据同步
 - `shutdown()` 关机 / `reset()` 复位 / `reboot()` 重启设备
-- `syncItem(type, start, end)` 同步单类型数据（已废弃，用 syncData）
 - `getSyncTypes()` 获取设备支持的所有同步数据类型
-- `syncData(timeProvider, vararg types)` 一次同步指定类型（**推荐**，内部按序高效同步）
+- `syncData(timeProvider, vararg types)` 一次同步指定类型（内部按序高效同步）
 - `syncData(timeProvider)` 同步全部类型
 - `observeSyncState()` / `isSyncing()` 同步状态
 - `getDeviceInfo()` / `observeDeviceInfo(replay)` 设备基础信息（型号/固件版本/序列号等）
@@ -423,7 +424,7 @@ WearKit sample 的 `ACCESS_COARSE_LOCATION`、`ACCESS_FINE_LOCATION` 与上面�
 - `sendCameraMessage(message)` 发送拍照/切换镜头等控制指令（见 `WKCameraMessage`）
 - `observeCameraMessage()` 设备请求拍照/录像消息
 - `startPreview(quality)` 启动预览流推送（把 App 相机画面推送到设备端显示）
-- `updatePreview(type, data)` / `updatePreview(image: WKImageProxy)` 发送预览帧（推荐 WKImageProxy 方式；前者已 `@Deprecated`）
+- `updatePreview(image: WKImageProxy)` 发送预览帧
 - `stopPreview()` 停止预览并释放编码器
 - `setCameraInfo(zoomRatioMin, zoomRatioMax)` 告知设备相机变焦范围
 - `compat`：`isSupportPreview()` / `isSupportVideo()` / `getPreviewSize()`
@@ -536,6 +537,8 @@ heartRateAbility.compat.isSupportMonitorConfig()  // 是否支持自动监测配
   - `rtsp(quality)` 建立 WiFi 连接并返回 RTSP 串流地址（实时画面），`compat.isSupportRtsp()`
   - `compat.isSupport()/isRequireWifi()`
 
+<a id="4-5-dial"></a>
+
 ### 4.5 表盘能力（dial）
 
 **WKDialAbility 基础表盘管理**
@@ -570,25 +573,26 @@ heartRateAbility.compat.isSupportMonitorConfig()  // 是否支持自动监测配
 - **WKBusinessCardAbility 名片**：`request()` 查询设备名片；`set(map)` 设置（字段见 `WKBusinessCard`）；`compat.isSupport()`
 - **WKPaymentCodeAbility 支付码**：`request()/set(map)` 同上模式；`compat.isSupport()`
 - **WKLockAbility 锁**：`setScreenLock(lock)/requestScreenLock()` 屏幕锁；`setGameLock(lock)` 游戏锁（防沉迷时段）；`compat.isSupportScreenLock()/isSupportGameLock()/getPasswordLength()`
-- **WKMuslimAbility 穆斯林**（原 `prayerAbility`，已废弃改此名）：`requestPrayerSwitch()/setPrayer(info)/observePrayerSwitch()` 祷告；`setHijri(current, holidays)` 回历；`setQibla(degrees, distance)` 朝向；`observeMuslimMessage()`；`compat.isSupportPrayer()/isSupportQibla()/isSupportHijri()`
+- **WKMuslimAbility 穆斯林**：`requestPrayerSwitch()/setPrayer(info)/observePrayerSwitch()` 祷告；`setHijri(current, holidays)` 回历；`setQibla(degrees, distance)` 朝向；`observeMuslimMessage()`；`compat.isSupportPrayer()/isSupportQibla()/isSupportHijri()`
 - **WKWorldClockAbility 世界时钟**：`setClocks(list)/requestClocks()`；`compat.isSupport()/getWorldClockMaxNumber()`
 
 <a id="4-7-speech-ai"></a>
 
 ### 4.7 语音 AI 能力（speech）
 
-**WKSpeechAiAbility** 是语音 AI 核心（含 FitCloud / ProtoTb / AbMate 等已实现该 ability 的平台）。整体模型：
+**WKSpeechAiAbility** 是语音 AI 核心（含 FitCloud / ProtoTb / AbMate 等已实现该 ability 的平台）。核心流程：
 
 ```
-设备(耳机/手表) 麦克风音频 → WKSpeechSession.audio() → App 做 ASR/LLM/翻译
-App 结果 → Chat.sendTextQuestion/sendTextAnswer 等回推设备显示
-设备播放 TTS → Player.start/write 下发 PCM 到设备扬声器
+1. 获取会话：session.observeDeviceSession()（设备发起）或 session.createAppSession(...)（App 发起）
+2. 订阅音频：WKSpeechSession.audio() 开启会话音频流
+3. 业务处理：将音频数据交给 AI 接口做 ASR / LLM / 翻译
+4. 回推设备：把结果或错误发给设备（各场景子能力见下文）
 ```
 
 **使用前提**
 - `isSupport()` 设备是否支持语音 AI
 - `getSuggestAiSDKs()` 推荐 AI SDK（内部用；**客户 App 自选 AI SDK 可忽略**）
-- `setAiSDKInitResult(success, aiSDK?)` 连接后告知设备 App 端 AI SDK 初始化结果；`aiSDK` 可空（未使用 `WKSpeechAiSDK` 枚举时）。旧参数序 `(aiSDK, success)` 已 `@Deprecated`
+- `setAiSDKInitResult(success, aiSDK?)` 连接后告知设备 App 端 AI SDK 初始化结果；`aiSDK` 可空（未使用 `WKSpeechAiSDK` 枚举时）
 
 **会话模型（Session）**
 - 场景 `WKSpeechSession.Scene`：`CHAT(0)` AI 畅聊 / `RECORD(1)` 录音 / `CALL_RECORD(2)` 通话录音 / `TRANSLATE(3)` 同声传译 / `TAXI(4)` / `DIAL(5)` AI 表盘 / `ASK(6)` 问答 / `CHAT_TRANSLATE_SELF(7)` 对话翻译-自身 / `CHAT_TRANSLATE_PEER(8)` 对话翻译-对方
@@ -642,7 +646,7 @@ App 结果 → Chat.sendTextQuestion/sendTextAnswer 等回推设备显示
 - `write(pcm, isFinal)` 阻塞式写入 PCM（isFinal 会 flush 并等待播完）
 - `stop()` 结束
 
-> 各场景（录音/翻译/对话翻译/AI 对话）App 侧实现示例见 WearKit-SDK-Android sample `ui/ai` 目录（RecordHandler/TranslateHandler/ChatTranslateHandler/ChatHandler 等）。音频数据接第三方 AI SDK（ASR/LLM）由客户自行集成。
+> 各场景（录音/翻译/对话翻译/AI 对话）App 侧实现示例见 WearKit-SDK-Android sample `ui/ai` 目录（RecordHandler/TranslateHandler/ChatTranslateHandler/ChatHandler 等）。音频数据接第三方 AI SDK（ASR/LLM）由客户自行集成；若使用 TopStep AiKit（`com.topstep.aikit`），见 [AiKit 接入指南](aikit-cn.md)。
 
 ### 4.8 B2B 定制能力（b2b）
 
@@ -701,7 +705,7 @@ deviceAbility.syncData(timeProvider, WKSyncData.Type.ACTIVITY, WKSyncData.Type.H
 
 > 客户集成 AbMate：先用 `scanner`/`connector` 完成扫描连接；通用能力（含语音对话/录音/翻译）直接走 `WK*Ability`；仅眼镜专属能力经 `AbMateSDK.abMateManager`（`wearKit.getRawSDK() as AbMateSDK`）调用。
 >
-> **语音 AI 请使用 [4.7 语音 AI 能力](#4-7-speech-ai)**（`wearKit.speechAiAbility`）。AbMate 已实现该能力，**不要**再走 `abMateManager` 的 `sendAIChatState` / `setAIRecordState` / `aIRecordData` / `stateAIChat` 等旧接口。示例见 sample `ui/ai`。
+> **语音 AI 请使用 [4.7 语音 AI 能力](#4-7-speech-ai)**（`wearKit.speechAiAbility`）。AbMate 已实现该能力。示例见 sample `ui/ai`。
 
 ### 7.1 构建与连接
 
@@ -830,7 +834,7 @@ manager.sendAppRecordState(state)                 // 音响录音开关
 1. **能力不生效**：先查 `compat.isSupport()`；所有 `isSupport*` 类方法都要在调用前判断，不支持时会抛 `WKUnsupportedException`。
 2. **RxJava 崩溃**：务必按 2.3 设置 `RxJavaPlugins.setErrorHandler`，忽略 `wearKit.rxJavaPluginsIgnoreExceptions()` 返回的异常集。
 3. **通知类别缺失**（如主列表没有 Messenger/WhatsApp）：某个 App 的通知开关在主列表不显示，通常是**设备固件下发的通知支持能力位图**中该类别未开启（属设备能力配置，不是 App 问题）；此时仍可通过"更多 App"通用通道勾选该 App 的通知。
-4. **数据同步慢**：用 `syncData(timeProvider, vararg types)` 一次性同步多类型，避免逐个 `syncItem`。
+4. **数据同步慢**：用 `syncData(timeProvider, vararg types)` 一次性同步多类型。
 5. **权限**：扫描与连接按 [2.7 权限](#2-7-permission) 申请蓝牙权限（API 31+ 且 `BLUETOOTH_SCAN` 带 `neverForLocation` 时，扫描本身不申请定位）。相机预览需相机权限；`fileAbility` WiFi 拉取见 `compat.isRequireWifi()`；EPO / 设备持续定位等业务若使用定位，另按业务申请定位权限（见 2.7 对 sample 的说明）。
 6. **录音文件拉取**：`fileAbility.pullFiles()` 拉完自动删设备原件；仅部分平台/设备支持（`isSupport()`）。
 7. **协议疑问**：以本指南与公开 API / sample 为准；需对接未公开的协议说明时联系 TopStep。

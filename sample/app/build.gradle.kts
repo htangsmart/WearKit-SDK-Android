@@ -238,7 +238,7 @@ dependencies {
     implementation(libs.androidx.window)
 
     //aikit
-    val aikitVersion = "1.0.2-SNAPSHOT"
+    val aikitVersion = "1.0.2"
     val aikitChanging = aikitVersion.contains("SNAPSHOT")
     implementation("com.topstep.aikit:aikit-base:$aikitVersion") { isChanging = aikitChanging }
     implementation("com.topstep.aikit:aikit-starburst:$aikitVersion") { isChanging = aikitChanging }
