@@ -506,6 +506,8 @@ Per-ability differences:
   ```
 - **WKSportAbility — sport state**: `requestSportState()/observeSportState()` (in sport / sport type); `compat.isSupportSportState()`
 
+<a id="4-4-file"></a>
+
 ### 4.4 File & push abilities (file)
 
 Common pattern: `requestDirSpace()` (space) / `requestFiles()` (list) / `addFile(...)` (push with progress 0–100) / `deleteFile(path)` / `observeFileChange()` + `compat.isSupport()`.
@@ -513,7 +515,7 @@ Common pattern: `requestDirSpace()` (space) / `requestFiles()` (list) / `addFile
 - **WKMusicAbility — music**: `.mp3` only (`audio/mpeg`); other formats must be transcoded by the app (e.g. ffmpeg-kit-min); `addFile(uri, artist?)`; compat includes `isSupportRequest()/isSupportDelete()`
 - **WKEBookAbility — e-book**: `text/plain` only, default UTF-8, optional `charset`; `addFile(uri, charset)`
 - **WKAlbumAbility — images**: `addFile(uri)`; `compat.isSupportFolders()` (folder grouping)
-- **WKOtaAbility — OTA**: `ota(file) : Observable<Int>` firmware / UI upgrade (progress 0–100)
+- <a id="4-4-ota"></a>**WKOtaAbility — OTA**: `ota(file) : Observable<Int>` firmware / UI upgrade (progress 0–100); transfer failures throw `WKFileTransferException`
 - **WKSportUIAbility — sport UI**: `requestCloudSportUIResources()` (cloud resources) / `requestSupportSports()` / `requestSports()` / `requestSpaces()` / `install(file, spaceIndex?)` push custom sport icons/UI
 - **WKLogAbility — logs**: `pull() : Observable<ProgressResult<File>>` pull device logs (missing result file = device has no logs); `compat.isSupport()`
 - **WKLocationMapAbility — location / EPO / offline maps**:

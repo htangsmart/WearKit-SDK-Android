@@ -77,4 +77,19 @@ dependencies {
 - 弹幕：`clearDanMu(type)` / `addDanMu(items)`（空列表不发包）/ `compat.isSupportDanMu()`；
 - 配置：`requestConfig()` / `setConfig(UGreenConfig)`；
 
+### 3.6 OTA 固件升级
+
+绿联走 FitCloud 统一入口，无单独 b2b OTA API。通用说明见 [wearkit-cn · 4.4 `WKOtaAbility`](../wearkit-cn.md#4-4-ota)。
+
+- `wearKit.otaAbility.ota(file) : Observable<Int>`：固件升级，进度 0–100；传输失败抛 `WKFileTransferException`
+- 须已连接（`WKConnectorState.CONNECTED`）
+- 升级过程中设备可能断开，属正常现象；完成后重新连接，用 `deviceAbility.getDeviceInfo()` / `observeDeviceInfo` 核对 `version`
+- 示例见 WearKit sample `ui/ota/LocalOtaActivity`（sample only）
+
+```kotlin
+wearKit.otaAbility.ota(file)
+    .observeOn(AndroidSchedulers.mainThread())
+    .subscribe({ progress -> /* 0-100 */ }, { /* WKFileTransferException 等 */ })
+```
+
 ---

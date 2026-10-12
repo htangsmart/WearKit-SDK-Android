@@ -506,6 +506,8 @@ heartRateAbility.compat.isSupportMonitorConfig()  // 是否支持自动监测配
   ```
 - **WKSportAbility 运动状态**：`requestSportState()/observeSportState()`（是否运动中/运动类型）；`compat.isSupportSportState()`
 
+<a id="4-4-file"></a>
+
 ### 4.4 文件与推送能力（file）
 
 统一模式：`requestDirSpace()`（空间）/`requestFiles()`（列表）/`addFile(...)`（推送，带进度 0-100）/`deleteFile(path)`/`observeFileChange()` + `compat.isSupport()`。
@@ -513,7 +515,7 @@ heartRateAbility.compat.isSupportMonitorConfig()  // 是否支持自动监测配
 - **WKMusicAbility 音乐**：仅支持 `.mp3`（`audio/mpeg`）；其他格式需自行转码（如 ffmpeg-kit-min）；`addFile(uri, artist?)`；compat 含 `isSupportRequest()/isSupportDelete()`
 - **WKEBookAbility 电子书**：仅 `text/plain`，默认 UTF-8，可传 `charset`；`addFile(uri, charset)`
 - **WKAlbumAbility 图片**：`addFile(uri)`；`compat.isSupportFolders()`（分文件夹）
-- **WKOtaAbility OTA**：`ota(file) : Observable<Int>` 固件/UI 升级（进度 0-100）
+- <a id="4-4-ota"></a>**WKOtaAbility OTA**：`ota(file) : Observable<Int>` 固件/UI 升级（进度 0-100）；传输失败抛 `WKFileTransferException`
 - **WKSportUIAbility 运动 UI**：`requestCloudSportUIResources()`（云端资源）/`requestSupportSports()`/`requestSports()`/`requestSpaces()`/`install(file, spaceIndex?)` 推送自定义运动图标/UI
 - **WKLogAbility 日志**：`pull() : Observable<ProgressResult<File>>` 拉取设备日志（result 文件不存在=设备无日志）；`compat.isSupport()`
 - **WKLocationMapAbility 定位/EPO/离线地图**：
