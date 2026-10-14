@@ -15,7 +15,9 @@ import timber.log.Timber
  * [WKSpeechSession.Scene.TRANSLATE]
  *
  * - 调 AiKit ASR/翻译，原文/译文回传设备并写入 [TranslateTranscript]
- * - TTS 默认手机外放，PCM 经 [MyAudioPlayer] 直接播放（不做落盘/回放）
+ * - TTS 路由跟随录音来源（从哪里收就从哪里播），PCM 经 [MyAudioPlayer] 直接播放：
+ *   手机麦克风→手机外放 / SCO→耳机 / 设备指令通道→设备；
+ *   DEVICE_CMD 且设备不支持下发 PCM 时退回手机外放。
  * - APP 语言来自 [TranslateTranscript]；设备语言来自 [WKSpeechAiAbility.Translate.getLang]
  *
  * 本 Sample 不响应 [com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage.Type.TRANSLATE_PLAYER_STATE]。
@@ -39,6 +41,12 @@ class TranslateHandler(
     override val scene = WKSpeechSession.Scene.TRANSLATE
     override val tag = "TranslateHandler"
 
+    /**
+     * TTS 播放路由 = 本次录音来源（从哪里收就从哪里播）；
+     * DEVICE_CMD 但设备不支持下发 PCM 时退回手机外放（与 Chat / Ask 保持一致）。
+     */
+    private val ttsRoute: WKSpeechSession.Source = resolveTtsRoute()
+
     private val originalLocale: String
     private val translateLocale: String
 
@@ -54,15 +62,25 @@ class TranslateHandler(
 
     override fun onStart() {
         Timber.tag(tag).i(
-            "start origin=%s source=%s %s -> %s",
-            session.origin, session.source, originalLocale, translateLocale,
+            "start origin=%s source=%s ttsRoute=%s %s -> %s",
+            session.origin, session.source, ttsRoute, originalLocale, translateLocale,
         )
         TranslateTranscript.onSessionStarted(session, originalLocale, translateLocale)
-        if (session.source == WKSpeechSession.Source.PHONE_MIC) {
-            // 录音前切通话路由，便于系统 AEC；TTS 仍默认手机外放
-            MyAudioPlayer.activate(WKSpeechSession.Source.PHONE_MIC)
-        }
+        // 提前绑定路由：PHONE_MIC 先切通话路由给 AEC；DEVICE_SCO 挂到耳机；DEVICE_CMD 走设备 Opus
+        MyAudioPlayer.activate(ttsRoute)
         startAsr()
+    }
+
+    /** DEVICE_CMD 但设备不支持下发 PCM 时退回手机外放。 */
+    private fun resolveTtsRoute(): WKSpeechSession.Source {
+        if (session.source != WKSpeechSession.Source.DEVICE_CMD) {
+            return session.source
+        }
+        return if (speechAi.player.isSupport(session.scene)) {
+            WKSpeechSession.Source.DEVICE_CMD
+        } else {
+            WKSpeechSession.Source.PHONE_MIC
+        }
     }
 
     private fun resolveLocales(): Pair<String, String> {
@@ -125,7 +143,9 @@ class TranslateHandler(
                     is AiAsrResult.TranslateTts -> {
                         if (!result.isComplete) {
                             if (result.bytes.isNotEmpty()) {
-                                ensureTtsStarted()
+                                if (!MyAudioPlayer.isStarted()) {
+                                    MyAudioPlayer.start()
+                                }
                                 MyAudioPlayer.sendData(result.bytes.copyOf())
                             }
                         } else {
@@ -149,14 +169,6 @@ class TranslateHandler(
                 release()
             })
         )
-    }
-
-    /** 默认手机外放；非 PHONE_MIC 会话若尚未 activate，这里补上。 */
-    private fun ensureTtsStarted() {
-        if (!MyAudioPlayer.isStarted()) {
-            MyAudioPlayer.activate(WKSpeechSession.Source.PHONE_MIC)
-            MyAudioPlayer.start()
-        }
     }
 
     override fun onRelease() {
