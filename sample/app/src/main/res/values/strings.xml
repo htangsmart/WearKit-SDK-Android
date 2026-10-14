@@ -371,6 +371,9 @@
     <string name="ds_speech_ct_role_self">Self</string>
     <string name="ds_speech_ct_role_peer">Peer</string>
     <string name="ds_speech_ct_utterance_detail">%1$s… origin=%2$s source=%3$s %4$s→%5$s</string>
+    <string name="ds_speech_ct_connecting">Connecting… (SCO / device channel takes 1–2s)</string>
+    <string name="ds_speech_ct_recording">Recording — speak now</string>
+    <string name="ds_speech_ct_tip_short_capture">Released before capture started: hold until the state shows “Recording — speak now”, then speak</string>
     <string name="ds_speech_lang_self">Self language</string>
     <string name="ds_speech_lang_peer">Peer language</string>
     <string name="ds_speech_debug">Debug</string>

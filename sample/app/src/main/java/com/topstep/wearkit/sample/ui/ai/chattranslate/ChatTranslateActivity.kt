@@ -19,6 +19,7 @@ import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 /**
@@ -104,30 +105,45 @@ class ChatTranslateActivity : BaseActivity() {
 
         lifecycle.launchRepeatOnStarted {
             launch {
-                ChatTranslateTranscript.inUtterance.collect { active ->
-                    setStartButtonsEnabled(!active)
-                    viewBind.btnSwapLang.isEnabled = !active
-                    setLangGroupsEnabled(!active)
-                    if (!active) {
-                        viewBind.tvState.setText(R.string.ds_speech_ready)
+                // 状态要区分「已按下但链路还没就绪」和「真的在采」：
+                // SCO / 设备通道按下后约 1.2s 才开始有音频，在此之前说话收不到。
+                combine(
+                    ChatTranslateTranscript.inUtterance,
+                    ChatTranslateTranscript.recording,
+                    ChatTranslateTranscript.info,
+                ) { active, recording, info -> Triple(active, recording, info) }
+                    .collect { (active, recording, info) ->
+                        setStartButtonsEnabled(!active)
+                        viewBind.btnSwapLang.isEnabled = !active
+                        setLangGroupsEnabled(!active)
+                        viewBind.tvState.text = when {
+                            !active -> getString(R.string.ds_speech_ready)
+                            !recording -> getString(R.string.ds_speech_ct_connecting)
+                            else -> buildString {
+                                append(getString(R.string.ds_speech_ct_recording))
+                                if (info != null) {
+                                    val role = getString(
+                                        if (info.isSelf) {
+                                            R.string.ds_speech_ct_role_self
+                                        } else {
+                                            R.string.ds_speech_ct_role_peer
+                                        },
+                                    )
+                                    append(" · ")
+                                    append(
+                                        getString(
+                                            R.string.ds_speech_ct_utterance_detail,
+                                            role,
+                                            info.origin.name,
+                                            info.source.name,
+                                            shortLocale(info.originalLocale),
+                                            shortLocale(info.translateLocale),
+                                        ),
+                                    )
+                                }
+                            }
+                        }
                     }
-                }
-            }
-            launch {
-                ChatTranslateTranscript.info.collect { info ->
-                    if (info == null) return@collect
-                    val role = getString(
-                        if (info.isSelf) R.string.ds_speech_ct_role_self else R.string.ds_speech_ct_role_peer,
-                    )
-                    viewBind.tvState.text = getString(
-                        R.string.ds_speech_ct_utterance_detail,
-                        role,
-                        info.origin.name,
-                        info.source.name,
-                        shortLocale(info.originalLocale),
-                        shortLocale(info.translateLocale),
-                    )
-                }
             }
             launch {
                 ChatTranslateTranscript.messages.collect { messages ->

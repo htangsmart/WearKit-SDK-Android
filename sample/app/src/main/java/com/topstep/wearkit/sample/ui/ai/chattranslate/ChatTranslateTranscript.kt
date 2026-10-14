@@ -42,6 +42,13 @@ object ChatTranslateTranscript {
     private val _inUtterance = MutableStateFlow(false)
     val inUtterance: StateFlow<Boolean> = _inUtterance
 
+    /**
+     * 本轮是否已真正开始采集（收到首帧音频）。
+     * SCO / 设备通道要等会话握手（约 1.2s）与建链完成后才有音频，按下后不会立刻开录。
+     */
+    private val _recording = MutableStateFlow(false)
+    val recording: StateFlow<Boolean> = _recording
+
     private val _info = MutableStateFlow<ChatTranslateInfo?>(null)
     val info: StateFlow<ChatTranslateInfo?> = _info
 
@@ -68,6 +75,12 @@ object ChatTranslateTranscript {
             translateLocale = translateLocale,
         )
         _inUtterance.value = true
+        _recording.value = false
+    }
+
+    /** 收到首帧音频：此刻起麦克风才真正在采，可以说话了。 */
+    fun onRecordingStarted() {
+        _recording.value = true
     }
 
     fun onSourceText(isSelf: Boolean, text: String, isComplete: Boolean, index: Int) {
@@ -81,6 +94,7 @@ object ChatTranslateTranscript {
     /** 采集结束：允许再开新一轮，不把进行中的文本标成 complete。 */
     fun onRecordingEnded() {
         _inUtterance.value = false
+        _recording.value = false
         _info.value = null
     }
 

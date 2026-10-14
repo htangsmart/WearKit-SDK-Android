@@ -371,6 +371,9 @@
     <string name="ds_speech_ct_role_self">自身</string>
     <string name="ds_speech_ct_role_peer">对方</string>
     <string name="ds_speech_ct_utterance_detail">%1$s… origin=%2$s source=%3$s %4$s→%5$s</string>
+    <string name="ds_speech_ct_connecting">链路就绪中…（SCO / 设备通道需要 1~2 秒）</string>
+    <string name="ds_speech_ct_recording">正在录音，请说话</string>
+    <string name="ds_speech_ct_tip_short_capture">还没开始采音就松手了：按住后请等状态变成「正在录音，请说话」再开口</string>
     <string name="ds_speech_lang_self">自身语言</string>
     <string name="ds_speech_lang_peer">对方语言</string>
     <string name="ds_speech_debug">Debug</string>
