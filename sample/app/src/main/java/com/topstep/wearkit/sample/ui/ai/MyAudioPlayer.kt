@@ -3,6 +3,7 @@ package com.topstep.wearkit.sample.ui.ai
 import android.content.Context
 import android.media.*
 import android.os.Build
+import android.os.SystemClock
 import com.topstep.aikit.player.AiChatTtsPlayer
 import com.topstep.aikit.player.TtsAudioPlayer
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
@@ -41,10 +42,21 @@ object MyAudioPlayer : AiChatTtsPlayer() {
     @Volatile
     private var sessionActive = false
 
+    /**
+     * 回放期间由本类拉起的 SCO 链路。
+     * 录音侧 [com.topstep.wearkit.base.utils.speech.ScoReader] 在录音结束会 stopBluetoothSco，
+     * 回放需自己重新建链，退场时也由本类收回。
+     */
+    @Volatile
+    private var scoOpenedByPlayer = false
+
     private var audioTrack: AudioTrack? = null
     private var preferredCommunicationDevice: AudioDeviceInfo? = null
 
     override fun tag(): String = TAG
+
+    val currentRoute: WKSpeechSession.Source?
+        get() = mode.takeIf { sessionActive }
 
     /**
      * 绑定播放路由。新会话会抢占：先 [deactivate] 掉上一轮可能仍在 drain 的播放。
@@ -160,6 +172,10 @@ object MyAudioPlayer : AiChatTtsPlayer() {
 
     private fun startLocalTrack() {
         releaseTrack()
+        if (mode == WKSpeechSession.Source.DEVICE_SCO) {
+            // 录音结束后 SCO 链路已被录音侧释放，回放前重新建链，否则声音会掉到手机侧
+            ensureScoLink()
+        }
         applyLocalRouting(mode)
         val bufferSize = AudioTrack.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT)
             .coerceAtLeast(SAMPLE_RATE * 2 * 2 / 10)
@@ -277,8 +293,9 @@ object MyAudioPlayer : AiChatTtsPlayer() {
                 audioManager.mode = AudioManager.MODE_NORMAL
             }
             WKSpeechSession.Source.DEVICE_SCO -> {
-                // SCO 链路由 ScoReader 在会话结束时关闭；通话模式仍需在此恢复
+                // 录音侧 SCO 由 ScoReader 自行关闭；回放拉起的链路在这里收回
                 audioManager.mode = AudioManager.MODE_NORMAL
+                releaseScoLinkIfOwned()
             }
             WKSpeechSession.Source.DEVICE_CMD -> Unit
         }
@@ -318,9 +335,64 @@ object MyAudioPlayer : AiChatTtsPlayer() {
         audioTrack = null
     }
 
+    /**
+     * 回放前确保 SCO 链路可用：录音结束（ScoReader 释放）会 stopBluetoothSco，
+     * 录音仍在进行（链路已在）则直接复用，不改动 SDK 的链路。
+     */
+    private fun ensureScoLink(): Boolean {
+        if (scoOutputDevice() != null) return true
+        val opened = runCatching {
+            @Suppress("DEPRECATION")
+            audioManager.startBluetoothSco()
+            @Suppress("DEPRECATION")
+            audioManager.isBluetoothScoOn = true
+        }.onFailure {
+            Timber.tag(TAG).w(it, "startBluetoothSco failed")
+        }.isSuccess
+        if (!opened) return false
+        scoOpenedByPlayer = true
+        val startAt = SystemClock.elapsedRealtime()
+        val deadline = startAt + SCO_LINK_TIMEOUT_MS
+        do {
+            if (scoOutputDevice() != null) {
+                Timber.tag(TAG).i("sco link ready in %dms", SystemClock.elapsedRealtime() - startAt)
+                return true
+            }
+            try {
+                Thread.sleep(SCO_LINK_POLL_MS)
+            } catch (_: InterruptedException) {
+                Thread.currentThread().interrupt()
+                return false
+            }
+        } while (SystemClock.elapsedRealtime() < deadline)
+        Timber.tag(TAG).w("sco link not ready after %dms", SCO_LINK_TIMEOUT_MS)
+        return scoOutputDevice() != null
+    }
+
+    private fun scoOutputDevice(): AudioDeviceInfo? {
+        return audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+            .firstOrNull { it.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO }
+    }
+
+    /** 只收回本类拉起的链路；录音侧 ScoReader 仍在用的 SCO 不动。 */
+    private fun releaseScoLinkIfOwned() {
+        if (!scoOpenedByPlayer) return
+        scoOpenedByPlayer = false
+        runCatching {
+            @Suppress("DEPRECATION")
+            audioManager.stopBluetoothSco()
+            @Suppress("DEPRECATION")
+            audioManager.isBluetoothScoOn = false
+        }.onFailure {
+            Timber.tag(TAG).w(it, "stopBluetoothSco failed")
+        }
+    }
+
     private const val TAG = "MyAudioPlayer"
     private const val SAMPLE_RATE = 16000
     private const val CHANNELS = 1
     private const val CHANNEL_CONFIG = AudioFormat.CHANNEL_OUT_MONO
     private const val AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT
+    private const val SCO_LINK_TIMEOUT_MS = 1_000L
+    private const val SCO_LINK_POLL_MS = 50L
 }
