@@ -5,10 +5,8 @@ import com.topstep.aikit.AiKit
 import com.topstep.aikit.model.AiAsrParams
 import com.topstep.aikit.model.AiAsrResult
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
-import com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.apis.model.speech.WKTranslateLang
-import com.topstep.wearkit.apis.model.speech.WKTranslatePlayerState
 import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
 import com.topstep.wearkit.sample.ui.ai.handler.SceneHandler
 import timber.log.Timber
@@ -17,8 +15,16 @@ import timber.log.Timber
  * [WKSpeechSession.Scene.TRANSLATE]
  *
  * - 调 AiKit ASR/翻译，原文/译文回传设备并写入 [TranslateTranscript]
- * - TTS 默认手机外放，响应设备 [WKSpeechAiMessage.Type.TRANSLATE_PLAYER_STATE]
+ * - TTS 默认手机外放，PCM 经 [MyAudioPlayer] 直接播放（不做落盘/回放）
  * - APP 语言来自 [TranslateTranscript]；设备语言来自 [WKSpeechAiAbility.Translate.getLang]
+ *
+ * 本 Sample 不响应 [com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage.Type.TRANSLATE_PLAYER_STATE]。
+ * 若要对齐设备播控，可在 [onMessage] 里按 [com.topstep.wearkit.apis.model.speech.WKTranslatePlayerState] 驱动
+ * [MyAudioPlayer]，并视需要 [TranslateTranscript.onPlayerState] 刷新 UI：
+ * - START：未在播则 [MyAudioPlayer.start]（若有落盘/缓存可再喂入）；已在播则 [MyAudioPlayer.resume]
+ * - STOP：[MyAudioPlayer.stop]
+ * - PAUSE：[MyAudioPlayer.pause]
+ * - RESUME：[MyAudioPlayer.resume]
  *
  * 音频结束只复位 UI；ASR Observable complete 再 [release]，正常收尾不强制停 TTS。
  */
@@ -32,8 +38,6 @@ class TranslateHandler(
 
     override val scene = WKSpeechSession.Scene.TRANSLATE
     override val tag = "TranslateHandler"
-
-    private val ttsController = TranslateTtsController(context)
 
     private val originalLocale: String
     private val translateLocale: String
@@ -55,6 +59,7 @@ class TranslateHandler(
         )
         TranslateTranscript.onSessionStarted(session, originalLocale, translateLocale)
         if (session.source == WKSpeechSession.Source.PHONE_MIC) {
+            // 录音前切通话路由，便于系统 AEC；TTS 仍默认手机外放
             MyAudioPlayer.activate(WKSpeechSession.Source.PHONE_MIC)
         }
         startAsr()
@@ -119,10 +124,15 @@ class TranslateHandler(
                     }
                     is AiAsrResult.TranslateTts -> {
                         if (!result.isComplete) {
-                            ttsController.writePcm(result.bytes)
+                            if (result.bytes.isNotEmpty()) {
+                                ensureTtsStarted()
+                                MyAudioPlayer.sendData(result.bytes.copyOf())
+                            }
                         } else {
-                            val file = ttsController.complete()
-                            Timber.tag(tag).i("tts complete file=%s", file?.absolutePath)
+                            if (MyAudioPlayer.isStarted()) {
+                                MyAudioPlayer.sendFinish()
+                            }
+                            Timber.tag(tag).i("tts complete")
                             speechAi.translate
                                 .sendTtsReady()
                                 .onErrorComplete().subscribe()
@@ -141,22 +151,18 @@ class TranslateHandler(
         )
     }
 
-    override fun onMessage(msg: WKSpeechAiMessage) {
-        when (msg.type) {
-            WKSpeechAiMessage.Type.TRANSLATE_PLAYER_STATE -> {
-                val state = msg.data as? WKTranslatePlayerState
-                if (state == null) {
-                    Timber.tag(tag).w("TRANSLATE_PLAYER_STATE invalid data: %s", msg.data)
-                    return
-                }
-                ttsController.applyPlayerState(state)
-                TranslateTranscript.onPlayerState(state)
-            }
+    /** 默认手机外放；非 PHONE_MIC 会话若尚未 activate，这里补上。 */
+    private fun ensureTtsStarted() {
+        if (!MyAudioPlayer.isStarted()) {
+            MyAudioPlayer.activate(WKSpeechSession.Source.PHONE_MIC)
+            MyAudioPlayer.start()
         }
     }
 
     override fun onRelease() {
-        ttsController.release(stopPlayer = !allowTtsDrain)
+        if (!allowTtsDrain) {
+            MyAudioPlayer.deactivate()
+        }
         TranslateTranscript.onSessionEnded()
     }
 
