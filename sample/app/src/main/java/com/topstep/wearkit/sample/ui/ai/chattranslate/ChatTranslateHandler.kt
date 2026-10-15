@@ -102,8 +102,17 @@ class ChatTranslateHandler(
                         replay.cacheTarget(result.text, result.isComplete, result.index)
                     }
                     is AiAsrResult.TranslateTts -> {
-                        if (!result.isComplete) {
-                            replay.cacheTts(result.bytes)
+                        replay.cacheTts(result.bytes)
+                        if (result.isComplete) {
+                            Timber.tag(tag).i("asr/tts complete → deliver")
+                            disposables.add(
+                                replay.deliver().subscribe({
+                                    release()
+                                }, {
+                                    Timber.tag(tag).w(it, "deliver error")
+                                    release()
+                                })
+                            )
                         }
                     }
                     else -> {}
@@ -112,15 +121,7 @@ class ChatTranslateHandler(
                 Timber.tag(tag).w(it, "asr error")
                 release()
             }, {
-                Timber.tag(tag).i("asr/tts complete → deliver")
-                disposables.add(
-                    replay.deliver().subscribe({
-                        release()
-                    }, {
-                        Timber.tag(tag).w(it, "deliver error")
-                        release()
-                    })
-                )
+                Timber.tag(tag).i("complete")
             })
         )
     }
