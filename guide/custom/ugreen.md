@@ -2,7 +2,7 @@
 
 > GitHub：[https://github.com/htangsmart/WearKit-SDK-Android/](https://github.com/htangsmart/WearKit-SDK-Android/)
 >
-> 版本：`CHANGED.md` 公开版 **3.0.2.7**
+> 版本：`CHANGED.md` 公开版 **3.0.2.8**
 
 ---
 
@@ -35,7 +35,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    val wearkitVersion = "3.0.2.7"
+    val wearkitVersion = "3.0.2.8"
     implementation("com.topstep.wearkit:sdk-core:$wearkitVersion")
     implementation("com.topstep.wearkit:sdk-fitcloud-adapter:$wearkitVersion")
 }
@@ -91,5 +91,44 @@ wearKit.otaAbility.ota(file)
     .observeOn(AndroidSchedulers.mainThread())
     .subscribe({ progress -> /* 0-100 */ }, { /* WKFileTransferException 等 */ })
 ```
+
+## 4. 版本变更
+
+### 2026/10/15
+wearkit:3.0.2.8
+* 绿联功能无修改。
+
+aikit:1.0.3
+* 火山修复vad可能导致asr失败的问题
+
+sample_2026_10_15
+* 删除TranslateTtsController，简化翻译功能tts播放逻辑
+* 优化翻译功能tts播放录音，避免sco和手机扬声器的冲突场景
+* 优化对话翻译响应速度
+
+绿联反馈问题修复：
+翻译：
+1. 开启（耳机）： 开启后，大概录制了两三句（包括 tts 播放），会话主动结束了；
+已解决：问题原因是耳机录音和手机扬声器播放是冲突的，修改了tts播放通道，播放到耳机，而不是手机扬声器。
+
+2. 开启（手机/设备）： 大部分时间正常，偶现主动结束；
+未解决：不容易复现，继续测试排查。
+
+对话翻译：
+1. 面对面（手机+充电仓）： 
+	自身（手机）： 长按后，任务结束了，并且回到了 Speech+Ai 页面；
+已解决：问题原因是设备超时5秒自动结束对话翻译。更新固件到102版本，此版本改为25超时。并且demo优化了响应速度。
+
+2. 私密听译（耳机+充电仓）
+	自身（耳机）： 长按说话，有对应原文和译文输出，但是输出后，立马回到了 Speech+Ai 页面；
+已解决：同上。
+
+3. 便携交流（手机+耳机）： 整体流程没问题（长按说话松手后，asr 文本和翻译文本需要等一段时间才回来，大概六七秒）；
+已解决：同上。
+
+其他已知问题：
+1. 使用耳机拾音时，sco状态不稳定可能会中断流程，sdk待优化
+2. 使用耳机或设备拾音时，可能会丢失前一两个字，sdk待优化
+3. 问答功能说完问题要多按一伙，否则请求容易取消，demo待优化
 
 ---
