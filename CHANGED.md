@@ -1,3 +1,26 @@
+# v3.0.2.8
+
+2026-10-15
+
+1. ADD: Add `WKScheduleAbility` / `WKSchedule` for device schedules.(sdk-fitcloud-adapter)
+2. ADD: Add `WKSleepAbility.observeSleepMessage` and `WKSleepMessage`.(sdk-fitcloud-adapter)
+3. ADD: Add `WKActivityAbility.observeActivityChange` with `Compat.isSupportActivityChange` / `isSupport`.(sdk-fitcloud-adapter)
+4. ADD: Add `WKNotificationAbility.Compat.isSupport`.(sdk-fitcloud-adapter)
+5. ADD: Implement AI translation in `WKSpeechAiAbility.Translate`.(sdk-prototb-adapter)
+6. ADD: Add Live preview in `WKCameraAbility.openLive` / `Compat.isSupportLive` with `WKLiveSession` (OGG: JPEG + Opus, AbMate).(sdk-abmate-adapter)
+7. ADD: Integrate AbMate OTA (including Jieli OTA) and instant capture.(sdk-abmate-adapter)
+8. ADD: Add Hsd parental control APIs (`HsdAbility` / `HsdParentalControl`).(sdk-prototb-adapter)
+9. ADD: Add new vendor id in `WKProductType`
+10. CHANGE: Optimize `setAiSDKInitResult` argument order; deprecate the old signature
+11. CHANGE: Mark unused APIs as `@Deprecated`; remove unused `WKProvider` and aliagent dependencies
+12. CHANGE: Replace LiveData with PublishSubject for AbMate OTA state to avoid sticky values / data loss.(sdk-abmate-adapter)
+13. CHANGE: Align Hsd reward-redeem timeout with device dialog timeout; refine parental control behavior.(sdk-prototb-adapter)
+14. FIX: Prevent crash when `getRemoteDevice` receives an invalid address on some phones
+15. FIX: Fix OpusWriter unsubscribing `setupNotification` too early, causing missing ACK
+16. FIX: Fix OTA state stuck after success/failure due to LiveData sticky values
+17. FIX: Fix OTA value parse error that left error state unrecoverable
+18. FIX: Compat abnormal download progress on some TaiXin devices in sdk-abmate-adapter
+
 # v3.0.2.7
 
 2026-09-17
