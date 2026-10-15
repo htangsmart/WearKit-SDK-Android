@@ -2,7 +2,7 @@
 
 > GitHub: https://github.com/htangsmart/WearKit-SDK-Android/
 >
-> Version: public release in `CHANGED.md` **3.0.2.7**
+> Version: public release in `CHANGED.md` **3.0.2.8**
 
 ---
 
@@ -54,7 +54,7 @@ Pin a single WearKit version. Declare `sdk-core` and the adapters you **actually
 
 ```kotlin
 dependencies {
-    val wearkitVersion = "3.0.2.7"
+    val wearkitVersion = "3.0.2.8"
 
     // ========== Core ==========
     ///////////// Required ///////////
@@ -100,15 +100,15 @@ dependencies {
 
 ### 2.2 Local AAR setup
 
-Use this only when [Maven setup](#2-1-maven) is inconvenient. AARs have no POM, so WearKit files and third-party libraries must be declared by hand. Put `sdk-*-v3.0.2.7.aar` under `libs/`, and extension packages under `libs/ext/` (filenames match `WearKit-SDK-Android/libs/`). Ext packages keep **their own** version numbers — do not force `3.0.2.7`. The sample below lists required items per family (expanded); delete unused families entirely. AARs that overlap across families can stay as-is; no need to deduplicate by hand.
+Use this only when [Maven setup](#2-1-maven) is inconvenient. AARs have no POM, so WearKit files and third-party libraries must be declared by hand. Put `sdk-*-v3.0.2.8.aar` under `libs/`, and extension packages under `libs/ext/` (filenames match `WearKit-SDK-Android/libs/`). Ext packages keep **their own** version numbers — do not force `3.0.2.8`. The sample below lists required items per family (expanded); delete unused families entirely. AARs that overlap across families can stay as-is; no need to deduplicate by hand.
 
 ```kotlin
 dependencies {
     // ========== Core ==========
     ///////////// Required ///////////
-    implementation(files("libs/sdk-base-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-apis-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-core-v3.0.2.7.aar"))
+    implementation(files("libs/sdk-base-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-apis-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-core-v3.0.2.8.aar"))
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.22"))
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.annotation:annotation:1.5.0")
@@ -126,8 +126,8 @@ dependencies {
 
     // ========== FitCloud (WKDeviceType.FIT_CLOUD) ==========
     ///////////// Required ///////////
-    implementation(files("libs/sdk-fitcloud-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-fitcloud-adapter-v3.0.2.7.aar"))
+    implementation(files("libs/sdk-fitcloud-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-fitcloud-adapter-v3.0.2.8.aar"))
     implementation(files("libs/ext/sdk-realtek-dfu-v1.0.5.aar"))
     implementation("androidx.palette:palette-ktx:1.0.0")
     implementation("org.apache.commons:commons-compress:1.24.0")
@@ -156,24 +156,24 @@ dependencies {
 
     // ========== FlyWear (WKDeviceType.FLY_WEAR) ==========
     ///////////// Required ///////////
-    implementation(files("libs/sdk-flywear-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-flywear-adapter-v3.0.2.7.aar"))
+    implementation(files("libs/sdk-flywear-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-flywear-adapter-v3.0.2.8.aar"))
     implementation(files("libs/ext/sdk-persimwear-v1.0.5.aar"))
     implementation("com.belerweb:pinyin4j:2.5.0")
 
     // ========== ShenJu (WKDeviceType.SHEN_JU) ==========
     ///////////// Required ///////////
-    implementation(files("libs/sdk-shenju-base-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-shenju-core-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-shenju-opencv-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-shenju-adapter-v3.0.2.7.aar"))
+    implementation(files("libs/sdk-shenju-base-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-shenju-core-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-shenju-opencv-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-shenju-adapter-v3.0.2.8.aar"))
     implementation("com.google.code.gson:gson:2.10.1")
 
     // ========== ProtoTb (WKDeviceType.PROTO_TB) ==========
     ///////////// Required ///////////
-    implementation(files("libs/sdk-prototb-adapter-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-fitcloud-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-shenju-opencv-v3.0.2.7.aar"))
+    implementation(files("libs/sdk-prototb-adapter-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-fitcloud-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-shenju-opencv-v3.0.2.8.aar"))
     implementation("com.google.protobuf:protobuf-javalite:4.33.1")
     implementation("com.belerweb:pinyin4j:2.5.0")
     implementation("org.apache.commons:commons-compress:1.24.0")
@@ -185,7 +185,7 @@ dependencies {
 
     // ========== AbMate (WKDeviceType.AB_MATE) ==========
     ///////////// Required ///////////
-    implementation(files("libs/sdk-abmate-adapter-v3.0.2.7.aar"))
+    implementation(files("libs/sdk-abmate-adapter-v3.0.2.8.aar"))
     implementation("com.google.code.gson:gson:2.13.2")
     implementation("org.nanohttpd:nanohttpd:2.3.1")
     implementation("androidx.lifecycle:lifecycle-process:2.5.1")
@@ -333,10 +333,10 @@ The WearKit sample’s `ACCESS_COARSE_LOCATION` / `ACCESS_FINE_LOCATION` setup d
 | Base | `batteryAbility` | Battery query / observe |
 | Base | `alarmAbility` | Alarm query / set / observe |
 | Base | `contactsAbility` | Common / emergency contacts, contact avatars, SOS |
-| Base | `cameraAbility` | Remote capture, camera preview stream push |
+| Base | `cameraAbility` | Remote capture, App→device preview push; some devices support device→App Live |
 | Base | `finderAbility` | Find watch / find phone |
 | Base | `weatherAbility` | Weather push (today + next days/hours) |
-| Base | `notificationAbility` | App notification / incoming-call push, hangup ack |
+| Base | `notificationAbility` | App notification / incoming-call push, hangup ack (check `compat.isSupport()` first) |
 | Base | `mediaAbility` | Media control state sync (play/pause/track info) |
 | Base | `remindAbility` | Drink water / sedentary / medicine / custom reminders |
 | Config | `functionAbility` | Wear hand / time format / weather switch and other simple flags |
@@ -351,6 +351,7 @@ The WearKit sample’s `ACCESS_COARSE_LOCATION` / `ACCESS_FINE_LOCATION` setup d
 | Data | `bloodPressureAbility` | Blood-pressure measure / monitor |
 | Data | `temperatureAbility` | Body-temperature measure / monitor |
 | Data | `sportAbility` | Device sport state (in sport / type) |
+| Data | `sleepAbility` | Sleep-related device messages (e.g. sleep started) |
 | File | `musicAbility` | Music file push (.mp3 only) |
 | File | `eBookAbility` | E-book push (text/plain) |
 | File | `albumAbility` | Image push |
@@ -367,6 +368,7 @@ The WearKit sample’s `ACCESS_COARSE_LOCATION` / `ACCESS_FINE_LOCATION` setup d
 | Special | `lockAbility` | Screen lock / game lock |
 | Special | `muslimAbility` | Muslim (prayer / Hijri / Qibla) |
 | Special | `worldClockAbility` | World clock |
+| Special | `scheduleAbility` | Device schedule query / set |
 | Speech AI | `speechAiAbility` | Speech AI sessions (chat / record / translate / ask / dial) |
 | B2B | `b2b` | HSD (kids-watch scenarios) / Titan (QR) / UGreen (danmu & config) customizations |
 
@@ -427,7 +429,22 @@ Data sync: historical data (steps / heart rate / sleep / sport, etc.) goes throu
 - `updatePreview(image: WKImageProxy)` send preview frames
 - `stopPreview()` stop preview and release encoder
 - `setCameraInfo(zoomRatioMin, zoomRatioMax)` tell the device the camera zoom range
-- `compat`: `isSupportPreview()` / `isSupportVideo()` / `getPreviewSize()`
+- Live (pull device camera to the App; opposite direction of `startPreview`; currently sdk-abmate-adapter):
+  - Check `compat.isSupportLive()` first (independent of `isSupportPreview`); then `openLive() : WKLiveSession?` — returns null if unsupported, disconnected, or a session is already active
+  - Mutually exclusive with `fileAbility.rtsp`; the device reports busy if the other path is active
+  - The open command is sent on the first `video()` / `audio()` subscribe; if neither is subscribed in time, the session is released automatically. Sessions are single-use — call `openLive` again after end
+  - Start failures (busy / low battery / conflict) or disconnect arrive via Observable `onError`; `release()` or disposing a subscription ends the session (idempotent)
+  - `video() : Observable<WKLiveVideoFrame>` full JPEG + `ptsMs` (subscribe at most once)
+  - `audio() : Observable<WKLiveAudioPacket>` audio packets; encoding in `audioFormat` (commonly Opus); devices without audio may never `onNext` (subscribe at most once). The SDK does not A/V sync; use both `ptsMs` if the App needs alignment
+  ```kotlin
+  if (cameraAbility.compat.isSupportLive()) {
+      val session = cameraAbility.openLive() ?: return
+      session.video().subscribe({ frame -> /* frame.jpeg */ }, { /* start fail / disconnect */ })
+      session.audio().subscribe({ packet -> /* packet.data; decode/play: sample LiveActivity */ }, { })
+      // end: session.release() or dispose subscriptions
+  }
+  ```
+- `compat`: `isSupportPreview()` / `isSupportVideo()` / `isSupportLive()`
 
 #### WKFinderAbility — find device
 - `findWatch()` ring / vibrate the watch
@@ -440,6 +457,7 @@ Data sync: historical data (steps / heart rate / sleep / sport, etc.) goes throu
 - `compat.isSupport()`
 
 #### WKNotificationAbility — notifications & calls
+- `compat.isSupport()` whether the device supports the notification ability; if false, do not use any method on this ability
 - `sendAppNotification(packageName, title, content, tickerText)` push App notifications; use constants in `CommonAppPackage` for `packageName` (WeChat/QQ/Facebook/WhatsApp/Messenger/...); **unsupported packages fall into the "Others" category**
 - `sendTelephonyNotification(type, phoneNumber, name)` push telephony events (`WKTelephonyType`: ringing / rejected / missed / hung up / ...)
 - `observeTelephonyHangup()` device-initiated hangup / send-SMS actions
@@ -498,6 +516,7 @@ Per-ability differences:
 - **WKBloodPressureAbility**: `measureRealtime : Observable<WKBloodPressureItem>` (systolic / diastolic / pulse)
 - **WKTemperatureAbility**: `measureRealtime : Observable<WKTemperatureItem>`
 - **WKActivityAbility — activity goals / today’s activity push**:
+  - `compat.isSupport()` whether the activity ability is supported; if false, do not use methods on this ability (or they will not work)
   - Goals: `getGoalConfig()/setGoalConfig()/syncGoalConfig()/observeGoalConfig()`; `compat.getActivityAttributes()` (which metrics the device activity page shows, and thus which goals can be set); `compat.isSupportDisabledReminds()` (goal-reached remind can be turned off)
   - Today’s activity totals push (UI refresh): `observeActivityChange() : Observable<WKActivityItem>`; This is device-pushed, not a pull API; for historical or once-off totals use chapter 5 `syncData`. `WKActivityItem` units: steps, distance (meters), calories (kcal), activity/sport duration (seconds), activity count
   ```kotlin
@@ -505,6 +524,7 @@ Per-ability differences:
       .subscribe { item -> /* steps / distance / calories / duration ... */ }
   ```
 - **WKSportAbility — sport state**: `requestSportState()/observeSportState()` (in sport / sport type); `compat.isSupportSportState()`
+- **WKSleepAbility — sleep messages**: `observeSleepMessage() : Observable<Int>`; current type `WKSleepMessage.START` (device reports that sleep measurement / sleep mode has started). Emission depends on device/adapter; unsupported adapters never emit
 
 <a id="4-4-file"></a>
 
@@ -577,6 +597,7 @@ Common pattern: `requestDirSpace()` (space) / `requestFiles()` (list) / `addFile
 - **WKLockAbility — locks**: `setScreenLock(lock)/requestScreenLock()` screen lock; `setGameLock(lock)` game lock (anti-addiction periods); `compat.isSupportScreenLock()/isSupportGameLock()/getPasswordLength()`
 - **WKMuslimAbility — Muslim**: `requestPrayerSwitch()/setPrayer(info)/observePrayerSwitch()` prayer; `setHijri(current, holidays)` Hijri calendar; `setQibla(degrees, distance)` Qibla; `observeMuslimMessage()`; `compat.isSupportPrayer()/isSupportQibla()/isSupportHijri()`
 - **WKWorldClockAbility — world clock**: `setClocks(list)/requestClocks()`; `compat.isSupport()/getWorldClockMaxNumber()`
+- **WKScheduleAbility — schedules**: available when `compat.getScheduleMaxNumber() > 0` (0 means unsupported); `requestSchedules()` / `setSchedules(list)` (null or empty clears all); `compat.getTitleMaxBytes()` / `getContentMaxBytes()` limit title/content UTF-8 byte length. `WKSchedule`: date/time fields follow `Calendar` (month 0–11); `repeat` uses `WeekRepeatFlag` (0 = valid only that day); `remindAdvance` minutes before; `isEnabled`; `title`/`content`; new items start with `scheduleId` -1, and the SDK assigns and writes back an id on set
 
 <a id="4-7-speech-ai"></a>
 
@@ -688,7 +709,7 @@ deviceAbility.syncData(timeProvider, WKSyncData.Type.ACTIVITY, WKSyncData.Type.H
 
 ## 6. Notification Categories (CommonAppPackage)
 
-`WKNotificationAbility.compat.isSupportAppNotification(packageName)` checks whether an App is recognized as a **distinct category** on the device (shows the matching icon). Unsupported packages are filed under "Others" after push.
+Check `WKNotificationAbility.compat.isSupport()` first; if false, the whole notification ability is unavailable. `compat.isSupportAppNotification(packageName)` checks whether an App is recognized as a **distinct category** on the device (shows the matching icon). Unsupported packages are filed under "Others" after push.
 
 Common package constants (`CommonAppPackage` in sdk-base): SMS/EMAIL/QQ/WECHAT/FACEBOOK/TWITTER/LINKEDIN/INSTAGRAM/WHATS_APP/LINE/FACEBOOK_MESSENGER/KAKAO_TALK/MICROSOFT_TEAMS/TELEGRAM/VIBER/SNAPCHAT/HIKE/YOUTUBE/.... Categories visible on the notification-switch page are decided by **notification support capabilities from device firmware**. If a category is not enabled, it does not appear in the App’s main list but can still be selected via the “More apps” generic channel (see FAQ item 3).
 
@@ -749,8 +770,9 @@ manager.startVideoRecording(onSuccess = {}, onFail = {})
 // Audio recording (auto-stops at 5 hours max)
 manager.startAudioRecording(onSuccess = {}, onFail = {})
 
-// Live camera view (RTSP) — via unified WKFileAbility:
-// abMateSDK.fileAbility.rtsp(quality) → Observable<URL>; start your own player with the URL
+// Live camera view (two paths are mutually exclusive — do not open both):
+//   RTSP — fileAbility.rtsp(quality) → Observable<URL> (see 4.4)
+//   JPEG+audio Live — cameraAbility.openLive() (see 4.1 `#4-1-camera`); check compat.isSupportLive() first
 
 // Stop all camera activity and power off
 manager.turnOffCamera(onSuccess = {}, onFail = {})

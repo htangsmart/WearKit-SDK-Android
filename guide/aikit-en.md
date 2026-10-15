@@ -1,6 +1,6 @@
 # AiKit SDK Android Integration Guide
 
-> Version: **1.0.2**
+> Version: **1.0.3**
 >
 > AiKit (`com.topstep.aikit`) is a cloud AI library independent of WearKit. Device-side speech sessions, audio uplink, and text push-back still go through WearKit `speechAiAbility` — see [WearKit guide · 4.7 Speech AI](wearkit-en.md#4-7-speech-ai).
 
@@ -82,7 +82,7 @@ Declare `aikit-base` plus **one** channel, same version:
 
 ```kotlin
 dependencies {
-    val aikitVersion = "1.0.2"
+    val aikitVersion = "1.0.3"
     implementation("com.topstep.aikit:aikit-base:$aikitVersion")
 
     // Pick exactly one channel

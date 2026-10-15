@@ -2,7 +2,7 @@
 
 > GitHub：https://github.com/htangsmart/WearKit-SDK-Android/
 >
-> 版本：`CHANGED.md` 公开版 **3.0.2.7**
+> 版本：`CHANGED.md` 公开版 **3.0.2.8**
 
 ---
 
@@ -54,7 +54,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    val wearkitVersion = "3.0.2.7"
+    val wearkitVersion = "3.0.2.8"
 
     // ========== 核心 ==========
     ///////////// 必须 ///////////
@@ -100,15 +100,15 @@ dependencies {
 
 ### 2.2 本地 AAR 接入
 
-仅在不方便使用 [Maven 接入](#2-1-maven) 时使用。AAR 无 POM，WearKit 文件与第三方库都要手写。把 `sdk-*-v3.0.2.7.aar` 放到 `libs/`，扩展包放到 `libs/ext/`（文件名与 `WearKit-SDK-Android/libs/` 一致）。ext 包用**自己的**版本号，不要套用 `3.0.2.7`。下面示例列出各家族必须项（已展开）；不用的家族整段删除。与其他家族重复的 AAR 可原样保留，无需手工去重。
+仅在不方便使用 [Maven 接入](#2-1-maven) 时使用。AAR 无 POM，WearKit 文件与第三方库都要手写。把 `sdk-*-v3.0.2.8.aar` 放到 `libs/`，扩展包放到 `libs/ext/`（文件名与 `WearKit-SDK-Android/libs/` 一致）。ext 包用**自己的**版本号，不要套用 `3.0.2.8`。下面示例列出各家族必须项（已展开）；不用的家族整段删除。与其他家族重复的 AAR 可原样保留，无需手工去重。
 
 ```kotlin
 dependencies {
     // ========== 核心 ==========
     ///////////// 必须 ///////////
-    implementation(files("libs/sdk-base-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-apis-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-core-v3.0.2.7.aar"))
+    implementation(files("libs/sdk-base-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-apis-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-core-v3.0.2.8.aar"))
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.22"))
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.annotation:annotation:1.5.0")
@@ -126,8 +126,8 @@ dependencies {
 
     // ========== FitCloud（WKDeviceType.FIT_CLOUD）==========
     ///////////// 必须 ///////////
-    implementation(files("libs/sdk-fitcloud-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-fitcloud-adapter-v3.0.2.7.aar"))
+    implementation(files("libs/sdk-fitcloud-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-fitcloud-adapter-v3.0.2.8.aar"))
     implementation(files("libs/ext/sdk-realtek-dfu-v1.0.5.aar"))
     implementation("androidx.palette:palette-ktx:1.0.0")
     implementation("org.apache.commons:commons-compress:1.24.0")
@@ -156,24 +156,24 @@ dependencies {
 
     // ========== FlyWear（WKDeviceType.FLY_WEAR）==========
     ///////////// 必须 ///////////
-    implementation(files("libs/sdk-flywear-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-flywear-adapter-v3.0.2.7.aar"))
+    implementation(files("libs/sdk-flywear-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-flywear-adapter-v3.0.2.8.aar"))
     implementation(files("libs/ext/sdk-persimwear-v1.0.5.aar"))
     implementation("com.belerweb:pinyin4j:2.5.0")
 
     // ========== ShenJu（WKDeviceType.SHEN_JU）==========
     ///////////// 必须 ///////////
-    implementation(files("libs/sdk-shenju-base-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-shenju-core-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-shenju-opencv-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-shenju-adapter-v3.0.2.7.aar"))
+    implementation(files("libs/sdk-shenju-base-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-shenju-core-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-shenju-opencv-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-shenju-adapter-v3.0.2.8.aar"))
     implementation("com.google.code.gson:gson:2.10.1")
 
     // ========== ProtoTb（WKDeviceType.PROTO_TB）==========
     ///////////// 必须 ///////////
-    implementation(files("libs/sdk-prototb-adapter-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-fitcloud-v3.0.2.7.aar"))
-    implementation(files("libs/sdk-shenju-opencv-v3.0.2.7.aar"))
+    implementation(files("libs/sdk-prototb-adapter-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-fitcloud-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-shenju-opencv-v3.0.2.8.aar"))
     implementation("com.google.protobuf:protobuf-javalite:4.33.1")
     implementation("com.belerweb:pinyin4j:2.5.0")
     implementation("org.apache.commons:commons-compress:1.24.0")
@@ -185,7 +185,7 @@ dependencies {
 
     // ========== AbMate（WKDeviceType.AB_MATE）==========
     ///////////// 必须 ///////////
-    implementation(files("libs/sdk-abmate-adapter-v3.0.2.7.aar"))
+    implementation(files("libs/sdk-abmate-adapter-v3.0.2.8.aar"))
     implementation("com.google.code.gson:gson:2.13.2")
     implementation("org.nanohttpd:nanohttpd:2.3.1")
     implementation("androidx.lifecycle:lifecycle-process:2.5.1")
@@ -333,10 +333,10 @@ WearKit sample 的 `ACCESS_COARSE_LOCATION`、`ACCESS_FINE_LOCATION` 与上面�
 | 基础 | `batteryAbility` | 电量查询/监听 |
 | 基础 | `alarmAbility` | 闹钟查询/设置/监听 |
 | 基础 | `contactsAbility` | 常用/紧急联系人、联系人头像、SOS |
-| 基础 | `cameraAbility` | 遥控拍照、相机预览流推送 |
+| 基础 | `cameraAbility` | 遥控拍照、App→设备预览推送；部分设备支持设备→App Live |
 | 基础 | `finderAbility` | 找手表/找手机 |
 | 基础 | `weatherAbility` | 天气推送（今天+未来数天/数小时） |
-| 基础 | `notificationAbility` | App 通知/来电推送、来电拦截回执 |
+| 基础 | `notificationAbility` | App 通知/来电推送、来电拦截回执（先查 `compat.isSupport()`） |
 | 基础 | `mediaAbility` | 媒体控制状态同步（播放/暂停/歌曲信息） |
 | 基础 | `remindAbility` | 喝水/久坐/吃药/自定义提醒 |
 | 配置 | `functionAbility` | 佩戴手/时间制式/天气开关等简单功能位 |
@@ -351,6 +351,7 @@ WearKit sample 的 `ACCESS_COARSE_LOCATION`、`ACCESS_FINE_LOCATION` 与上面�
 | 数据 | `bloodPressureAbility` | 血压测量/监测 |
 | 数据 | `temperatureAbility` | 体温测量/监测 |
 | 数据 | `sportAbility` | 设备运动状态（运动中/类型） |
+| 数据 | `sleepAbility` | 睡眠相关设备消息（如睡眠开始） |
 | 文件 | `musicAbility` | 音乐文件推送（仅 .mp3） |
 | 文件 | `eBookAbility` | 电子书推送（text/plain） |
 | 文件 | `albumAbility` | 图片推送 |
@@ -367,6 +368,7 @@ WearKit sample 的 `ACCESS_COARSE_LOCATION`、`ACCESS_FINE_LOCATION` 与上面�
 | 特殊 | `lockAbility` | 屏幕锁/游戏锁 |
 | 特殊 | `muslimAbility` | 穆斯林（祷告/回历/朝向） |
 | 特殊 | `worldClockAbility` | 世界时钟 |
+| 特殊 | `scheduleAbility` | 设备日程查询/设置 |
 | 语音AI | `speechAiAbility` | 语音 AI 会话（对话/录音/翻译/问答/表盘） |
 | B2B | `b2b` | HSD（儿童手表场景）/ Titan（二维码）/ UGreen（弹幕与配置）定制 |
 
@@ -427,7 +429,22 @@ WearKit sample 的 `ACCESS_COARSE_LOCATION`、`ACCESS_FINE_LOCATION` 与上面�
 - `updatePreview(image: WKImageProxy)` 发送预览帧
 - `stopPreview()` 停止预览并释放编码器
 - `setCameraInfo(zoomRatioMin, zoomRatioMax)` 告知设备相机变焦范围
-- `compat`：`isSupportPreview()` / `isSupportVideo()` / `getPreviewSize()`
+- Live（设备摄像头拉流到 App，方向与 `startPreview` 相反；当前见 sdk-abmate-adapter）：
+  - 先查 `compat.isSupportLive()`（与 `isSupportPreview` 独立）；再 `openLive() : WKLiveSession?`——不支持、未连接或已有活跃会话时返回 null
+  - 与 `fileAbility.rtsp` 互斥；另一路占用时设备会报忙
+  - 首次订阅 `video()` / `audio()` 时才发开流指令；若迟迟未订阅，会话会自动释放。会话一次性，结束后须重新 `openLive`
+  - 启动失败（忙/低电/冲突）或断连经 Observable `onError`；`release()` 或 dispose 订阅均可结束（幂等）
+  - `video() : Observable<WKLiveVideoFrame>` 完整 JPEG + `ptsMs`（最多订一次）
+  - `audio() : Observable<WKLiveAudioPacket>` 音频包；编码见 `audioFormat`（常见 Opus）；无音频的设备可能从不 `onNext`（最多订一次）。SDK 不音画对齐，需要时用两端 `ptsMs`
+  ```kotlin
+  if (cameraAbility.compat.isSupportLive()) {
+      val session = cameraAbility.openLive() ?: return
+      session.video().subscribe({ frame -> /* frame.jpeg */ }, { /* 启动失败/断连 */ })
+      session.audio().subscribe({ packet -> /* packet.data；解码播放见 sample LiveActivity */ }, { })
+      // 结束：session.release() 或 dispose 订阅
+  }
+  ```
+- `compat`：`isSupportPreview()` / `isSupportVideo()` / `isSupportLive()`
 
 #### WKFinderAbility 查找设备
 - `findWatch()` 让手表响铃/震动
@@ -440,6 +457,7 @@ WearKit sample 的 `ACCESS_COARSE_LOCATION`、`ACCESS_FINE_LOCATION` 与上面�
 - `compat.isSupport()`
 
 #### WKNotificationAbility 通知 & 来电
+- `compat.isSupport()` 设备是否支持通知能力；为 false 时本 ability 方法都不要用
 - `sendAppNotification(packageName, title, content, tickerText)` 推送 App 通知；`packageName` 用 `CommonAppPackage` 中常量（微信/QQ/Facebook/WhatsApp/Messenger/...），**不支持的包名会归入 "Others" 类别**
 - `sendTelephonyNotification(type, phoneNumber, name)` 推送来电（`WKTelephonyType`：来电/拒接/未接/挂断...）
 - `observeTelephonyHangup()` 设备发起挂断/发短信动作
@@ -498,6 +516,7 @@ heartRateAbility.compat.isSupportMonitorConfig()  // 是否支持自动监测配
 - **WKBloodPressureAbility**：`measureRealtime : Observable<WKBloodPressureItem>`（含高压/低压/脉搏）
 - **WKTemperatureAbility**：`measureRealtime : Observable<WKTemperatureItem>`
 - **WKActivityAbility 活动目标 / 当日活动推送**：
+  - `compat.isSupport()` 是否支持活动能力；为 false 时本 ability 方法都不要用或无效
   - 目标：`getGoalConfig()/setGoalConfig()/syncGoalConfig()/observeGoalConfig()`；`compat.getActivityAttributes()`（设备活动页展示哪些指标，也决定目标设置项）；`compat.isSupportDisabledReminds()`（目标达成提醒可关闭）
   - 当日活动总量推送（刷新 UI）：`observeActivityChange() : Observable<WKActivityItem>`；这是设备主动上报，不是拉取接口；历史或一次性总量请用第 5 章 `syncData`。`WKActivityItem` 字段单位：步数、距离（米）、卡路里（千卡）、活动/运动时长（秒）、活动次数
   ```kotlin
@@ -505,6 +524,7 @@ heartRateAbility.compat.isSupportMonitorConfig()  // 是否支持自动监测配
         .subscribe { item -> /* steps / distance / calories / duration ... */ }
   ```
 - **WKSportAbility 运动状态**：`requestSportState()/observeSportState()`（是否运动中/运动类型）；`compat.isSupportSportState()`
+- **WKSleepAbility 睡眠消息**：`observeSleepMessage() : Observable<Int>`；当前类型 `WKSleepMessage.START`（设备通知睡眠测量/睡眠模式已开始）。是否发值取决于设备/adapter；不支持时不会发值
 
 <a id="4-4-file"></a>
 
@@ -577,6 +597,7 @@ heartRateAbility.compat.isSupportMonitorConfig()  // 是否支持自动监测配
 - **WKLockAbility 锁**：`setScreenLock(lock)/requestScreenLock()` 屏幕锁；`setGameLock(lock)` 游戏锁（防沉迷时段）；`compat.isSupportScreenLock()/isSupportGameLock()/getPasswordLength()`
 - **WKMuslimAbility 穆斯林**：`requestPrayerSwitch()/setPrayer(info)/observePrayerSwitch()` 祷告；`setHijri(current, holidays)` 回历；`setQibla(degrees, distance)` 朝向；`observeMuslimMessage()`；`compat.isSupportPrayer()/isSupportQibla()/isSupportHijri()`
 - **WKWorldClockAbility 世界时钟**：`setClocks(list)/requestClocks()`；`compat.isSupport()/getWorldClockMaxNumber()`
+- **WKScheduleAbility 日程**：`compat.getScheduleMaxNumber() > 0` 时可用（0 表示不支持）；`requestSchedules()` / `setSchedules(list)`（null 或空列表清空全部）；`compat.getTitleMaxBytes()` / `getContentMaxBytes()` 限制标题/内容 UTF-8 字节数。`WKSchedule`：日期时间字段与 `Calendar` 一致（月 0–11）；`repeat` 用 `WeekRepeatFlag`（0 表示仅当天有效）；`remindAdvance` 提前提醒分钟；`isEnabled`；`title`/`content`；新建项构造时 `scheduleId` 为 -1，写入时 SDK 会分配并回写 id
 
 <a id="4-7-speech-ai"></a>
 
@@ -688,7 +709,7 @@ deviceAbility.syncData(timeProvider, WKSyncData.Type.ACTIVITY, WKSyncData.Type.H
 
 ## 6. 通知类别（CommonAppPackage）
 
-`WKNotificationAbility.compat.isSupportAppNotification(packageName)` 判断某 App 是否被设备识别为**独立类别**（显示对应图标）；不支持的包名推送后设备归入 "Others"。
+先查 `WKNotificationAbility.compat.isSupport()`；为 false 时整套通知能力不可用。`compat.isSupportAppNotification(packageName)` 判断某 App 是否被设备识别为**独立类别**（显示对应图标）；不支持的包名推送后设备归入 "Others"。
 
 常用包名常量（`CommonAppPackage`，位于 sdk-base）：SMS/EMAIL/QQ/WECHAT/FACEBOOK/TWITTER/LINKEDIN/INSTAGRAM/WHATS_APP/LINE/FACEBOOK_MESSENGER/KAKAO_TALK/MICROSOFT_TEAMS/TELEGRAM/VIBER/SNAPCHAT/HIKE/YOUTUBE/...。通知开关页面可见的类别由**设备固件下发的通知支持能力**决定，某类别未开启时 App 主列表不显示、仍可通过"更多 App"通用通道勾选（见常见问题 3）。
 
@@ -749,8 +770,9 @@ manager.startVideoRecording(onSuccess = {}, onFail = {})
 // 录音（最长 5 小时自动停）
 manager.startAudioRecording(onSuccess = {}, onFail = {})
 
-// 摄像头实时画面（RTSP 直播）—— 走统一 WKFileAbility：
-// abMateSDK.fileAbility.rtsp(quality) → Observable<URL>，拿到 URL 后自行起播放器
+// 摄像头实时画面（两路互斥，勿同时开）：
+//   RTSP —— fileAbility.rtsp(quality) → Observable<URL>（见 4.4）
+//   JPEG+音频 Live —— cameraAbility.openLive()（见 4.1 `#4-1-camera`）；先查 compat.isSupportLive()
 
 // 停止一切摄像头活动并关机
 manager.turnOffCamera(onSuccess = {}, onFail = {})

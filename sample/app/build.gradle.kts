@@ -155,7 +155,7 @@ afterEvaluate {
 
 dependencies {
     //WearKit Required
-    val wearkitVersion = "3.0.2.7-SNAPSHOT"
+    val wearkitVersion = "3.0.2.8"
     val wearkitChanging = wearkitVersion.contains("SNAPSHOT")
     if (isDeveloperEnvironment()) {
         //For developer environment, use remote dependencies
@@ -238,7 +238,7 @@ dependencies {
     implementation(libs.androidx.window)
 
     //aikit
-    val aikitVersion = "1.0.2"
+    val aikitVersion = "1.0.3"
     val aikitChanging = aikitVersion.contains("SNAPSHOT")
     implementation("com.topstep.aikit:aikit-base:$aikitVersion") { isChanging = aikitChanging }
     implementation("com.topstep.aikit:aikit-starburst:$aikitVersion") { isChanging = aikitChanging }

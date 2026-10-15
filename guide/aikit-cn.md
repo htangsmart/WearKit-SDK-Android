@@ -1,6 +1,6 @@
 # AiKit SDK Android 接入指南
 
-> 版本：**1.0.2**
+> 版本：**1.0.3**
 >
 > AiKit（`com.topstep.aikit`）是独立于 WearKit 的云端 AI 库。设备侧语音会话、音频上行与文本回推仍走 WearKit 的 `speechAiAbility`，见 [WearKit 接入指南 · 4.7 语音 AI](wearkit-cn.md#4-7-speech-ai)。
 
@@ -92,7 +92,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    val aikitVersion = "1.0.2"
+    val aikitVersion = "1.0.3"
     implementation("com.topstep.aikit:aikit-base:$aikitVersion")
 
     // 只选一条通道
