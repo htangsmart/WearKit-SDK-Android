@@ -202,6 +202,7 @@
         <activity android:name=".ui.dial.style.DialDanMuAddActivity"/>
         <activity android:name=".ui.dial.base.DialBaseActivity"/>
         <activity android:name=".ui.sport.SportPushActivity"/>
+        <activity android:name=".ui.game.GamePushActivity"/>
 
         <activity android:name=".ui.special.PaymentCodeActivity"/>
         <activity android:name=".ui.special.BusinessCardActivity"/>

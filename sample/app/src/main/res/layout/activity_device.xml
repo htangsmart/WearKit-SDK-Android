@@ -111,6 +111,11 @@
                 app:preferenceTitle="@string/sport_push"/>
 
             <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_game_push"
+                style="@style/Widget.Sample.PreferenceView.Item.Text"
+                app:preferenceTitle="@string/game_push"/>
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
                 android:id="@+id/item_payment_code"
                 style="@style/Widget.Sample.PreferenceView.Item.Text"
                 app:preferenceTitle="@string/payment_code"/>

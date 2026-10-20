@@ -33,6 +33,7 @@ import com.topstep.wearkit.sample.ui.others.OthersActivity
 import com.topstep.wearkit.sample.ui.raw.RawFcSdkActivity
 import com.topstep.wearkit.sample.ui.special.BusinessCardActivity
 import com.topstep.wearkit.sample.ui.special.PaymentCodeActivity
+import com.topstep.wearkit.sample.ui.game.GamePushActivity
 import com.topstep.wearkit.sample.ui.sport.SportPushActivity
 import com.topstep.wearkit.sample.ui.sync.SyncDataActivity
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
@@ -152,6 +153,16 @@ class DeviceActivity : BaseActivity() {
                 toast("UnSupport!")
             } else {
                 startActivity(Intent(this, SportPushActivity::class.java))
+            }
+        }
+
+        viewBind.itemGamePush.clickTrigger {
+            if (wearKit.connector.getConnectorState() != WKConnectorState.CONNECTED) {
+                toast("Device not connected!")
+            } else if (!wearKit.gameUIAbility.compat.isSupport()) {
+                toast("UnSupport!")
+            } else {
+                startActivity(Intent(this, GamePushActivity::class.java))
             }
         }
 

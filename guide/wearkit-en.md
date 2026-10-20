@@ -357,6 +357,7 @@ The WearKit sample’s `ACCESS_COARSE_LOCATION` / `ACCESS_FINE_LOCATION` setup d
 | File | `albumAbility` | Image push |
 | File | `otaAbility` | Firmware / UI OTA |
 | File | `sportUIAbility` | Sport UI asset push / replace |
+| File | `gameUIAbility` | Game UI / skin asset push / replace |
 | File | `logAbility` | Pull device logs |
 | File | `locationMapAbility` | Location push / EPO / offline maps |
 | File | `fileAbility` | Recording file list / pull / delete (device-produced files) |
@@ -546,6 +547,7 @@ Common pattern: `requestDirSpace()` (space) / `requestFiles()` (list) / `addFile
 - **WKAlbumAbility — images**: `addFile(uri)`; `compat.isSupportFolders()` (folder grouping)
 - <a id="4-4-ota"></a>**WKOtaAbility — OTA**: `ota(file) : Observable<Int>` firmware / UI upgrade (progress 0–100); transfer failures throw `WKFileTransferException`
 - **WKSportUIAbility — sport UI**: `requestCloudSportUIResources()` (cloud resources) / `requestSupportSports()` / `requestSports()` / `requestSpaces()` / `install(file, spaceIndex?)` push custom sport icons/UI
+- **WKGameUIAbility — game UI**: `requestCloudGameUIResources()` (cloud resources, flattened by skin) / `requestSupportGames()` / `requestGames()` / `requestSpaces()` / `install(file, spaceIndex?)` push game/skin; `compat.isSupport()`
 - **WKLogAbility — logs**: `pull() : Observable<ProgressResult<File>>` pull device logs (missing result file = device has no logs); `compat.isSupport()`
 - **WKLocationMapAbility — location / EPO / offline maps**:
   - `setLocation(location)` push one location update (for map dial pins; update as soon as a fix is available)

@@ -357,6 +357,7 @@ WearKit sample 的 `ACCESS_COARSE_LOCATION`、`ACCESS_FINE_LOCATION` 与上面�
 | 文件 | `albumAbility` | 图片推送 |
 | 文件 | `otaAbility` | 固件/UI OTA |
 | 文件 | `sportUIAbility` | 运动 UI 资源推送/替换 |
+| 文件 | `gameUIAbility` | 游戏 UI/皮肤资源推送/替换 |
 | 文件 | `logAbility` | 拉取设备日志 |
 | 文件 | `locationMapAbility` | 定位推送/EPO/离线地图 |
 | 文件 | `fileAbility` | 录音文件列表/拉取/删除（记录类文件） |
@@ -546,6 +547,7 @@ heartRateAbility.compat.isSupportMonitorConfig()  // 是否支持自动监测配
 - **WKAlbumAbility 图片**：`addFile(uri)`；`compat.isSupportFolders()`（分文件夹）
 - <a id="4-4-ota"></a>**WKOtaAbility OTA**：`ota(file) : Observable<Int>` 固件/UI 升级（进度 0-100）；传输失败抛 `WKFileTransferException`
 - **WKSportUIAbility 运动 UI**：`requestCloudSportUIResources()`（云端资源）/`requestSupportSports()`/`requestSports()`/`requestSpaces()`/`install(file, spaceIndex?)` 推送自定义运动图标/UI
+- **WKGameUIAbility 游戏 UI**：`requestCloudGameUIResources()`（云端资源，按皮肤展平）/`requestSupportGames()`/`requestGames()`/`requestSpaces()`/`install(file, spaceIndex?)` 推送游戏/皮肤；`compat.isSupport()`
 - **WKLogAbility 日志**：`pull() : Observable<ProgressResult<File>>` 拉取设备日志（result 文件不存在=设备无日志）；`compat.isSupport()`
 - **WKLocationMapAbility 定位/EPO/离线地图**：
   - `setLocation(location)` 主动推送一次定位（地图表盘点位用，定位成功即更新）

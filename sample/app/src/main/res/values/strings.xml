@@ -883,6 +883,7 @@
 
     <!--Sport Push-->
     <string name="sport_push">Sport Push</string>
+    <string name="game_push">Game Push</string>
     <string name="payment_code">Payment Code</string>
     <string name="business_card">Business Card</string>
     <string name="qr_code_base">Qr Codes</string>
