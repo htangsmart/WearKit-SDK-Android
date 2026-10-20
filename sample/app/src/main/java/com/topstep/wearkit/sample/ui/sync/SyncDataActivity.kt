@@ -5,7 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.github.kilnn.tool.widget.ktx.clickTrigger
+import com.topstep.wearkit.apis.model.data.WKActivityItem
 import com.topstep.wearkit.apis.model.data.WKSyncData
+import com.topstep.wearkit.apis.model.message.WKMessage
 import com.topstep.wearkit.apis.util.SyncTimeProviderIncremental
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
@@ -27,7 +29,7 @@ class SyncDataActivity : BaseActivity() {
     private val wearKit = MyApplication.wearKit
     private lateinit var viewBind: ActivitySyncBinding
     private lateinit var appDatabase: AppDatabase
-    private var observeActivityDisposable: Disposable? = null
+    private var observeMessageDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,12 +39,12 @@ class SyncDataActivity : BaseActivity() {
         appDatabase = AppDatabase.getInstance(this)
         initView()
         initData()
-        observeActivityChange()
+        observeMessage()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        observeActivityDisposable?.dispose()
+        observeMessageDisposable?.dispose()
     }
 
     private fun initView() {
@@ -79,18 +81,20 @@ class SyncDataActivity : BaseActivity() {
         }
     }
 
-    private fun observeActivityChange() {
-        observeActivityDisposable = wearKit.activityAbility.observeActivityChange()
+    private fun observeMessage() {
+        observeMessageDisposable = wearKit.deviceAbility.observeMessage()
+            .filter { it.type == WKMessage.Type.ACTIVITY_CHANGE && it.data is WKActivityItem }
+            .map { it.data as WKActivityItem }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+            .subscribe({ item ->
                 viewBind.tvActivityRealtime.text = buildString {
                     append("Activity realtime:\n")
-                    append("steps=${it.steps}")
-                    append("  calories=${"%.1f".format(it.calories)}")
-                    append("  distance=${"%.1f".format(it.distance)}\n")
-                    append("duration=${it.duration / 60}min")
-                    append("  sport=${it.sportDuration / 60}min")
-                    append("  number=${it.number}")
+                    append("steps=${item.steps}")
+                    append("  calories=${"%.1f".format(item.calories)}")
+                    append("  distance=${"%.1f".format(item.distance)}\n")
+                    append("duration=${item.duration / 60}min")
+                    append("  sport=${item.sportDuration / 60}min")
+                    append("  number=${item.number}")
                 }
             }, {
                 Timber.w(it)
