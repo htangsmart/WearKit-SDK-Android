@@ -387,6 +387,11 @@ Data sync: historical data (steps / heart rate / sleep / sport, etc.) goes throu
 - `syncData(timeProvider)` sync all types
 - `observeSyncState()` / `isSyncing()` sync state
 - `getDeviceInfo()` / `observeDeviceInfo(replay)` basic device info (model / firmware / serial, etc.)
+- `observeMessage() : Observable<WKMessage>` global messages pushed by the device. `WKMessage.type`:
+  - `ACTIVITY_CHANGE`: today’s activity totals; `data` is `WKActivityItem`. Not a pull API; use chapter 5 `syncData` for historical totals. Nothing is emitted when `compat.isSupportActivityChange()` is false
+  - `SLEEP_START`: sleep measurement / sleep mode has started; `data` is null
+  - `HEART_RATE_ALARM`: heart rate alarm; `data` is `WKHeartRateAlarmValue` (type, current heart rate, threshold)
+  Unsupported adapters never emit. `observeActivityChange()` and `observeSleepMessage()` are deprecated; use this method
 - <a id="4-1-third-party-data"></a>`observeThirdPartyData()` / `sendThirdPartyData(data)` exchange data with device-side third-party features (current types in `WKThirdPartyData.Type`, e.g. `STAR_BURST`); when unsupported the observe stream emits nothing and send throws `WKUnsupportedException`
 - `ISyncAbility.range`: start-time range control for data sync
 
@@ -518,13 +523,17 @@ Per-ability differences:
 - **WKActivityAbility — activity goals / today’s activity push**:
   - `compat.isSupport()` whether the activity ability is supported; if false, do not use methods on this ability (or they will not work)
   - Goals: `getGoalConfig()/setGoalConfig()/syncGoalConfig()/observeGoalConfig()`; `compat.getActivityAttributes()` (which metrics the device activity page shows, and thus which goals can be set); `compat.isSupportDisabledReminds()` (goal-reached remind can be turned off)
-  - Today’s activity totals push (UI refresh): `observeActivityChange() : Observable<WKActivityItem>`; This is device-pushed, not a pull API; for historical or once-off totals use chapter 5 `syncData`. `WKActivityItem` units: steps, distance (meters), calories (kcal), activity/sport duration (seconds), activity count
+  - Today’s activity totals push (UI refresh) is now `deviceAbility.observeMessage()` with `WKMessage.Type.ACTIVITY_CHANGE`; `data` is `WKActivityItem`. `observeActivityChange()` is deprecated. This is device-pushed, not a pull API; for historical or once-off totals use chapter 5 `syncData`. `WKActivityItem` units: steps, distance (meters), calories (kcal), activity/sport duration (seconds), activity count. Nothing is emitted when `compat.isSupportActivityChange()` is false
   ```kotlin
-  activityAbility.observeActivityChange()
-      .subscribe { item -> /* steps / distance / calories / duration ... */ }
+  deviceAbility.observeMessage()
+      .filter { it.type == WKMessage.Type.ACTIVITY_CHANGE }
+      .subscribe { message ->
+          val item = message.data as WKActivityItem
+          /* steps / distance / calories / duration ... */
+      }
   ```
 - **WKSportAbility — sport state**: `requestSportState()/observeSportState()` (in sport / sport type); `compat.isSupportSportState()`
-- **WKSleepAbility — sleep messages**: `observeSleepMessage() : Observable<Int>`; current type `WKSleepMessage.START` (device reports that sleep measurement / sleep mode has started). Emission depends on device/adapter; unsupported adapters never emit
+- **WKSleepAbility — sleep messages**: now `deviceAbility.observeMessage()` with `WKMessage.Type.SLEEP_START` (device reports that sleep measurement / sleep mode has started; `data` is null). `observeSleepMessage()` is deprecated. Emission depends on device/adapter; unsupported adapters never emit
 
 <a id="4-4-file"></a>
 
@@ -703,7 +712,7 @@ deviceAbility.syncData(timeProvider, WKSyncData.Type.ACTIVITY, WKSyncData.Type.H
 - `getSyncTypes()` returns types the device supports; `observeSyncState()` observes sync state
 - Model classes: `WKSleepItem/WKSleepSegment/WKActivityItem/WKHRVDaily/WKSportRecord...`
 - In `sdk-apis`, `SleepAlgorithm` / `SleepCalcSegment` can compute sleep stages
-- Realtime today’s activity refresh uses `activityAbility.observeActivityChange()` (see 4.3), not this historical sync
+- Realtime today’s activity refresh uses `deviceAbility.observeMessage()` with `WKMessage.Type.ACTIVITY_CHANGE` (see 4.1), not this historical sync
 
 ---
 

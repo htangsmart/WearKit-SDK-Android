@@ -387,6 +387,11 @@ WearKit sample 的 `ACCESS_COARSE_LOCATION`、`ACCESS_FINE_LOCATION` 与上面�
 - `syncData(timeProvider)` 同步全部类型
 - `observeSyncState()` / `isSyncing()` 同步状态
 - `getDeviceInfo()` / `observeDeviceInfo(replay)` 设备基础信息（型号/固件版本/序列号等）
+- `observeMessage() : Observable<WKMessage>` 设备主动上报的全局消息。`WKMessage.type`：
+  - `ACTIVITY_CHANGE`：当日活动总量，`data` 为 `WKActivityItem`。不是拉取接口；历史总量用第 5 章 `syncData`。`compat.isSupportActivityChange()` 为 false 时不会发
+  - `SLEEP_START`：睡眠测量/睡眠模式已开始，`data` 为 null
+  - `HEART_RATE_ALARM`：心率报警，`data` 为 `WKHeartRateAlarmValue`（类型、当前心率、阈值）
+  不支持的 adapter 不会发值。`observeActivityChange()`、`observeSleepMessage()` 已废弃，改用本方法
 - <a id="4-1-third-party-data"></a>`observeThirdPartyData()` / `sendThirdPartyData(data)` 与设备侧第三方能力交换数据（当前类型见 `WKThirdPartyData.Type`，如 `STAR_BURST`）；不支持时观察流不发射、发送抛 `WKUnsupportedException`
 - `ISyncAbility.range`：数据同步的起始时间范围控制
 
@@ -518,13 +523,17 @@ heartRateAbility.compat.isSupportMonitorConfig()  // 是否支持自动监测配
 - **WKActivityAbility 活动目标 / 当日活动推送**：
   - `compat.isSupport()` 是否支持活动能力；为 false 时本 ability 方法都不要用或无效
   - 目标：`getGoalConfig()/setGoalConfig()/syncGoalConfig()/observeGoalConfig()`；`compat.getActivityAttributes()`（设备活动页展示哪些指标，也决定目标设置项）；`compat.isSupportDisabledReminds()`（目标达成提醒可关闭）
-  - 当日活动总量推送（刷新 UI）：`observeActivityChange() : Observable<WKActivityItem>`；这是设备主动上报，不是拉取接口；历史或一次性总量请用第 5 章 `syncData`。`WKActivityItem` 字段单位：步数、距离（米）、卡路里（千卡）、活动/运动时长（秒）、活动次数
+  - 当日活动总量推送（刷新 UI）已改为 `deviceAbility.observeMessage()` 的 `WKMessage.Type.ACTIVITY_CHANGE`，`data` 为 `WKActivityItem`。`observeActivityChange()` 已废弃。这是设备主动上报，不是拉取接口；历史或一次性总量请用第 5 章 `syncData`。`WKActivityItem` 字段单位：步数、距离（米）、卡路里（千卡）、活动/运动时长（秒）、活动次数。`compat.isSupportActivityChange()` 为 false 时不会发
   ```kotlin
-    activityAbility.observeActivityChange()
-        .subscribe { item -> /* steps / distance / calories / duration ... */ }
+    deviceAbility.observeMessage()
+        .filter { it.type == WKMessage.Type.ACTIVITY_CHANGE }
+        .subscribe { message ->
+            val item = message.data as WKActivityItem
+            /* steps / distance / calories / duration ... */
+        }
   ```
 - **WKSportAbility 运动状态**：`requestSportState()/observeSportState()`（是否运动中/运动类型）；`compat.isSupportSportState()`
-- **WKSleepAbility 睡眠消息**：`observeSleepMessage() : Observable<Int>`；当前类型 `WKSleepMessage.START`（设备通知睡眠测量/睡眠模式已开始）。是否发值取决于设备/adapter；不支持时不会发值
+- **WKSleepAbility 睡眠消息**：已改为 `deviceAbility.observeMessage()` 的 `WKMessage.Type.SLEEP_START`（设备通知睡眠测量/睡眠模式已开始，`data` 为 null）。`observeSleepMessage()` 已废弃。是否发值取决于设备/adapter；不支持时不会发值
 
 <a id="4-4-file"></a>
 
@@ -703,7 +712,7 @@ deviceAbility.syncData(timeProvider, WKSyncData.Type.ACTIVITY, WKSyncData.Type.H
 - `getSyncTypes()` 返回设备支持的类型；`observeSyncState()` 观察同步状态
 - 模型类：`WKSleepItem/WKSleepSegment/WKActivityItem/WKHRVDaily/WKSportRecord...`
 - `sdk-apis` 内 `SleepAlgorithm` / `SleepCalcSegment` 可算睡眠分期
-- 当日活动实时刷新走 `activityAbility.observeActivityChange()`（见 4.3），与本处历史同步不同
+- 当日活动实时刷新走 `deviceAbility.observeMessage()` 的 `WKMessage.Type.ACTIVITY_CHANGE`（见 4.1），与本处历史同步不同
 
 ---
 
