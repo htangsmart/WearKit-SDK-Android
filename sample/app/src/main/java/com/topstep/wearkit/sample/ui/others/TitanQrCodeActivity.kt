@@ -10,6 +10,10 @@ class TitanQrCodeActivity : QrCodeAbilityDemoActivity() {
 
     override fun titleRes(): Int = R.string.qr_code_base
 
+    override fun allowAdd(): Boolean = true
+
+    override fun allowDelete(): Boolean = true
+
     override fun requestSupport(): Single<FixedHashMap<String, String>> {
         return wearKit.b2b.titanAbility.requestQrCode()
     }

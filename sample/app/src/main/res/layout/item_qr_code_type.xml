@@ -5,6 +5,7 @@
     android:background="?selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
+    android:gravity="center_vertical"
     android:minHeight="48dp"
     android:orientation="horizontal"
     android:paddingStart="16dp"
@@ -12,22 +13,38 @@
     android:paddingEnd="16dp"
     android:paddingBottom="12dp">
 
-    <TextView
-        android:id="@+id/tv_title"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textAppearance="?textAppearanceSubtitle1"
-        android:textColor="?android:textColorPrimary"/>
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?textAppearanceSubtitle1"
+            android:textColor="?android:textColorPrimary"/>
+
+        <TextView
+            android:id="@+id/tv_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="?textAppearanceBody2"
+            android:textColor="?android:textColorSecondary"/>
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_value"
+        android:id="@+id/btn_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textAppearance="?textAppearanceBody2"
-        android:textColor="?android:textColorSecondary"/>
+        android:padding="8dp"
+        android:text="@string/action_delete"
+        android:textColor="?colorError"
+        android:visibility="gone"/>
 
 </LinearLayout>

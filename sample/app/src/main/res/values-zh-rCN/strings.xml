@@ -889,7 +889,13 @@
     <string name="business_card">名片</string>
     <string name="qr_code_base">卡包</string>
     <string name="qr_code_ability_tips">点击条目可将演示 QR 码内容推送到设备。</string>
+    <string name="qr_code_ability_tips_editable">点击条目可更新内容；可新增自定义，或删除已有条目。</string>
     <string name="qr_code_ability_demo_content">这是 %1$s 演示 QR 码</string>
+    <string name="qr_code_ability_add_title">新增自定义二维码</string>
+    <string name="qr_code_ability_add_hint">名称</string>
+    <string name="qr_code_ability_name_empty">名称不能为空</string>
+    <string name="qr_code_ability_name_exists">名称已存在</string>
+    <string name="qr_code_ability_delete_confirm">删除「%1$s」？</string>
 
     <string-array name="hsd_parental_control_ids">
         <item>长按换表盘</item>

@@ -888,7 +888,13 @@
     <string name="business_card">Business Card</string>
     <string name="qr_code_base">Qr Codes</string>
     <string name="qr_code_ability_tips">Tap an item to push a demo QR code URL to the device.</string>
+    <string name="qr_code_ability_tips_editable">Tap to update. Use Add for a new custom code, Delete to remove one.</string>
     <string name="qr_code_ability_demo_content">This is a %1$s demo QR code</string>
+    <string name="qr_code_ability_add_title">Add custom QR code</string>
+    <string name="qr_code_ability_add_hint">Name</string>
+    <string name="qr_code_ability_name_empty">Name cannot be empty</string>
+    <string name="qr_code_ability_name_exists">This name already exists</string>
+    <string name="qr_code_ability_delete_confirm">Delete \"%1$s\"?</string>
 
     <string-array name="hsd_habit_types">
         <item>Custom</item>

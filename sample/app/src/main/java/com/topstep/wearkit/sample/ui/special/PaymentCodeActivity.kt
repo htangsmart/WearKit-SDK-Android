@@ -9,6 +9,10 @@ class PaymentCodeActivity : QrCodeAbilityDemoActivity() {
 
     override fun titleRes(): Int = R.string.payment_code
 
+    override fun allowAdd(): Boolean = false
+
+    override fun allowDelete(): Boolean = false
+
     override fun requestSupport(): Single<FixedHashMap<String, String>> {
         return wearKit.paymentCodeAbility.request()
     }
