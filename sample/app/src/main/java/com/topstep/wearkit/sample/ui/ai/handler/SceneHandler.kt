@@ -66,7 +66,7 @@ abstract class SceneHandler(
         onAudioStart: (() -> Unit)? = null,
         onAudioStop: ((Throwable?) -> Boolean)? = null,
     ): SessionAudioSource {
-        audioSource?.stop()
+        audioSource?.requestStop()
         return SessionAudioSource(
             context = context,
             session = session,
@@ -88,10 +88,10 @@ abstract class SceneHandler(
 
     /**
      * 结束采集。`audio()` dispose 会使 session 自行 [WKSpeechSession.release]；
-     * 不释放 Handler。可重复调用。
+     * 不释放 Handler。可重复调用。早于 AiKit 启动音频源调用也有效（见 [SessionAudioSource.requestStop]）。
      */
     fun stopAudio() {
-        audioSource?.stop()
+        audioSource?.requestStop()
     }
 
     /**
@@ -100,7 +100,7 @@ abstract class SceneHandler(
     fun release() {
         if (!released.compareAndSet(false, true)) return
         runCatching {
-            audioSource?.stop()
+            audioSource?.requestStop()
             audioSource = null
             disposables.clear()
             onRelease()
