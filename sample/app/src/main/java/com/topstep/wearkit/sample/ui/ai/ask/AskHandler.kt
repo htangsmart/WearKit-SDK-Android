@@ -35,6 +35,9 @@ class AskHandler(
     override val scene = WKSpeechSession.Scene.ASK
     override val tag = "AskHandler"
 
+    // 采集结束后有 RECOGNIZE_WAIT_MS / ANSWER_WAIT_MS 兜底 release，不需要靠 SCENE_EXIT 收尾
+    override val releaseOnAppSceneExit = false
+
     /** 是否已允许向设备发送回答 */
     @Volatile
     private var canSendAnswer = false

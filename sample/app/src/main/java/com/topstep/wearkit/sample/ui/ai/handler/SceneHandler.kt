@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  * 单个场景的一次性 Handler：随 session 创建。
  *
  * 何时 [release] 由各场景自行决定：
- * - 收到匹配本场景的 [WKSpeechAiMessage.Type.SCENE_EXIT]（基类统一处理）
+ * - 收到匹配本场景的 [WKSpeechAiMessage.Type.SCENE_EXIT]（基类统一处理；APP 会话见 [releaseOnAppSceneExit]）
  * - 业务出错
  * - 部分场景（如 CHAT）在音频流结束时主动 [release]（见 [bindAudioSource]）
  *
@@ -29,6 +29,15 @@ abstract class SceneHandler(
     protected abstract val scene: WKSpeechSession.Scene
     protected abstract val tag: String
 
+    /**
+     * APP 发起的会话收到本场景 SCENE_EXIT 时是否 [release]。
+     *
+     * SCENE_EXIT 是全局消息，不带会话轮次：手表上一轮迟到的退出会误杀 APP 新开的一轮。
+     * SDK 收到 EXIT 时已结束当前会话的音频流，采集收尾会走 onAudioStop。
+     * 自带放弃兜底的场景（如 ASK）可覆写为 false，保住已在生成中的回答。
+     */
+    protected open val releaseOnAppSceneExit: Boolean = true
+
     private val released = AtomicBoolean(false)
     protected val disposables = CompositeDisposable()
     private var audioSource: SessionAudioSource? = null
@@ -38,8 +47,12 @@ abstract class SceneHandler(
             speechAi.observeMessage().subscribe({ msg ->
                 if (msg.type == WKSpeechAiMessage.Type.SCENE_EXIT) {
                     if (msg.data == scene) {
-                        Timber.tag(tag).i("SCENE_EXIT")
-                        release()
+                        if (session.origin == WKSpeechSession.Origin.APP && !releaseOnAppSceneExit) {
+                            Timber.tag(tag).i("SCENE_EXIT ignored: APP session")
+                        } else {
+                            Timber.tag(tag).i("SCENE_EXIT")
+                            release()
+                        }
                     }
                     return@subscribe
                 }
