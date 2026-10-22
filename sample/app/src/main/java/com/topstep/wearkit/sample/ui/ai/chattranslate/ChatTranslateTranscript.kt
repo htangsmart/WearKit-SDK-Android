@@ -8,6 +8,9 @@ import java.util.concurrent.atomic.AtomicLong
 
 data class ChatTranslateMessage(
     val id: Long,
+    /** 所属轮次（一次按住说话），见 [ChatTranslateTranscript.newUtterance]。 */
+    val utterance: Long,
+    /** 轮次内的句序号（ASR index），每轮从头计数。 */
     val index: Int,
     val isSelf: Boolean,
     val isSource: Boolean,
@@ -38,6 +41,7 @@ object ChatTranslateTranscript {
     var peerLocale: String = "en-US"
 
     private val nextId = AtomicLong(0)
+    private val utteranceSeq = AtomicLong(0)
 
     private val _inUtterance = MutableStateFlow(false)
     val inUtterance: StateFlow<Boolean> = _inUtterance
@@ -54,6 +58,10 @@ object ChatTranslateTranscript {
         peerLocale = from
     }
 
+    /** 分配一轮（一次按住说话）的标识，用于文本归并。 */
+    fun newUtterance(): Long = utteranceSeq.incrementAndGet()
+
+    @Synchronized
     fun onSessionStarted(
         session: WKSpeechSession,
         isSelf: Boolean,
@@ -70,20 +78,22 @@ object ChatTranslateTranscript {
         _inUtterance.value = true
     }
 
-    fun onSourceText(isSelf: Boolean, text: String, isComplete: Boolean, index: Int) {
-        onText(isSelf = isSelf, isSource = true, text = text, isComplete = isComplete, index = index)
+    fun onSourceText(utterance: Long, isSelf: Boolean, text: String, isComplete: Boolean, index: Int) {
+        onText(utterance, isSelf = isSelf, isSource = true, text = text, isComplete = isComplete, index = index)
     }
 
-    fun onTargetText(isSelf: Boolean, text: String, isComplete: Boolean, index: Int) {
-        onText(isSelf = isSelf, isSource = false, text = text, isComplete = isComplete, index = index)
+    fun onTargetText(utterance: Long, isSelf: Boolean, text: String, isComplete: Boolean, index: Int) {
+        onText(utterance, isSelf = isSelf, isSource = false, text = text, isComplete = isComplete, index = index)
     }
 
     /** 采集结束：允许再开新一轮，不把进行中的文本标成 complete。 */
+    @Synchronized
     fun onRecordingEnded() {
         _inUtterance.value = false
         _info.value = null
     }
 
+    @Synchronized
     fun onSessionEnded() {
         onRecordingEnded()
         val list = _messages.value
@@ -98,7 +108,13 @@ object ChatTranslateTranscript {
         activeMode = null
     }
 
+    /**
+     * 按「轮次 + 角色 + 原文/译文 + 句序号」归并：同一句的新快照覆盖旧快照，不同句各占一条。
+     * 只按「最后一条未完成」归并时，第 N+1 句的中间结果会顶掉第 N 句尚未定稿的文本。
+     */
+    @Synchronized
     private fun onText(
+        utterance: Long,
         isSelf: Boolean,
         isSource: Boolean,
         text: String,
@@ -107,12 +123,11 @@ object ChatTranslateTranscript {
     ) {
         val list = _messages.value
         val existingIdx = list.indexOfLast {
-            it.isSelf == isSelf && it.isSource == isSource && !it.isComplete
+            it.utterance == utterance && it.isSelf == isSelf && it.isSource == isSource && it.index == index
         }
         _messages.value = if (existingIdx >= 0) {
             list.toMutableList().also { mutable ->
                 mutable[existingIdx] = list[existingIdx].copy(
-                    index = index,
                     text = text,
                     isComplete = isComplete,
                 )
@@ -120,6 +135,7 @@ object ChatTranslateTranscript {
         } else {
             list + ChatTranslateMessage(
                 id = nextId.incrementAndGet(),
+                utterance = utterance,
                 index = index,
                 isSelf = isSelf,
                 isSource = isSource,

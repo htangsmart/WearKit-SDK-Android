@@ -25,6 +25,7 @@ class ChatTranslateReplay(
 ) {
 
     private val startedAt = SystemClock.elapsedRealtime()
+    private val utterance = ChatTranslateTranscript.newUtterance()
     private val sourceSnaps = mutableListOf<TextSnap>()
     private val targetSnaps = mutableListOf<TextSnap>()
     private val ttsChunks = mutableListOf<ByteArray>()
@@ -57,7 +58,7 @@ class ChatTranslateReplay(
         )
         return Completable.mergeArray(
             replaySnaps(sourceSnaps) { snap ->
-                ChatTranslateTranscript.onSourceText(isSelf, snap.text, snap.isComplete, snap.index)
+                ChatTranslateTranscript.onSourceText(utterance, isSelf, snap.text, snap.isComplete, snap.index)
                 if (sendSource) {
                     speechAi.translate.sendTextSource(snap.text, snap.isComplete).onErrorComplete()
                 } else {
@@ -65,7 +66,7 @@ class ChatTranslateReplay(
                 }
             },
             replaySnaps(targetSnaps) { snap ->
-                ChatTranslateTranscript.onTargetText(isSelf, snap.text, snap.isComplete, snap.index)
+                ChatTranslateTranscript.onTargetText(utterance, isSelf, snap.text, snap.isComplete, snap.index)
                 if (sendTarget) {
                     speechAi.translate.sendTextTarget(snap.text, snap.isComplete).onErrorComplete()
                 } else {

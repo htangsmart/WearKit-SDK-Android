@@ -34,6 +34,7 @@ object AskTranscript {
     private val _sessionActive = MutableStateFlow(false)
     val sessionActive: StateFlow<Boolean> = _sessionActive
 
+    @Synchronized
     fun onSessionStarted() {
         sessionFloorId = nextId.get()
         _sessionActive.value = true
@@ -41,10 +42,12 @@ object AskTranscript {
     }
 
     /** 采集结束：允许 UI 显示「回答中」，但不结束 session。 */
+    @Synchronized
     fun onRecordingEnded() {
         _inUtterance.value = false
     }
 
+    @Synchronized
     fun onSessionEnded() {
         _inUtterance.value = false
         _sessionActive.value = false
@@ -56,6 +59,7 @@ object AskTranscript {
         }
     }
 
+    @Synchronized
     fun onText(dialogId: Int, isQuestion: Boolean, text: String, isComplete: Boolean) {
         val floor = sessionFloorId
         val list = _messages.value

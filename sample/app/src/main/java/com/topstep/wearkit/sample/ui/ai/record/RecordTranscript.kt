@@ -28,10 +28,21 @@ object RecordTranscript {
     private val _asrText = MutableStateFlow("")
     val asrText: StateFlow<String> = _asrText
 
+    /**
+     * 按句保存：ASR 的 index 是句序号，同一 index 的结果是该句的最新快照。
+     * 只存最新一句会让下一句的中间结果覆盖前面已定稿的句子。
+     */
+    private val segments = sortedMapOf<Int, Segment>()
+    private var separator = ""
+
+    // ASR 回调不在主线程，与主线程的 start/end 读改写须串行
+    @Synchronized
     fun onSessionStarted(
         session: WKSpeechSession,
         localeLabel: String,
     ) {
+        segments.clear()
+        separator = if (localeLabel == "en") " " else ""
         _asrText.value = ""
         _info.value = RecordInfo(
             origin = session.origin,
@@ -42,12 +53,19 @@ object RecordTranscript {
         _recording.value = true
     }
 
-    fun onAsrText(text: String, isComplete: Boolean) {
-        _asrText.value = if (isComplete) text else "$text…"
+    @Synchronized
+    fun onAsrText(text: String, isComplete: Boolean, index: Int) {
+        segments[index] = Segment(text, isComplete)
+        _asrText.value = segments.values
+            .filter { it.text.isNotEmpty() }
+            .joinToString(separator) { if (it.isComplete) it.text else "${it.text}…" }
     }
 
+    @Synchronized
     fun onSessionEnded() {
         _recording.value = false
         _info.value = null
     }
+
+    private data class Segment(val text: String, val isComplete: Boolean)
 }

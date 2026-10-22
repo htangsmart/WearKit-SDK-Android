@@ -52,6 +52,7 @@ object TranslateTranscript {
         appTranslateLocale = from
     }
 
+    @Synchronized
     fun onSessionStarted(
         session: WKSpeechSession,
         originalLocale: String,
@@ -80,6 +81,7 @@ object TranslateTranscript {
         _playerState.value = state
     }
 
+    @Synchronized
     fun onSessionEnded() {
         _translating.value = false
         _info.value = null
@@ -91,6 +93,7 @@ object TranslateTranscript {
         }
     }
 
+    @Synchronized
     private fun onText(isSource: Boolean, text: String, isComplete: Boolean, index: Int) {
         val list = _messages.value
         val existingIdx = list.indexOfLast { it.isSource == isSource && it.index == index }

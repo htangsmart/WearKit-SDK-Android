@@ -54,7 +54,7 @@ class RecordHandler(
                             "asr[%d]: %s complete=%s",
                             result.index, result.text, result.isComplete,
                         )
-                        RecordTranscript.onAsrText(result.text, result.isComplete)
+                        RecordTranscript.onAsrText(result.text, result.isComplete, result.index)
                         if (sendText) {
                             speechAi.record
                                 .sendTextSource(result.text, result.isComplete)
