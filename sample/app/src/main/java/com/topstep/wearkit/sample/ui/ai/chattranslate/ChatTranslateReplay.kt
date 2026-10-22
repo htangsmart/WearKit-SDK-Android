@@ -96,8 +96,9 @@ class ChatTranslateReplay(
                 } else {
                     (snap.atElapsedMs - snaps[i - 1].atElapsedMs).coerceAtLeast(0L)
                 }
+                // defer：send 须在 timer 到点后、于主线程执行；直接 andThen(send(snap)) 会在建链时立即调用
                 Completable.timer(delayMs, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
-                    .andThen(send(snap))
+                    .andThen(Completable.defer { send(snap) })
             }
     }
 
