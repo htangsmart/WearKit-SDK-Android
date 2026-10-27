@@ -14,6 +14,7 @@ import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityChatTranslateBinding
 import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
 import com.topstep.wearkit.sample.ui.ai.SpeechAiManager
+import com.topstep.wearkit.sample.ui.ai.SpeechTextKind
 import com.topstep.wearkit.sample.ui.ai.isScoConnected
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
@@ -303,20 +304,17 @@ class ChatTranslateActivity : BaseActivity() {
         viewBind.llMessages.removeAllViews()
         messages.forEach { msg ->
             val role = getString(if (msg.isSelf) R.string.ds_speech_ct_role_self else R.string.ds_speech_ct_role_peer)
-            val kind = getString(if (msg.isSource) R.string.ds_speech_source else R.string.ds_speech_target)
             val suffix = if (msg.isComplete) "" else "…"
             viewBind.llMessages.addView(TextView(this).apply {
-                text = "$role · $kind: ${msg.text}$suffix"
+                val label = when (msg.kind) {
+                    SpeechTextKind.SOURCE -> getString(R.string.ds_speech_source)
+                    SpeechTextKind.TARGET -> getString(R.string.ds_speech_target)
+                    SpeechTextKind.WARNING, SpeechTextKind.ERROR -> null
+                }
+                text = if (label == null) msg.text else "$role · $label: ${msg.text}$suffix"
                 textSize = 15f
                 setPadding(0, 8, 0, 8)
-                setTextColor(
-                    when {
-                        msg.isSelf && msg.isSource -> 0xFF333333.toInt()
-                        msg.isSelf -> 0xFF1565C0.toInt()
-                        msg.isSource -> 0xFF5D4037.toInt()
-                        else -> 0xFF2E7D32.toInt()
-                    },
-                )
+                setTextColor(msg.kind.color)
             })
         }
         viewBind.scrollMessages.post {

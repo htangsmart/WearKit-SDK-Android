@@ -8,10 +8,7 @@ import com.topstep.wearkit.apis.model.speech.WKTranslatePlayerState
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityTranslateBinding
-import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
-import com.topstep.wearkit.sample.ui.ai.SpeechAiManager
-import com.topstep.wearkit.sample.ui.ai.isDeviceConnected
-import com.topstep.wearkit.sample.ui.ai.isScoConnected
+import com.topstep.wearkit.sample.ui.ai.*
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
 import kotlinx.coroutines.launch
@@ -169,15 +166,16 @@ class TranslateActivity : BaseActivity() {
         viewBind.tvEmpty.visibility = if (messages.isEmpty()) View.VISIBLE else View.GONE
         viewBind.llMessages.removeAllViews()
         messages.forEach { msg ->
-            val label = getString(
-                if (msg.isSource) R.string.ds_speech_source else R.string.ds_speech_target,
-            )
             val suffix = if (msg.isComplete) "" else "…"
             viewBind.llMessages.addView(TextView(this).apply {
-                text = "$label: ${msg.text}$suffix"
+                text = when (msg.kind) {
+                    SpeechTextKind.SOURCE -> "${getString(R.string.ds_speech_source)}: ${msg.text}$suffix"
+                    SpeechTextKind.TARGET -> "${getString(R.string.ds_speech_target)}: ${msg.text}$suffix"
+                    SpeechTextKind.WARNING, SpeechTextKind.ERROR -> msg.text
+                }
                 textSize = 15f
                 setPadding(0, 8, 0, 8)
-                setTextColor(if (msg.isSource) 0xFF333333.toInt() else 0xFF1565C0.toInt())
+                setTextColor(msg.kind.color)
             })
         }
         viewBind.scrollTranslate.post {

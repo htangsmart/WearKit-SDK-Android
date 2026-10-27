@@ -2,6 +2,7 @@ package com.topstep.wearkit.sample.ui.ai.chattranslate
 
 import com.topstep.wearkit.apis.model.speech.WKChatTranslateMode
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
+import com.topstep.wearkit.sample.ui.ai.SpeechTextKind
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.concurrent.atomic.AtomicLong
@@ -10,7 +11,7 @@ data class ChatTranslateMessage(
     val id: Long,
     val index: Int,
     val isSelf: Boolean,
-    val isSource: Boolean,
+    val kind: SpeechTextKind,
     val text: String,
     val isComplete: Boolean,
 )
@@ -71,11 +72,30 @@ object ChatTranslateTranscript {
     }
 
     fun onSourceText(isSelf: Boolean, text: String, isComplete: Boolean, index: Int) {
-        onText(isSelf = isSelf, isSource = true, text = text, isComplete = isComplete, index = index)
+        onText(isSelf, SpeechTextKind.SOURCE, text, isComplete, index)
     }
 
     fun onTargetText(isSelf: Boolean, text: String, isComplete: Boolean, index: Int) {
-        onText(isSelf = isSelf, isSource = false, text = text, isComplete = isComplete, index = index)
+        onText(isSelf, SpeechTextKind.TARGET, text, isComplete, index)
+    }
+
+    fun onWarning(text: String) {
+        append(SpeechTextKind.WARNING, text)
+    }
+
+    fun onError(text: String) {
+        append(SpeechTextKind.ERROR, text)
+    }
+
+    private fun append(kind: SpeechTextKind, text: String) {
+        _messages.value += ChatTranslateMessage(
+            id = nextId.incrementAndGet(),
+            index = -1,
+            isSelf = false,
+            kind = kind,
+            text = text,
+            isComplete = true,
+        )
     }
 
     /** 采集结束：允许再开新一轮，不把进行中的文本标成 complete。 */
@@ -100,14 +120,14 @@ object ChatTranslateTranscript {
 
     private fun onText(
         isSelf: Boolean,
-        isSource: Boolean,
+        kind: SpeechTextKind,
         text: String,
         isComplete: Boolean,
         index: Int,
     ) {
         val list = _messages.value
         val existingIdx = list.indexOfLast {
-            it.isSelf == isSelf && it.isSource == isSource && !it.isComplete
+            it.isSelf == isSelf && it.kind == kind && !it.isComplete
         }
         _messages.value = if (existingIdx >= 0) {
             list.toMutableList().also { mutable ->
@@ -122,7 +142,7 @@ object ChatTranslateTranscript {
                 id = nextId.incrementAndGet(),
                 index = index,
                 isSelf = isSelf,
-                isSource = isSource,
+                kind = kind,
                 text = text,
                 isComplete = isComplete,
             )

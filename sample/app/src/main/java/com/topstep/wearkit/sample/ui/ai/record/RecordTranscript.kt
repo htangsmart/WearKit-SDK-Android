@@ -1,8 +1,14 @@
 package com.topstep.wearkit.sample.ui.ai.record
 
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
+import com.topstep.wearkit.sample.ui.ai.SpeechTextKind
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+
+data class RecordText(
+    val kind: SpeechTextKind,
+    val text: String,
+)
 
 data class RecordInfo(
     val origin: WKSpeechSession.Origin,
@@ -25,14 +31,15 @@ object RecordTranscript {
     private val _info = MutableStateFlow<RecordInfo?>(null)
     val info: StateFlow<RecordInfo?> = _info
 
-    private val _asrText = MutableStateFlow("")
-    val asrText: StateFlow<String> = _asrText
+    /** 当前要展示的最新一条。下次开始录音时清掉。 */
+    private val _latest = MutableStateFlow<RecordText?>(null)
+    val latest: StateFlow<RecordText?> = _latest
 
     fun onSessionStarted(
         session: WKSpeechSession,
         localeLabel: String,
     ) {
-        _asrText.value = ""
+        _latest.value = null
         _info.value = RecordInfo(
             origin = session.origin,
             source = session.source,
@@ -42,8 +49,17 @@ object RecordTranscript {
         _recording.value = true
     }
 
-    fun onAsrText(text: String, isComplete: Boolean) {
-        _asrText.value = if (isComplete) text else "$text…"
+    fun onText(kind: SpeechTextKind, text: String, isComplete: Boolean) {
+        val shown = if (kind == SpeechTextKind.SOURCE && !isComplete) "$text…" else text
+        _latest.value = RecordText(kind, shown)
+    }
+
+    fun onWarning(text: String) {
+        onText(SpeechTextKind.WARNING, text, true)
+    }
+
+    fun onError(text: String) {
+        onText(SpeechTextKind.ERROR, text, true)
     }
 
     fun onSessionEnded() {

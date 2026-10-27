@@ -8,8 +8,11 @@ import com.topstep.aikit.model.AiChatResult
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
 import com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
+import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
+import com.topstep.wearkit.sample.ui.ai.SpeechTextKind
 import com.topstep.wearkit.sample.ui.ai.handler.SceneHandler
+import com.topstep.wearkit.sample.ui.ai.speechTextError
 import timber.log.Timber
 
 /**
@@ -51,11 +54,18 @@ class AskHandler(
     private var allowTtsDrain = false
 
     private val mainHandler = Handler(Looper.getMainLooper())
+    @Volatile
     private var captureEnded = false
+    @Volatile
     private var questionReady = false
+    @Volatile
     private var sawAnswer = false
     private val giveUp = Runnable {
-        Timber.tag(tag).i("no chat result after capture end → release")
+        val recognizeFailed = !questionReady && !sawAnswer
+        Timber.tag(tag).i("no chat result after capture end → release recognizeFailed=%s", recognizeFailed)
+        if (recognizeFailed) {
+            AskTranscript.onError(context.getString(R.string.ds_speech_err_recognize))
+        }
         release()
     }
 
@@ -98,11 +108,19 @@ class AskHandler(
                 when (it) {
                     is AiChatResult.OnText -> handleChatText(it)
                     is AiChatResult.OnTtsPlayComplete -> onTtsPlayComplete()
+                    is AiChatResult.OnWarning -> {
+                        val text = context.getString(R.string.ds_speech_say_again, context.speechTextError(it.exception))
+                        mainHandler.post { AskTranscript.onWarning(text) }
+                    }
                     else -> {}
                 }
             }, {
                 Timber.tag(tag).w(it)
-                release()
+                val text = context.speechTextError(it)
+                mainHandler.post {
+                    AskTranscript.onError(text)
+                    release()
+                }
             }, {
                 Timber.tag(tag).i("ask complete → release (drain tts)")
                 allowTtsDrain = true
@@ -119,7 +137,12 @@ class AskHandler(
             sawAnswer = true
         }
         if (captureEnded) armGiveUp()
-        AskTranscript.onText(dialogId = result.dialogId, isQuestion = result.isAsr, text = text, isComplete = result.isComplete)
+        AskTranscript.onText(
+            dialogId = result.dialogId,
+            kind = if (result.isAsr) SpeechTextKind.SOURCE else SpeechTextKind.TARGET,
+            text = text,
+            isComplete = result.isComplete,
+        )
         if (result.isAsr) {
             Timber.tag(tag).i("question: %s complete=%s", text, result.isComplete)
             disposables.add(
@@ -176,7 +199,10 @@ class AskHandler(
         release()
     }
 
-    /** 识别失败不会结束 chat。没识别出问题就短等，已有问题或回答则留给生成和播报。 */
+    /**
+     * chat 是连续对话，只是这里用作一次性问答，单次识别失败不会结束 chat。
+     * 没识别出问题就短等，已有问题或回答则留给生成和播报。
+     */
     private fun armGiveUp() {
         val delay = if (questionReady || sawAnswer) ANSWER_WAIT_MS else RECOGNIZE_WAIT_MS
         mainHandler.removeCallbacks(giveUp)

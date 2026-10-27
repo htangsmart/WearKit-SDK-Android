@@ -95,8 +95,11 @@ class RecordActivity : BaseActivity() {
                 }
             }
             launch {
-                RecordTranscript.asrText.collect { text ->
-                    viewBind.tvAsrText.text = text
+                RecordTranscript.latest.collect { latest ->
+                    viewBind.tvAsrText.text = latest?.text.orEmpty()
+                    if (latest != null) {
+                        viewBind.tvAsrText.setTextColor(latest.kind.color)
+                    }
                 }
             }
         }

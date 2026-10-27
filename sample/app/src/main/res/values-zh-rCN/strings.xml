@@ -359,6 +359,15 @@
     <string name="ds_speech_asking">提问中…</string>
     <string name="ds_speech_answering">回答中…</string>
     <string name="ds_speech_ask_empty">暂无问答</string>
+    <string name="ds_speech_err_unknown">出错：未知错误</string>
+    <string name="ds_speech_err_recognize">出错：识别失败</string>
+    <string name="ds_speech_err_unauthorized">出错：未授权（%1$d）</string>
+    <string name="ds_speech_err_network">出错：网络错误（%1$d）</string>
+    <string name="ds_speech_err_empty">出错：请求内容为空（%1$d）</string>
+    <string name="ds_speech_err_request">出错：请求错误（%1$d）</string>
+    <string name="ds_speech_err_quota">出错：额度不足（%1$d）</string>
+    <string name="ds_speech_err_code">出错：错误码 %1$d</string>
+    <string name="ds_speech_say_again">%1$s，请重新说一次</string>
     <string name="ds_speech_chat_translate_empty">暂无对话翻译</string>
     <string name="ds_speech_ct_mode_face">面对面（手机+充电仓）</string>
     <string name="ds_speech_ct_mode_private">私密听译（耳机+充电仓）</string>

@@ -2,6 +2,7 @@ package com.topstep.wearkit.sample.ui.ai.translate
 
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.apis.model.speech.WKTranslatePlayerState
+import com.topstep.wearkit.sample.ui.ai.SpeechTextKind
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.concurrent.atomic.AtomicLong
@@ -9,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong
 data class TranslateMessage(
     val id: Long,
     val index: Int,
-    val isSource: Boolean,
+    val kind: SpeechTextKind,
     val text: String,
     val isComplete: Boolean,
 )
@@ -69,15 +70,33 @@ object TranslateTranscript {
     }
 
     fun onSourceText(text: String, isComplete: Boolean, index: Int) {
-        onText(isSource = true, text = text, isComplete = isComplete, index = index)
+        onText(SpeechTextKind.SOURCE, text, isComplete, index)
     }
 
     fun onTargetText(text: String, isComplete: Boolean, index: Int) {
-        onText(isSource = false, text = text, isComplete = isComplete, index = index)
+        onText(SpeechTextKind.TARGET, text, isComplete, index)
     }
 
     fun onPlayerState(state: WKTranslatePlayerState) {
         _playerState.value = state
+    }
+
+    fun onWarning(text: String) {
+        append(SpeechTextKind.WARNING, text)
+    }
+
+    fun onError(text: String) {
+        append(SpeechTextKind.ERROR, text)
+    }
+
+    private fun append(kind: SpeechTextKind, text: String) {
+        _messages.value += TranslateMessage(
+            id = nextId.incrementAndGet(),
+            index = -1,
+            kind = kind,
+            text = text,
+            isComplete = true,
+        )
     }
 
     fun onSessionEnded() {
@@ -91,9 +110,11 @@ object TranslateTranscript {
         }
     }
 
-    private fun onText(isSource: Boolean, text: String, isComplete: Boolean, index: Int) {
+    private fun onText(kind: SpeechTextKind, text: String, isComplete: Boolean, index: Int) {
         val list = _messages.value
-        val existingIdx = list.indexOfLast { it.isSource == isSource && it.index == index }
+        val existingIdx = list.indexOfLast {
+            it.kind == kind && it.index == index
+        }
         _messages.value = if (existingIdx >= 0) {
             list.toMutableList().also { mutable ->
                 mutable[existingIdx] = list[existingIdx].copy(text = text, isComplete = isComplete)
@@ -102,7 +123,7 @@ object TranslateTranscript {
             list + TranslateMessage(
                 id = nextId.incrementAndGet(),
                 index = index,
-                isSource = isSource,
+                kind = kind,
                 text = text,
                 isComplete = isComplete,
             )

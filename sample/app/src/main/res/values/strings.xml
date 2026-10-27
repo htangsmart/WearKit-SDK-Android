@@ -359,6 +359,15 @@
     <string name="ds_speech_asking">Asking…</string>
     <string name="ds_speech_answering">Answering…</string>
     <string name="ds_speech_ask_empty">No Q&amp;A yet.</string>
+    <string name="ds_speech_err_unknown">Error: unknown</string>
+    <string name="ds_speech_err_recognize">Error: recognition failed</string>
+    <string name="ds_speech_err_unauthorized">Error: unauthorized (%1$d)</string>
+    <string name="ds_speech_err_network">Error: network error (%1$d)</string>
+    <string name="ds_speech_err_empty">Error: empty request (%1$d)</string>
+    <string name="ds_speech_err_request">Error: request error (%1$d)</string>
+    <string name="ds_speech_err_quota">Error: quota insufficient (%1$d)</string>
+    <string name="ds_speech_err_code">Error: code %1$d</string>
+    <string name="ds_speech_say_again">%1$s. Please say it again</string>
     <string name="ds_speech_chat_translate_empty">No chat translate yet.</string>
     <string name="ds_speech_ct_mode_face">Face-to-face (phone + case)</string>
     <string name="ds_speech_ct_mode_private">Private (headset + case)</string>

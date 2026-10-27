@@ -7,8 +7,10 @@ import com.topstep.aikit.model.AiAsrResult
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.apis.model.speech.WKTranslateLang
+import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
 import com.topstep.wearkit.sample.ui.ai.handler.SceneHandler
+import com.topstep.wearkit.sample.ui.ai.speechTextError
 import timber.log.Timber
 
 /**
@@ -158,11 +160,16 @@ class TranslateHandler(
                                 .onErrorComplete().subscribe()
                         }
                     }
+                    is AiAsrResult.OnWarning -> TranslateTranscript.onWarning(
+                        context.getString(R.string.ds_speech_say_again, context.speechTextError(result.exception)),
+                    )
                     else -> {}
                 }
             }, {
                 Timber.tag(tag).w(it, "asr error")
+                val text = context.speechTextError(it)
                 release()
+                TranslateTranscript.onError(text)
             }, {
                 Timber.tag(tag).i("asr/tts complete → release (drain tts)")
                 allowTtsDrain = true

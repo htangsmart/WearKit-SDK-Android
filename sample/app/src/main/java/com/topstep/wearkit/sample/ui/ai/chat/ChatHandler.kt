@@ -5,8 +5,11 @@ import com.topstep.aikit.AiKit
 import com.topstep.aikit.model.AiChatResult
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
+import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
+import com.topstep.wearkit.sample.ui.ai.SpeechTextKind
 import com.topstep.wearkit.sample.ui.ai.handler.SceneHandler
+import com.topstep.wearkit.sample.ui.ai.speechTextError
 import timber.log.Timber
 
 /**
@@ -70,10 +73,14 @@ class ChatHandler(
             ).subscribe({
                 when (it) {
                     is AiChatResult.OnText -> handleChatText(it)
+                    is AiChatResult.OnWarning -> ChatTranscript.onWarning(
+                        context.getString(R.string.ds_speech_say_again, context.speechTextError(it.exception)),
+                    )
                     else -> {}
                 }
             }, {
                 Timber.tag(tag).w(it)
+                ChatTranscript.onError(context.speechTextError(it))
                 release()
             }, {
                 Timber.tag(tag).i("chat complete → release (drain tts)")
@@ -85,7 +92,12 @@ class ChatHandler(
 
     private fun handleChatText(result: AiChatResult.OnText) {
         val text = result.text.orEmpty()
-        ChatTranscript.onText(dialogId = result.dialogId, isQuestion = result.isAsr, text = text, isComplete = result.isComplete)
+        ChatTranscript.onText(
+            dialogId = result.dialogId,
+            kind = if (result.isAsr) SpeechTextKind.SOURCE else SpeechTextKind.TARGET,
+            text = text,
+            isComplete = result.isComplete,
+        )
         if (result.isAsr) {
             Timber.tag(tag).i("question: %s complete=%s id:%d", text, result.isComplete, result.dialogId)
             if (supportText) {

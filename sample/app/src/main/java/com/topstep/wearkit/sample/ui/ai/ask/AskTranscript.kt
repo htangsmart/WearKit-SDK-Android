@@ -1,5 +1,6 @@
 package com.topstep.wearkit.sample.ui.ai.ask
 
+import com.topstep.wearkit.sample.ui.ai.SpeechTextKind
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.concurrent.atomic.AtomicLong
@@ -8,7 +9,7 @@ data class AskMessage(
     val id: Long,
     /** 本次会话内的轮次。下次开启会重新计数，具体从几开始不影响归并。 */
     val dialogId: Int,
-    val isQuestion: Boolean,
+    val kind: SpeechTextKind,
     val text: String,
     val isComplete: Boolean,
 )
@@ -56,11 +57,11 @@ object AskTranscript {
         }
     }
 
-    fun onText(dialogId: Int, isQuestion: Boolean, text: String, isComplete: Boolean) {
+    fun onText(dialogId: Int, kind: SpeechTextKind, text: String, isComplete: Boolean) {
         val floor = sessionFloorId
         val list = _messages.value
         val existingIdx = list.indexOfLast {
-            it.id > floor && it.dialogId == dialogId && it.isQuestion == isQuestion
+            it.id > floor && it.dialogId == dialogId && it.kind == kind
         }
         _messages.value = if (existingIdx >= 0) {
             list.toMutableList().also { mutable ->
@@ -70,10 +71,28 @@ object AskTranscript {
             list + AskMessage(
                 id = nextId.incrementAndGet(),
                 dialogId = dialogId,
-                isQuestion = isQuestion,
+                kind = kind,
                 text = text,
                 isComplete = isComplete,
             )
         }
+    }
+
+    fun onError(text: String) {
+        append(SpeechTextKind.ERROR, text)
+    }
+
+    fun onWarning(text: String) {
+        append(SpeechTextKind.WARNING, text)
+    }
+
+    private fun append(kind: SpeechTextKind, text: String) {
+        _messages.value += AskMessage(
+            id = nextId.incrementAndGet(),
+            dialogId = -1,
+            kind = kind,
+            text = text,
+            isComplete = true,
+        )
     }
 }

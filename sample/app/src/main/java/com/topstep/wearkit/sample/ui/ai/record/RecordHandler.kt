@@ -7,7 +7,10 @@ import com.topstep.aikit.model.AiAsrResult
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.apis.model.speech.WKTranslateLang
+import com.topstep.wearkit.sample.R
+import com.topstep.wearkit.sample.ui.ai.SpeechTextKind
 import com.topstep.wearkit.sample.ui.ai.handler.SceneHandler
+import com.topstep.wearkit.sample.ui.ai.speechTextError
 import timber.log.Timber
 
 /**
@@ -54,17 +57,21 @@ class RecordHandler(
                             "asr[%d]: %s complete=%s",
                             result.index, result.text, result.isComplete,
                         )
-                        RecordTranscript.onAsrText(result.text, result.isComplete)
+                        RecordTranscript.onText(SpeechTextKind.SOURCE, result.text, result.isComplete)
                         if (sendText) {
                             speechAi.record
                                 .sendTextSource(result.text, result.isComplete)
                                 .onErrorComplete().subscribe()
                         }
                     }
+                    is AiAsrResult.OnWarning -> RecordTranscript.onWarning(
+                        context.getString(R.string.ds_speech_say_again, context.speechTextError(result.exception)),
+                    )
                     else -> {}
                 }
             }, {
                 Timber.tag(tag).w(it, "asr error")
+                RecordTranscript.onError(context.speechTextError(it))
                 release()
             })
         )

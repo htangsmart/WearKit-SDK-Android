@@ -12,6 +12,7 @@ import com.topstep.wearkit.sample.R
 import com.topstep.wearkit.sample.databinding.ActivityAskBinding
 import com.topstep.wearkit.sample.ui.ai.MyAudioPlayer
 import com.topstep.wearkit.sample.ui.ai.SpeechAiManager
+import com.topstep.wearkit.sample.ui.ai.SpeechTextKind
 import com.topstep.wearkit.sample.ui.ai.isScoConnected
 import com.topstep.wearkit.sample.ui.base.BaseActivity
 import com.topstep.wearkit.sample.utils.launchRepeatOnStarted
@@ -170,13 +171,16 @@ class AskActivity : BaseActivity() {
         viewBind.tvEmpty.visibility = if (messages.isEmpty()) View.VISIBLE else View.GONE
         viewBind.llMessages.removeAllViews()
         messages.forEach { msg ->
-            val label = getString(if (msg.isQuestion) R.string.ds_speech_question else R.string.ds_speech_answer)
             val suffix = if (msg.isComplete) "" else "…"
             viewBind.llMessages.addView(TextView(this).apply {
-                text = "$label: ${msg.text}$suffix"
+                text = when (msg.kind) {
+                    SpeechTextKind.SOURCE -> "${getString(R.string.ds_speech_question)}: ${msg.text}$suffix"
+                    SpeechTextKind.TARGET -> "${getString(R.string.ds_speech_answer)}: ${msg.text}$suffix"
+                    SpeechTextKind.WARNING, SpeechTextKind.ERROR -> msg.text
+                }
                 textSize = 15f
                 setPadding(0, 8, 0, 8)
-                setTextColor(if (msg.isQuestion) 0xFF333333.toInt() else 0xFF1565C0.toInt())
+                setTextColor(msg.kind.color)
             })
         }
         viewBind.scrollAsk.post {
