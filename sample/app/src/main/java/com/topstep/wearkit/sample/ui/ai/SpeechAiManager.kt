@@ -16,6 +16,7 @@ import com.topstep.wearkit.apis.model.speech.WKSpeechSession
 import com.topstep.wearkit.sample.BuildConfig
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.ui.ai.SpeechAiManager._activeSession
+import com.topstep.wearkit.sample.ui.ai.SpeechAiManager.select
 import com.topstep.wearkit.sample.ui.ai.SpeechAiManager.startAiKit
 import com.topstep.wearkit.sample.ui.ai.ask.AskHandler
 import com.topstep.wearkit.sample.ui.ai.chat.ChatHandler
@@ -97,6 +98,8 @@ object SpeechAiManager {
      */
     fun init(context: Context) {
         appContext = context.applicationContext
+        AiKit.CHAT_TRANSPORT_READY_TIMEOUT_ENABLED = true
+        AiKit.CHAT_TRANSPORT_READY_TIMEOUT_MS = 30_1000
         startObserveDeviceSession()
         startObserveConnection()
         bindHeadsetProxy()
