@@ -311,6 +311,7 @@ class DialVideoCustomActivity : GetPhotoVideoActivity(), SelectIntDialogFragment
             videoRect = source.videoRect
             videoOffsetMillis = source.videoOffsetMillis
             videoDurationMillis = source.videoDurationMillis
+            requireAudio = source.requireAudio
             inputs = source.inputs
             danMuConfig = source.danMuConfig
             multiplePlayIntervalMillis = source.multiplePlayIntervalMillis
