@@ -895,6 +895,8 @@
     <!--Sport Push-->
     <string name="sport_push">运动推送</string>
     <string name="game_push">游戏推送</string>
+    <string name="game_push_local_file">本地文件</string>
+    <string name="game_push_space_select">选择游戏槽位</string>
     <string name="payment_code">收款码</string>
     <string name="business_card">名片</string>
     <string name="qr_code_base">卡包</string>
