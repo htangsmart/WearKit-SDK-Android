@@ -311,6 +311,7 @@ object SpeechAiManager {
     private fun startAiKit() {
         val vendor = vendor ?: return
         if (_state.value == State.INITIALIZING || _state.value == State.READY) return
+        val macAddress = wearKit.connector.getDevice()?.address ?: return
         val generation = ++initGeneration
         _state.value = State.INITIALIZING
         val kit: AiKit = when (vendor) {
@@ -331,8 +332,8 @@ object SpeechAiManager {
         }
         kit.init(
             params = AiKit.InitParams(
-                channel = BuildConfig.AIKIT_CHANNEL,
-                macAddress = BuildConfig.AIKIT_MAC_ADDRESS,
+                channel = BuildConfig.AIKIT_CHANNEL.ifEmpty { "prjbyOFme3VVQ" },
+                macAddress = BuildConfig.AIKIT_MAC_ADDRESS.ifEmpty { macAddress },
                 customPrompt = BuildConfig.AIKIT_CUSTOM_PROMPT,
             ),
             handler = object : AiKit.InitHandler {
