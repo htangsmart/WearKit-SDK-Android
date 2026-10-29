@@ -11,18 +11,19 @@ import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
 import com.topstep.wearkit.apis.model.speech.WKSpeechAiError
 import com.topstep.wearkit.apis.model.speech.WKSpeechAiMessage
 import com.topstep.wearkit.apis.model.speech.WKSpeechSession
+import com.topstep.wearkit.base.download.AnyDownloader
 import com.topstep.wearkit.sample.MyApplication
 import com.topstep.wearkit.sample.MyDialStyleProvider
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import java.io.File
-import java.io.FileOutputStream
 
 /**
  * [WKSpeechSession.Scene.DIAL]
  *
  * 1. 语音 → AiKit ASR → [sendText]
- * 2. [DIAL_GENERATE_IMAGE]：确认用文字生图 → [prepareImage] → [sendImage] 推**图片**预览
+ * 2. [DIAL_GENERATE_IMAGE]：确认用文字生图 → [aiKit.text.generateImage] → [sendImage] 推**图片**预览
  * 3. [DIAL_GENERATE_DIAL]：确认用图片生成表盘 → [prepareDial] → [install] 推**表盘**；
  *    仅生成表盘失败时 [sendError]（安装失败不上报）
  */
@@ -39,6 +40,9 @@ class DialHandler(
 
     private var imageWidth: Int = 0
     private var imageHeight: Int = 0
+
+    /** 已完成的 ASR 文本，作为文生图提示词 */
+    private var prompt: String = ""
 
     /** 预览阶段已准备好的图片（供后续组盘使用） */
     private var preparedImageFile: File? = null
@@ -63,6 +67,7 @@ class DialHandler(
                             result.index, result.text, result.isComplete
                         )
                         if (result.isComplete) {
+                            prompt = result.text
                             speechAi.dial
                                 .sendText(result.text, true)
                                 .onErrorComplete()
@@ -109,19 +114,56 @@ class DialHandler(
         }
     }
 
-    /** 将准备好的图片推到设备做预览（非表盘安装）。 */
+    /** 文生图后把图片推到设备做预览（非表盘安装）。 */
     private fun pushPreviewImage() {
-        val file = prepareImage() ?: return
-        Timber.tag(tag).i("sendImage %s (device %dx%d)", file.absolutePath, imageWidth, imageHeight)
+        val text = prompt.trim()
+        if (text.isEmpty()) {
+            Timber.tag(tag).w("DIAL_GENERATE_IMAGE empty prompt")
+            speechAi.dial
+                .sendError(WKSpeechAiError.OTHERS, "empty prompt")
+                .onErrorComplete()
+                .subscribe()
+            return
+        }
+        val request = try {
+            aiKit.text.generateImage(text, imageWidth, imageHeight)
+        } catch (e: Throwable) {
+            Single.error(e)
+        }
+        var imageReady = false
         disposables.add(
-            speechAi.dial.sendImage(file).subscribe({ progress ->
-                Timber.tag(tag).i("sendImage progress=%d", progress)
-            }, {
-                // 发送失败不走 sendError；sendError 仅用于准备图片失败
-                Timber.tag(tag).w(it, "sendImage failed")
-            }, {
-                Timber.tag(tag).i("sendImage complete")
-            })
+            request
+                .subscribeOn(Schedulers.io())
+                .flatMap { location -> resolveImageFile(location) }
+                .doOnSuccess { file ->
+                    imageReady = true
+                    preparedImageFile = file
+                    Timber.tag(tag).i(
+                        "image ready %s (device %dx%d)",
+                        file.absolutePath, imageWidth, imageHeight
+                    )
+                }
+                .doOnError {
+                    // 生图或下载失败才 sendError；sendImage 失败不上报
+                    Timber.tag(tag).w(it, "prepareImage failed")
+                    speechAi.dial
+                        .sendError(WKSpeechAiError.OTHERS, it.message.orEmpty())
+                        .onErrorComplete()
+                        .subscribe()
+                }
+                .flatMapObservable { file ->
+                    Timber.tag(tag).i("sendImage %s", file.absolutePath)
+                    speechAi.dial.sendImage(file)
+                }
+                .subscribe({ progress ->
+                    Timber.tag(tag).i("sendImage progress=%d", progress)
+                }, {
+                    if (imageReady) {
+                        Timber.tag(tag).w(it, "sendImage failed")
+                    }
+                }, {
+                    Timber.tag(tag).i("sendImage complete")
+                })
         )
     }
 
@@ -158,37 +200,40 @@ class DialHandler(
     }
 
     /**
-     * 准备预览图片。
-     *
-     * 模拟「根据 ASR 文本请求生图」：当前 aikit 无生图能力，直接使用 assets/dial_test.jpg。
-     * 准备失败时才 [WKSpeechAiAbility.Dial.sendError]。
+     * 把 [generateImage] 的结果收成本地文件。
+     * starburst 返回 http/https，需下载；mltcloud 返回已落盘路径。
      */
-    private fun prepareImage(): File? {
-        return runCatching {
-            val out = File(context.cacheDir, "dial_test.jpg")
-            if (!out.exists() || out.length() == 0L) {
-                context.assets.open(ASSET_DIAL_TEST_IMAGE).use { input ->
-                    FileOutputStream(out).use { output ->
-                        input.copyTo(output)
-                    }
+    private fun resolveImageFile(location: String): Single<File> {
+        val value = location.trim()
+        if (value.startsWith("http://", ignoreCase = true) ||
+            value.startsWith("https://", ignoreCase = true)
+        ) {
+            Timber.tag(tag).i("download image %s", value)
+            return AnyDownloader(context, context.cacheDir)
+                .download(Uri.parse(value), null, true)
+                .lastOrError()
+                .map { progress ->
+                    progress.result ?: throw IllegalStateException("download image empty")
                 }
-            }
-            out.also { preparedImageFile = it }
-        }.getOrElse {
-            Timber.tag(tag).w(it, "prepareImage failed")
-            speechAi.dial
-                .sendError(WKSpeechAiError.OTHERS, "prepare image failed")
-                .onErrorComplete()
-                .subscribe()
-            null
         }
+        val path = if (value.startsWith("file://", ignoreCase = true)) {
+            Uri.parse(value).path.orEmpty()
+        } else {
+            value
+        }
+        val file = File(path)
+        if (!file.isFile || file.length() <= 0L) {
+            return Single.error(IllegalStateException("generated image missing"))
+        }
+        Timber.tag(tag).i("local image %s", file.absolutePath)
+        return Single.just(file)
     }
 
     /**
      * 准备表盘文件（图片 → 表盘 bin）。
      */
     private fun prepareDial(): Single<WKDialStyleAbility.CreateOutput> {
-        val imageFile = preparedImageFile ?: prepareImage()
+        val imageFile = preparedImageFile
         if (imageFile == null) {
             return Single.error(IllegalStateException("no prepared image for dial"))
         }
@@ -219,11 +264,7 @@ class DialHandler(
     override fun onRelease() {
         imageWidth = 0
         imageHeight = 0
+        prompt = ""
         preparedImageFile = null
-    }
-
-    companion object {
-        /** 模拟生图用的本地图片资源（不是表盘文件） */
-        private const val ASSET_DIAL_TEST_IMAGE = "dial_test.jpg"
     }
 }
