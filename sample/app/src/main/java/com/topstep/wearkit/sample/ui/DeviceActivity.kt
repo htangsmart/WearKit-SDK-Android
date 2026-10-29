@@ -254,6 +254,7 @@ class DeviceActivity : BaseActivity() {
         val options = arrayOf(
             getString(R.string.ds_speech_ai_starburst) to SpeechAiManager.Vendor.STAR_BURST,
             getString(R.string.ds_speech_ai_eyeear) to SpeechAiManager.Vendor.EYE_EAR,
+            getString(R.string.ds_speech_ai_mltcloud) to SpeechAiManager.Vendor.MLT_CLOUD,
         )
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.ds_speech_ai_select)

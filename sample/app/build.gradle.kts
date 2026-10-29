@@ -243,6 +243,7 @@ dependencies {
     implementation("com.topstep.aikit:aikit-base:$aikitVersion") { isChanging = aikitChanging }
     implementation("com.topstep.aikit:aikit-starburst:$aikitVersion") { isChanging = aikitChanging }
     implementation("com.topstep.aikit:aikit-eyeear:$aikitVersion") { isChanging = aikitChanging }
+    implementation("com.topstep.aikit:aikit-mltcloud:$aikitVersion") { isChanging = aikitChanging }
     // Opus decode use for SaveWavForDebug
     implementation("com.topstep.opus:lib-opustool:1.0.8")
 

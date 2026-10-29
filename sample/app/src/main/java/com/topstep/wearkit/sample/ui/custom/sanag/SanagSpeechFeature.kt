@@ -32,6 +32,7 @@ internal class SanagSpeechFeature(
         val options = arrayOf(
             activity.getString(R.string.ds_speech_ai_starburst) to SpeechAiManager.Vendor.STAR_BURST,
             activity.getString(R.string.ds_speech_ai_eyeear) to SpeechAiManager.Vendor.EYE_EAR,
+            activity.getString(R.string.ds_speech_ai_mltcloud) to SpeechAiManager.Vendor.MLT_CLOUD,
         )
         MaterialAlertDialogBuilder(activity)
             .setTitle(R.string.ds_speech_ai_select)

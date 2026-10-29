@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothProfile
 import android.content.Context
 import com.topstep.aikit.AiKit
 import com.topstep.aikit.eyeear.EyeEarKit
+import com.topstep.aikit.mltcloud.MltCloudKit
 import com.topstep.aikit.starburst.StarBurstKit
 import com.topstep.wearkit.apis.WKWearKit
 import com.topstep.wearkit.apis.ability.speech.WKSpeechAiAbility
@@ -57,6 +58,7 @@ object SpeechAiManager {
     enum class Vendor {
         STAR_BURST,
         EYE_EAR,
+        MLT_CLOUD,
     }
 
     private val _state = MutableStateFlow(State.IDLE)
@@ -314,6 +316,7 @@ object SpeechAiManager {
         val kit: AiKit = when (vendor) {
             Vendor.STAR_BURST -> StarBurstKit(appContext)
             Vendor.EYE_EAR -> EyeEarKit(appContext)
+            Vendor.MLT_CLOUD -> MltCloudKit(appContext)
         }
         aiKit = kit
         if (vendor == Vendor.STAR_BURST) {
@@ -399,6 +402,7 @@ object SpeechAiManager {
     private fun Vendor.toWKSpeechAiSDK(): WKSpeechAiSDK = when (this) {
         Vendor.STAR_BURST -> WKSpeechAiSDK.STAR_BURST
         Vendor.EYE_EAR -> WKSpeechAiSDK.EYE_EAR
+        Vendor.MLT_CLOUD -> WKSpeechAiSDK.MLT_CLOUD
     }
 
 }
