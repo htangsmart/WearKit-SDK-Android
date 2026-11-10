@@ -55,6 +55,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven("https://jitpack.io")
+        // TopStep Maven
         maven {
             url = uri("https://maven.topstepht.com/repository/maven-public/")
         }
