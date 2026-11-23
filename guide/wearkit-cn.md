@@ -2,7 +2,7 @@
 
 > GitHub：https://github.com/htangsmart/WearKit-SDK-Android/
 >
-> 版本：`CHANGED.md` 公开版 **3.0.2.8**
+> 版本：`CHANGED.md` 公开版 **3.0.2.9**
 
 ---
 
@@ -56,7 +56,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    val wearkitVersion = "3.0.2.8"
+    val wearkitVersion = "3.0.2.9"
 
     // ========== 核心 ==========
     ///////////// 必须 ///////////
@@ -102,15 +102,15 @@ dependencies {
 
 ### 2.2 本地 AAR 接入
 
-仅在不方便使用 [Maven 接入](#2-1-maven) 时使用。AAR 无 POM，WearKit 文件与第三方库都要手写。把 `sdk-*-v3.0.2.8.aar` 放到 `libs/`，扩展包放到 `libs/ext/`（文件名与 `WearKit-SDK-Android/libs/` 一致）。ext 包用**自己的**版本号，不要套用 `3.0.2.8`。下面示例列出各家族必须项（已展开）；不用的家族整段删除。与其他家族重复的 AAR 可原样保留，无需手工去重。
+仅在不方便使用 [Maven 接入](#2-1-maven) 时使用。AAR 无 POM，WearKit 文件与第三方库都要手写。把 `sdk-*-v3.0.2.9.aar` 放到 `libs/`，扩展包放到 `libs/ext/`（文件名与 `WearKit-SDK-Android/libs/` 一致）。ext 包用**自己的**版本号，不要套用 `3.0.2.9`。下面示例列出各家族必须项（已展开）；不用的家族整段删除。与其他家族重复的 AAR 可原样保留，无需手工去重。
 
 ```kotlin
 dependencies {
     // ========== 核心 ==========
     ///////////// 必须 ///////////
-    implementation(files("libs/sdk-base-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-apis-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-core-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-base-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-apis-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-core-v3.0.2.9.aar"))
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.22"))
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.annotation:annotation:1.5.0")
@@ -128,8 +128,8 @@ dependencies {
 
     // ========== FitCloud（WKDeviceType.FIT_CLOUD）==========
     ///////////// 必须 ///////////
-    implementation(files("libs/sdk-fitcloud-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-fitcloud-adapter-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-fitcloud-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-fitcloud-adapter-v3.0.2.9.aar"))
     implementation(files("libs/ext/sdk-realtek-dfu-v1.0.5.aar"))
     implementation("androidx.palette:palette-ktx:1.0.0")
     implementation("org.apache.commons:commons-compress:1.24.0")
@@ -158,24 +158,24 @@ dependencies {
 
     // ========== FlyWear（WKDeviceType.FLY_WEAR）==========
     ///////////// 必须 ///////////
-    implementation(files("libs/sdk-flywear-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-flywear-adapter-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-flywear-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-flywear-adapter-v3.0.2.9.aar"))
     implementation(files("libs/ext/sdk-persimwear-v1.0.5.aar"))
     implementation("com.belerweb:pinyin4j:2.5.0")
 
     // ========== ShenJu（WKDeviceType.SHEN_JU）==========
     ///////////// 必须 ///////////
-    implementation(files("libs/sdk-shenju-base-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-shenju-core-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-shenju-opencv-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-shenju-adapter-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-shenju-base-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-shenju-core-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-shenju-opencv-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-shenju-adapter-v3.0.2.9.aar"))
     implementation("com.google.code.gson:gson:2.10.1")
 
     // ========== ProtoTb（WKDeviceType.PROTO_TB）==========
     ///////////// 必须 ///////////
-    implementation(files("libs/sdk-prototb-adapter-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-fitcloud-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-shenju-opencv-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-prototb-adapter-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-fitcloud-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-shenju-opencv-v3.0.2.9.aar"))
     implementation("com.google.protobuf:protobuf-javalite:4.33.1")
     implementation("com.belerweb:pinyin4j:2.5.0")
     implementation("org.apache.commons:commons-compress:1.24.0")
@@ -187,7 +187,7 @@ dependencies {
 
     // ========== AbMate（WKDeviceType.AB_MATE）==========
     ///////////// 必须 ///////////
-    implementation(files("libs/sdk-abmate-adapter-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-abmate-adapter-v3.0.2.9.aar"))
     implementation("com.google.code.gson:gson:2.13.2")
     implementation("org.nanohttpd:nanohttpd:2.3.1")
     implementation("androidx.lifecycle:lifecycle-process:2.5.1")
@@ -519,7 +519,7 @@ heartRateAbility.compat.isSupportMonitorConfig()  // 是否支持自动监测配
 ```
 
 各自差异：
-- **WKHeartRateAbility**：`measureRealtime(duration) : Observable<Int>`；`getMaxThreshold()/setMaxThreshold()` 上限；`getHRVConfig()/setHRVConfig()` HRV 监测；compat 含 `isSupportMinValueConfig/isSupportTimePeriod/isSupportTimeInterval/isSupportTimeAcrossDays/isSupportHRV`
+- **WKHeartRateAbility**：`measureRealtime(duration) : Observable<Int>`；`getMaxThreshold()/setMaxThreshold()` 上限；`getHRVConfig()/setHRVConfig()` HRV 监测；报警配置 `getAlarmConfig/setAlarmConfig/observeAlarmConfig`；compat 含 `isSupportAlarmConfig` / `isSupportAlarmType(WKHeartRateAlarmType)`（替代已废弃的 `isSupportMinValueConfig`）/`isSupportTimePeriod/isSupportTimeInterval/isSupportTimeAcrossDays/isSupportHRV`。设备触发的心率报警走 `deviceAbility.observeMessage()` 的 `HEART_RATE_ALARM`
 - **WKBloodOxygenAbility / WKPressureAbility**：measure + 监测配置
 - **WKBloodPressureAbility**：`measureRealtime : Observable<WKBloodPressureItem>`（含高压/低压/脉搏）
 - **WKTemperatureAbility**：`measureRealtime : Observable<WKTemperatureItem>`
@@ -550,7 +550,9 @@ heartRateAbility.compat.isSupportMonitorConfig()  // 是否支持自动监测配
 - <a id="4-4-ota"></a>**WKOtaAbility OTA**：`ota(file) : Observable<Int>` 固件/UI 升级（进度 0-100）；传输失败抛 `WKFileTransferException`
 - **WKSportUIAbility 运动 UI**：`requestCloudSportUIResources()`（云端资源）/`requestSupportSports()`/`requestSports()`/`requestSpaces()`/`install(file, spaceIndex?)` 推送自定义运动图标/UI
 - **WKGameUIAbility 游戏 UI**：`requestCloudGameUIResources()`（云端资源，按皮肤展平）/`requestSupportGames()`/`requestGames()`/`requestSpaces()`/`install(file, spaceIndex?)` 推送游戏/皮肤；`compat.isSupport()`
-- **WKLogAbility 日志**：`pull() : Observable<ProgressResult<File>>` 拉取设备日志（result 文件不存在=设备无日志）；`compat.isSupport()`
+- **WKLogAbility 日志**：
+  - `pull() : Observable<ProgressResult<File>>` 拉取设备日志（result 文件不存在=设备无日志）；`compat.isSupport()`
+  - 实时日志（与 `pull` 独立，`compat.isSupportRealtimeLog()`，连接后才有意义）：`observeRealtimeLog(types)` 在订阅期间打开通道并原样吐出字节；取消订阅后关闭。SDK 不落盘，需要文件时用 `RealtimeLogFileWriter`。类型见 `WKRealtimeLogType`（含 `DUMP_INFO`）
 - **WKLocationMapAbility 定位/EPO/离线地图**：
   - `setLocation(location)` 主动推送一次定位（地图表盘点位用，定位成功即更新）
   - `setLocation(provider)` 注册定位 Provider（获取 kit 后、连接前注册）。Provider 除 `requestLocation()` 外，可实现 `observeLocation(options)` 供设备发起的连续定位会话（订阅=开定位，dispose=停定位；默认实现报 `WKLocationException.ERROR_UNSUPPORTED`）
@@ -592,7 +594,7 @@ heartRateAbility.compat.isSupportMonitorConfig()  // 是否支持自动监测配
 - `CreateInput` 工厂方法（按背景类型）：
   - `CreateInput.base(背景图 uri, 样式索引, 位置索引, 颜色着色...)` 单图背景
   - `CreateInput.multiple(多张背景图, 轮播间隔...)` 多图背景自动轮播
-  - `CreateInput.video(视频 uri, 裁剪区域/起止时间...)` 视频背景
+  - `CreateInput.video(视频 uri, 裁剪区域/起止时间..., requireAudio = false)` 视频背景；`requireAudio=true` 保留音频，默认去掉
   - `CreateInput.danMu(DanMuConfig, 背景色...)` 弹幕背景（弹幕条 + 背景色）
   - `CreateInput.customDialId` 可选：仅 FIT_CLOUD GUI 表盘生效
 - 弹幕坐标工具 `DanMuCoord`：类似 Android MeasureSpec 的坐标编码器（`absolute(px)` / `relative(anchor, offset)` / `resolveX/Y(spec, 容器宽高, 内容宽高)`）
@@ -689,7 +691,7 @@ heartRateAbility.compat.isSupportMonitorConfig()  // 是否支持自动监测配
 仅特定客户项目使用，能力以设备/商务配置为准：
 - **B2b**：`hsdAbility` + `titanAbility` + `ugreenAbility` 子能力入口
 - **HsdAbility（家长管控/教育定制场景）**：`setIceLabels`（快捷联系人标签）/`setParentalMode`/`requestParentalMode`（家长模式）/`setClassRoomMode`/`requestClassRoomMode`（课堂模式）/`setTasks`/`requestTasks`/`exchangeTaskReward`（任务与奖励）/`setHabits`/`requestHabits`（习惯）/`requestAppUsageInfo`/`requestGameUsageInfo`/`resetUsageInfo`（使用统计）/`setGameRankingTrends`（游戏排行）；compat 对应 isSupport 系列 + `getTaskMaxNumber()/getHabitMaxNumber()`
-- **TitanAbility（二维码）**：`requestQrCode()`/`setQrCode(map)`；`compat.isSupportQrCode()`
+- **TitanAbility（二维码）**：`requestQrCode()`/`setQrCode(map)`（`map` 为期望完整列表，未包含的项会删除）；新增/删除自定义项用 `FixedHashMap.putUnLimit` / `removeUnLimit`（`put`/`remove` 对缺席 key 会抛错）；空 value 表示清空或移除；`compat.isSupportQrCode()`
 - **UGreenAbility**：`clearDanMu(type)` / `addDanMu(items)`（空列表不发包）；`requestConfig()` / `setConfig(UGreenConfig)`；`compat.isSupportDanMu()`
 
 ---
@@ -715,6 +717,9 @@ deviceAbility.syncData(timeProvider, WKSyncData.Type.ACTIVITY, WKSyncData.Type.H
 
 - `getSyncTypes()` 返回设备支持的类型；`observeSyncState()` 观察同步状态
 - 模型类：`WKSleepItem/WKSleepSegment/WKActivityItem/WKHRVDaily/WKSportRecord...`
+- 运动轨迹：FitCloud 设备支持 GPS 时，`WKSportRecord.gpsItems` 带运动轨迹（`WKSportGpsItem` 列表，WGS84 原始坐标，SDK 不做地图纠偏）；没有轨迹时为 null。轨迹随 SPORT 一起回调，没有单独的 GPS 类型。`gpsItems` 不参与 `equals` / `hashCode` / `copy()`，对记录 `copy()` 后需自行带上
+- 重复回调：轨迹晚于运动汇总到达时，SPORT 结果会再次带上这条已回调过的运动（可能早于本次时间范围）。宿主 App 应按设备地址与 `timestampSeconds` 覆盖写入，不要当作新增记录
+- 自定义 `WKSyncTimeProvider` 时，SPORT 的下次同步起点应取已保存值与本次结果中最大的 `endTimestampSeconds` 两者的较大值，不要直接取列表最后一条，否则同步时间可能倒退；内置的 `SyncTimeProviderIncremental` / `SyncTimeProviderWholeDay` 已按此处理
 - `sdk-apis` 内 `SleepAlgorithm` / `SleepCalcSegment` 可算睡眠分期
 - 当日活动实时刷新走 `deviceAbility.observeMessage()` 的 `WKMessage.Type.ACTIVITY_CHANGE`（见 4.1），与本处历史同步不同
 

@@ -1,3 +1,26 @@
+# v3.0.2.9
+
+2026-11-13
+
+1. ADD: Add `WKGameUIAbility` game / skin push (`requestCloudGameUIResources` / `requestSupportGames` / `requestGames` / `requestSpaces` / `install`).(sdk-fitcloud-adapter)
+2. ADD: Add realtime log in `WKLogAbility.observeRealtimeLog(types)` (`Compat.isSupportRealtimeLog`). Raw bytes are emitted while subscribed; the SDK does not save files (use `RealtimeLogFileWriter`). Includes `WKRealtimeLogType.DUMP_INFO`.(sdk-fitcloud-adapter / sdk-prototb-adapter)
+3. ADD: Add FitCloud device notification config in `WKNotificationAbility` (`requestDeviceNotificationConfig` / `setDeviceNotificationConfig` / `getDeviceNotificationConfig`, `Compat.isSupportDeviceNotificationConfig`; enable via `WKFitCloudKit.Builder.setUseDeviceNotificationConfig(true)`).(sdk-fitcloud-adapter)
+4. ADD: Add `WKMessage.Type.HEART_RATE_ALARM` with `WKHeartRateAlarmValue` / `WKHeartRateAlarmType`; unify device pushes on `WKDeviceAbility.observeMessage`; deprecate `observeActivityChange` / `observeSleepMessage`; prefer `Compat.isSupportAlarmType`.(sdk-fitcloud-adapter)
+5. ADD: Expand `WKSpeechAiSDK` (`WATCH_FUN` / `XK_SMART` / `TOP_STEP`)
+6. ADD: `CreateInput.video(..., requireAudio = false)` to optionally keep video dial audio
+7. CHANGE: Titan / business-card / payment QR APIs use full custom list via `FixedHashMap` (`putUnLimit` / `removeUnLimit`); remove fixed `TitanQrCode` type model.(sdk-prototb-adapter)
+8. CHANGE: FitCloud sport sync attaches the raw GPS track to `WKSportRecord.gpsItems` (`WKSportGpsItem`, WGS84). GPS is stored and not emitted by itself. SPORT emits each in-range record once with its track; a sport that receives new GPS outside the sync range is emitted again. Overwrite by device address and `timestampSeconds`.(sdk-fitcloud-adapter / sdk-core)
+9. CHANGE: ProtoTb AI text results mark truncate for the device (`isTruncate`) when over `aiTextBytes` limit.(sdk-prototb-adapter)
+10. FIX: Fix auth handshake dropping response when ACK and reply arrive together (subscribe before send).(sdk-fitcloud)
+11. FIX: Extend offline map `getAuthInfo` timeout to 30s; fix OperationQueue deadlock between auth wait and HTTP proxy replies.(sdk-fitcloud)
+12. FIX: Keep R8 consumer rules for abpartool so 579x custom dial push does not crash after minify
+13. FIX: Fix ProtoTb `getDeviceCanBond` when BLE and SPP addresses differ on 579x devices.(sdk-prototb-adapter)
+14. FIX: ScoReader reconnects on SCO state jitter; do not release active speech session when device exits a non-active scene
+15. FIX: Reuse video dial rounded mask to shorten pack time; restore `setCurrentPreviewBytesArray` compatibility
+16. FIX: Fix ProtoTb activity sync dropping items when device returns non-ascending timestamps.(sdk-prototb-adapter)
+17. FIX: Update Luo / EyeEar related AI kit dependency versions
+18. FIX: `SyncTimeProviderIncremental` / `SyncTimeProviderWholeDay` no longer move SPORT sync time backward; use the largest `endTimestampSeconds`
+
 # v3.0.2.8
 
 2026-10-15

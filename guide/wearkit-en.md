@@ -2,7 +2,7 @@
 
 > GitHub: https://github.com/htangsmart/WearKit-SDK-Android/
 >
-> Version: public release in `CHANGED.md` **3.0.2.8**
+> Version: public release in `CHANGED.md` **3.0.2.9**
 
 ---
 
@@ -56,7 +56,7 @@ Pin a single WearKit version. Declare `sdk-core` and the adapters you **actually
 
 ```kotlin
 dependencies {
-    val wearkitVersion = "3.0.2.8"
+    val wearkitVersion = "3.0.2.9"
 
     // ========== Core ==========
     ///////////// Required ///////////
@@ -102,15 +102,15 @@ dependencies {
 
 ### 2.2 Local AAR setup
 
-Use this only when [Maven setup](#2-1-maven) is inconvenient. AARs have no POM, so WearKit files and third-party libraries must be declared by hand. Put `sdk-*-v3.0.2.8.aar` under `libs/`, and extension packages under `libs/ext/` (filenames match `WearKit-SDK-Android/libs/`). Ext packages keep **their own** version numbers — do not force `3.0.2.8`. The sample below lists required items per family (expanded); delete unused families entirely. AARs that overlap across families can stay as-is; no need to deduplicate by hand.
+Use this only when [Maven setup](#2-1-maven) is inconvenient. AARs have no POM, so WearKit files and third-party libraries must be declared by hand. Put `sdk-*-v3.0.2.9.aar` under `libs/`, and extension packages under `libs/ext/` (filenames match `WearKit-SDK-Android/libs/`). Ext packages keep **their own** version numbers — do not force `3.0.2.9`. The sample below lists required items per family (expanded); delete unused families entirely. AARs that overlap across families can stay as-is; no need to deduplicate by hand.
 
 ```kotlin
 dependencies {
     // ========== Core ==========
     ///////////// Required ///////////
-    implementation(files("libs/sdk-base-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-apis-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-core-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-base-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-apis-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-core-v3.0.2.9.aar"))
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.22"))
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.annotation:annotation:1.5.0")
@@ -128,8 +128,8 @@ dependencies {
 
     // ========== FitCloud (WKDeviceType.FIT_CLOUD) ==========
     ///////////// Required ///////////
-    implementation(files("libs/sdk-fitcloud-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-fitcloud-adapter-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-fitcloud-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-fitcloud-adapter-v3.0.2.9.aar"))
     implementation(files("libs/ext/sdk-realtek-dfu-v1.0.5.aar"))
     implementation("androidx.palette:palette-ktx:1.0.0")
     implementation("org.apache.commons:commons-compress:1.24.0")
@@ -158,24 +158,24 @@ dependencies {
 
     // ========== FlyWear (WKDeviceType.FLY_WEAR) ==========
     ///////////// Required ///////////
-    implementation(files("libs/sdk-flywear-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-flywear-adapter-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-flywear-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-flywear-adapter-v3.0.2.9.aar"))
     implementation(files("libs/ext/sdk-persimwear-v1.0.5.aar"))
     implementation("com.belerweb:pinyin4j:2.5.0")
 
     // ========== ShenJu (WKDeviceType.SHEN_JU) ==========
     ///////////// Required ///////////
-    implementation(files("libs/sdk-shenju-base-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-shenju-core-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-shenju-opencv-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-shenju-adapter-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-shenju-base-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-shenju-core-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-shenju-opencv-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-shenju-adapter-v3.0.2.9.aar"))
     implementation("com.google.code.gson:gson:2.10.1")
 
     // ========== ProtoTb (WKDeviceType.PROTO_TB) ==========
     ///////////// Required ///////////
-    implementation(files("libs/sdk-prototb-adapter-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-fitcloud-v3.0.2.8.aar"))
-    implementation(files("libs/sdk-shenju-opencv-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-prototb-adapter-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-fitcloud-v3.0.2.9.aar"))
+    implementation(files("libs/sdk-shenju-opencv-v3.0.2.9.aar"))
     implementation("com.google.protobuf:protobuf-javalite:4.33.1")
     implementation("com.belerweb:pinyin4j:2.5.0")
     implementation("org.apache.commons:commons-compress:1.24.0")
@@ -187,7 +187,7 @@ dependencies {
 
     // ========== AbMate (WKDeviceType.AB_MATE) ==========
     ///////////// Required ///////////
-    implementation(files("libs/sdk-abmate-adapter-v3.0.2.8.aar"))
+    implementation(files("libs/sdk-abmate-adapter-v3.0.2.9.aar"))
     implementation("com.google.code.gson:gson:2.13.2")
     implementation("org.nanohttpd:nanohttpd:2.3.1")
     implementation("androidx.lifecycle:lifecycle-process:2.5.1")
@@ -472,6 +472,10 @@ Data sync: historical data (steps / heart rate / sleep / sport, etc.) goes throu
 - `replayTelephonyHangup(endCall, sendSms)` ack hangup / SMS result
 - `getTelephonyConfig()` / `setTelephonyConfig(enabled)` / `observeTelephonyConfig()` master switch for call notifications
 - `compat.isSupportAppNotification(packageName)` whether the package is recognized as its own category on the device
+- Device notification switches (FitCloud, optional): on `WKFitCloudKit.Builder`, call `setUseDeviceNotificationConfig(true)` (default false keeps the old “enable all after connect” behavior). When enabled:
+  - Use only if `compat.isSupportDeviceNotificationConfig()` is true
+  - `requestDeviceNotificationConfig()` reads from the device; `setDeviceNotificationConfig(config, updateTelephony = true)` does read-modify-write-reread and returns the device-confirmed value (pass `updateTelephony=false` when toggling a single App bit to keep the telephony bit); `getDeviceNotificationConfig()` is the in-memory value confirmed for the current connection (null if unknown)
+  - `WKDeviceNotificationConfig`: `telephonyEnabled` + `appEnabled` (package name → enabled)
 
 #### WKMediaAbility — media control
 - `observeMediaMessage()` media control key messages from the device (play/pause/prev/next)
@@ -519,7 +523,7 @@ heartRateAbility.compat.isSupportMonitorConfig()  // Auto-monitor config support
 ```
 
 Per-ability differences:
-- **WKHeartRateAbility**: `measureRealtime(duration) : Observable<Int>`; `getMaxThreshold()/setMaxThreshold()` upper limit; `getHRVConfig()/setHRVConfig()` HRV monitoring; compat includes `isSupportMinValueConfig/isSupportTimePeriod/isSupportTimeInterval/isSupportTimeAcrossDays/isSupportHRV`
+- **WKHeartRateAbility**: `measureRealtime(duration) : Observable<Int>`; `getMaxThreshold()/setMaxThreshold()` upper limit; `getHRVConfig()/setHRVConfig()` HRV monitoring; alarm config `getAlarmConfig/setAlarmConfig/observeAlarmConfig`; compat includes `isSupportAlarmConfig` / `isSupportAlarmType(WKHeartRateAlarmType)` (replaces deprecated `isSupportMinValueConfig`) / `isSupportTimePeriod/isSupportTimeInterval/isSupportTimeAcrossDays/isSupportHRV`. Device-triggered heart rate alarms arrive on `deviceAbility.observeMessage()` as `HEART_RATE_ALARM`
 - **WKBloodOxygenAbility / WKPressureAbility**: measure + monitor config
 - **WKBloodPressureAbility**: `measureRealtime : Observable<WKBloodPressureItem>` (systolic / diastolic / pulse)
 - **WKTemperatureAbility**: `measureRealtime : Observable<WKTemperatureItem>`
@@ -550,7 +554,9 @@ Common pattern: `requestDirSpace()` (space) / `requestFiles()` (list) / `addFile
 - <a id="4-4-ota"></a>**WKOtaAbility — OTA**: `ota(file) : Observable<Int>` firmware / UI upgrade (progress 0–100); transfer failures throw `WKFileTransferException`
 - **WKSportUIAbility — sport UI**: `requestCloudSportUIResources()` (cloud resources) / `requestSupportSports()` / `requestSports()` / `requestSpaces()` / `install(file, spaceIndex?)` push custom sport icons/UI
 - **WKGameUIAbility — game UI**: `requestCloudGameUIResources()` (cloud resources, flattened by skin) / `requestSupportGames()` / `requestGames()` / `requestSpaces()` / `install(file, spaceIndex?)` push game/skin; `compat.isSupport()`
-- **WKLogAbility — logs**: `pull() : Observable<ProgressResult<File>>` pull device logs (missing result file = device has no logs); `compat.isSupport()`
+- **WKLogAbility — logs**:
+  - `pull() : Observable<ProgressResult<File>>` pull device logs (missing result file = device has no logs); `compat.isSupport()`
+  - Realtime log (independent of `pull`; `compat.isSupportRealtimeLog()`, meaningful only after connect): `observeRealtimeLog(types)` opens the channel while subscribed and emits raw bytes; dispose closes it. The SDK does not save files; use `RealtimeLogFileWriter` when a file is needed. Types: `WKRealtimeLogType` (including `DUMP_INFO`)
 - **WKLocationMapAbility — location / EPO / offline maps**:
   - `setLocation(location)` push one location update (for map dial pins; update as soon as a fix is available)
   - `setLocation(provider)` register a location Provider (after obtaining the kit, before connect). Besides `requestLocation()`, Provider may implement `observeLocation(options)` for continuous location sessions started by the device (subscribe = start, dispose = stop; default implementation reports `WKLocationException.ERROR_UNSUPPORTED`)
@@ -592,7 +598,7 @@ Common pattern: `requestDirSpace()` (space) / `requestFiles()` (list) / `addFile
 - `CreateInput` factory methods (by background type):
   - `CreateInput.base(background image uri, style index, position index, color tint...)` single-image background
   - `CreateInput.multiple(multiple background images, carousel interval...)` multi-image auto carousel
-  - `CreateInput.video(video uri, crop region / start-end time...)` video background
+  - `CreateInput.video(video uri, crop region / start-end time..., requireAudio = false)` video background; `requireAudio=true` keeps audio, default strips it
   - `CreateInput.danMu(DanMuConfig, background color...)` danmu background (danmu strips + background color)
   - `CreateInput.customDialId` optional: only effective for FIT_CLOUD GUI dials
 - Danmu coordinate helper `DanMuCoord`: MeasureSpec-like coordinate encoder (`absolute(px)` / `relative(anchor, offset)` / `resolveX/Y(spec, containerW/H, contentW/H)`)
@@ -689,7 +695,7 @@ Common pattern: `requestDirSpace()` (space) / `requestFiles()` (list) / `addFile
 For specific customer projects only; availability depends on device / commercial config:
 - **B2b**: entry points `hsdAbility` + `titanAbility` + `ugreenAbility`
 - **HsdAbility (parental control / education custom)**: `setIceLabels` (quick-contact labels) / `setParentalMode` / `requestParentalMode` (parental mode) / `setClassRoomMode` / `requestClassRoomMode` (classroom mode) / `setTasks` / `requestTasks` / `exchangeTaskReward` (tasks & rewards) / `setHabits` / `requestHabits` (habits) / `requestAppUsageInfo` / `requestGameUsageInfo` / `resetUsageInfo` (usage stats) / `setGameRankingTrends` (game ranking); compat has matching isSupport series + `getTaskMaxNumber()/getHabitMaxNumber()`
-- **TitanAbility (QR codes)**: `requestQrCode()` / `setQrCode(map)`; `compat.isSupportQrCode()`
+- **TitanAbility (QR codes)**: `requestQrCode()` / `setQrCode(map)` (`map` is the full desired list; omitted entries are removed); add/remove custom entries with `FixedHashMap.putUnLimit` / `removeUnLimit` (`put` / `remove` throw when the key is absent); empty value clears or removes; `compat.isSupportQrCode()`
 - **UGreenAbility**: `clearDanMu(type)` / `addDanMu(items)` (empty list sends no packet); `requestConfig()` / `setConfig(UGreenConfig)`; `compat.isSupportDanMu()`
 
 ---
@@ -715,6 +721,9 @@ deviceAbility.syncData(timeProvider, WKSyncData.Type.ACTIVITY, WKSyncData.Type.H
 
 - `getSyncTypes()` returns types the device supports; `observeSyncState()` observes sync state
 - Model classes: `WKSleepItem/WKSleepSegment/WKActivityItem/WKHRVDaily/WKSportRecord...`
+- Sport tracks: when a FitCloud device supports GPS, `WKSportRecord.gpsItems` carries the track (a list of `WKSportGpsItem`, raw WGS84 coordinates, not corrected by any map service); it is null when there is no track. Tracks are delivered with SPORT; there is no separate GPS type. `gpsItems` is excluded from `equals` / `hashCode` / `copy()`, so carry it over yourself after `copy()`
+- Repeated delivery: when a track arrives after its sport summary, the SPORT result delivers that already-delivered sport again (possibly earlier than this sync range). The host App should overwrite by device address and `timestampSeconds` instead of treating it as a new record
+- With a custom `WKSyncTimeProvider`, the next SPORT sync start should be the larger of the saved value and the largest `endTimestampSeconds` in this result, not simply the last item, otherwise the sync time may move backward; the built-in `SyncTimeProviderIncremental` / `SyncTimeProviderWholeDay` already do this
 - In `sdk-apis`, `SleepAlgorithm` / `SleepCalcSegment` can compute sleep stages
 - Realtime today’s activity refresh uses `deviceAbility.observeMessage()` with `WKMessage.Type.ACTIVITY_CHANGE` (see 4.1), not this historical sync
 
