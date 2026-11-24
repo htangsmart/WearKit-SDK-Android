@@ -69,7 +69,8 @@ class SyncDataActivity : BaseActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
-                    saveSyncData(it, timeProvider)
+                    saveSyncData(it)
+                    timeProvider.onItemSyncSuccess(it)
                 }, {
                     Timber.i(it)
                     toast(R.string.tip_failed)
@@ -101,7 +102,7 @@ class SyncDataActivity : BaseActivity() {
             })
     }
 
-    private fun saveSyncData(data: WKSyncData, timeProvider: SyncTimeProviderIncremental) {
+    private fun saveSyncData(data: WKSyncData) {
         when (data.type) {
             // activity
             WKSyncData.Type.ACTIVITY -> {
@@ -212,7 +213,6 @@ class SyncDataActivity : BaseActivity() {
 
             else -> {}
         }
-        timeProvider.onItemSyncSuccess(data)
     }
 
     private val blockClick: (View) -> Unit = { view ->

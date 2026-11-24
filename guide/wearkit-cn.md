@@ -701,20 +701,19 @@ heartRateAbility.compat.isSupportMonitorConfig()  // 是否支持自动监测配
 历史健康/运动数据通过 `deviceAbility` 同步，使用**时间提供者** `WKSyncTimeProvider`：
 
 ```kotlin
-val timeProvider = object : WKSyncTimeProvider {
-    override fun getRange(type: Int): WKTimestampRange {
-        // 返回该类型数据的起始时间（如上次同步时间）到当前时间
-    }
-}
+val timeProvider = SyncTimeProviderIncremental(context, "sync_time", deviceAddress)
 deviceAbility.syncData(timeProvider, WKSyncData.Type.ACTIVITY, WKSyncData.Type.HEART_RATE, ...)
     .subscribe { syncData ->  // WKSyncData：按 type 分发各类数据
         when (syncData.type) {
-            WKSyncData.Type.ACTIVITY -> ...
-            WKSyncData.Type.HEART_RATE -> ...
+            WKSyncData.Type.ACTIVITY -> { /* 写入本地 */ }
+            WKSyncData.Type.HEART_RATE -> { /* 写入本地 */ }
         }
+        timeProvider.onItemSyncSuccess(syncData)
     }
 ```
 
+- 每条数据写入本地成功后再调用 `onItemSyncSuccess`，下次才会从新的时间接着拉；保存失败不要调用。没有数据的回调会被忽略。`SyncTimeProviderWholeDay` 同样要调用，它按上次同步所在自然日的 0 点到现在取范围，适合睡眠这类日汇总
+- 自己实现 `WKSyncTimeProvider` 时只有 `getRange`，没有 `onItemSyncSuccess`，下次起点由自己的 `getRange` 维护
 - `getSyncTypes()` 返回设备支持的类型；`observeSyncState()` 观察同步状态
 - 模型类：`WKSleepItem/WKSleepSegment/WKActivityItem/WKHRVDaily/WKSportRecord...`
 - 运动轨迹：FitCloud 设备支持 GPS 时，`WKSportRecord.gpsItems` 带运动轨迹（`WKSportGpsItem` 列表，WGS84 原始坐标，SDK 不做地图纠偏）；没有轨迹时为 null。轨迹随 SPORT 一起回调，没有单独的 GPS 类型。`gpsItems` 不参与 `equals` / `hashCode` / `copy()`，对记录 `copy()` 后需自行带上

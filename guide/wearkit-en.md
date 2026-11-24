@@ -705,20 +705,19 @@ For specific customer projects only; availability depends on device / commercial
 Historical health / sport data is synced via `deviceAbility` using a **time provider** `WKSyncTimeProvider`:
 
 ```kotlin
-val timeProvider = object : WKSyncTimeProvider {
-    override fun getRange(type: Int): WKTimestampRange {
-        // Return the start time for this type (e.g. last sync time) through now
-    }
-}
+val timeProvider = SyncTimeProviderIncremental(context, "sync_time", deviceAddress)
 deviceAbility.syncData(timeProvider, WKSyncData.Type.ACTIVITY, WKSyncData.Type.HEART_RATE, ...)
     .subscribe { syncData ->  // WKSyncData: dispatch by type
         when (syncData.type) {
-            WKSyncData.Type.ACTIVITY -> ...
-            WKSyncData.Type.HEART_RATE -> ...
+            WKSyncData.Type.ACTIVITY -> { /* save locally */ }
+            WKSyncData.Type.HEART_RATE -> { /* save locally */ }
         }
+        timeProvider.onItemSyncSuccess(syncData)
     }
 ```
 
+- Call `onItemSyncSuccess` only after that item is saved locally, so the next sync continues from the new time. Do not call it when the save fails. Callbacks with no data are ignored. `SyncTimeProviderWholeDay` needs the same call; its range runs from 00:00:00 on the calendar day of the last sync through now, which suits daily aggregates such as sleep
+- A custom `WKSyncTimeProvider` only implements `getRange` and has no `onItemSyncSuccess`. Its next start is whatever `getRange` returns
 - `getSyncTypes()` returns types the device supports; `observeSyncState()` observes sync state
 - Model classes: `WKSleepItem/WKSleepSegment/WKActivityItem/WKHRVDaily/WKSportRecord...`
 - Sport tracks: when a FitCloud device supports GPS, `WKSportRecord.gpsItems` carries the track (a list of `WKSportGpsItem`, raw WGS84 coordinates, not corrected by any map service); it is null when there is no track. Tracks are delivered with SPORT; there is no separate GPS type. `gpsItems` is excluded from `equals` / `hashCode` / `copy()`, so carry it over yourself after `copy()`
