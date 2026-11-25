@@ -109,6 +109,14 @@ class OthersActivity : BaseActivity() {
             startActivity(Intent(this, UGreenActivity::class.java))
         }
 
+        viewBind.itemCsytoo.clickTrigger {
+            if (wearKit.getRawSDK() !is AbMateSDK) {
+                toast("当前不是 AbMate 设备")
+                return@clickTrigger
+            }
+            startActivity(Intent(this, CsytooActivity::class.java))
+        }
+
         viewBind.itemPushOfflineMap.clickTrigger {
             if (wearKit.locationMapAbility.compat.isSupportOfflineMap()) {
                 if (pushOfflineMapDisposable?.isDisposed != false) {

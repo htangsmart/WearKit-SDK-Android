@@ -25,6 +25,9 @@ import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 
+/**
+ * 此页面仅为“UGreen”客户演示功能
+ */
 class UGreenActivity : BaseActivity() {
 
     private val wearKit = MyApplication.wearKit

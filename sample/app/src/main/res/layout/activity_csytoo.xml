@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            android:id="@+id/item_firmware_version"
+            style="@style/Widget.Sample.PreferenceView.Item"
+            app:preferenceTitle="固件版本"
+            app:showPreferenceIndicator="false"
+            app:showPreferenceSummary="true"/>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            android:id="@+id/item_battery"
+            style="@style/Widget.Sample.PreferenceView.Item"
+            app:preferenceTitle="电量"
+            app:showPreferenceSummary="true"/>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            android:id="@+id/item_wear_state"
+            style="@style/Widget.Sample.PreferenceView.Item"
+            app:preferenceTitle="佩戴信息"
+            app:showPreferenceIndicator="false"
+            app:showPreferenceSummary="true"/>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            android:id="@+id/item_serial_number"
+            style="@style/Widget.Sample.PreferenceView.Item"
+            app:preferenceTitle="序列号"
+            app:showPreferenceIndicator="false"
+            app:showPreferenceSummary="true"/>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            android:id="@+id/item_record_state"
+            style="@style/Widget.Sample.PreferenceView.Item"
+            app:preferenceTitle="录音状态"
+            app:showPreferenceIndicator="false"
+            app:showPreferenceSummary="true"/>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            android:id="@+id/item_call_state"
+            style="@style/Widget.Sample.PreferenceView.Item"
+            app:preferenceTitle="电话状态"
+            app:showPreferenceIndicator="false"
+            app:showPreferenceSummary="true"/>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            style="@style/Widget.Sample.PreferenceView.Item.Text"
+            app:preferenceTitle="场景"
+            app:showPreferenceIndicator="false"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp">
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_scene_threshold"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="设置场景阈值"/>
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_scene_mode"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="获取当前场景档"
+                app:showPreferenceSummary="true"/>
+
+        </LinearLayout>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            android:id="@+id/item_volume"
+            style="@style/Widget.Sample.PreferenceView.Item"
+            app:preferenceTitle="眼镜音量"
+            app:showPreferenceSummary="true"/>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            style="@style/Widget.Sample.PreferenceView.Item.Text"
+            app:preferenceTitle="按键设置"
+            app:showPreferenceIndicator="false"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp">
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_key_set_1"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="左触摸板短按- 上一首"/>
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_key_set_2"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="右触摸板短按- 下一首"/>
+
+            <TextView
+                android:id="@+id/tv_key_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <com.github.kilnn.tool.widget.item.PreferenceItem
+            style="@style/Widget.Sample.PreferenceView.Item.Text"
+            app:preferenceTitle="音乐控制"
+            app:showPreferenceIndicator="false"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp">
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_music_play"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="播放"/>
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_music_pause"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="停止"/>
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_music_previous"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="上一首"/>
+
+            <com.github.kilnn.tool.widget.item.PreferenceItem
+                android:id="@+id/item_music_next"
+                style="@style/Widget.Sample.PreferenceView.Item"
+                app:preferenceTitle="下一首"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
